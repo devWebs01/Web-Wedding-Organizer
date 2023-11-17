@@ -23,7 +23,8 @@ $logout = function (Logout $logout) {
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed={{ Str::slug(Auth()->user()->name) }}"
+                            class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
@@ -35,6 +36,10 @@ $logout = function (Logout $logout) {
                     <x-nav-link :href="url('categories')" :active="request()->routeIs('categories')" wire:navigate>
                         {{ __('Kategori Produk') }}
                     </x-nav-link>
+                    <x-nav-link :href="url('products')" :active="request()->routeIs('products')" wire:navigate>
+                        {{ __('Produk Toko') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -97,6 +102,9 @@ $logout = function (Logout $logout) {
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="url('categories')" :active="request()->routeIs('categories')" wire:navigate>
                 {{ __('Kategori Produk') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="url('products')" :active="request()->routeIs('products')" wire:navigate>
+                {{ __('Produk Toko') }}
             </x-responsive-nav-link>
         </div>
 

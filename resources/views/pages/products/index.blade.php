@@ -1,23 +1,31 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed, usesPagination};
+use function Livewire\Volt\{state, rules, computed, usesPagination, usesFileUploads};
 use App\Models\Product;
+use App\Models\Category;
 
-state(['name']);
-rules(['name' => 'required|min:6|string']);
-
+usesFileUploads();
 usesPagination();
+
+state(['categories' => fn() => Category::get()]);
+state(['category_id', 'title', 'price', 'quantity', 'image', 'weight', 'description']);
+
+rules(['category_id' => 'required|exists:categories,id', 'title' => 'required|min:5', 'price' => 'required|numeric', 'quantity' => 'required|numeric', 'image' => 'required', 'weight' => 'required|numeric', 'description' => 'required|min:10']);
 
 $products = computed(fn() => product::latest()->paginate(10));
 
 $save = function () {
-    product::create($this->validate());
-    $this->name = '';
+    $validate = $this->validate();
+    $validate['image'] = $this->image->store('public/images');
 
-    $this->dispatch('product-stored');
+    product::create($validate);
+    $this->reset('category_id', 'title', 'price', 'quantity', 'weight', 'description');
+
+    $this->dispatch('add-new-products');
 };
 
 $destroy = function (product $product) {
+    Storage::delete($product->image);
     $product->delete();
 };
 ?>
@@ -35,24 +43,10 @@ $destroy = function (product $product) {
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="card mt-5">
                             <div class="card-body">
-                                <form wire:submit="save">
-                                    <x-input-label for="name" :value="__('Tambah Kategori Produk')" />
-                                    <x-text-input wire:loading.attr="disabled" wire:model="name" id="name"
-                                        class="block mt-1 w-full" type="name" name="name" required autofocus
-                                        autocomplete="name" />
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-
-                                    <div class="flex items-center mt-5 gap-4">
-                                        <x-primary-button>{{ __('Submit') }}</x-primary-button>
-
-                                        <x-action-message wire:loading class="me-3" on="product-stored">
-                                            {{ __('loading...') }}
-                                        </x-action-message>
-
-                                        <x-action-message class="me-3" on="product-stored">
-                                            {{ __('Saved!') }}
-                                        </x-action-message>
-                                </form>
+                                <x-primary-button class="max-w-xs"
+                                    x-on:click.prevent="$dispatch('open-modal', 'add-new-products')">
+                                    {{ __('Tambah Produk') }}</x-primary-button>
+                                @include('pages.products.store')
                             </div>
                         </div>
                         <div class="card">
@@ -62,8 +56,10 @@ $destroy = function (product $product) {
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
-                                                <th>Image</th>
-                                                <th>Name</th>
+                                                <th>Gambar</th>
+                                                <th>Nama Produk</th>
+                                                <th>Harga</th>
+                                                <th>Jumlah / Stok</th>
                                                 <th>#</th>
                                             </tr>
                                         </thead>
@@ -72,13 +68,15 @@ $destroy = function (product $product) {
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
                                                     <th>
-                                                        <div class="avatar placeholder">
-                                                            <div class="bg-neutral text-neutral-content rounded-full w-8">
-                                                                <span class="text-xs">AA</span>
+                                                        <div class="avatar">
+                                                            <div class="w-16 rounded-full">
+                                                                <img src="{{ Storage::url($product->image) }}" />
                                                             </div>
                                                         </div>
                                                     </th>
                                                     <th>{{ $product->title }}</th>
+                                                    <th>{{ $product->price }}</th>
+                                                    <th>{{ $product->quantity }}</th>
                                                     <th>
                                                         <a href="products/{{ $product->id }}" wire:navigate.hover
                                                             class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
