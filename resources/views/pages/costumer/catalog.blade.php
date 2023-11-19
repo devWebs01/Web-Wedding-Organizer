@@ -1,14 +1,12 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed, usesPagination};
+use function Livewire\Volt\{state, rules, computed};
 use App\Models\Category;
 use App\Models\Product;
 
 state(['search'])->url();
 state(['categories' => fn() => Category::get()]);
 state(['category_id' => '']);
-
-usesPagination();
 
 $products = computed(function () {
     // Dapatkan semua buku jika tidak ada search dan category
@@ -50,12 +48,13 @@ $products = computed(function () {
                         <div class="col-lg-6 col-xl-5 mx-auto">
                             <div class="mb-3">
                                 <div editable="rich">
-                                    <h1>Join Our Awesome Team</h1>
+                                    <h1 class="fw-bold">Join Our Awesome Team</h1>
                                 </div>
                             </div>
                             <div class="mb-5">
                                 <div editable="rich">
-                                    <p class="lead">We are trusted by over 10.000+ clients. Join them by using our product
+                                    <p class="fw-bold">We are trusted by over 10.000+ clients. Join them by using our
+                                        product
                                         and
                                         boost your sales.</p>
 
@@ -72,53 +71,56 @@ $products = computed(function () {
                         <p class="mb-0">Total {{ $this->products->count() }} produk toko</p>
                     </div>
                     <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
-                        <div class="position-relative">
-                            <select class="form-select form-select-lg rounded" wire:model.live="category_id">
-                                <option value="">Pilih Kategori</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <label class="switch">
-                            <input wire:model.live="search" type="text" class="form-control" aria-describedby="helpId"
-                                placeholder="Masukkan judul buku ...">
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <h5 class="text-center fw-bold">{{ $search }}</h5>
-
-            <div class="untree_co-section product-section before-footer-section">
-                <div class="container-fluid">
-                    <div class="row">
-
-                        <!-- Start Column -->
-                        @foreach ($this->products as $product)
-                            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                <a class="product-item" href="#">
-                                    <div class="lc-block border-0 card card-cover overflow-hidden bg-dark rounded-5 shadow-xl"
-                                        lc-helper="background"
-                                        style="background-image: url({{ Storage::url($product->image) }}); background-size:cover; height:300px;">
-                                    </div>
-                                    <span
-                                        class="text-wrap text-primary fw-bold badge shadow-lg py-4 my-3">{{ $product->category->name }}</span>
-                                    <h2 class="fs-5 lh-1 fw-bolder text-truncate mb-3">{{ $product->title }}</h2>
-                                    <h2 class="fs-6 lh-1 fw-bold">Rp. {{ $product->price }}</h2>
-                                    <span class="icon-cross">
-                                        <img src="/assets/images/cross.svg" class="img-fluid">
-                                    </span>
-                                </a>
+                        <div class="position-relative row gap-3">
+                            <div class="col-md">
+                                <select class="form-select form-select-lg rounded-box" wire:model.live="category_id">
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                        @endforeach
-                        <!-- End Column -->
-
+                            <div class="col-md">
+                                <input wire:model.live="search" type="search" class="form-control w-100 rounded-box"
+                                    aria-describedby="helpId" placeholder="Masukkan judul buku ...">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <h3 class="text-center fw-bold mt-5">
+                <span wire:loading class="text-primary">loading...</span>
+                {{ $search }}
+                </h5>
+
+                <div class="untree_co-section product-section before-footer-section">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <!-- Start Column -->
+                            @foreach ($this->products as $product)
+                                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                                    <a class="product-item" href="#">
+                                        <div class="lc-block border-0 card card-cover overflow-hidden bg-dark rounded-5 shadow-xl"
+                                            lc-helper="background"
+                                            style="background-image: url({{ Storage::url($product->image) }}); background-size:cover; height:300px;">
+                                        </div>
+                                        <span
+                                            class="text-wrap text-primary fw-bold badge shadow-lg py-4 my-3">{{ $product->category->name }}</span>
+                                        <h2 class="fs-5 lh-1 fw-bolder text-truncate mb-3">{{ $product->title }}</h2>
+                                        <h2 class="fs-6 lh-1 fw-bold">Rp. {{ $product->price }}</h2>
+                                        <span class="icon-cross">
+                                            <img src="/assets/images/cross.svg" class="img-fluid">
+                                        </span>
+                                    </a>
+                                </div>
+                            @endforeach
+                            <!-- End Column -->
+                        </div>
+                    </div>
+                </div>
         </div>
     @endvolt
 </x-costumer-layout>

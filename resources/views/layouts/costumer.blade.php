@@ -41,7 +41,7 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/costumer/shop">Shop</a>
+                        <a class="nav-link" href="/costumer/catalog">Shop</a>
                     </li>
                     <li>
                         <a class="nav-link" href="#">About us</a>
