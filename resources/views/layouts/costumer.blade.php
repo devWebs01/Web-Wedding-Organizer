@@ -35,39 +35,26 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div>
-                <div class="collapse navbar-collapse" id="navbarsFurni">
-                    <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
-                        </li>
-                        <li><a class="nav-link" href="#">Shop</a></li>
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarsFurni">
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/costumer/shop">Shop</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">About us</a>
+                    </li>
+                </ul>
 
-                    <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                        @guest
-                            <li>
-                                <a class="nav-link" href="/login">Login</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" href="/register">Register</a>
-                            </li>
-                        @else
-                            <li>
-                                <a class="nav-link" href="#"><i class="fa-solid fa-user"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>
-                                </a>
-                            </li>
-                            {{-- <li>
-                                <a class="nav-link" href="#"><i class="fa-solid fa-house"></i>
-                                </a>
-                            </li> --}}
-                        @endguest
-                    </ul>
-                </div>
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <li>
+                        <a class="nav-link" href="#"><img src="/assets/images/user.svg"></a>
+                    </li>
+                    <li><a class="nav-link" href="#"><img src="/assets/images/cart.svg"></a>
+                    </li>
+                </ul>
             </div>
 
         </div>
