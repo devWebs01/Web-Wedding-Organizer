@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['name'];
+    protected $guarded = [];
 
     /**
      * Get all of the products for the Category
