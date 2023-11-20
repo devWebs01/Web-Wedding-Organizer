@@ -91,8 +91,9 @@ $products = computed(function () {
                                             <div
                                                 class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
                                                 <div class="shadow-sm w-33 rounded-2xl">
-                                                    <a class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
-                                                        href="/resources/cruip-bundle">View details</a>
+                                                    <a wire:navigate
+                                                        class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
+                                                        href="/catalog/{{ $product->id }}">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,7 +101,7 @@ $products = computed(function () {
                                     <div>
                                         <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
                                             <div class="flex-1">
-                                                <a class="block group" href="/resources/cruip-bundle">
+                                                <a wire:navigate class="block group" href="/catalog/{{ $product->id }}">
                                                     <div class="badge badge-outline">
                                                         {{ Str::limit($product->category->name, 30, '...') }}</div>
 
@@ -109,10 +110,10 @@ $products = computed(function () {
                                                         {{ $product->title }}
                                                     </h5>
 
-                                                    <h3
+                                                    <h5
                                                         class="flex items-center text-xl font-bold leading-7 text-gray-900 group-hover:text-red">
                                                         Rp. {{ $product->price }}
-                                                    </h3>
+                                                    </h5>
 
                                                 </a>
                                             </div>

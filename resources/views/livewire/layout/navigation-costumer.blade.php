@@ -29,7 +29,7 @@ $logout = function (Logout $logout) {
                     <a href="/" wire:navigate>Item 1</a>
                 </li>
                 <li>
-                    <a href="/costumer/catalog" wire:navigate>catalog</a>
+                    <a href="/catalog/list" wire:navigate>catalog</a>
                 </li>
             </ul>
         </div>
@@ -41,7 +41,7 @@ $logout = function (Logout $logout) {
                 <a href="/" wire:navigate>Item 1</a>
             </li>
             <li>
-                <a href="/costumer/catalog" wire:navigate>catalog</a>
+                <a href="/catalog/list" wire:navigate>catalog</a>
             </li>
         </ul>
     </div>
