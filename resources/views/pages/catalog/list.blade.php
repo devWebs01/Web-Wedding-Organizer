@@ -45,13 +45,12 @@ $products = computed(function () {
                 <div class="text-center pt-5">
                     <h1
                         class="text-4xl font-extrabold tracking-tight text-gray-900 font-display sm:text-5xl md:text-6xl xl:text-7xl">
-                        <span class="block xl:inline">Discover the best</span>
-                        <span class="block text-cool-indigo-600">Tailwind templates &amp; UI kits</span>
+                        <span class="block xl:inline">Telusuri Kebutuhan</span>
+                        <span class="block text-cool-indigo-600">Produk ATK Anda di Toko Kami</span>
                     </h1>
                     <p class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                        Tailwind Awesome is a curated list of the best Tailwind templates &amp;
-                        UI kits in the internet. We are actively searching, and curating the
-                        coolest resources out there.
+                        Telusuri kategori produk kami yang luas, termasuk pensil, pulpen, kertas, dan peralatan kantor
+                        lainnya. Temukan produk unggulan kami yang akan memenuhi kebutuhan kantor Anda.
                     </p>
                     <div class="relative max-w-3xl px-4 mx-auto mt-10 sm:px-6">
                         <input wire:model.live="search" type="search" placeholder="Type here"
@@ -76,51 +75,54 @@ $products = computed(function () {
                     <div data-controller="pagination lazy-loader">
                         <div id="resources"
                             class="grid mx-auto gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 2xl:gap-x-12 2xl:gap-y-16 xl:gap-y-14">
-
-                            @foreach ($this->products as $product)
-                                <div>
-                                    <div
-                                        class="flex flex-col w-full overflow-hidden bg-gray-100 rounded-2xl h-72 sm:h-80 md:h-72 lg:h-64 xl:h-80">
-                                        <div class="relative flex items-center justify-center flex-shrink-0 h-full group">
-                                            <img class="rounded-lg shadow-md mx-auto object-cover object-left-top transition ease-in-out duration-300"
-                                                alt="{{ $product->title }}" data-lazy-loader-target="entry"
-                                                src="{{ Storage::url($product->image) }}">
+                            @if ($this->products->isNotEmpty())
+                                @foreach ($this->products as $product)
+                                    <div>
+                                        <div
+                                            class="flex flex-col w-full overflow-hidden bg-gray-100 rounded-2xl h-72 sm:h-80 md:h-72 lg:h-64 xl:h-80">
                                             <div
-                                                class="absolute inset-0 transition duration-200 bg-gray-900 opacity-0 rounded-2xl group-hover:opacity-60">
+                                                class="relative flex items-center justify-center flex-shrink-0 h-full group">
+                                                <img class="rounded-lg shadow-md mx-auto object-cover object-left-top transition ease-in-out duration-300"
+                                                    alt="{{ $product->title }}" data-lazy-loader-target="entry"
+                                                    src="{{ Storage::url($product->image) }}">
+                                                <div
+                                                    class="absolute inset-0 transition duration-200 bg-gray-900 opacity-0 rounded-2xl group-hover:opacity-60">
+                                                </div>
+                                                <div
+                                                    class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
+                                                    <div class="shadow-sm w-33 rounded-2xl">
+                                                        <a wire:navigate
+                                                            class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
+                                                            href="/catalog/{{ $product->id }}">View details</a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div
-                                                class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
-                                                <div class="shadow-sm w-33 rounded-2xl">
-                                                    <a wire:navigate
-                                                        class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
-                                                        href="/catalog/{{ $product->id }}">View details</a>
+                                        </div>
+                                        <div>
+                                            <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
+                                                <div class="flex-1">
+                                                    <a wire:navigate class="block group"
+                                                        href="/catalog/{{ $product->id }}">
+                                                        <div class="badge badge-outline">
+                                                            {{ Str::limit($product->category->name, 30, '...') }}</div>
+
+                                                        <h5
+                                                            class="flex items-center font-bold leading-7 text-gray-900 group-hover:text-cool-indigo-600">
+                                                            {{ $product->title }}
+                                                        </h5>
+
+                                                        <h5
+                                                            class="flex items-center text-xl font-bold leading-7 text-gray-900 group-hover:text-red">
+                                                            Rp. {{ $product->price }}
+                                                        </h5>
+
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
-                                            <div class="flex-1">
-                                                <a wire:navigate class="block group" href="/catalog/{{ $product->id }}">
-                                                    <div class="badge badge-outline">
-                                                        {{ Str::limit($product->category->name, 30, '...') }}</div>
-
-                                                    <h5
-                                                        class="flex items-center font-bold leading-7 text-gray-900 group-hover:text-cool-indigo-600">
-                                                        {{ $product->title }}
-                                                    </h5>
-
-                                                    <h5
-                                                        class="flex items-center text-xl font-bold leading-7 text-gray-900 group-hover:text-red">
-                                                        Rp. {{ $product->price }}
-                                                    </h5>
-
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @endif
 
 
                             <div data-controller="banner" data-banner-id-value="bundle_177"
@@ -185,42 +187,13 @@ $products = computed(function () {
                                         <source srcset="https://d1etqblq65l80m.cloudfront.net/nufte8zsbpjhezaihy9tons5ziq5"
                                             media="(min-width: 768px)">
                                         <img src="https://d1etqblq65l80m.cloudfront.net/nufte8zsbpjhezaihy9tons5ziq5"
-                                            alt="{{ $product->title }}" loading="lazy"
-                                            class="absolute inset-0 object-cover object-left w-full h-full">
+                                            loading="lazy" class="absolute inset-0 object-cover object-left w-full h-full">
                                     </picture>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-
-
-                    {{-- <div class="untree_co-section product-section before-footer-section">
-                    <div class="container-fluid">
-                        <div class="row">
-
-                            <!-- Start Column -->
-                            @foreach ($this->products as $product)
-                                <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                    <a class="product-item" href="#">
-                                        <div class="lc-block border-0 card card-cover overflow-hidden bg-dark rounded-5 shadow-xl"
-                                            lc-helper="background"
-                                            style="background-image: url({{ Storage::url($product->image) }}); background-size:cover; height:300px;">
-                                        </div>
-                                        <span
-                                            class="text-wrap text-primary fw-bold badge shadow-lg py-4 my-3">{{ $product->category->name }}</span>
-                                        <h2 class="fs-5 lh-1 fw-bolder text-truncate mb-3">{{ $product->title }}</h2>
-                                        <h2 class="fs-6 lh-1 fw-bold">Rp. {{ $product->price }}</h2>
-                                        <span class="icon-cross">
-                                            <img src="/assets/images/cross.svg" class="img-fluid">
-                                        </span>
-                                    </a>
-                                </div>
-                            @endforeach
-                            <!-- End Column -->
-                        </div>
-                    </div>
-                </div> --}}
                 </div>
             @endvolt
 </x-costumer-layout>
