@@ -2,6 +2,8 @@
 
 // Mengimpor kelas Logout dari namespace App\Livewire\Actions
 use App\Livewire\Actions\Logout;
+use Darryldecode\Cart\Cart;
+use function Livewire\Volt\{state, computed, on};
 
 // Di sini kita membuat sebuah fungsi yang disebut $logout
 // Fungsi ini akan melakukan logout saat dipanggil
@@ -12,6 +14,16 @@ $logout = function (Logout $logout) {
     // Setelah logout, arahkan pengguna kembali ke halaman utama dengan memberi tahu program untuk melakukan navigasi (bukan hanya memperbarui halaman)
     $this->redirect('/', navigate: true);
 };
+
+state(['subTotal' => 0, 'countItems' => 0, 'cartContent' => null]);
+
+on([
+    'count-updated' => function () {
+        $this->subTotal = \Cart::getSubTotal();
+        $this->countItems = count(\Cart::getContent());
+        $this->cartContent = \Cart::getContent();
+    },
+]);
 
 ?>
 
@@ -56,13 +68,13 @@ $logout = function (Logout $logout) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
-                            <span class="badge badge-sm indicator-item">8</span>
+                            <span class="badge badge-sm indicator-item">{{ $this->countItems }}</span>
                         </div>
                     </label>
                     <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                         <div class="card-body">
-                            <span class="font-bold text-lg">8 Items</span>
-                            <span class="text-info">Subtotal: $999</span>
+                            <span class="font-bold text-lg">{{ $this->countItems }} Items</span>
+                            <span class="text-info">Subtotal: Rp. {{ $this->subTotal }}</span>
                             <div class="card-actions">
                                 <button class="btn btn-primary btn-block">View cart</button>
                             </div>
