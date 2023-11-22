@@ -87,7 +87,15 @@ $addToCart = function () {
                                 </div>
                             </div>
                             <form wire:submit='addToCart'>
-                                <button class="btn btn-outline">Masukkan Keranjang</button>
+                                <div class="flex items-center gap-4">
+                                    <button class="btn btn-outline">
+                                        <span wire:loading class="loading loading-spinner"></span>
+
+                                        Masukkan Keranjang</button>
+                                    <x-action-message class="me-3" on="count-updated">
+                                        {{ __('success!') }}
+                                    </x-action-message>
+                                </div>
                             </form>
                         </div>
                     </div>

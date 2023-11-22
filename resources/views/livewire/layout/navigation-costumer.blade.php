@@ -16,8 +16,8 @@ $logout = function (Logout $logout) {
 };
 
 state([
-    'cart' => fn() => Cart::where('user_id', auth()->user()->id)->get(),
-    'subTotal' => fn() => Cart::where('user_id', auth()->user()->id)
+    'cart' => fn() => Cart::where('user_id', auth()->user()->id ?? null)->get(),
+    'subTotal' => fn() => Cart::where('user_id', auth()->user()->id ?? null)
         ->get()
         ->sum(function ($item) {
             return $item->product->price * $item->qty;
@@ -25,8 +25,8 @@ state([
 ]);
 on([
     'count-updated' => function () {
-        $this->cart = Cart::where('user_id', auth()->user()->id)->get();
-        $this->subTotal = Cart::where('user_id', auth()->user()->id)
+        $this->cart = Cart::where('user_id', auth()->user()->id ?? null)->get();
+        $this->subTotal = Cart::where('user_id', auth()->user()->id ?? null)
             ->get()
             ->sum(function ($item) {
                 return $item->product->price * $item->qty;
