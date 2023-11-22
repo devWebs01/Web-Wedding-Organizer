@@ -54,7 +54,7 @@ $products = computed(function () {
                     </p>
                     <div class="relative max-w-3xl px-4 mx-auto mt-10 sm:px-6">
                         <input wire:model.live="search" type="search" placeholder="Type here"
-                            class="input input-bordered w-full max-w-xs" />
+                            class="input input-bordered w-full max-w-xs mb-3" />
 
                         <select class="select select-bordered w-full max-w-xs" wire:model.live="category_id">
                             <option value="">Kategori Produk</option>
@@ -66,8 +66,8 @@ $products = computed(function () {
                 </div>
             </div>
 
-            <h3 class="text-center fw-bold mt-5">
-                <span wire:loading class="text-primary">loading...</span>
+            <h5 class="text-center font-bold mt-5">
+                <span wire:loading class="loading loading-spinner mr-4"></span>
                 {{ $search }}
                 </h5>
 
@@ -144,7 +144,7 @@ $products = computed(function () {
                                     <div
                                         class="py-1 pl-1 pr-2.5 rounded-2xl border border-cool-indigo-100 bg-cool-indigo-50 inline-flex text-cool-indigo-700 font-medium text-xs items-center">
                                         <span
-                                            class="flex justify-center items-center bg-white rounded-2xl border border-cool-indigo-100 px-2 py-0.5 mr-2">
+                                            class="flex justify-center items-center rounded-2xl border border-cool-indigo-100 px-2 py-0.5 mr-2">
                                             Featured
                                         </span>
                                         Limited time offer
