@@ -18,7 +18,18 @@ rules([
 ]);
 
 $addToCart = function () {
-    Cart::create($this->validate());
+
+    $existingCart = Cart::where('user_id', $this->user_id)
+        ->where('product_id', $this->product_id)
+        ->first();
+
+    if ($existingCart) {
+        // If the product is already in the cart, update the quantity
+        $existingCart->update(['qty' => $existingCart->qty + $this->qty]);
+    } else {
+        // If the product is not in the cart, add it as a new item
+        Cart::create($this->validate());
+    }
 
     $this->dispatch('count-updated');
 };
@@ -67,14 +78,14 @@ $addToCart = function () {
                             </h1>
                             <h3 class="text-sm font-medium text-gray-900">Deskripsi</h3>
 
-                            <div class="space-y-6 mt-4">
+                            <div class="space-y-6">
                                 <p class="text-base text-gray-900">{{ $product->description }}</p>
                             </div>
 
                             <div class="my-4">
                                 <h3 class="text-sm font-medium text-gray-900">Detail Produk</h3>
 
-                                <div class="mt-4">
+                                <div class="mb-4">
                                     <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
                                         <li class="text-gray-400"><span
                                                 class="text-gray-600">{{ $product->category->name }}y</span></li>

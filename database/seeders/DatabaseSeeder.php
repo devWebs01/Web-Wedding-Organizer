@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'Petugas',
-            'email' => 'petugas@testing.com',
+            'name' => 'testing',
+            'email' => 'testing@testing.com',
         ]);
     }
 }

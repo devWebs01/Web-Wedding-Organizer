@@ -84,7 +84,7 @@ on([
                             <span class="font-bold text-lg">{{ $this->cart->count() }} Items</span>
                             <span class="text-neutral">Subtotal: Rp. {{ $this->subTotal }}</span>
                             <div class="card-actions">
-                                <button class="btn btn-neutral btn-block">View cart</button>
+                                <a href="/catalog/cart" wire:navigate class="btn btn-neutral btn-block">View cart</a>
                             </div>
                         </div>
                     </div>
