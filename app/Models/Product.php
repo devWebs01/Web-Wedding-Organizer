@@ -40,4 +40,14 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class);
     }
+
+    /**
+     * Get all of the orders for the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(order::class);
+    }
 }

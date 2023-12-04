@@ -31,7 +31,7 @@ $addToCart = function () {
         Cart::create($this->validate());
     }
 
-    $this->dispatch('count-updated');
+    $this->dispatch('cart-updated');
 };
 ?>
 <x-costumer-layout>
@@ -103,7 +103,7 @@ $addToCart = function () {
                                         <span wire:loading class="loading loading-spinner"></span>
 
                                         Masukkan Keranjang</button>
-                                    <x-action-message class="me-3" on="count-updated">
+                                    <x-action-message class="me-3" on="cart-updated">
                                         {{ __('success!') }}
                                     </x-action-message>
                                 </div>

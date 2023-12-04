@@ -2,11 +2,13 @@
 
 use function Livewire\Volt\{state, rules, on};
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Item;
 
 state(['carts' => fn() => Cart::where('user_id', auth()->id())->get()]);
 
 on([
-    'count-updated' => function () {
+    'cart-updated' => function () {
         $this->cart = $this->carts;
         $this->subTotal = $this->carts->sum(function ($item) {
             return $item->product->price * $item->qty;
@@ -24,10 +26,9 @@ $calculateTotal = function () {
 
 $increaseQty = function ($cartId) {
     $cart = Cart::find($cartId);
-    // Cek apakah qty pada keranjang belum mencapai jumlah stok produk
     if ($cart->qty < $cart->product->quantity) {
         $cart->update(['qty' => $cart->qty + 1]);
-        $this->dispatch('count-updated');
+        $this->dispatch('cart-updated');
     }
 };
 
@@ -35,9 +36,60 @@ $decreaseQty = function ($cartId) {
     $cart = Cart::find($cartId);
     if ($cart->qty > 1) {
         $cart->update(['qty' => $cart->qty - 1]);
-        $this->dispatch('count-updated');
+        $this->dispatch('cart-updated');
     }
 };
+
+$confirmCheckout = function () {
+    // Ambil item keranjang pengguna
+    $cartItems = Cart::where('user_id', auth()->id())->get();
+
+    // Buat record pesanan
+    $order = Order::create([
+        'user_id' => auth()->id(),
+        'status' => 'pending', // Atur status pesanan sesuai kebutuhan
+        'invoice' => 'INV-' . time(), // Atur nomor invoice, bisa disesuaikan sesuai kebutuhan
+        'total' => 0, // Nantinya akan dihitung berdasarkan order_items
+        'resi' => null, // Nomor resi pengiriman, bisa diisi nanti setelah pengiriman
+        'ongkir' => 0, // Biaya pengiriman, bisa dihitung atau diatur sesuai kebijakan
+        'payment' => 'pending', // Status pembayaran, bisa diatur nanti setelah pembayaran
+    ]);
+
+    // Inisialisasi total harga pesanan
+    $totalPrice = 0;
+
+    // Salin item dari keranjang ke tabel order_items
+    foreach ($cartItems as $cartItem) {
+        $orderItem = new Item([
+            'product_id' => $cartItem->product_id,
+            'qty' => $cartItem->qty,
+        ]);
+
+        // Tambahkan item ke pesanan
+        $order->items()->save($orderItem);
+
+        // Hitung total harga pesanan
+        $totalPrice += $cartItem->product->price * $cartItem->qty;
+
+        // Kurangkan kuantitas produk dari stok
+        $cartItem->product->decrement('quantity', $cartItem->qty);
+    }
+
+    // Update total harga pesanan
+    $order->update([
+        'total' => $totalPrice + $order->ongkir, // Total harga pesanan ditambah ongkir
+    ]);
+
+    // Hapus item keranjang setelah checkout
+    Cart::where('user_id', auth()->id())->delete();
+
+    // ... lainnya sesuai kebutuhan ...
+    $this->dispatch('cart-updated');
+
+    return 'success';
+    // Ganti dengan route yang sesuai, dan kirimkan ID pesanan ke halaman konfirmasi
+};
+
 ?>
 
 <x-costumer-layout>
@@ -97,25 +149,28 @@ $decreaseQty = function ($cartId) {
                                         <td class="w-1/6">Rp. {{ $cart->qty * $cart->product->price }}</td>
                                     </tr>
                                 @endforeach
-
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total: </td>
+                                    <td>Rp. {{ $this->calculateTotal() }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-8 flex sm:justify-end">
-                        <div class="w-full max-w-2xl sm:text-end space-y-2">
-                            <!-- Grid -->
-                            <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
-                                <dl class="grid sm:grid-cols-5 gap-x-3 text-sm mx-5">
-                                    <dt class="col-span-3 text-gray-500">Total:</dt>
-                                    <dd class="col-span-2 font-medium text-gray-800 dark:text-gray-200">
-                                        Rp. {{ $this->calculateTotal() }}
-                                    </dd>
-                                </dl>
+                    <div class="join gap-3">
+                        <button class="join-item btn btn-outline btn-sm">Button</button>
 
-                            </div>
-                            <!-- End Grid -->
-                        </div>
+                        <form wire:submit="confirmCheckout">
+                            <button wire:loading.attr='disable' type="submit" class="join-item btn btn-outline btn-sm">
+                                <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                    class="loading loading-spinner"></span>
+                                Checkout</button>
+                        </form>
                     </div>
+                    <x-action-message class="me-3" on="cart-updated">
+                        {{ __('success!') }}
+                    </x-action-message>
                 </div>
             </div>
         </div>

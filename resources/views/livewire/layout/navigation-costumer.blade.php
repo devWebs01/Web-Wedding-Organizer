@@ -24,7 +24,7 @@ state([
         }),
 ]);
 on([
-    'count-updated' => function () {
+    'cart-updated' => function () {
         $this->cart = Cart::where('user_id', auth()->user()->id ?? null)->get();
         $this->subTotal = Cart::where('user_id', auth()->user()->id ?? null)
             ->get()
