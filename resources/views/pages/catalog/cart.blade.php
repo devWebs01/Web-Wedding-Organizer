@@ -86,7 +86,7 @@ $confirmCheckout = function () {
     // ... lainnya sesuai kebutuhan ...
     $this->dispatch('cart-updated');
 
-    return 'success';
+    $this->redirect('/order/' . $order->id, navigate: true);
     // Ganti dengan route yang sesuai, dan kirimkan ID pesanan ke halaman konfirmasi
 };
 

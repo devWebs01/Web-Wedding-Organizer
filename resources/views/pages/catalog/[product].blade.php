@@ -11,6 +11,7 @@ state([
     'product_id' => fn() => $this->product->id,
     'qty' => 1,
 ]);
+
 rules([
     'user_id' => 'required|exists:users,id',
     'product_id' => 'required|exists:products,id',
@@ -18,7 +19,6 @@ rules([
 ]);
 
 $addToCart = function () {
-
     $existingCart = Cart::where('user_id', $this->user_id)
         ->where('product_id', $this->product_id)
         ->first();
@@ -53,8 +53,7 @@ $addToCart = function () {
                             </li>
                             <li>
                                 <div class="flex items-center">
-                                    <a href="#"
-                                        class="mr-2 text-sm font-medium text-gray-900">{{ $product->category->name }}</a>
+                                    <a href="#" class="mr-2 text-sm font-medium text-gray-900">Detail Produk</a>
                                 </div>
                             </li>
                         </ol>
@@ -99,10 +98,10 @@ $addToCart = function () {
                             </div>
                             <form wire:submit='addToCart'>
                                 <div class="flex items-center gap-4">
-                                    <button class="btn btn-outline">
+                                    <button {{ $product->quantity == 0 ? 'disabled' : '' }} class="btn btn-outline">
                                         <span wire:loading class="loading loading-spinner"></span>
 
-                                        Masukkan Keranjang</button>
+                                        {{ $product->quantity == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}</button>
                                     <x-action-message class="me-3" on="cart-updated">
                                         {{ __('success!') }}
                                     </x-action-message>
