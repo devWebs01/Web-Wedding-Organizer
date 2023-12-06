@@ -10,6 +10,15 @@ state([
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
 ]);
 
+$calculateTotal = function () {
+    $total = 0;
+    foreach ($this->orderItems as $orderItem) {
+        // $total += $orderItem->item->product->price * $orderItem->qty;
+        $total += $orderItem->product->price * $orderItem->qty;
+    }
+    return $total;
+};
+
 ?>
 <x-costumer-layout>
     @volt
@@ -20,7 +29,7 @@ state([
                         <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                             <li>
                                 <div class="flex items-center">
-                                    <a href="/catalog/list" wire:navigate
+                                    <a href="/catalog/cart" wire:navigate
                                         class="mr-2 text-sm font-medium text-gray-900">Keranjang</a>
                                     <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor"
                                         aria-hidden="true" class="h-5 w-4 text-gray-300">
@@ -63,32 +72,45 @@ state([
                                 <div class="mb-6 pb-6 border-b border-gray-200 md:border-none text-xl">
                                     <div class="w-full flex items-center">
                                         <div class="flex-grow">
-                                            <span
-                                                class="">Total</span>
+                                            <span class="text-sm">Subtotal untuk produk</span>
                                         </div>
                                         <div class="pl-3">
-                                                <span class="font-semibold text-gray-400 text-sm">AUD</span> <span
-                                                    class="font-semibold">$210.00</span>
+                                            <span class="font-semibold text-sm">123</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex items-center">
+                                        <div class="flex-grow">
+                                            <span class="text-sm">Subtotal pengiriman</span>
+                                        </div>
+                                        <div class="pl-3">
+                                            <span class="font-semibold text-sm">123</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex items-center">
+                                        <div class="flex-grow">
+                                            <span class="text-primary font-bold">Total Pembayaran</span>
+                                        </div>
+                                        <div class="pl-3">
+                                            <span class="font-bold text-primary">Rp. {{ $this->calculateTotal() }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="px-3 md:w-5/12">
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 font-light mb-6">
-                                    <div class="w-full flex mb-3 items-center">
-                                        <div class="w-32">
-                                            <span class=font-semibold">Contact</span>
-                                        </div>
-                                        <div class="flex-grow pl-3">
-                                            <span>Scott Windon</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full flex items-center">
-                                        <div class="w-32">
-                                            <span class=font-semibold">Billing Address</span>
-                                        </div>
-                                        <div class="flex-grow pl-3">
-                                            <span>123 George Street, Sydney, NSW 2000 Australia</span>
+                                    <h4 class="font-bold text-lg">Alamat Pengiriman</h4>
+                                    <div class="w-full flex items-baseline">
+                                        <div class="join gap-x-3">
+                                            <div class="join-item">
+                                                {{ $order->user->name }}
+                                            </div>
+                                            <div class="join-item">|</div>
+                                            <div class="join-item">
+                                                (ALAMAT)
+                                            </div>
+                                            <div class="join-item">
+                                                (ALAMAT)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +126,7 @@ state([
                                         </div>
                                         <div>
                                             <div class="mb-3">
-                                                <label class=font-semibold text-sm mb-2 ml-1">Name on
+                                                <label class="font-semibold text-sm mb-2 ml-1">Name on
                                                     card</label>
                                                 <div>
                                                     <input
@@ -113,7 +135,7 @@ state([
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label class=font-semibold text-sm mb-2 ml-1">Card
+                                                <label class="font-semibold text-sm mb-2 ml-1">Card
                                                     number</label>
                                                 <div>
                                                     <input
@@ -123,7 +145,7 @@ state([
                                             </div>
                                             <div class="mb-3 -mx-2 flex items-end">
                                                 <div class="px-2 w-1/4">
-                                                    <label class=font-semibold text-sm mb-2 ml-1">Expiration
+                                                    <label class="font-semibold text-sm mb-2 ml-1">Expiration
                                                         date</label>
                                                     <div>
                                                         <select
@@ -159,7 +181,7 @@ state([
                                                     </select>
                                                 </div>
                                                 <div class="px-2 w-1/4">
-                                                    <label class=font-semibold text-sm mb-2 ml-1">Security
+                                                    <label class="font-semibold text-sm mb-2 ml-1">Security
                                                         code</label>
                                                     <div>
                                                         <input

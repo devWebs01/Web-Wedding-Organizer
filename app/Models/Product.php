@@ -50,4 +50,14 @@ class Product extends Model
     {
         return $this->hasMany(order::class);
     }
+
+    /**
+     * Get all of the Items for the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
 }
