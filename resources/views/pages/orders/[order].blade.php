@@ -19,6 +19,12 @@ $calculateTotal = function () {
     return $total;
 };
 
+$deleteOrder = function ($orderId) {
+    $order = Order::findOrFail($orderId);
+    $order->delete();
+    $this->redirect('/orders', navigate: true);
+};
+
 ?>
 <x-costumer-layout>
     @volt
@@ -84,7 +90,7 @@ $calculateTotal = function () {
                                             <span class="text-sm">Subtotal pengiriman</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold text-sm">123</span>
+                                            <span class="font-semibold text-sm">---------</span>
                                         </div>
                                     </div>
                                     <div class="w-full flex items-center">
@@ -142,9 +148,16 @@ $calculateTotal = function () {
                                         <span class="label-text-alt">Kosongkan</span>
                                     </div>
                                 </label>
-                                <div class="join gap-3">
-                                    <button class="btn text-white btn-error">Batalkan Pesanan</button>
-                                    <button class="btn btn-outline btn-wide">Bayar Sekarang</button>
+                                <div class="join gap-3 text-center">
+                                    <button wire:click="deleteOrder('{{ $order->id }}')"
+                                        class="btn text-white btn-error">
+                                        <span wire:loading class="loading loading-spinner text-neutral"></span>
+
+                                        Batalkan Pesanan</button>
+                                    <button class="btn btn-outline">
+                                        <span wire:loading class="loading loading-spinner text-neutral"></span>
+
+                                        Bayar Sekarang</button>
                                 </div>
                             </div>
                         </div>

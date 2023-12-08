@@ -44,7 +44,7 @@ with(
 <x-costumer-layout>
     @volt
         <div>
-            <div class="text-sm breadcrumbs pt-6">
+            <div class="text-sm breadcrumbs">
                 <ul class="px-4 sm:px-6 lg:px-8">
                     <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
                     <li><a wire:navigate href="/catalog/cart">Keranjang</a></li>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a637601a5cd4bdf7b8eba98468dce1f9",
+    "content-hash": "75c02d800a309d0e07b73789006d74a0",
     "packages": [
         {
             "name": "brick/math",
@@ -198,6 +198,74 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.2"
             },
             "time": "2022-10-27T11:44:00+00:00"
+        },
+        {
+            "name": "dipantry/rajaongkir",
+            "version": "v2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dipantry/rajaongkir.git",
+                "reference": "2501a4c5604225af5aca4511cca056ac964d8b43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dipantry/rajaongkir/zipball/2501a4c5604225af5aca4511cca056ac964d8b43",
+                "reference": "2501a4c5604225af5aca4511cca056ac964d8b43",
+                "shasum": ""
+            },
+            "require": {
+                "flynsarmy/csv-seeder": "^2.0",
+                "illuminate/support": "^9.0.0|^10.0.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "ext-openssl": "*",
+                "orchestra/testbench": "^7.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dipantry\\Rajaongkir\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Auriga Aristo",
+                    "email": "aurigaaristo@gmail.com",
+                    "homepage": "https://aurigaaristo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "RajaOngkir API wrapper for PHP 8.0+",
+            "keywords": [
+                "api",
+                "cek-ongkir",
+                "laravel",
+                "php",
+                "rajaongkir",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/Dipantry/rajaongkir/issues",
+                "source": "https://github.com/Dipantry/rajaongkir/tree/v2.1"
+            },
+            "funding": [
+                {
+                    "url": "https://saweria.co/rigsto",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Rigsto",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-07T09:14:50+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -494,6 +562,66 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "flynsarmy/csv-seeder",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flynsarmy/laravel-csv-seeder.git",
+                "reference": "b98d4ae2e9521bb5e9784b61febf59b4501a5a56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flynsarmy/laravel-csv-seeder/zipball/b98d4ae2e9521bb5e9784b61febf59b4501a5a56",
+                "reference": "b98d4ae2e9521bb5e9784b61febf59b4501a5a56",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.1.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "nunomaduro/larastan": "^0.6.0@dev",
+                "orchestra/testbench": "6.*",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Flynsarmy\\CsvSeeder\\CsvSeederServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Flynsarmy\\CsvSeeder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Flyn San",
+                    "email": "flynsarmy@gmail.com"
+                }
+            ],
+            "description": "Allows seeding of the database with CSV files",
+            "keywords": [
+                "csv",
+                "laravel",
+                "seed",
+                "seeding",
+                "seeds"
+            ],
+            "support": {
+                "issues": "https://github.com/Flynsarmy/laravel-csv-seeder/issues",
+                "source": "https://github.com/Flynsarmy/laravel-csv-seeder/tree/v2.0.6"
+            },
+            "time": "2021-02-09T23:48:06+00:00"
         },
         {
             "name": "fruitcake/php-cors",
