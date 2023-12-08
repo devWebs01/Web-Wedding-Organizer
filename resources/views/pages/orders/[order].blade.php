@@ -75,7 +75,8 @@ $calculateTotal = function () {
                                             <span class="text-sm">Subtotal untuk produk</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold text-sm">123</span>
+                                            <span class="font-semibold text-sm">Rp.
+                                                {{ $orderItem->qty * $orderItem->product->price }}</span>
                                         </div>
                                     </div>
                                     <div class="w-full flex items-center">
@@ -100,111 +101,50 @@ $calculateTotal = function () {
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 font-light mb-6">
                                     <h4 class="font-bold text-lg">Alamat Pengiriman</h4>
                                     <div class="w-full flex items-baseline">
-                                        <div class="join gap-x-3">
+                                        <div class="join gap-x-2">
                                             <div class="join-item">
                                                 {{ $order->user->name }}
                                             </div>
                                             <div class="join-item">|</div>
                                             <div class="join-item">
-                                                (ALAMAT)
-                                            </div>
-                                            <div class="join-item">
-                                                (ALAMAT)
+                                                {{ $order->user->email }}
                                             </div>
                                         </div>
                                     </div>
+                                    <p>Lorem, ipsum.</p>
+                                    <p>Lorem, ipsum.</p>
                                 </div>
-                                <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 font-light mb-6">
-                                    <div class="w-full p-3 border-b border-gray-200">
-                                        <div class="mb-5">
-                                            <label for="type1" class="flex items-center cursor-pointer">
-                                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500"
-                                                    name="type" id="type1" checked>
-                                                <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png"
-                                                    class="h-6 ml-3">
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <div class="mb-3">
-                                                <label class="font-semibold text-sm mb-2 ml-1">Name on
-                                                    card</label>
-                                                <div>
-                                                    <input
-                                                        class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
-                                                        placeholder="John Smith" type="text" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="font-semibold text-sm mb-2 ml-1">Card
-                                                    number</label>
-                                                <div>
-                                                    <input
-                                                        class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
-                                                        placeholder="0000 0000 0000 0000" type="text" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 -mx-2 flex items-end">
-                                                <div class="px-2 w-1/4">
-                                                    <label class="font-semibold text-sm mb-2 ml-1">Expiration
-                                                        date</label>
-                                                    <div>
-                                                        <select
-                                                            class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
-                                                            <option value="01">01 - January</option>
-                                                            <option value="02">02 - February</option>
-                                                            <option value="03">03 - March</option>
-                                                            <option value="04">04 - April</option>
-                                                            <option value="05">05 - May</option>
-                                                            <option value="06">06 - June</option>
-                                                            <option value="07">07 - July</option>
-                                                            <option value="08">08 - August</option>
-                                                            <option value="09">09 - September</option>
-                                                            <option value="10">10 - October</option>
-                                                            <option value="11">11 - November</option>
-                                                            <option value="12">12 - December</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="px-2 w-1/4">
-                                                    <select
-                                                        class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
-                                                        <option value="2020">2020</option>
-                                                        <option value="2021">2021</option>
-                                                        <option value="2022">2022</option>
-                                                        <option value="2023">2023</option>
-                                                        <option value="2024">2024</option>
-                                                        <option value="2025">2025</option>
-                                                        <option value="2026">2026</option>
-                                                        <option value="2027">2027</option>
-                                                        <option value="2028">2028</option>
-                                                        <option value="2029">2029</option>
-                                                    </select>
-                                                </div>
-                                                <div class="px-2 w-1/4">
-                                                    <label class="font-semibold text-sm mb-2 ml-1">Security
-                                                        code</label>
-                                                    <div>
-                                                        <input
-                                                            class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
-                                                            placeholder="000" type="text" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full p-3">
-                                        <label for="type2" class="flex items-center cursor-pointer">
-                                            <input type="radio" class="form-radio h-5 w-5 text-indigo-500"
-                                                name="type" id="type2">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                                <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 font-light mb-6 p-3">
+                                    <h4 class="font-bold text-lg">Metode Pembayaran</h4>
+
+                                    <div class="w-full pl-3">
+                                        <label for="cod" class="flex items-center cursor-pointer">
+                                            <input type="radio" class="form-radio h-5 w-5" name="type" id="cod">
+                                            <img src="https://d3sxshmncs10te.cloudfront.net/icon/free/svg/32259.svg?token=eyJhbGciOiJoczI1NiIsImtpZCI6ImRlZmF1bHQifQ__.eyJpc3MiOiJkM3N4c2htbmNzMTB0ZS5jbG91ZGZyb250Lm5ldCIsImV4cCI6MTcwMjE2NjQwMCwicSI6bnVsbCwiaWF0IjoxNzAxOTM2OTI5fQ__.f27ce53403c5aaf79cad0ecf9a464e9aa4b6ce6e5ef860f0938abe54468c704c"
                                                 width="80" class="ml-3" />
                                         </label>
                                     </div>
+                                    <div class="w-full p-3">
+                                        <label for="transfer" class="flex items-center cursor-pointer">
+
+                                            <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type"
+                                                id="transfer">
+
+                                            <img src="https://d3sxshmncs10te.cloudfront.net/icon/free/svg/2208355.svg?token=eyJhbGciOiJoczI1NiIsImtpZCI6ImRlZmF1bHQifQ__.eyJpc3MiOiJkM3N4c2htbmNzMTB0ZS5jbG91ZGZyb250Lm5ldCIsImV4cCI6MTcwMjE2NjQwMCwicSI6bnVsbCwiaWF0IjoxNzAxOTM3MjIzfQ__.cf6f92d5a3867fbc299f5cb84c6b0c86c2260794192b07eb3269cd66382d6e66"
+                                                width="40" class="ml-4" />
+                                            <p class="font-semibold">Transfer</p>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button
-                                        class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i
-                                            class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
+                                <label class="form-control w-full max-w-xs">
+                                    <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+                                    <div class="label">
+                                        <span class="label-text-alt">Kosongkan</span>
+                                    </div>
+                                </label>
+                                <div class="join gap-3">
+                                    <button class="btn text-white btn-error">Batalkan Pesanan</button>
+                                    <button class="btn btn-outline btn-wide">Bayar Sekarang</button>
                                 </div>
                             </div>
                         </div>

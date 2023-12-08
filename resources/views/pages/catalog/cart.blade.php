@@ -40,6 +40,12 @@ $decreaseQty = function ($cartId) {
     }
 };
 
+$deleteProduct = function ($cartId) {
+    $cart = Cart::find($cartId);
+    $cart->delete();
+    $this->dispatch('cart-updated');
+};
+
 $confirmCheckout = function () {
     // Ambil item keranjang pengguna
     $cartItems = Cart::where('user_id', auth()->id())->get();
@@ -95,69 +101,84 @@ $confirmCheckout = function () {
 <x-costumer-layout>
     @volt
         <div>
-            <div class="pt-6 card">
-                <div class="text-sm breadcrumbs">
-                    <ul class="px-4 sm:px-6 lg:px-8">
-                        <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
-                        <li><a wire:navigate href="/catalog/cart">Keranjang</a></li>
-                    </ul>
-                </div>
-
-                <div class="card-body">
-                    <div class="rounded overflow-x-auto">
-                        <table class="table text-center border border-2">
-                            <!-- head -->
-                            <thead>
+            <div class="pt-6 text-sm breadcrumbs">
+                <ul class="px-4 sm:px-6 lg:px-8">
+                    <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
+                    <li><a wire:navigate href="/catalog/cart">Keranjang</a></li>
+                </ul>
+            </div>
+            <div class="px-4 sm:px-6 lg:px-8">
+                <div class="rounded overflow-x-auto">
+                    <table class="table text-center">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Total Harga</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($carts as $no => $cart)
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Item</th>
-                                    <th>Qty</th>
-                                    <th>#</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($carts as $no => $cart)
-                                    <tr>
-                                        <td>{{ ++$no }}.</td>
-                                        <td>{{ Str::limit($cart->product->title, 50, '...') }}</td>
-                                        <td>
-                                            <div class="join gap-4 flex justify-center items-center">
-                                                <button wire:loading.attr='disabled'
-                                                    wire:click="increaseQty('{{ $cart->id }}')"
-                                                    class="btn btn-xs join-item font-bold">+</button>
-                                                <span class="join-item">{{ $cart->qty }}</span>
-                                                <button wire:loading.attr='disabled'
-                                                    wire:click="decreaseQty('{{ $cart->id }}')"
-                                                    class="btn btn-xs join-item font-bold">-</button>
-                                            </div>
+                                    <td>{{ ++$no }}.</td>
+                                    <td>{{ Str::limit($cart->product->title, 50, '...') }}</td>
+                                    <td>
+                                        <div class="join gap-4 flex justify-center items-center">
+                                            <button wire:loading.attr='disabled'
+                                                wire:click="increaseQty('{{ $cart->id }}')"
+                                                class="btn btn-xs join-item font-bold btn-outline">+</button>
+                                            <span class="join-item">{{ $cart->qty }}</span>
+                                            <button wire:loading.attr='disabled'
+                                                wire:click="decreaseQty('{{ $cart->id }}')"
+                                                class="btn btn-xs join-item font-bold btn-outline">-</button>
+                                        </div>
+                                    </td>
+                                    <td class="w-1/6">Rp. {{ $cart->qty * $cart->product->price }}</td>
+                                    <td>
 
-                                        </td>
-                                        <td class="w-1/6">Rp. {{ $cart->qty * $cart->product->price }}</td>
-                                    </tr>
-                                @endforeach
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Total: </td>
-                                    <td>Rp. {{ $this->calculateTotal() }}</td>
+                                        <button wire:click="deleteProduct('{{ $cart->id }}')"
+                                            class="btn btn-circle btn-outline btn-xs">X</button>
+                                    </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="join gap-3">
-                        <button class="join-item btn btn-outline btn-sm">Button</button>
-
-                        <form wire:submit="confirmCheckout">
-                            <button wire:loading.attr='disable' type="submit" class="join-item btn btn-outline btn-sm">
-                                <span wire:loading.delay wire:loading wire:target="confirmCheckout"
-                                    class="loading loading-spinner"></span>
-                                Checkout</button>
-                        </form>
-                    </div>
-                    <x-action-message class="me-3" on="cart-updated">
-                        {{ __('success!') }}
-                    </x-action-message>
+                            @endforeach
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Total: </td>
+                                <td>
+                                    <span class="font-bold font-lg">Rp. {{ $this->calculateTotal() }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a href="/catalog/list" wire:navigate class="join-item btn btn-outline btn-sm">
+                                        Lanjut Belanja
+                                    </a>
+                                </td>
+                                <td>
+                                    <form wire:submit="confirmCheckout">
+                                        <button wire:loading.attr='disable' type="submit"
+                                            class="join-item btn btn-neutral hover:bg-white hover:text-black btn-sm">
+                                            <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                                class="loading loading-spinner"></span>
+                                            Checkout</button>
+                                    </form>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                        </tbody>
+                    </table>
                 </div>
+                <x-action-message class="me-3" on="cart-updated">
+                    {{ __('success!') }}
+                </x-action-message>
             </div>
         </div>
     @endvolt

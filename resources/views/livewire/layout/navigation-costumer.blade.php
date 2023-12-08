@@ -53,7 +53,22 @@ on([
                 </li>
             </ul>
         </div>
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <a class="btn btn-ghost text-xl">
+            <a wire:navigate href="/"
+                class="flex justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
+                <span class="flex items-start sm:items-center">
+                    <svg class="w-auto h-6 text-gray-800 fill-current" viewBox="0 0 194 116"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z">
+                            </path>
+                            <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z"></path>
+                        </g>
+                    </svg>
+                </span>
+            </a>
+        </a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
@@ -92,7 +107,7 @@ on([
                             <span class="font-bold text-lg">{{ $this->cart->count() }} Items</span>
                             <span class="text-neutral">Subtotal: Rp. {{ $this->subTotal }}</span>
                             <div class="card-actions">
-                                <a href="/catalog/cart" wire:navigate class="btn btn-neutral btn-block">View cart</a>
+                                <a href="/catalog/cart" wire:navigate class="btn btn-neutral btn-block">Lihat Keranjang</a>
                             </div>
                         </div>
                     </div>

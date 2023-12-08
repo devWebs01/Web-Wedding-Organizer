@@ -44,7 +44,7 @@ with(
 <x-costumer-layout>
     @volt
         <div>
-            <div class="text-sm breadcrumbs">
+            <div class="text-sm breadcrumbs pt-6">
                 <ul class="px-4 sm:px-6 lg:px-8">
                     <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
                     <li><a wire:navigate href="/catalog/cart">Keranjang</a></li>
@@ -75,7 +75,7 @@ with(
                                     <th>{{ ++$no }}</th>
                                     <td>{{ $unpaid->invoice }}</td>
                                     <td>{{ $unpaid->status }}</td>
-                                    <td>{{ $unpaid->total }}</td>
+                                    <td>Rp. {{ $unpaid->total }}</td>
                                     <td>
                                         <a wire:navigate href="/orders/{{ $unpaid->id }}" class="btn btn-sm">Lihat</a>
                                     </td>
@@ -109,7 +109,7 @@ with(
                                     <th>{{ ++$no }}</th>
                                     <td>{{ $packed->invoice }}</td>
                                     <td>{{ $packed->status }}</td>
-                                    <td>{{ $packed->total }}</td>
+                                    <td>Rp. {{ $packed->total }}</td>
                                     <td>
                                         <a wire:navigate href="/orders/{{ $packed->id }}" class="btn btn-sm">Lihat</a>
                                     </td>
@@ -143,7 +143,7 @@ with(
                                     <th>{{ ++$no }}</th>
                                     <td>{{ $shipped->invoice }}</td>
                                     <td>{{ $shipped->status }}</td>
-                                    <td>{{ $shipped->total }}</td>
+                                    <td>Rp. {{ $shipped->total }}</td>
                                     <td>
                                         <a wire:navigate href="/orders/{{ $shipped->id }}" class="btn btn-sm">Lihat</a>
                                     </td>
@@ -177,7 +177,7 @@ with(
                                     <th>{{ ++$no }}</th>
                                     <td>{{ $completed->invoice }}</td>
                                     <td>{{ $completed->status }}</td>
-                                    <td>{{ $completed->total }}</td>
+                                    <td>Rp. {{ $completed->total }}</td>
                                     <td>
                                         <a wire:navigate href="/orders/{{ $completed->id }}" class="btn btn-sm">Lihat</a>
                                     </td>
@@ -211,7 +211,7 @@ with(
                                     <th>{{ ++$no }}</th>
                                     <td>{{ $cancelled->invoice }}</td>
                                     <td>{{ $cancelled->status }}</td>
-                                    <td>{{ $cancelled->total }}</td>
+                                    <td>Rp. {{ $cancelled->total }}</td>
                                     <td>
                                         <a wire:navigate href="/orders/{{ $cancelled->id }}" class="btn btn-sm">Lihat</a>
                                     </td>
