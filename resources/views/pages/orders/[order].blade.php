@@ -148,9 +148,8 @@ $deleteOrder = function ($orderId) {
                                         <span class="label-text-alt">Kosongkan</span>
                                     </div>
                                 </label>
-                                <div class="join gap-3 text-center">
-                                    <button wire:click="deleteOrder('{{ $order->id }}')"
-                                        class="btn text-white btn-error">
+                                <div class="join gap-3 flex mx-auto">
+                                    <button wire:click="deleteOrder('{{ $order->id }}')" class="btn btn-neutral">
                                         <span wire:loading class="loading loading-spinner text-neutral"></span>
 
                                         Batalkan Pesanan</button>

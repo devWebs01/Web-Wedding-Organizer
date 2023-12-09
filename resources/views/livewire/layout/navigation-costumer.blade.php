@@ -53,7 +53,7 @@ on([
                 </li>
             </ul>
         </div>
-        <a class="btn btn-ghost text-xl">
+        <button class="btn btn-ghost text-xl">
             <a wire:navigate href="/"
                 class="flex justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
                 <span class="flex items-start sm:items-center">
@@ -68,7 +68,7 @@ on([
                     </svg>
                 </span>
             </a>
-        </a>
+        </button>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
