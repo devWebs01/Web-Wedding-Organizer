@@ -63,6 +63,7 @@ $confirmCheckout = function () {
 
     // Inisialisasi total harga pesanan
     $totalPrice = 0;
+    $totalWeight = 0;
 
     // Salin item dari keranjang ke tabel order_items
     foreach ($cartItems as $cartItem) {
@@ -77,13 +78,17 @@ $confirmCheckout = function () {
         // Hitung total harga pesanan
         $totalPrice += $cartItem->product->price * $cartItem->qty;
 
+        // Hitung total berat pesanan
+        $totalWeight += $cartItem->product->weight * $cartItem->qty;
+
         // Kurangkan kuantitas produk dari stok
         $cartItem->product->decrement('quantity', $cartItem->qty);
     }
 
     // Update total harga pesanan
     $order->update([
-        'total' => $totalPrice + $order->ongkir, // Total harga pesanan ditambah ongkir
+        'total' => $totalPrice, // Total harga pesanan ditambah ongkir
+        'weight' => $totalWeight, // Total berat pesanan
     ]);
 
     // Hapus item keranjang setelah checkout

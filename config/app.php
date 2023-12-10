@@ -160,6 +160,8 @@ return [
          * Package Service Providers...
          */
         Darryldecode\Cart\CartServiceProvider::class,
+        Dipantry\Rajaongkir\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -186,6 +188,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Rajaongkir' => Dipantry\Rajaongkir\Facade::class,
     ])->toArray(),
 
 ];

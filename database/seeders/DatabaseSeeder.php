@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,13 +17,16 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Product::factory(10)->create();
         // \App\Models\User::factory(10)->create();
 
-        $this->call([
-            ProductSeeder::class,
-        ]);
-
         \App\Models\User::factory()->create([
             'name' => 'testing',
             'email' => 'testing@testing.com',
         ]);
+
+        $this->call([
+            ProductSeeder::class,
+        ]);
+
+        Artisan::call('rajaongkir:seed');
+
     }
 }

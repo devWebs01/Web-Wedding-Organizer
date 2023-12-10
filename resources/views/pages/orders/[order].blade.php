@@ -1,14 +1,26 @@
 <?php
 
-use function Livewire\Volt\{state, rules};
+use function Livewire\Volt\{state, rules, computed};
 use App\Models\Order;
 use App\Models\Item;
 use App\Models\User;
 
+use Dipantry\Rajaongkir\Models\ROProvince;
+use Dipantry\Rajaongkir\Models\ROCity;
+
 state([
     'order' => fn() => Order::find($id),
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
+    'getProvince' => fn() => ROProvince::all(),
 ]);
+
+state(['getCity'])->url();
+
+
+$posts = computed(function () {
+    return ROCity::where('province_id', 'like', '%'.$this->getCity.'%')->get();
+});
+
 
 $calculateTotal = function () {
     $total = 0;
@@ -29,7 +41,7 @@ $deleteOrder = function ($orderId) {
 <x-costumer-layout>
     @volt
         <div>
-            <div class="min-w-screen min-h-screen">
+            {{-- <div class="min-w-screen min-h-screen">
                 <div class="pt-6">
                     <nav aria-label="Breadcrumb">
                         <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -162,7 +174,107 @@ $deleteOrder = function ($orderId) {
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            {{--  --}}
+
+
+            <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+                <div class="px-4 pt-8">
+                    <p class="text-xl font-medium">Detail Pesanan</p>
+                    <p class="text-gray-400">Periksa item Anda. Dan pilih metode pengiriman yang sesuai. </p>
+                    <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+                        @foreach ($orderItems as $orderItem)
+                            <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+                                <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                                    src="{{ Storage::url($orderItem->product->image) }}" alt="" />
+                                <div class="flex w-full flex-col px-4 py-4">
+                                    <span class="font-semibold">{{ $orderItem->product->title }}</span>
+                                    <span class="float-right text-gray-400">X {{ $orderItem->qty }} item</span>
+                                    <p class="text-lg font-bold">Rp.
+                                        {{ $orderItem->qty * $orderItem->product->price }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <p class="mt-8 text-lg font-medium">Metode Pembayaran</p>
+                    <form class="mt-5 grid gap-6">
+                        <div class="relative">
+                            <input class="peer hidden" id="radio_1" type="radio" name="radio" />
+                            <span
+                                class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                            <label
+                                class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                                for="radio_1">
+                                <div class="ml-5">
+                                    <span class="mt-2 font-semibold">COD (Cash On Delivery)</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input class="peer hidden" id="radio_2" type="radio" name="radio" />
+                            <span
+                                class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                            <label
+                                class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                                for="radio_2">
+                                <div class="ml-5">
+                                    <span class="mt-2 font-semibold">TRANSFER</span>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+                    <p class="text-xl font-medium">Rincian Pembayaran</p>
+                    <p class="text-gray-400 mb-5">Selesaikan pesanan Anda dengan memberikan detail pembayaran Anda. </p>
+                    <div>
+                        <label class="form-control w-full mb-3">
+                            <div class="label">
+                                <span class="label-text">Nama Lengkap</span>
+                            </div>
+                            <input type="text" value="{{ $order->user->name }}" placeholder="Type here"
+                                class="input input-bordered w-full" disabled />
+                        </label>
+                        <label class="form-control w-full mb-3">
+                            <div class="label">
+                                <span class="label-text">Email</span>
+                            </div>
+                            <input type="email" value="{{ $order->user->email }}" placeholder="Type here"
+                                class="input input-bordered w-full" disabled />
+                        </label>
+                        <label class="form-control w-full mb-3">
+                            <div class="label">
+                                <span class="label-text">Telepon</span>
+                            </div>
+                            <input type="text" value="{{ $order->user->telp }}" placeholder="Type here"
+                                class="input input-bordered w-full" disabled />
+                        </label>
+                       
+
+
+                        <!-- Total -->
+                        <div class="mt-6 border-t border-b py-2">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Subtotal</p>
+                                <p class="font-semibold text-gray-900">$399.00</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Shipping</p>
+                                <p class="font-semibold text-gray-900">$8.00</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <p class="text-sm font-medium text-gray-900">Total</p>
+                            <p class="text-2xl font-semibold text-gray-900">$408.00</p>
+                        </div>
+                    </div>
+                    <button class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place
+                        Order</button>
+                </div>
             </div>
+
         </div>
     @endvolt
 </x-costumer-layout>

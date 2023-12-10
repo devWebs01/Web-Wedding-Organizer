@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('invoice')->nullable();
             $table->string('status')->nullable();
             $table->string('total')->nullable();
+            $table->string('weight')->nullable();
             $table->string('resi')->nullable();
             $table->string('ongkir')->nullable();
             $table->string('payment')->nullable();
