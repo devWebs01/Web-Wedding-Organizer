@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'testing',
             'email' => 'testing@testing.com',
+            'telp' => '08' . fake()->isbn10(),
         ]);
 
         $this->call([

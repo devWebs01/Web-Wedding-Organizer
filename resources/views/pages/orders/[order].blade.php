@@ -5,22 +5,10 @@ use App\Models\Order;
 use App\Models\Item;
 use App\Models\User;
 
-use Dipantry\Rajaongkir\Models\ROProvince;
-use Dipantry\Rajaongkir\Models\ROCity;
-
 state([
     'order' => fn() => Order::find($id),
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
-    'getProvince' => fn() => ROProvince::all(),
 ]);
-
-state(['getCity'])->url();
-
-
-$posts = computed(function () {
-    return ROCity::where('province_id', 'like', '%'.$this->getCity.'%')->get();
-});
-
 
 $calculateTotal = function () {
     $total = 0;
@@ -251,7 +239,7 @@ $deleteOrder = function ($orderId) {
                             <input type="text" value="{{ $order->user->telp }}" placeholder="Type here"
                                 class="input input-bordered w-full" disabled />
                         </label>
-                       
+
 
 
                         <!-- Total -->

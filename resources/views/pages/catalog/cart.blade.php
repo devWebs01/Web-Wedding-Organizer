@@ -4,8 +4,12 @@ use function Livewire\Volt\{state, rules, on};
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Item;
+use App\Models\Address;
 
-state(['carts' => fn() => Cart::where('user_id', auth()->id())->get()]);
+state([
+    'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
+    'getAddress' => fn() => Address::where('user_id', auth()->id())->first(),
+]);
 
 on([
     'cart-updated' => function () {
@@ -143,9 +147,13 @@ $confirmCheckout = function () {
                                     </td>
                                     <td class="w-1/6">Rp. {{ $cart->qty * $cart->product->price }}</td>
                                     <td>
-
-                                        <button wire:click="deleteProduct('{{ $cart->id }}')"
-                                            class="btn btn-circle btn-outline btn-xs">X</button>
+                                        <button wire:click="deleteProduct('{{ $cart->id }}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -167,23 +175,38 @@ $confirmCheckout = function () {
                                     </a>
                                 </td>
                                 <td>
-                                    <form wire:submit="confirmCheckout">
-                                        <button wire:loading.attr='disable' type="submit"
+                                    @if ($carts->count() && $this->getAddress)
+                                        <form wire:submit="confirmCheckout">
+                                            <button wire:loading.attr='disable' type="submit"
+                                                class="join-item btn btn-neutral hover:bg-white hover:text-black btn-sm">
+                                                <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                                    class="loading loading-spinner loading-xs"></span>
+                                                Checkout</button>
+                                        </form>
+                                    @else
+                                        <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
                                             class="join-item btn btn-neutral hover:bg-white hover:text-black btn-sm">
                                             <span wire:loading.delay wire:loading wire:target="confirmCheckout"
-                                                class="loading loading-spinner"></span>
-                                            Checkout</button>
-                                    </form>
+                                                class="loading loading-spinner loading-xs"></span>
+                                            Atur Alamat !</a>
+                                    @endif
                                 </td>
-                                <td></td>
+                                <td>
+                                    <x-action-message on="cart-updated">
+                                        <button style="text-align: -webkit-center;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </button>
+                                    </x-action-message>
+                                </td>
                             </tr>
                         </tfoot>
                         </tbody>
                     </table>
                 </div>
-                <x-action-message class="me-3" on="cart-updated">
-                    {{ __('success!') }}
-                </x-action-message>
             </div>
         </div>
     @endvolt

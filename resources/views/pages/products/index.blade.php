@@ -18,7 +18,7 @@ $save = function () {
     $validate = $this->validate();
     $validate['image'] = $this->image->store('public/images');
 
-    product::create($validate);
+    Product::create($validate);
     $this->reset('category_id', 'title', 'price', 'quantity', 'weight', 'description');
 
     $this->dispatch('add-new-products');

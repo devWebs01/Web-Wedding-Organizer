@@ -18,6 +18,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $with = 'addresses';
     protected $fillable = [
         'name',
         'email',
@@ -63,5 +65,15 @@ class User extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(order::class);
+    }
+
+    /**
+     * Get all of the addresses for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 }
