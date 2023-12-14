@@ -21,4 +21,14 @@ class City extends Model
    {
        return $this->hasMany(Address::class);
    }
+
+   /**
+     * Get all of the shops for the Province
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class);
+    }
 }

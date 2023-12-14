@@ -33,10 +33,10 @@ $logout = function (Logout $logout) {
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="url('categories')" :active="request()->routeIs('categories')" wire:navigate>
+                    <x-nav-link :href="url('/admin/categories')" :active="request()->routeIs('categories')" wire:navigate>
                         {{ __('Kategori Produk') }}
                     </x-nav-link>
-                    <x-nav-link :href="url('products')" :active="request()->routeIs('products')" wire:navigate>
+                    <x-nav-link :href="url('/admin/products')" :active="request()->routeIs('products')" wire:navigate>
                         {{ __('Produk Toko') }}
                     </x-nav-link>
 
@@ -100,10 +100,10 @@ $logout = function (Logout $logout) {
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="url('categories')" :active="request()->routeIs('categories')" wire:navigate>
+            <x-responsive-nav-link :href="url('/admin/categories')" :active="request()->routeIs('categories')" wire:navigate>
                 {{ __('Kategori Produk') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="url('products')" :active="request()->routeIs('products')" wire:navigate>
+            <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('products')" wire:navigate>
                 {{ __('Produk Toko') }}
             </x-responsive-nav-link>
         </div>

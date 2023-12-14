@@ -10,9 +10,9 @@ class Province extends Model
 {
     use HasFactory;
 
-    protected $table = 'rajaongkir_province'; 
+    protected $table = 'rajaongkir_province';
 
-     /**
+    /**
      * Get all of the addresses for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -20,5 +20,15 @@ class Province extends Model
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    /**
+     * Get all of the shops for the Province
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class);
     }
 }

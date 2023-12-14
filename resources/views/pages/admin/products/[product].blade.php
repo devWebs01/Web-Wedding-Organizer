@@ -26,26 +26,29 @@ $save = function () {
     }
     product::whereId($this->product->id)->update($validate);
 
-    $this->redirect('/products', navigate: true);
+    $this->redirect('/admin/products', navigate: true);
 };
 ?>
 <x-app-layout>
-    <div>
-        @volt
+    @volt
+        <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     Edit Produk "{{ $product->title }}"
                 </h2>
             </x-slot>
-            <div class="py-12">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <form wire:submit="save" class="p-6" enctype="multipart/form-data">
-
-                            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                {{ __('Kosongkan gambar') }}
-                            </h2>
-
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-6">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div role="alert" class="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            class="stroke-info shrink-0 w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>12 unread messages. Tap to see.</span>
+                    </div>
+                    <div>
+                        <form wire:submit="save" enctype="multipart/form-data">
                             <div class="mt-6">
                                 <x-input-label for="title" :value="__('Nama Produk')" />
                                 <x-text-input wire:loading.attr="disabled" wire:model="title" id="title"
@@ -111,6 +114,6 @@ $save = function () {
                         </form>
                     </div>
                 </div>
-            @endvolt
-        </div>
+            </div>
+        @endvolt
 </x-app-layout>
