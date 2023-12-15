@@ -67,17 +67,16 @@ $destroy = function (Category $category) {
                                         <tr>
                                             <th>{{ ++$no }}</th>
                                             <th>{{ $category->name }}</th>
-                                            <th>
+                                            <th class="join">
                                                 <a href="categories/{{ $category->id }}" wire:navigate.hover
-                                                    class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:focus:bg-gray-700 dark:focus:active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                    class="btn btn-outline btn-sm join-item">
                                                     {{ __('edit') }}
                                                 </a>
-                                                <x-danger-button
-                                                    wire:confirm.prompt="Are you sure?\n\nType delete to confirm|delete"
+                                                <button wire:confirm.prompt="Are you sure?\n\nType delete to confirm|delete"
                                                     wire:loading.attr='disabled' wire:click='destroy({{ $category->id }})'
-                                                    class="mt-5">
+                                                    class="btn btn-outline btn-sm join-item">
                                                     {{ __('Hapus') }}
-                                                </x-danger-button>
+                                                </button>
                                             </th>
                                         </tr>
                                     @endforeach

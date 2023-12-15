@@ -43,7 +43,6 @@ $submit = function () {
 ?>
 @volt
     <div>
-        {{-- @dd($getAddress ? 'ada' : 'tidak') --}}
         <form wire:submit.prevent="submit">
             <div class="mb-3">
                 <label class="form-control w-full">
