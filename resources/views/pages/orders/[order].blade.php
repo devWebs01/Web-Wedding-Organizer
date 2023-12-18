@@ -165,11 +165,30 @@ $deleteOrder = function ($orderId) {
             </div> --}}
 
             {{--  --}}
+            <div class="pt-6">
+                <nav aria-label="Breadcrumb">
+                    <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                        <li>
+                            <div class="flex items-center">
+                                <a href="/orders" class="mr-2 text-sm font-medium text-gray-900">Pesanan Saya</a>
+                                <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"
+                                    class="h-5 w-4 text-gray-300">
+                                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <a href="/orders" class="mr-2 text-sm font-medium text-gray-900">Rincian Pesanan</a>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
 
 
-            <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-                <div class="px-4 pt-8">
-                    <p class="text-xl font-medium">Detail Pesanan</p>
+            <div class="grid sm:px-8 lg:grid-cols-2 mx-auto ">
+                <div class="pt-8">
                     <p class="text-gray-400">Periksa item Anda. Dan pilih metode pengiriman yang sesuai. </p>
                     <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
                         @foreach ($orderItems as $orderItem)
@@ -214,8 +233,7 @@ $deleteOrder = function ($orderId) {
                         </div>
                     </form>
                 </div>
-                <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
-                    <p class="text-xl font-medium">Rincian Pembayaran</p>
+                <div class="mt-10 px-4 pt-8 lg:mt-0">
                     <p class="text-gray-400 mb-5">Selesaikan pesanan Anda dengan memberikan detail pembayaran Anda. </p>
                     <div>
                         <label class="form-control w-full mb-3">

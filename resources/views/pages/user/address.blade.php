@@ -5,27 +5,28 @@ use Dipantry\Rajaongkir\Models\ROCity;
 use App\Models\Address;
 use function Livewire\Volt\{state, computed, rules};
 
-state([
-    'getAddress' => fn() => Address::where('user_id', auth()->id())->first(),
-
-    'rajaongkir_province_id' => fn() => $this->getAddress->rajaongkir_province_id ?? '',
-
-    'rajaongkir_city_id' => fn() => $this->getAddress->rajaongkir_city_id ?? '',
-
-    'details' => fn() => $this->getAddress->details ?? '',
-]);
-state(['rajaongkir_province_id'])->url();
-
-state(['provinces' => fn() => ROProvince::all()]);
+state(['province_id'])->url();
 
 rules([
-    'rajaongkir_province_id' => 'required|exists:rajaongkir_provinces,id',
-    'rajaongkir_city_id' => 'required|exists:rajaongkir_cities,id',
+    'province_id' => 'required|exists:rajaongkir_provinces,id',
+    'city_id' => 'required|exists:rajaongkir_cities,id',
     'details' => 'required|min:20',
 ]);
 
+$getAddress = computed(function () {
+    return Address::where('user_id', auth()->id())->first();
+});
+
+state([
+    'province_id' => fn() => $this->getAddress->province_id ?? '',
+    'city_id' => fn() => $this->getAddress->city_id ?? '',
+    'details' => fn() => $this->getAddress->details ?? '',
+    'provinces' => fn() => ROProvince::all(),
+]);
+
+
 $cities = computed(function () {
-    return ROCity::where('province_id', $this->rajaongkir_province_id)->get();
+    return ROCity::where('province_id', $this->province_id)->get();
 });
 
 $submit = function () {
@@ -47,16 +48,17 @@ $submit = function () {
             <div class="mb-3">
                 <label class="form-control w-full">
                     <div class="label">
-                        <span class="label-text">Pilih Provinsi</span>
+                        <span class="label-text">Pilih Provinsi </span>
                     </div>
-                    <select wire:model.live="rajaongkir_province_id" wire:loading.attr="disabled"
-                        class="select select-bordered">
-                        <option selected>Pick one</option>
+                    <select wire:model.live="province_id" wire:loading.attr="disabled" class="select select-bordered">
+                        <option>Pick one</option>
                         @foreach ($provinces as $province)
-                            <option value="{{ $province->id }}">{{ $province->name }}</option>
+                            <option value="{{ $province->id }}">
+                                {{ $province->name }}
+                            </option>
                         @endforeach
                     </select>
-                    <x-input-error class="mt-2" :messages="$errors->get('rajaongkir_province_id')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('province_id')" />
                 </label>
             </div>
             <div class="mb-3">
@@ -64,13 +66,13 @@ $submit = function () {
                     <div class="label">
                         <span class="label-text">Pilih Kota</span>
                     </div>
-                    <select wire:model='rajaongkir_city_id' class="select select-bordered" wire:loading.attr="disabled">
-                        <option selected>Pick one</option>
+                    <select wire:model='city_id' class="select select-bordered" wire:loading.attr="disabled">
+                        <option>Pick one</option>
                         @foreach ($this->cities as $city)
                             <option value="{{ $city->id }}">{{ $city->name }}</option>
                         @endforeach
                     </select>
-                    <x-input-error class="mt-2" :messages="$errors->get('rajaongkir_city_id')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('city_id')" />
                     <div class="label" wire:loading>
                         <span class="label-text-alt">loadng...</span>
                         <span class="label-text-alt">

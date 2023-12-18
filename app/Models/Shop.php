@@ -12,8 +12,8 @@ class Shop extends Model
 
     protected $fillable = [
         'name',
-        'rajaongkir_province_id',
-        'rajaongkir_city_id',
+        'province_id',
+        'city_id',
         'details'
     ];
 

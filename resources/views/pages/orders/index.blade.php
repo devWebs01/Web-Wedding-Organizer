@@ -38,22 +38,27 @@ with(
     ],
 );
 
-// Unpaid, packed, shipped, completed, cancelled.
-
 ?>
 <x-costumer-layout>
     @volt
         <div>
-            <div class="text-sm breadcrumbs">
-                <ul class="px-4 sm:px-6 lg:px-8">
-                    <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
-                    <li><a wire:navigate href="/catalog/cart">Keranjang</a></li>
-                    <li><a wire:navigate href="/orders">Pesanan Saya</a></li>
-                </ul>
+            <div class="pt-6">
+                <nav aria-label="Breadcrumb">
+                    <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                        <li>
+                            <div class="flex items-center">
+                                <a href="/orders" class="mr-2 text-sm font-medium text-gray-900">Administration</a>
+                                <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"
+                                    class="h-5 w-4 text-gray-300">
+                                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+                                </svg>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
             </div>
 
-            <div class="px-4 sm:px-6 lg:px-8">
-
+            <div class="px-4 sm:px-6 lg:px-8 pt-6">
                 <div class="overflow-x-auto border rounded-xl p-6 mb-8">
                     <h3 class="font-semibold text-xl">Belum dibayar
                         <span wire:loading class="loading loading-spinner loading-xs text-error"></span>

@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('rajaongkir_province_id')->constrained()->onDelete('cascade');
-            $table->foreignId('rajaongkir_city_id')->constrained()->onDelete('cascade');
+            $table->foreignId('province_id')->constrained('rajaongkir_provinces')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained('rajaongkir_cities')->onDelete('cascade');
             $table->longText('details');
             $table->timestamps();
         });

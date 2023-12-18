@@ -10,10 +10,10 @@ class Address extends Model
 {
     use HasFactory;
 
-    // protected $with = ['province', 'city'];
+    protected $with = ['province', 'city'];
 
     protected $fillable = [
-        'user_id', 'rajaongkir_province_id', 'rajaongkir_city_id', 'details'
+        'user_id', 'province_id', 'city_id', 'details'
     ];
 
     /**

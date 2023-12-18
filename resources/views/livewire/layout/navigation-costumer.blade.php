@@ -55,7 +55,7 @@ on([
         </div>
         <button class="btn btn-ghost text-xl">
             <a wire:navigate href="/"
-                class="flex justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
+                class="justify-start block text-left sm:text-center lg:text-left sm:justify-center lg:justify-start">
                 <span class="flex items-start sm:items-center">
                     <svg class="w-auto h-6 text-gray-800 fill-current" viewBox="0 0 194 116"
                         xmlns="http://www.w3.org/2000/svg">

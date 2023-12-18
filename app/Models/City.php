@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class City extends Model
 {
@@ -12,23 +12,24 @@ class City extends Model
 
     protected $table = 'rajaongkir_cities';
 
-    /**
-    * Get all of the addresses for the User
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-   public function addresses(): HasMany
-   {
-       return $this->hasMany(Address::class);
-   }
-
    /**
+     * Get all of the addresses for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    /**
      * Get all of the shops for the Province
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function shops(): HasMany
+    public function shop(): hasOne
     {
-        return $this->hasMany(Shop::class);
+        return $this->hasOne(Shop::class);
     }
+
 }
