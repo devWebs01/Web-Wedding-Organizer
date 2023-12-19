@@ -175,34 +175,38 @@ $confirmCheckout = function () {
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td>Total: </td>
                                 <td>
-                                    <span class="font-bold font-lg">Rp. {{ $this->calculateTotal() }}</span>
+                                    <span class="font-extrabold text-lg text-black">Total: </span>
+                                </td>
+                                <td>
+                                    <span class="font-extrabold text-lg text-black">Rp. {{ $this->calculateTotal() }}</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <a href="/catalog/list" wire:navigate class="join-item btn btn-outline btn-sm">
+                                    <a href="/catalog/list" wire:navigate class="join-item btn btn-outline">
                                         Lanjut Belanja
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($carts->count() && $this->getAddress)
-                                        <form wire:submit="confirmCheckout">
-                                            <button wire:loading.attr='disable' type="submit"
-                                                class="join-item btn btn-neutral hover:bg-white hover:text-black btn-sm">
+                                    @if ($carts->count() > 0)
+                                        @if (!$this->getAddress)
+                                            <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
+                                                class="join-item btn btn-neutral">
                                                 <span wire:loading.delay wire:loading wire:target="confirmCheckout"
                                                     class="loading loading-spinner loading-xs"></span>
-                                                Checkout</button>
-                                        </form>
-                                    @else
-                                        <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
-                                            class="join-item btn btn-neutral hover:bg-white hover:text-black btn-sm">
-                                            <span wire:loading.delay wire:loading wire:target="confirmCheckout"
-                                                class="loading loading-spinner loading-xs"></span>
-                                            Atur Alamat !</a>
+                                                Atur Alamat</a>
+                                        @else
+                                            <form wire:submit="confirmCheckout">
+                                                <button wire:loading.attr='disable' type="submit"
+                                                    class="join-item btn btn-neutral">
+                                                    <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                                        class="loading loading-spinner loading-xs"></span>
+                                                    Checkout</button>
+                                            </form>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>
