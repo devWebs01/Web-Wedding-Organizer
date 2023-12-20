@@ -4,20 +4,17 @@ use function Livewire\Volt\{state, rules, computed};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
 use App\Models\Item;
-use App\Models\User;
+use App\Models\Shop;
+use App\Models\Address;
 
 state([
     'order' => fn() => Order::find($id),
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
+    'user' => fn() => Address::where('user_id', auth()->id())->first(),
+    'shop' => fn() => Shop::first(),
+    'calculateProduct' => fn() => $this->order->total,
+    'estimated',
 ]);
-
-$calculateTotal = function () {
-    $total = 0;
-    foreach ($this->orderItems as $orderItem) {
-        $total += $orderItem->product->price * $orderItem->qty;
-    }
-    return $total;
-};
 
 $deleteOrder = function ($orderId) {
     $order = Order::findOrFail($orderId);
@@ -25,12 +22,11 @@ $deleteOrder = function ($orderId) {
     $this->redirect('/orders', navigate: true);
 };
 
-$courierTiki = function () {
+$courierTIKI = computed(function () {
     $ongkir = \Rajaongkir::getOngkirCost(
         $origin = 1,
         $destination = 200,
         $weight = 300,
-        // $courier = RajaongkirCourier::JNE
         $courier = RajaongkirCourier::TIKI,
     );
     $data = [];
@@ -47,9 +43,9 @@ $courierTiki = function () {
     }
 
     return $data;
-};
+})->persist();
 
-$courierJne = function () {
+$courierJNE = computed(function () {
     $ongkir = \Rajaongkir::getOngkirCost($origin = 1, $destination = 200, $weight = 300, $courier = RajaongkirCourier::JNE);
     $data = [];
     foreach ($ongkir as $item) {
@@ -64,13 +60,14 @@ $courierJne = function () {
         }
     }
     return $data;
-};
+})->persist();
 
 ?>
 <x-costumer-layout>
     @volt
         <div>
-            {{-- @dd($this->courierJne) --}}
+            <p lazy>@json($this->courierTIKI())</p>
+            <p lazy>@json($this->courierJNE()['price'])</p>
             <div class="pt-6">
                 <nav aria-label="Breadcrumb">
                     <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -115,7 +112,7 @@ $courierJne = function () {
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Total Pesanan ({{ $orderItems->count() }} Produk)</p>
                                 <p class="font-semibold">
-                                    Rp. {{ Number::format($this->calculateTotal(), locale: 'id') }}
+                                    Rp. {{ Number::format($this->calculateProduct, locale: 'id') }}
                                 </p>
                             </div>
                         </div>
@@ -179,7 +176,7 @@ $courierJne = function () {
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Subtotal untuk Produk</p>
-                                <p class="font-semibold"> Rp. {{ Number::format($this->calculateTotal()) }}</p>
+                                <p class="font-semibold"> Rp. {{ Number::format($this->calculateProduct) }}</p>
                             </div>
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Subtotal Pengiriman</p>
