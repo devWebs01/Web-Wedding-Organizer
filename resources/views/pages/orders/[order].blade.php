@@ -12,8 +12,12 @@ state([
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
     'user' => fn() => Address::where('user_id', auth()->id())->first(),
     'shop' => fn() => Shop::first(),
-    'calculateProduct' => fn() => $this->order->total,
-    'estimated',
+    'calculateProduct' => fn() => $this->order->total_amount,
+    'estimated_delivery_time' => fn() => $this->estimated(),
+    'total_amount' => fn() => $this->totalAmount(),
+    'payment_method',
+    'shipping_cost' => fn() => $this->shippingCost(),
+    'note',
 ]);
 
 $deleteOrder = function ($orderId) {
@@ -23,12 +27,7 @@ $deleteOrder = function ($orderId) {
 };
 
 $courierTIKI = computed(function () {
-    $ongkir = \Rajaongkir::getOngkirCost(
-        $origin = 1,
-        $destination = 200,
-        $weight = 300,
-        $courier = RajaongkirCourier::TIKI,
-    );
+    $ongkir = \Rajaongkir::getOngkirCost($origin = 1, $destination = 200, $weight = 300, $courier = RajaongkirCourier::TIKI);
     $data = [];
     foreach ($ongkir as $item) {
         foreach ($item['costs'] as $key) {
@@ -62,12 +61,38 @@ $courierJNE = computed(function () {
     return $data;
 })->persist();
 
+state(['courier'])->url();
+
+$estimated = computed(function () {
+    if ($this->courier == 'JNE' && $this->courierJNE()) {
+        return $this->courierJNE()['etd'];
+    } elseif ($this->courier == 'TIKI' && $this->courierTIKI()) {
+        return $this->courierTIKI()['etd'];
+    } else {
+        return '';
+    }
+});
+
+$totalAmount = computed(function () {});
+
+$shippingCost = computed(function () {
+    if ($this->courier == 'JNE' && $this->courierJNE()) {
+        return $this->courierJNE()['price'];
+    } elseif ($this->courier == 'TIKI' && $this->courierTIKI()) {
+        return $this->courierTIKI()['price'];
+    } else {
+        return '';
+    }
+});
+
 ?>
 <x-costumer-layout>
     @volt
         <div>
-            <p lazy>@json($this->courierTIKI())</p>
-            <p lazy>@json($this->courierJNE()['price'])</p>
+            <p>{{ $this->courier }}</p>
+            <p>{{ $this->estimated_delivery_time }}</p>
+            <p>{{ $this->total_amount }}</p>
+            <p>{{ $this->shipping_cost }}</p>
             <div class="pt-6">
                 <nav aria-label="Breadcrumb">
                     <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -150,26 +175,62 @@ $courierJNE = computed(function () {
                 <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
                     <p class="font-bold text-xl border-b mb-4">Opsi Pengiriman</p>
                     <div>
-                        <!-- Total -->
+                        <!-- origin $ destination -->
+                        <div class="join flex justify-between mb-3 align-middle">
+                            <div class="join-item">
+                                <input type="text" value="{{ $this->user->province->name }}"
+                                    class="input input-bordered" disabled />
+                            </div>
+                            <div class="join-item place">
+                                <svg height="40px" width="40px" version="1.1" id="_x32_"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke="#CCCCCC" stroke-width="1.024"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <style type="text/css">
+                                            .st0 {
+                                                fill: #000000;
+                                            }
+                                        </style>
+                                        <g>
+                                            <path class="st0"
+                                                d="M311.069,130.515c-0.963-5.641-5.851-9.768-11.578-9.768H35.43c-7.61,0-13.772,6.169-13.772,13.765 c0,7.61,6.162,13.772,13.772,13.772h64.263c7.61,0,13.772,6.17,13.772,13.773c0,7.603-6.162,13.772-13.772,13.772H13.772 C6.169,175.829,0,181.998,0,189.601c0,7.603,6.169,13.764,13.772,13.764h117.114c6.72,0,12.172,5.46,12.172,12.18 c0,6.72-5.452,12.172-12.172,12.172H68.665c-7.61,0-13.772,6.17-13.772,13.773c0,7.602,6.162,13.772,13.772,13.772h45.857 c6.726,0,12.179,5.452,12.179,12.172c0,6.719-5.453,12.172-12.179,12.172H51.215c-7.61,0-13.772,6.169-13.772,13.772 c0,7.603,6.162,13.772,13.772,13.772h87.014l5.488,31.042h31.52c-1.854,4.504-2.911,9.421-2.911,14.598 c0,21.245,17.218,38.464,38.464,38.464c21.237,0,38.456-17.219,38.456-38.464c0-5.177-1.057-10.094-2.911-14.598h100.04 L311.069,130.515z M227.342,352.789c0,9.146-7.407,16.553-16.553,16.553c-9.152,0-16.56-7.407-16.56-16.553 c0-6.364,3.627-11.824,8.892-14.598h15.329C223.714,340.965,227.342,346.424,227.342,352.789z">
+                                            </path>
+                                            <path class="st0"
+                                                d="M511.598,314.072l-15.799-77.941l-57.689-88.759H333.074l32.534,190.819h38.42 c-1.846,4.504-2.904,9.421-2.904,14.598c0,21.245,17.219,38.464,38.456,38.464c21.246,0,38.464-17.219,38.464-38.464 c0-5.177-1.057-10.094-2.91-14.598h16.741c6.039,0,11.759-2.708,15.582-7.386C511.273,326.136,512.8,319.988,511.598,314.072z M392.529,182.882h26.314l34.162,52.547h-51.512L392.529,182.882z M456.14,352.789c0,9.146-7.407,16.553-16.56,16.553 c-9.138,0-16.552-7.407-16.552-16.553c0-6.364,3.635-11.824,8.892-14.598h15.329C452.513,340.965,456.14,346.424,456.14,352.789z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="join-item">
+                                <input type="text" value="{{ $this->shop->province->name }}"
+                                    class="input input-bordered" disabled />
+                            </div>
+                        </div>
+
+                        <!-- courier -->
                         <label class="form-control w-full mb-3">
-                            <x-input-label for="name" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
-                            <select class="select select-bordered">
-                                <option>Pilih salah satu</option>
-                                <option>Jalur Nugraha Ekakurir (JNE)</option>
-                                <option>Citra Van Titipan Kilat (TIKI)</option>
+                            <x-input-label for="courier" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
+                            <select wire:model.live='courier' class="select select-bordered">
+                                <option value="">Pilih salah satu</option>
+                                <option value="JNE">Jalur Nugraha Ekakurir (JNE)</option>
+                                <option value="TIKI">Citra Van Titipan Kilat (TIKI)</option>
                             </select>
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('courier')" class="mt-2" />
                         </label>
 
-                        <!-- Total -->
+                        <!-- method_payment -->
                         <label class="form-control w-full mb-3">
-                            <x-input-label for="name" :value="__('Pilih Metode Pembayaran')" class="mb-2" />
+                            <x-input-label for="method_payment" :value="__('Pilih Metode Pembayaran')" class="mb-2" />
                             <select class="select select-bordered">
                                 <option>Pilih salah satu</option>
                                 <option>COD (Cash On Delivery)</option>
                                 <option>Transfer Bank</option>
                             </select>
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('method_payment')" class="mt-2" />
                         </label>
 
                         <!-- Total -->

@@ -17,12 +17,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('invoice')->nullable();
             $table->string('status')->nullable();
-            $table->string('total')->nullable();
-            $table->string('weight')->nullable();
-            $table->string('resi')->nullable();
-            $table->string('ongkir')->nullable();
-            $table->string('payment')->nullable();
+            $table->string('total_amount')->nullable();
+            $table->string('total_weight')->nullable();
+            $table->string('tracking_number')->nullable();
+            $table->string('shipping_cost')->nullable();
             $table->longText('note')->nullable();
+            $table->string('estimated_delivery_time')->nullable();
+            $table->string('courier')->nullable();
             $table->timestamps();
         });
     }

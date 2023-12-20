@@ -59,10 +59,7 @@ $confirmCheckout = function () {
         'user_id' => auth()->id(),
         'status' => 'unpaid', // Atur status pesanan sesuai kebutuhan
         'invoice' => 'INV-' . time(), // Atur nomor invoice, bisa disesuaikan sesuai kebutuhan
-        'total' => 0, // Nantinya akan dihitung berdasarkan order_items
-        'resi' => null, // Nomor resi pengiriman, bisa diisi nanti setelah pengiriman
-        'ongkir' => null, // Biaya pengiriman, bisa dihitung atau diatur sesuai kebijakan
-        'payment' => null, // Status pembayaran, bisa diatur nanti setelah pembayaran
+        'total_amount' => 0, // Nantinya akan dihitung berdasarkan order_items
     ]);
 
     // Inisialisasi total harga pesanan
@@ -91,8 +88,8 @@ $confirmCheckout = function () {
 
     // Update total harga pesanan
     $order->update([
-        'total' => $totalPrice, // Total harga pesanan ditambah ongkir
-        'weight' => $totalWeight, // Total berat pesanan
+        'total_amount' => $totalPrice, // Total harga pesanan ditambah ongkir
+        'total_weight' => $totalWeight, // Total berat pesanan
     ]);
 
     // Hapus item keranjang setelah checkout
