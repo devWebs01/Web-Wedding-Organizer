@@ -38,6 +38,8 @@ $submit = function () {
     } elseif (!$this->getShop) {
         Shop::create($validate);
     }
+    $this->dispatch('address-update');
+
 };
 
 ?>
@@ -140,14 +142,14 @@ $submit = function () {
                                     </div>
 
                                     <div class="flex items-center gap-4">
-                                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+                                        <x-primary-button>{{ __('Simpan') }}</x-primary-button>
 
-                                        <x-action-message wire:loading class="me-3" on="profile-updated">
+                                        <x-action-message wire:loading class="me-3" on="address-update">
                                             {{ __('loading...') }}
                                         </x-action-message>
 
-                                        <x-action-message class="me-3" on="profile-updated">
-                                            {{ __('Saved!') }}
+                                        <x-action-message class="me-3" on="address-update">
+                                            {{ __('Tersimpan!') }}
                                         </x-action-message>
                                     </div>
                                 </form>

@@ -24,7 +24,6 @@ state([
     'provinces' => fn() => ROProvince::all(),
 ]);
 
-
 $cities = computed(function () {
     return ROCity::where('province_id', $this->province_id)->get();
 });
@@ -39,6 +38,7 @@ $submit = function () {
         $validate['user_id'] = auth()->id();
         Address::create($validate);
     }
+    $this->dispatch('address-update');
 };
 
 ?>
@@ -73,8 +73,8 @@ $submit = function () {
                         @endforeach
                     </select>
                     <x-input-error class="mt-2" :messages="$errors->get('city_id')" />
-                    <div class="label" wire:loading>
-                        <span class="label-text-alt">loadng...</span>
+                    <div class="label" wire:loading wire:target='province_id'>
+                        <span class="label-text-alt">loading...</span>
                         <span class="label-text-alt">
                             <span class="loading loading-spinner loading-xs"></span>
                         </span>
@@ -90,14 +90,14 @@ $submit = function () {
             </div>
 
             <div class="flex items-center gap-4">
-                <x-primary-button>{{ __('Save') }}</x-primary-button>
+                <x-primary-button>{{ __('Simpan') }}</x-primary-button>
 
-                <x-action-message wire:loading class="me-3" on="profile-updated">
+                <x-action-message wire:loading class="me-3" on="address-update">
                     {{ __('loading...') }}
                 </x-action-message>
 
-                <x-action-message class="me-3" on="profile-updated">
-                    {{ __('Saved!') }}
+                <x-action-message class="me-3" on="address-update">
+                    {{ __('Tersimpan!') }}
                 </x-action-message>
             </div>
         </form>

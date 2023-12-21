@@ -110,14 +110,14 @@ $sendVerification = function () {
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Simpan') }}</x-primary-button>
 
             <x-action-message wire:loading class="me-3" on="profile-updated">
                 {{ __('loading...') }}
             </x-action-message>
 
             <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved!') }}
+                {{ __('Tersimpan!') }}
             </x-action-message>
         </div>
     </form>

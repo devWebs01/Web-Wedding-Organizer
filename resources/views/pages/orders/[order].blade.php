@@ -128,7 +128,7 @@ $shippingCost = computed(function () {
                                         <span class="font-semibold">{{ $orderItem->product->title }}</span>
                                         <span class="float-right ">X {{ $orderItem->qty }} item</span>
                                         <p class="text-lg font-bold">Rp.
-                                            {{ $orderItem->qty * $orderItem->product->price }}</p>
+                                            {{ Number::format($orderItem->qty * $orderItem->product->price, locale:'id') }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -179,9 +179,9 @@ $shippingCost = computed(function () {
                         <div class="join flex justify-between mb-3 align-middle">
                             <div class="join-item">
                                 <input type="text" value="{{ $this->user->province->name }}"
-                                    class="input input-bordered" disabled />
+                                    class="input input-bordered text-center" disabled />
                             </div>
-                            <div class="join-item place">
+                            <div class="join-item lg:hidden">
                                 <svg height="40px" width="40px" version="1.1" id="_x32_"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
@@ -207,7 +207,7 @@ $shippingCost = computed(function () {
                             </div>
                             <div class="join-item">
                                 <input type="text" value="{{ $this->shop->province->name }}"
-                                    class="input input-bordered" disabled />
+                                    class="input input-bordered text-center" disabled />
                             </div>
                         </div>
 
