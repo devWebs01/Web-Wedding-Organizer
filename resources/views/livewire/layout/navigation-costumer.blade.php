@@ -105,7 +105,7 @@ on([
                     <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                         <div class="card-body">
                             <span class="font-bold text-lg">{{ $this->cart->count() }} Items</span>
-                            <span class="text-neutral">Subtotal: Rp. {{ $this->subTotal }}</span>
+                            <span class="text-neutral">Subtotal: Rp. {{ Number::format($this->subTotal, locale:'id') }}</span>
                             <div class="card-actions">
                                 <a href="/catalog/cart" wire:navigate class="btn btn-neutral btn-block">Lihat Keranjang</a>
                             </div>

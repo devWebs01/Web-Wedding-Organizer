@@ -156,7 +156,7 @@ $confirmCheckout = function () {
                                                 class="btn btn-xs join-item font-bold btn-outline">-</button>
                                         </div>
                                     </td>
-                                    <td class="w-1/6">Rp. {{ $cart->qty * $cart->product->price }}</td>
+                                    <td class="w-1/6">Rp. {{ Number::format($cart->qty * $cart->product->price, locale:'id') }}</td>
                                     <td>
                                         <button wire:click="deleteProduct('{{ $cart->id }}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
@@ -176,7 +176,7 @@ $confirmCheckout = function () {
                                     <span class="font-extrabold text-lg text-black">Total: </span>
                                 </td>
                                 <td>
-                                    <span class="font-extrabold text-lg text-black">Rp. {{ $this->calculateTotal() }}</span>
+                                    <span class="font-extrabold text-lg text-black">Rp. {{ Number::format($this->calculateTotal(), locale:'id') }}</span>
                                 </td>
                             </tr>
                             <tr>
