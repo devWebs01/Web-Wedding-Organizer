@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
                     'price' => rand(10000, 99999),
                     'quantity' => rand(1, 100), // Atur jumlah sesuai kebutuhan
                     'image' => 'public/images/' . $imageName,
-                    'weight' => rand(1000, 99999),
+                    'weight' => rand(100, 999),
                     'description' => $item['description'],
                 ]);
 

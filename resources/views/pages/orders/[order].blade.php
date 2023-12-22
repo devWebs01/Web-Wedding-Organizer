@@ -6,17 +6,14 @@ use App\Models\Order;
 use App\Models\Item;
 use App\Models\Shop;
 use App\Models\Address;
+use App\Models\Courier;
 
 state([
     'order' => fn() => Order::find($id),
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
-    'user' => fn() => Address::where('user_id', auth()->id())->first(),
-    'shop' => fn() => Shop::first(),
-    'calculateProduct' => fn() => $this->order->total_amount,
-    'estimated_delivery_time' => fn() => $this->estimated(),
-    'total_amount' => fn() => $this->totalAmount(),
+    'origin' => fn() => Shop::first(),
+    'destination' => fn() => Address::where('user_id', auth()->id())->first(),
     'payment_method',
-    'shipping_cost' => fn() => $this->shippingCost(),
     'note',
 ]);
 
@@ -26,73 +23,42 @@ $deleteOrder = function ($orderId) {
     $this->redirect('/orders', navigate: true);
 };
 
-$courierTIKI = computed(function () {
-    $ongkir = \Rajaongkir::getOngkirCost($origin = 1, $destination = 200, $weight = 300, $courier = RajaongkirCourier::TIKI);
-    $data = [];
-    foreach ($ongkir as $item) {
-        foreach ($item['costs'] as $key) {
-            foreach ($key['cost'] as $value) {
-                $data = [
-                    'name' => $item['name'],
-                    'price' => $value['value'],
-                    'etd' => $value['etd'],
-                ];
-            }
-        }
-    }
+// $selectOptions = computed(function () {
+//     $jneShippingData = [
+//         'origin' => $this->origin->city_id,
+//         'destination' => $this->destination->city_id,
+//         'weight' => $this->order->total_weight,
+//         'courier' => RajaongkirCourier::JNE,
+//     ];
+//     $tikiShippingData = [
+//         'origin' => $this->origin->city_id,
+//         'destination' => $this->destination->city_id,
+//         'weight' => $this->order->total_weight,
+//         'courier' => RajaongkirCourier::TIKI,
+//     ];
 
-    return $data;
-})->persist();
+//     $jneOngkirCost = \Rajaongkir::getOngkirCost($jneShippingData['origin'], $jneShippingData['destination'], $jneShippingData['weight'], $jneShippingData['courier']);
 
-$courierJNE = computed(function () {
-    $ongkir = \Rajaongkir::getOngkirCost($origin = 1, $destination = 200, $weight = 300, $courier = RajaongkirCourier::JNE);
-    $data = [];
-    foreach ($ongkir as $item) {
-        foreach ($item['costs'] as $key) {
-            foreach ($key['cost'] as $value) {
-                $data = [
-                    'name' => $item['name'],
-                    'price' => $value['value'],
-                    'etd' => $value['etd'],
-                ];
-            }
-        }
-    }
-    return $data;
-})->persist();
+//     $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
 
-state(['courier'])->url();
+//     $jneShippingCost = $jneOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
+//     $tikiShippingCost = $tikiOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
 
-$estimated = computed(function () {
-    if ($this->courier == 'JNE' && $this->courierJNE()) {
-        return $this->courierJNE()['etd'];
-    } elseif ($this->courier == 'TIKI' && $this->courierTIKI()) {
-        return $this->courierTIKI()['etd'];
-    } else {
-        return '';
-    }
-});
+//     $combinedShippingCosts = array_merge($jneShippingCost, $tikiShippingCost);
 
-$totalAmount = computed(function () {});
-
-$shippingCost = computed(function () {
-    if ($this->courier == 'JNE' && $this->courierJNE()) {
-        return $this->courierJNE()['price'];
-    } elseif ($this->courier == 'TIKI' && $this->courierTIKI()) {
-        return $this->courierTIKI()['price'];
-    } else {
-        return '';
-    }
-});
+//     foreach ($combinedShippingCosts as $shippingCost) {
+//         $courier = new Courier();
+//         $courier->description = $shippingCost['description'];
+//         $courier->value = $shippingCost['cost'][0]['value'];
+//         $courier->etd = $shippingCost['cost'][0]['etd'];
+//         $courier->save();
+//     }
+// });
 
 ?>
 <x-costumer-layout>
     @volt
         <div>
-            <p>{{ $this->courier }}</p>
-            <p>{{ $this->estimated_delivery_time }}</p>
-            <p>{{ $this->total_amount }}</p>
-            <p>{{ $this->shipping_cost }}</p>
             <div class="pt-6">
                 <nav aria-label="Breadcrumb">
                     <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -128,7 +94,8 @@ $shippingCost = computed(function () {
                                         <span class="font-semibold">{{ $orderItem->product->title }}</span>
                                         <span class="float-right ">X {{ $orderItem->qty }} item</span>
                                         <p class="text-lg font-bold">Rp.
-                                            {{ Number::format($orderItem->qty * $orderItem->product->price, locale:'id') }}</p>
+                                            {{ Number::format($orderItem->qty * $orderItem->product->price, locale: 'id') }}
+                                        </p>
                                     </div>
                                 </div>
                             @endforeach
@@ -137,7 +104,7 @@ $shippingCost = computed(function () {
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Total Pesanan ({{ $orderItems->count() }} Produk)</p>
                                 <p class="font-semibold">
-                                    Rp. {{ Number::format($this->calculateProduct, locale: 'id') }}
+                                    Rp. {{ Number::format($this->order->total_amount, locale: 'id') }}
                                 </p>
                             </div>
                         </div>
@@ -178,7 +145,7 @@ $shippingCost = computed(function () {
                         <!-- origin $ destination -->
                         <div class="join flex justify-between mb-3 align-middle">
                             <div class="join-item">
-                                <input type="text" value="{{ $this->user->province->name }}"
+                                <input type="text" value="{{ $this->origin->province->name }}"
                                     class="input input-bordered text-center" disabled />
                             </div>
                             <div class="join-item lg:hidden">
@@ -206,7 +173,7 @@ $shippingCost = computed(function () {
                                 </svg>
                             </div>
                             <div class="join-item">
-                                <input type="text" value="{{ $this->shop->province->name }}"
+                                <input type="text" value="{{ $this->destination->province->name }}"
                                     class="input input-bordered text-center" disabled />
                             </div>
                         </div>
@@ -216,8 +183,7 @@ $shippingCost = computed(function () {
                             <x-input-label for="courier" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
                             <select wire:model.live='courier' class="select select-bordered">
                                 <option value="">Pilih salah satu</option>
-                                <option value="JNE">Jalur Nugraha Ekakurir (JNE)</option>
-                                <option value="TIKI">Citra Van Titipan Kilat (TIKI)</option>
+
                             </select>
                             <x-input-error :messages="$errors->get('courier')" class="mt-2" />
                         </label>
@@ -237,7 +203,7 @@ $shippingCost = computed(function () {
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Subtotal untuk Produk</p>
-                                <p class="font-semibold"> Rp. {{ Number::format($this->calculateProduct) }}</p>
+                                <p class="font-semibold"> Rp. {{ Number::format($this->order->total_amount) }}</p>
                             </div>
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Subtotal Pengiriman</p>

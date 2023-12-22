@@ -18,13 +18,8 @@
             <label for="courier" class="form-label">Pilih Kurir:</label>
             <select class="form-select form-select-lg" name="courier" id="courier">
                 <option value="">Pilih salah satu</option>
-                @foreach ($shipping_cost_jne as $result_JNE)
-                    <option value="jne-{{ $result_JNE['service'] }}">JNE {{ $result_JNE['service'] }} -
-                        Rp{{ $result_JNE['cost'][0]['value'] }} - {{ $result_JNE['cost'][0]['etd'] }}</option>
-                @endforeach
-                @foreach ($shipping_cost_tiki as $result_TIKI)
-                    <option value="tiki-{{ $result_TIKI['service'] }}">TIKI {{ $result_TIKI['service'] }} -
-                        Rp{{ $result_TIKI['cost'][0]['value'] }} - {{ $result_TIKI['cost'][0]['etd'] }}</option>
+                @foreach ($selectOptions as $option)
+                <option value="{{ $option['value'] }}">{{ $option['description'] }} ({{ $option['etd'] }})</option>
                 @endforeach
             </select>
         </div>

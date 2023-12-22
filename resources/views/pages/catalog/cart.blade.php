@@ -1,14 +1,18 @@
 <?php
 
-use function Livewire\Volt\{state, rules, on};
+use function Livewire\Volt\{state, rules, on, mount};
+use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Item;
 use App\Models\Address;
+use App\Models\Shop;
 
 state([
     'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
-    'getAddress' => fn() => Address::where('user_id', auth()->id())->first(),
+    'destination' => fn() => Address::where('user_id', auth()->id())->first(),
+    'origin' => fn() => Shop::first(),
+    'order',
 ]);
 
 on([
@@ -92,14 +96,54 @@ $confirmCheckout = function () {
         'total_weight' => $totalWeight, // Total berat pesanan
     ]);
 
-    // Hapus item keranjang setelah checkout
-    Cart::where('user_id', auth()->id())->delete();
+    try {
+        $jneShippingData = [
+            'origin' => $this->origin->city_id,
+            'destination' => $this->destination->city_id,
+            'weight' => 123,
+            'courier' => RajaongkirCourier::JNE,
+        ];
+        $tikiShippingData = [
+            'origin' => $this->origin->city_id,
+            'destination' => $this->destination->city_id,
+            'weight' => 123,
+            'courier' => RajaongkirCourier::TIKI,
+        ];
 
-    // ... lainnya sesuai kebutuhan ...
-    $this->dispatch('cart-updated');
+        $jneOngkirCost = \Rajaongkir::getOngkirCost($jneShippingData['origin'], $jneShippingData['destination'], $jneShippingData['weight'], $jneShippingData['courier']);
 
-    $this->redirect('/orders/' . $order->id, navigate: true);
-    // Ganti dengan route yang sesuai, dan kirimkan ID pesanan ke halaman konfirmasi
+        $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
+
+        $jneShippingCost = $jneOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
+        $tikiShippingCost = $tikiOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
+
+        foreach ($jneShippingCost as $shippingCost) {
+            \App\Models\Courier::create([
+                'description' => $shippingCost['description'],
+                'value' => $shippingCost['cost'][0]['value'],
+                'etd' => $shippingCost['cost'][0]['etd'],
+            ]);
+        }
+
+        foreach ($tikiShippingCost as $shippingCost) {
+            \App\Models\Courier::create([
+                'description' => $shippingCost['description'],
+                'value' => $shippingCost['cost'][0]['value'],
+                'etd' => $shippingCost['cost'][0]['etd'],
+            ]);
+        }
+
+        // Hapus item keranjang setelah checkout
+        Cart::where('user_id', auth()->id())->delete();
+
+        // ... lainnya sesuai kebutuhan ...
+        $this->dispatch('cart-updated');
+
+        $this->redirect('/orders/' . $order->id, navigate: true);
+        // Ganti dengan route yang sesuai, dan kirimkan ID pesanan ke halaman konfirmasi
+    } catch (\Throwable $th) {
+        Order::find($order->id)->delete();
+    }
 };
 
 ?>
@@ -156,7 +200,8 @@ $confirmCheckout = function () {
                                                 class="btn btn-xs join-item font-bold btn-outline">-</button>
                                         </div>
                                     </td>
-                                    <td class="w-1/6">Rp. {{ Number::format($cart->qty * $cart->product->price, locale:'id') }}</td>
+                                    <td class="w-1/6">Rp.
+                                        {{ Number::format($cart->qty * $cart->product->price, locale: 'id') }}</td>
                                     <td>
                                         <button wire:click="deleteProduct('{{ $cart->id }}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
@@ -176,7 +221,8 @@ $confirmCheckout = function () {
                                     <span class="font-extrabold text-lg text-black">Total: </span>
                                 </td>
                                 <td>
-                                    <span class="font-extrabold text-lg text-black">Rp. {{ Number::format($this->calculateTotal(), locale:'id') }}</span>
+                                    <span class="font-extrabold text-lg text-black">Rp.
+                                        {{ Number::format($this->calculateTotal(), locale: 'id') }}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -189,7 +235,7 @@ $confirmCheckout = function () {
                                 </td>
                                 <td>
                                     @if ($carts->count() > 0)
-                                        @if (!$this->getAddress)
+                                        @if (!$this->destination)
                                             <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
                                                 class="join-item btn btn-neutral">
                                                 <span wire:loading.delay wire:loading wire:target="confirmCheckout"

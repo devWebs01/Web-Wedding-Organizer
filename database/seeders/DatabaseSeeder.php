@@ -23,20 +23,18 @@ class DatabaseSeeder extends Seeder
             'telp' => '08' . fake()->isbn10(),
         ]);
 
-        \App\Models\Shop::insert([
-            'name' => 'testing',
-            'province_id' => 8,
-            'city_id' => 156,
-            'details' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit vehicula rutrum inceptos, euismod augue nisl penatibus cursus metus accumsan rhoncus vel risus leo, torquent praesent est malesuada litora primis eros eu nam.',
-            'created_at' => now(),
-            'updated_at' => now(),
-
-        ]);
-
         $this->call([
             ProductSeeder::class,
         ]);
 
         Artisan::call('rajaongkir:seed');
+
+        \App\Models\Shop::create([
+            'name' => 'testing',
+            'province_id' => 8,
+            'city_id' => 156,
+            'details' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit vehicula rutrum inceptos, euismod augue nisl penatibus cursus metus accumsan rhoncus vel risus leo, torquent praesent est malesuada litora primis eros eu nam.',
+
+        ]);
     }
 }

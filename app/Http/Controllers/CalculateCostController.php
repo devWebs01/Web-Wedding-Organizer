@@ -14,7 +14,6 @@ class CalculateCostController extends Controller
     public function index()
     {
 
-        $order = Order::find(1);
         // $destination = Address::where('user_id', auth()->id())->first()->city_id;
         // $origin = Shop::first()->city_id;
         // $weight = 111;
@@ -44,63 +43,75 @@ class CalculateCostController extends Controller
         //         echo "Service: $service, Description: $description, Layanan: $layanan, Value: $value, ETD: $etd\n";
         //     }
         // }
+        $order = Order::find(1);
 
-        $data_jne = [
+        $jneShippingData = [
             'origin'      => Address::where('user_id', auth()->id())->first()->city_id,
             'destination' => Shop::first()->city_id,
             'weight'      => $order->total_weight,
             'courier'     => RajaongkirCourier::JNE,
         ];
-        $data_tiki = [
+        $tikiShippingData = [
             'origin'      => Address::where('user_id', auth()->id())->first()->city_id,
             'destination' => Shop::first()->city_id,
             'weight'      => $order->total_weight,
             'courier'     => RajaongkirCourier::TIKI,
         ];
 
-        $JNE = \Rajaongkir::getOngkirCost(
-            $data_jne['origin'],
-            $data_jne['destination'],
-            $data_jne['weight'],
-            $data_jne['courier']
+        $jneOngkirCost = \Rajaongkir::getOngkirCost(
+            $jneShippingData['origin'],
+            $jneShippingData['destination'],
+            $jneShippingData['weight'],
+            $jneShippingData['courier']
         );
 
-        $TIKI = \Rajaongkir::getOngkirCost(
-            $data_tiki['origin'],
-            $data_tiki['destination'],
-            $data_tiki['weight'],
-            $data_tiki['courier']
+        $tikiOngkirCost = \Rajaongkir::getOngkirCost(
+            $tikiShippingData['origin'],
+            $tikiShippingData['destination'],
+            $tikiShippingData['weight'],
+            $tikiShippingData['courier']
         );
 
-        $shipping_cost_JNE = $JNE[0]['costs'];  // Asumsikan hanya terdapat satu hasil kurir
-        $shipping_cost_TIKI = $TIKI[0]['costs'];  // Asumsikan hanya terdapat satu hasil kurir
+        $jneShippingCost = $jneOngkirCost[0]['costs'];  // Asumsikan hanya terdapat satu hasil kurir
+        $tikiShippingCost = $tikiOngkirCost[0]['costs'];
 
-        foreach ($shipping_cost_JNE as $result_JNE) {
-            $service = $result_JNE['service'];  // Kode layanan (misal: OKE, REG)
-            $description = $result_JNE['description'];  // Deskripsi layanan
+        $combinedShippingCosts = array_merge($jneShippingCost, $tikiShippingCost);
 
-            // Akses array `cost` untuk mendapatkan nilai biaya dan estimasi waktu
-            $value = $result_JNE['cost'][0]['value'];  // Nilai biaya kirim
-            $etd = $result_JNE['cost'][0]['etd'];  // Estimasi waktu pengiriman
-
-            // Lakukan pemrosesan lebih lanjut dengan data yang diperoleh
-            echo "Service: $service, Description: $description, Value: $value, ETD: $etd\n";
+        $selectOptions = [];
+        foreach ($combinedShippingCosts as $shippingCost) {
+            $selectOptions[] = [
+                'description' => $shippingCost['description'],
+                'value' => $shippingCost['cost'][0]['value'],
+                'etd' => $shippingCost['cost'][0]['etd'],
+            ];
         }
-        foreach ($shipping_cost_TIKI as $result_TIKI) {
-            $service = $result_TIKI['service'];  // Kode layanan (misal: OKE, REG)
-            $description = $result_TIKI['description'];  // Deskripsi layanan
 
-            // Akses array `cost` untuk mendapatkan nilai biaya dan estimasi waktu
-            $value = $result_TIKI['cost'][0]['value'];  // Nilai biaya kirim
-            $etd = $result_TIKI['cost'][0]['etd'];  // Estimasi waktu pengiriman
+        // dd($selectOptions);
+        // foreach ($jneShippingCost as $result_JNE) {
+        //     $service = $result_JNE['service'];  // Kode layanan (misal: OKE, REG)
+        //     $description = $result_JNE['description'];  // Deskripsi layanan
 
-            // Lakukan pemrosesan lebih lanjut dengan data yang diperoleh
-            echo "Service: $service, Description: $description, Value: $value, ETD: $etd\n";
-        }
+        //     // Akses array `cost` untuk mendapatkan nilai biaya dan estimasi waktu
+        //     $value = $result_JNE['cost'][0]['value'];  // Nilai biaya kirim
+        //     $etd = $result_JNE['cost'][0]['etd'];  // Estimasi waktu pengiriman
+
+        //     // Lakukan pemrosesan lebih lanjut dengan data yang diperoleh
+        //     echo "Service: $service, Description: $description, Value: $value, ETD: $etd\n";
+        // }
+        // foreach ($tikiShippingCost as $result_TIKI) {
+        //     $service = $result_TIKI['service'];  // Kode layanan (misal: OKE, REG)
+        //     $description = $result_TIKI['description'];  // Deskripsi layanan
+
+        //     // Akses array `cost` untuk mendapatkan nilai biaya dan estimasi waktu
+        //     $value = $result_TIKI['cost'][0]['value'];  // Nilai biaya kirim
+        //     $etd = $result_TIKI['cost'][0]['etd'];  // Estimasi waktu pengiriman
+
+        //     // Lakukan pemrosesan lebih lanjut dengan data yang diperoleh
+        //     echo "Service: $service, Description: $description, Value: $value, ETD: $etd\n";
+        // }
 
         return view('testing.index', [
-            'shipping_cost_jne' => $shipping_cost_JNE,
-            'shipping_cost_tiki' => $shipping_cost_TIKI
+            'selectOptions' => $selectOptions,
         ]);
     }
 }
