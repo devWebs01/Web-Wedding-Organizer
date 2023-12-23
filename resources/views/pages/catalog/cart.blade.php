@@ -61,7 +61,7 @@ $confirmCheckout = function () {
     // Buat record pesanan
     $order = Order::create([
         'user_id' => auth()->id(),
-        'status' => 'unpaid', // Atur status pesanan sesuai kebutuhan
+        'status' => 'Progress', // Atur status pesanan sesuai kebutuhan
         'invoice' => 'INV-' . time(), // Atur nomor invoice, bisa disesuaikan sesuai kebutuhan
         'total_amount' => 0, // Nantinya akan dihitung berdasarkan order_items
     ]);
@@ -114,12 +114,13 @@ $confirmCheckout = function () {
 
         $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
 
-        $jneShippingCost = $jneOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
-        $tikiShippingCost = $tikiOngkirCost[0]['costs']; // Asumsikan hanya terdapat satu hasil kurir
+        $jneShippingCost = $jneOngkirCost[0]['costs'];
+        $tikiShippingCost = $tikiOngkirCost[0]['costs'];
 
         foreach ($jneShippingCost as $shippingCost) {
             \App\Models\Courier::create([
-                'description' => $shippingCost['description'],
+                'order_id' => $order->id,
+                'description' => $shippingCost['description'] . ' (JNE)',
                 'value' => $shippingCost['cost'][0]['value'],
                 'etd' => $shippingCost['cost'][0]['etd'],
             ]);
@@ -127,20 +128,18 @@ $confirmCheckout = function () {
 
         foreach ($tikiShippingCost as $shippingCost) {
             \App\Models\Courier::create([
-                'description' => $shippingCost['description'],
+                'order_id' => $order->id,
+                'description' => $shippingCost['description'] . ' (TIKI)',
                 'value' => $shippingCost['cost'][0]['value'],
                 'etd' => $shippingCost['cost'][0]['etd'],
             ]);
         }
 
-        // Hapus item keranjang setelah checkout
         Cart::where('user_id', auth()->id())->delete();
 
-        // ... lainnya sesuai kebutuhan ...
         $this->dispatch('cart-updated');
 
         $this->redirect('/orders/' . $order->id, navigate: true);
-        // Ganti dengan route yang sesuai, dan kirimkan ID pesanan ke halaman konfirmasi
     } catch (\Throwable $th) {
         Order::find($order->id)->delete();
     }

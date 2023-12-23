@@ -24,6 +24,7 @@ return new class extends Migration
             $table->longText('note')->nullable();
             $table->string('estimated_delivery_time')->nullable();
             $table->string('courier')->nullable();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
     }

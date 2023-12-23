@@ -75,7 +75,9 @@ class CalculateCostController extends Controller
         $jneShippingCost = $jneOngkirCost[0]['costs'];  // Asumsikan hanya terdapat satu hasil kurir
         $tikiShippingCost = $tikiOngkirCost[0]['costs'];
 
+
         $combinedShippingCosts = array_merge($jneShippingCost, $tikiShippingCost);
+        dd($combinedShippingCosts);
 
         $selectOptions = [];
         foreach ($combinedShippingCosts as $shippingCost) {

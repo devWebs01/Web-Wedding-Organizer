@@ -63,7 +63,7 @@ $addToCart = function () {
                                 {{ $product->title }}
                             </h1>
                             <h1 class="text-xl tracking-tight text-gray-900 mb-3 font-semibold">
-                                Rp. {{ Number::format($product->price, locale: 'id') }}
+                                {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
                             </h1>
                             <h3 class="text-sm font-medium text-gray-900">Deskripsi</h3>
 

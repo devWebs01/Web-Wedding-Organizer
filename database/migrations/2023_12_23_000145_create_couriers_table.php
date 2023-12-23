@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('couriers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->unsignedBigInteger('value');
             $table->string('etd');

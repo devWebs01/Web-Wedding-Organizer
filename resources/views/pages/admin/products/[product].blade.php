@@ -97,7 +97,7 @@ $save = function () {
                             <div class="mt-6">
                                 <x-input-label for="description" :value="__('Deskripsi')" />
                                 <x-textarea wire:loading.attr="disabled" wire:model="description" id="description"
-                                    class="block mt-1 w-full" type="number" name="description" autofocus
+                                    class="block mt-1 w-full" name="description" autofocus
                                     autocomplete="description" />
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>

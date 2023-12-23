@@ -15,13 +15,13 @@ class Order extends Model
         'user_id',
         'invoice',
         'status',
-        'total_amount', //
-        'total_weight', //
+        'total_amount',
+        'total_weight',
         'tracking_number',
-        'shipping_cost', //
-        'payment_method', //
+        'shipping_cost',
+        'payment_method',
         'note',
-        'estimated_delivery_time', //
+        'estimated_delivery_time',
         'courier'
     ];
 
@@ -43,5 +43,15 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all of the couriers for the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function couriers(): HasMany
+    {
+        return $this->hasMany(Courier::class);
     }
 }
