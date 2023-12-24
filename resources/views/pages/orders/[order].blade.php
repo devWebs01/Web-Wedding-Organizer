@@ -159,7 +159,7 @@ on([
                             <x-input-label for="courier" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
                             @if ($order->status == 'Progress')
                                 <select wire:model.live='courier' class="select select-bordered">
-                                    <option disabled value="">Pilih salah satu</option>
+                                    <option disabled>Pilih salah satu</option>
                                     @foreach ($couriers as $courier)
                                         <option value="{{ $courier->id }}">
                                             {{ $courier->description }} -
