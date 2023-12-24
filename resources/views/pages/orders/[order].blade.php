@@ -10,15 +10,15 @@ state([
     'order' => fn() => Order::find($id),
     'orderItems' => fn() => Item::where('order_id', $this->order->id)->get(),
     'couriers' => fn() => Courier::where('order_id', $this->order->id)->get(),
-    'payment_method',
-    'shipping_cost' => fn() => $this->selectCourier()->value ?? 0,
-    'note',
+    'shipping_cost' => fn() => $this->selectCourier()->value ?? $this->order->shipping_cost,
+    'payment_method' => fn() => $this->order->payment_method ?? null,
+    'note' => fn() => $this->order->note ?? null,
 ]);
 
 state(['courier'])->url();
 
 $selectCourier = computed(function () {
-    $confirmCourier = Courier::whereId($this->courier)->first();
+    $confirmCourier = Courier::find($this->courier);
 
     if (!$confirmCourier) {
         return 0;
@@ -43,19 +43,29 @@ $confirmOrder = function () {
         'total_amount' => $order->total_amount + $this->shipping_cost,
         'shipping_cost' => $this->shipping_cost,
         'payment_method' => $this->payment_method,
+        'status' => 'Unpaid',
         'note' => $this->note,
         'estimated_delivery_time' => $this->selectCourier()->etd,
         'courier' => $this->selectCourier()->description,
     ]);
-
+    $this->dispatch('delete-couriers');
     $this->redirect('/payments/' . $order->id, navigate: true);
 };
 
 $deleteOrder = function ($orderId) {
     $order = Order::findOrFail($orderId);
-    $order->delete();
+    $order->update([
+        'status' => 'Cancelled',
+    ]);
+    $this->dispatch('delete-couriers');
     $this->redirect('/orders', navigate: true);
 };
+
+on([
+    'delete-couriers' => function () {
+        Courier::where('order_id', $this->order->id)->delete();
+    },
+]);
 
 ?>
 <x-costumer-layout>
@@ -147,35 +157,42 @@ $deleteOrder = function ($orderId) {
                         <!-- courier -->
                         <label class="form-control w-full mb-3">
                             <x-input-label for="courier" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
-                            <select wire:model.live='courier' class="select select-bordered">
-                                <option disabled value="">Pilih salah satu</option>
-                                @foreach ($couriers as $courier)
-                                    <option value="{{ $courier->id }}">
-                                        {{ $courier->description }} -
-                                        {{ $courier->etd . ' Hari' }} -
-                                        {{ 'Rp. ' . Number::format($courier->value, locale: 'id') }}
-                                    </option>
-                                @endforeach
-
-                            </select>
-                            <x-input-error :messages="$errors->get('courier')" class="mt-2" />
+                            @if ($order->status == 'Progress')
+                                <select wire:model.live='courier' class="select select-bordered">
+                                    <option disabled value="">Pilih salah satu</option>
+                                    @foreach ($couriers as $courier)
+                                        <option value="{{ $courier->id }}">
+                                            {{ $courier->description }} -
+                                            {{ $courier->etd . ' Hari' }} -
+                                            {{ 'Rp. ' . Number::format($courier->value, locale: 'id') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <x-input-error :messages="$errors->get('courier')" class="mt-2" />
+                            @else
+                                <x-text-input value="{{ $order->courier }}" disabled></x-text-input>
+                            @endif
                         </label>
 
                         <!-- payment_method -->
                         <label class="form-control w-full mb-3">
                             <x-input-label for="payment_method" :value="__('Pilih Metode Pembayaran')" class="mb-2" />
-                            <select wire:model='payment_method' class="select select-bordered">
+                            <select {{ $order->status == 'Progress' ?: 'disabled' }} wire:model='payment_method'
+                                class="select select-bordered">
                                 <option>Pilih salah satu</option>
                                 <option value="COD (Cash On Delivery)">COD (Cash On Delivery)</option>
                                 <option value="Transfer Bank">Transfer Bank</option>
                             </select>
+
                             <x-input-error :messages="$errors->get('payment_method')" class="mt-2" />
                         </label>
 
                         <!-- note -->
                         <label class="form-control w-full mb-3">
                             <x-input-label for="note" :value="__('Catatan Tambahan')" class="mb-2" />
-                            <x-textarea wire:target='submit' wire:model.blur="note" class="block mt-1 w-full" />
+                            <textarea wire:target='submit' wire:model.blur="note" class="mt-1 w-full textarea textarea-bordered h-36"
+                                {{ $order->status == 'Progress' ?: 'disabled' }} />
+                            </textarea>
                             <x-input-error :messages="$errors->get('note')" class="mt-2" />
                         </label>
 
@@ -205,16 +222,19 @@ $deleteOrder = function ($orderId) {
                             </div>
                         </div>
                     </div>
-                    <div class="text-center mt-5">
-                        <button wire:click="deleteOrder('{{ $order->id }}')" class="btn btn-neutral btn-wide my-4 mx-3">
-                            <span wire:loading wire:target='deleteOrder' class="loading loading-spinner text-neutral">
-                            </span>
-                            Batalkan Pesanan
-                        </button>
-                        <button wire:click='confirmOrder' class="btn btn-primary btn-wide my-4 mx-3">
-                            Lanjutkan Pesanan
-                        </button>
-                    </div>
+                    @if ($order->status == 'progress')
+                        <div class="text-center mt-5">
+                            <button wire:click="deleteOrder('{{ $order->id }}')"
+                                class="btn btn-neutral btn-wide my-4 mx-3">
+                                <span wire:loading wire:target='deleteOrder' class="loading loading-spinner text-neutral">
+                                </span>
+                                Batalkan Pesanan
+                            </button>
+                            <button wire:click='confirmOrder' class="btn btn-primary btn-wide my-4 mx-3">
+                                Lanjutkan Pesanan
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
 

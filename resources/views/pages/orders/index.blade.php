@@ -13,6 +13,7 @@ with(
     fn() => [
         'unpaid_orders' => fn() => Order::where('user_id', auth()->id())
             ->where('status', 'unpaid')
+            ->orWhere('status', 'progress')
             ->latest()
             ->paginate(5),
 

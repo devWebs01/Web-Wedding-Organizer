@@ -55,15 +55,15 @@ $deleteProduct = function ($cartId) {
 };
 
 $confirmCheckout = function () {
-    // Ambil item keranjang pengguna
+    // Buat record pesanan
     $cartItems = Cart::where('user_id', auth()->id())->get();
 
-    // Buat record pesanan
     $order = Order::create([
         'user_id' => auth()->id(),
-        'status' => 'Progress', // Atur status pesanan sesuai kebutuhan
-        'invoice' => 'INV-' . time(), // Atur nomor invoice, bisa disesuaikan sesuai kebutuhan
-        'total_amount' => 0, // Nantinya akan dihitung berdasarkan order_items
+        'status' => 'Progress',
+        'invoice' => 'INV-' . time(),
+        'total_amount' => 0,
+        'shipping_cost' => 0,
     ]);
 
     // Inisialisasi total harga pesanan
