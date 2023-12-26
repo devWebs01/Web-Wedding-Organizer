@@ -13,9 +13,14 @@ state([
     'shipping_cost' => fn() => $this->selectCourier()->value ?? $this->order->shipping_cost,
     'payment_method' => fn() => $this->order->payment_method ?? null,
     'note' => fn() => $this->order->note ?? null,
+    'protect_cost' => 0,
 ]);
 
 state(['courier'])->url();
+
+$protect_cost_opsional = computed(function () {
+    return $this->protect_cost ? 3000 : 0;
+});
 
 $selectCourier = computed(function () {
     $confirmCourier = Courier::find($this->courier);
@@ -30,7 +35,7 @@ $selectCourier = computed(function () {
 
 on([
     'update-selectCourier' => function () {
-        $this->shipping_cost = $this->selectCourier()->value;
+        $this->shipping_cost = $this->selectCourier()->value ?? 0;
     },
 ]);
 
@@ -40,7 +45,7 @@ $confirmOrder = function () {
     $this->validate();
     $order = $this->order;
     $order->update([
-        'total_amount' => $order->total_amount + $this->shipping_cost,
+        'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
         'shipping_cost' => $this->shipping_cost,
         'payment_method' => $this->payment_method,
         'status' => 'Unpaid',
@@ -126,33 +131,58 @@ on([
                     <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
                         <p class="font-bold text-xl border-b mb-4">Informasi Penerima</p>
                         <div>
-                            <label class="form-control w-full mb-3">
-                                <div class="label">
-                                    <span class="label-text">Nama Lengkap</span>
-                                </div>
-                                <input type="text" value="{{ $order->user->name }}" placeholder="Type here"
-                                    class="input input-bordered w-full" disabled />
-                            </label>
-                            <label class="form-control w-full mb-3">
-                                <div class="label">
-                                    <span class="label-text">Email</span>
-                                </div>
-                                <input type="email" value="{{ $order->user->email }}" placeholder="Type here"
-                                    class="input input-bordered w-full" disabled />
-                            </label>
-                            <label class="form-control w-full mb-3">
-                                <div class="label">
-                                    <span class="label-text">Telepon</span>
-                                </div>
-                                <input type="text" value="{{ $order->user->telp }}" placeholder="Type here"
-                                    class="input input-bordered w-full" disabled />
-                            </label>
+                            <x-input-label for="user" :value="__('Nama Lengkap')" />
+
+                            <x-text-input id="user" class="block mt-1 w-full" type="text"
+                                value="{{ $order->user->name }}" disabled />
+                        </div>
+                        <div>
+                            <x-input-label for="email" :value="__('Email')" />
+
+                            <x-text-input id="email" class="block mt-1 w-full" type="email"
+                                value="{{ $order->user->email }}" disabled />
+                        </div>
+                        <div>
+                            <x-input-label for="telp" :value="__('Telp')" />
+
+                            <x-text-input id="telp" class="block mt-1 w-full" type="text"
+                                value="{{ $order->user->telp }}" disabled />
+                        </div>
+                        <div>
+                            <x-input-label for="province_id" :value="__('Provinsi')" />
+
+                            <x-text-input id="province_id" class="block mt-1 w-full" type="text"
+                                value="{{ $order->user->address->province->name }}" disabled />
+                        </div>
+                        <div>
+                            <x-input-label for="city_id" :value="__('Kota')" />
+
+                            <x-text-input id="city_id" class="block mt-1 w-full" type="text"
+                                value="{{ $order->user->address->city->name }}" disabled />
+                        </div>
+                        <div>
+                            <x-input-label for="city_id" :value="__('Kota')" />
+
+                            <textarea id="city_id" class="mt-1 w-full textarea textarea-bordered h-36" disabled />{{ $order->user->address->details }}
+                            </textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
                     <p class="font-bold text-xl border-b mb-4">Opsi Pengiriman</p>
+                    <div>
+                        <div role="alert" class="alert bg-neutral text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                class="stroke-current shrink-0 w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Estimasi tanggal ditetima tergantung pada waktu pengemasan Penjual dan eaktu pengiriman ke
+                                lokasi
+                                Anda.</span>
+                        </div>
+                    </div>
                     <div>
                         <!-- courier -->
                         <label class="form-control w-full mb-3">
@@ -170,7 +200,9 @@ on([
                                 </select>
                                 <x-input-error :messages="$errors->get('courier')" class="mt-2" />
                             @else
-                                <x-text-input value="{{ $order->courier }}" disabled></x-text-input>
+                                <x-text-input
+                                    value="{{ $order->courier . ' - ' . $order->estimated_delivery_time . ' Hari - ' . 'Rp. ' . Number::format($order->shipping_cost, locale: 'id') }}"
+                                    disabled></x-text-input>
                             @endif
                         </label>
 
@@ -195,7 +227,24 @@ on([
                             </textarea>
                             <x-input-error :messages="$errors->get('note')" class="mt-2" />
                         </label>
-
+                    </div>
+                    <div>
+                        <div class="form-control">
+                            <label class="gap-3 flex">
+                                <input wire:model.live='protect_cost' type="checkbox" class="checkbox" />
+                                <div>
+                                    <h3 class="font-bold">Proteksi Pesanan</h3>
+                                    <div class="text-xs">
+                                        Melindungi pesanan Anda dari kerusakan yang tidak diinginkan.
+                                    </div>
+                                    <div class="text-xs">
+                                        Rp. 3.000
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
                         <!-- Total -->
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
@@ -217,13 +266,13 @@ on([
                                     <span wire:loading wire:target='courier'
                                         class="loading loading-xs loading-dots  text-neutral">
                                     </span>
-                                    {{ 'Rp. ' . Number::format($order->total_amount + $shipping_cost, locale: 'id') }}
+                                    {{ 'Rp. ' . Number::format($order->total_amount + $shipping_cost + $this->protect_cost_opsional(), locale: 'id') }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    @if ($order->status == 'progress')
-                        <div class="text-center mt-5">
+                    <div class="text-center mt-5">
+                        @if ($order->status == 'Progress')
                             <button wire:click="deleteOrder('{{ $order->id }}')"
                                 class="btn btn-neutral btn-wide my-4 mx-3">
                                 <span wire:loading wire:target='deleteOrder' class="loading loading-spinner text-neutral">
@@ -233,8 +282,14 @@ on([
                             <button wire:click='confirmOrder' class="btn btn-primary btn-wide my-4 mx-3">
                                 Lanjutkan Pesanan
                             </button>
-                        </div>
-                    @endif
+                        @elseif ($order->status == 'Unpaid')
+                            <a href="/payments/{{ $order->id }}" wire:navigate
+                                class="btn btn-neutral btn-wide my-4
+                                mx-3">
+                                Lanjutkan Pembayaran
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
 

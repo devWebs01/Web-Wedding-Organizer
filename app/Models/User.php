@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     protected $with = 'addresses';
+    protected $with = 'address';
     protected $fillable = [
         'name',
         'email',
@@ -68,12 +69,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the addresses for the User
+     * Get all of the address for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function addresses(): HasMany
+    public function address(): HasOne
     {
-        return $this->hasMany(Address::class);
+        return $this->hasOne(Address::class);
     }
 }
