@@ -1,17 +1,17 @@
 <?php
 
-// Mengimpor kelas Logout dari namespace App\Livewire\Actions
+
 use App\Livewire\Actions\Logout;
 use App\Models\Cart;
 use function Livewire\Volt\{state, computed, on};
 
-// Di sini kita membuat sebuah fungsi yang disebut $logout
-// Fungsi ini akan melakukan logout saat dipanggil
+
+
 $logout = function (Logout $logout) {
-    // Panggil fungsi khusus dalam objek Logout untuk mengeksekusi logout
+
     $logout();
 
-    // Setelah logout, arahkan pengguna kembali ke halaman utama dengan memberi tahu program untuk melakukan navigasi (bukan hanya memperbarui halaman)
+
     $this->redirect('/', navigate: true);
 };
 

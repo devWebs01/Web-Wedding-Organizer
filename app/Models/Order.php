@@ -22,7 +22,8 @@ class Order extends Model
         'payment_method',
         'note',
         'estimated_delivery_time',
-        'courier'
+        'courier',
+        'proof_of_payment'
     ];
 
     /**

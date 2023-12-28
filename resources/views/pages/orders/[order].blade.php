@@ -5,6 +5,7 @@ use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
 use App\Models\Item;
 use App\Models\Courier;
+use App\Models\Product;
 
 state([
     'order' => fn() => Order::find($id),
@@ -43,26 +44,44 @@ rules(['courier' => 'required', 'payment_method' => 'required']);
 
 $confirmOrder = function () {
     $this->validate();
+    $bubble_wrap = $this->protect_cost == 0 ? '' : ' + Bubble Wrap';
+    $status_payment = $this->payment_method == 'Transfer Bank' ? 'Unpaid' : 'Packed';
     $order = $this->order;
     $order->update([
         'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
         'shipping_cost' => $this->shipping_cost,
         'payment_method' => $this->payment_method,
-        'status' => 'Unpaid',
+        'status' => $status_payment,
         'note' => $this->note,
         'estimated_delivery_time' => $this->selectCourier()->etd,
-        'courier' => $this->selectCourier()->description,
+        'courier' => $this->selectCourier()->description . $bubble_wrap,
     ]);
     $this->dispatch('delete-couriers');
     $this->redirect('/payments/' . $order->id, navigate: true);
 };
 
-$deleteOrder = function ($orderId) {
+$cancelOrder = function ($orderId) {
     $order = Order::findOrFail($orderId);
-    $order->update([
-        'status' => 'Cancelled',
-    ]);
+
+    // Mengambil semua item yang terkait dengan pesanan yang dibatalkan
+    $orderItems = Item::where('order_id', $order->id)->get();
+
+    // Mengembalikan quantity pada tabel produk
+    foreach ($orderItems as $orderItem) {
+        $product = Product::findOrFail($orderItem->product_id);
+        $newQuantity = $product->quantity + $orderItem->qty;
+
+        // Memperbarui quantity pada tabel produk
+        $product->update(['quantity' => $newQuantity]);
+    }
+
+    // Memperbarui status pesanan menjadi 'Cancelled'
+    $order->update(['status' => 'Cancelled']);
+
+    // Menghapus data kurir terkait
     $this->dispatch('delete-couriers');
+
+    // Redirect ke halaman pesanan setelah pembatalan
     $this->redirect('/orders', navigate: true);
 };
 
@@ -272,25 +291,43 @@ on([
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        @if ($order->status == 'Progress')
-                            <button wire:click="deleteOrder('{{ $order->id }}')"
+                        @if ($order->status == 'Unpaid')
+                            <a href="/payments/{{ $order->id }}" wire:navigate
+                                class="btn btn-neutral btn-wide my-4
+                                    mx-3">
+                                Lanjutkan Pembayaran
+                            </a>
+                            <button wire:click="cancelOrder('{{ $order->id }}')"
                                 class="btn btn-neutral btn-wide my-4 mx-3">
-                                <span wire:loading wire:target='deleteOrder' class="loading loading-spinner text-neutral">
+                                <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-neutral">
                                 </span>
                                 Batalkan Pesanan
                             </button>
-                            <button wire:click='confirmOrder' class="btn btn-primary btn-wide my-4 mx-3">
-                                Lanjutkan Pesanan
-                            </button>
-                        @elseif ($order->status == 'Unpaid')
+                        @elseif ($order->status == 'Progress')
                             <a href="/payments/{{ $order->id }}" wire:navigate
                                 class="btn btn-neutral btn-wide my-4
-                                mx-3">
+                                    mx-3">
                                 Lanjutkan Pembayaran
                             </a>
+                            <button wire:click="cancelOrder('{{ $order->id }}')"
+                                class="btn btn-neutral btn-wide my-4 mx-3">
+                                <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-neutral">
+                                </span>
+                                Batalkan Pesanan
+                            </button>
                         @endif
                     </div>
                 </div>
+
+                @if ($order->proof_of_payment != null)
+                    <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
+                        <p class="font-bold text-xl border-b mb-4">Bukti Pembayaran</p>
+                        <div>
+                            <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
+                                alt="">
+                        </div>
+                    </div>
+                @endif
             </div>
 
         </div>
