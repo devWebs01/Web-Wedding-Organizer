@@ -22,7 +22,7 @@ $destroy = function (Category $category) {
 };
 ?>
 
-<x-app-layout>
+<x-new-layout>
     @volt
         <div>
             <x-slot name="header">
@@ -37,8 +37,7 @@ $destroy = function (Category $category) {
                         <form wire:submit="save">
                             <x-input-label for="name" :value="__('Tambah Kategori Produk')" />
                             <x-text-input wire:loading.attr="disabled" wire:model="name" id="name"
-                                class="block mt-1 w-full" type="name" name="name" required autofocus
-                                autocomplete="name" />
+                                class="block mt-1 w-full" type="name" name="name" required autocomplete="name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
                             <div class="flex items-center mt-5 gap-4">
@@ -91,4 +90,4 @@ $destroy = function (Category $category) {
 
         </div>
     @endvolt
-</x-app-layout>
+    </x-app-layout>

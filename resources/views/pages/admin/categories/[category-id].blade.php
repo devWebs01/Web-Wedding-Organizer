@@ -15,12 +15,12 @@ $save = function () {
     $this->redirect('/admin/categories', navigate: true);
 };
 ?>
-<x-app-layout>
+<x-new-layout>
     @volt
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Edit Kategori Produk "{{ $category->name }}"
+                    Edit Kategori Produk
                 </h2>
             </x-slot>
             <div class="max-w-7xl mx-auto pt-6 sm:px-6 lg:px-8">
