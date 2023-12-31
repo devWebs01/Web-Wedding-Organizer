@@ -23,8 +23,8 @@ $save = function () {
                     Edit Kategori Produk
                 </h2>
             </x-slot>
-            <div class="max-w-7xl mx-auto pt-6 sm:px-6 lg:px-8">
-                <div class="dark:bg-gray-800 overflow-hidden sm:rounded-lg">
+            <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden  shadow-md border-l-4 border-black rounded-lg p-4">
                     <div>
                         <form wire:submit='save'>
                             <x-input-label for="name" :value="__('Nama Kategori Produk')" />

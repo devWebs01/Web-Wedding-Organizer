@@ -37,15 +37,16 @@ $save = function () {
                     Edit Produk "{{ $product->title }}"
                 </h2>
             </x-slot>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-6">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="max-w-7xl py-5 mx-auto sm:px-6 lg:px-8">
+                <div
+                    class="sm:rounded-lg bg-white dark:bg-gray-800 overflow-hidden  shadow-md border-l-4 border-black rounded-lg p-4">
                     <div role="alert" class="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            class="stroke-info shrink-0 w-6 h-6">
+                            class="stroke-error shrink-0 w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <span>12 unread messages. Tap to see.</span>
+                        <span>Kosongkan form gambar jika tidak ingin mengubah gambar.</span>
                     </div>
                     <div>
                         <form wire:submit="save" enctype="multipart/form-data">
@@ -97,8 +98,7 @@ $save = function () {
                             <div class="mt-6">
                                 <x-input-label for="description" :value="__('Deskripsi')" />
                                 <x-textarea wire:loading.attr="disabled" wire:model="description" id="description"
-                                    class="block mt-1 w-full" name="description" autofocus
-                                    autocomplete="description" />
+                                    class="block mt-1 w-full" name="description" autofocus autocomplete="description" />
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 

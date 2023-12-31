@@ -21,14 +21,14 @@ $destroy = function (product $product) {
                     {{ __('Produk Toko') }}
                 </h2>
             </x-slot>
-            <div class="max-w-7xl mx-auto pt-5 sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div>
-                        <a class="btn btn-neutral" href="/admin/products/store" wire:navigate>
-                            Tambah Produk
-                        </a>
-                    </div>
-                    <div class="overflow-x-auto border mt-4 rounded">
+            <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
+                <div class="mb-5">
+                    <a class="btn btn-neutral shadow-lg" href="/admin/products/store" wire:navigate>
+                        Tambah Produk
+                    </a>
+                </div>
+                <div class="bg-white dark:bg-gray-800 overflow-hidden  shadow-md border-l-4 border-black rounded-lg p-4">
+                    <div class="overflow-x-auto">
                         <table class="table text-center">
                             <thead>
                                 <tr>

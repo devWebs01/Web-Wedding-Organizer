@@ -27,14 +27,17 @@ $save = function () {
 <x-app-layout>
     @volt
         <div>
+
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {{ __('Tambah Produk Toko') }}
                 </h2>
             </x-slot>
 
-            <div class="max-w-7xl mx-auto pt-5 sm:px-6 lg:px-8">
-                <form wire:submit="save" class="space-y-6" enctype="multipart/form-data">
+            <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
+                <form wire:submit="save"
+                    class="space-y-6 bg-white dark:bg-gray-800 overflow-hidden shadow-md border-l-4 border-black rounded-lg p-4"
+                    enctype="multipart/form-data">
 
                     <div>
                         <x-input-label for="title" :value="__('Nama Produk')" />
