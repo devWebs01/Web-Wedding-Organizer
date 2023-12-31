@@ -15,7 +15,7 @@ $save = function () {
     $this->redirect('/admin/categories', navigate: true);
 };
 ?>
-<x-new-layout>
+<x-app-layout>
     @volt
         <div>
             <x-slot name="header">

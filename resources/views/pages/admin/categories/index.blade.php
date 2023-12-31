@@ -22,7 +22,7 @@ $destroy = function (Category $category) {
 };
 ?>
 
-<x-new-layout>
+<x-app-layout>
     @volt
         <div>
             <x-slot name="header">
