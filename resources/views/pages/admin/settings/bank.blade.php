@@ -11,6 +11,7 @@ $banks = computed(fn() => Bank::latest()->paginate(5));
 
 $destroy = function (Bank $bank) {
     $bank->delete();
+    $this->reset('account_owner', 'bank_name', 'account_number');
 };
 
 rules([

@@ -32,6 +32,7 @@ $edit = function (Category $category) {
 
 $destroy = function (Category $category) {
     $category->delete();
+    $this->reset('name');
 };
 ?>
 
