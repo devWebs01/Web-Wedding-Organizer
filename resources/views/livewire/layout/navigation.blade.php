@@ -30,9 +30,11 @@ $logout = function (Logout $logout) {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
                     <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
@@ -65,12 +67,17 @@ $logout = function (Logout $logout) {
                             </x-slot>
                         </x-dropdown>
                     </div>
+
+                    <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                        {{ __('Toko') }}
+                    </x-nav-link>
+
                     <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button
                                     class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    <div>Toko</div>
+                                    <div>Manajemen Transaksi</div>
 
                                     <div class="ml-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -84,10 +91,29 @@ $logout = function (Logout $logout) {
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="url('/admin/settings')" active="request()->routeIs('/admin/settings')"
-                                    wire:navigate>
-                                    {{ __('Informasi Toko') }}
+                                <x-dropdown-link :href="url('/admin/transactions/received')"
+                                    active="request()->routeIs('/admin/transactions/received')" wire:navigate>
+                                    {{ __('Pesanan Masuk') }}
                                 </x-dropdown-link>
+
+                                <x-dropdown-link :href="url('/admin/transactions/inProgress')"
+                                    active="request()->routeIs('/admin/transactions/inProgress')" wire:navigate>
+                                    {{ __('Pesanan Dikemas') }}
+                                </x-dropdown-link>
+
+                                <x-dropdown-link :href="url('/admin/transactions/inTransit')"
+                                    active="request()->routeIs('/admin/transactions/inTransit')" wire:navigate>
+                                    {{ __('Pesanan Dikirim') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="url('/admin/transactions/complated')"
+                                    active="request()->routeIs('/admin/transactions/complated')" wire:navigate>
+                                    {{ __('Pesanan Selesai') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="url('/admin/transactions/cancelled')"
+                                    active="request()->routeIs('/admin/transactions/cancelled')" wire:navigate>
+                                    {{ __('Pesanan Dibatalkan') }}
+                                </x-dropdown-link>
+
                             </x-slot>
                         </x-dropdown>
                     </div>

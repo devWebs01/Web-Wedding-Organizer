@@ -55,8 +55,10 @@ $confirmOrder = function () {
         'note' => $this->note,
         'estimated_delivery_time' => $this->selectCourier()->etd,
         'courier' => $this->selectCourier()->description . $bubble_wrap,
+        'protect_cost' => $this->protect_cost,
     ]);
-    $this->dispatch('delete-couriers');
+
+    $this->dispatch('delete-couriers', 'courier');
     $this->redirect('/payments/' . $order->id, navigate: true);
 };
 
@@ -250,7 +252,9 @@ on([
                     <div>
                         <div class="form-control">
                             <label class="gap-3 flex">
-                                <input wire:model.live='protect_cost' type="checkbox" class="checkbox" />
+                                <input wire:model.live='protect_cost' type="checkbox" class="checkbox"
+                                    {{ $order->protect_cost == 0 ?: 'checked' }}
+                                    {{ $order->protect_cost == null ?: 'disabled' }} />
                                 <div>
                                     <h3 class="font-bold">Proteksi Pesanan</h3>
                                     <div class="text-xs">
@@ -292,42 +296,40 @@ on([
                     </div>
                     <div class="text-center mt-5">
                         @if ($order->status == 'Unpaid')
-                            <a href="/payments/{{ $order->id }}" wire:navigate
-                                class="btn btn-neutral btn-wide my-4
-                                    mx-3">
-                                Lanjutkan Pembayaran
-                            </a>
+                            @if ($order->courier != null)
+                                <a href="/payments/{{ $order->id }}" wire:navigate
+                                    class="btn btn-neutral btn-wide my-4 mx-3">
+                                    <span wire:loading wire:target='confirmOrder'
+                                        class="loading loading-spinner text-neutral">
+                                    </span>
+                                    Lanjutkan Pembayaran
+                                </a>
+                            @else
+                                <button wire:click="confirmOrder('{{ $order->id }}')"
+                                    class="btn btn-neutral btn-wide my-4 mx-3">
+                                    <span wire:loading wire:target='confirmOrder'
+                                        class="loading loading-spinner text-neutral">
+                                    </span>
+                                    Lanjutkan Pembayaran
+                                </button>
+                            @endif
                             <button wire:click="cancelOrder('{{ $order->id }}')"
                                 class="btn btn-neutral btn-wide my-4 mx-3">
                                 <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-neutral">
                                 </span>
                                 Batalkan Pesanan
                             </button>
-                        @elseif ($order->status == 'Progress')
-                            <a href="/payments/{{ $order->id }}" wire:navigate
-                                class="btn btn-neutral btn-wide my-4
-                                    mx-3">
-                                Lanjutkan Pembayaran
-                            </a>
-                            <button wire:click="cancelOrder('{{ $order->id }}')"
-                                class="btn btn-neutral btn-wide my-4 mx-3">
-                                <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-neutral">
-                                </span>
-                                Batalkan Pesanan
-                            </button>
+                        @elseif ($order->proof_of_payment != null)
+                            <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
+                                <p class="font-bold text-xl border-b mb-4">Bukti Pembayaran</p>
+                                <div>
+                                    <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
+                                        alt="">
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
-
-                @if ($order->proof_of_payment != null)
-                    <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
-                        <p class="font-bold text-xl border-b mb-4">Bukti Pembayaran</p>
-                        <div>
-                            <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
-                                alt="">
-                        </div>
-                    </div>
-                @endif
             </div>
 
         </div>
