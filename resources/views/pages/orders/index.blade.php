@@ -43,190 +43,220 @@ with(
 <x-costumer-layout>
     @volt
         <div>
-            <div class="pt-6">
-                <nav aria-label="Breadcrumb">
-                    <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                        <li>
-                            <div class="flex items-center">
-                                <a href="/orders" class="mr-2 text-sm font-medium text-gray-900">Pesanan Saya</a>
+
+            <div>
+                <div class="sm:px-6 lg:px-8">
+                    <div x-data="{ openTab: 1 }" class="py-5">
+                        <div class="mx-auto">
+                            <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md overflow-auto">
+                                <button x-on:click="openTab = 1" :class="{ 'bg-black text-white': openTab === 1 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Belum
+                                    Dibayar</button>
+
+                                <button x-on:click="openTab = 2" :class="{ 'bg-black text-white': openTab === 2 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                    Dikemas</button>
+
+                                <button x-on:click="openTab = 3" :class="{ 'bg-black text-white': openTab === 3 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                    Dikirim</button>
+
+                                <button x-on:click="openTab = 4" :class="{ 'bg-black text-white': openTab === 4 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                    Selesai</button>
+
+                                <button x-on:click="openTab = 5" :class="{ 'bg-black text-white': openTab === 5 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                    Dibatalkan</button>
                             </div>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
 
-            <div class="px-4 sm:px-6 lg:px-8 pt-6">
-                <div class="overflow-x-auto border rounded-xl p-6 mb-8">
-                    <h3 class="font-semibold text-xl">Belum dibayar
-                        <span wire:loading class="loading loading-spinner loading-xs text-error"></span>
-                    </h3>
-                    <table class="table text-center">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Invoice</th>
-                                <th>Status</th>
-                                <th>Total Pesanan</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($unpaid_orders as $no => $unpaid)
-                                <tr>
-                                    <th>{{ ++$no }}</th>
-                                    <td>{{ $unpaid->invoice }}</td>
-                                    <td>{{ $unpaid->status }}</td>
-                                    <td>{{ 'Rp. ' . Number::format($unpaid->total_amount, locale: 'id') }}</td>
-                                    <td>
-                                        <a wire:navigate href="/orders/{{ $unpaid->id }}" class="btn btn-sm">Lihat</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="px-4 mt-4">
-                        {{ $unpaid_orders->links() }}
+                            <div x-show="openTab === 1"
+                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
+                                <p class="text-md font-semibold mb-2">Belum Dibayar</p>
+                                <div>
+                                    <table class="table text-center">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Invoice</th>
+                                                <th>Status</th>
+                                                <th>Total Pesanan</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($unpaid_orders as $no => $unpaid)
+                                                <tr>
+                                                    <th>{{ ++$no }}</th>
+                                                    <td>{{ $unpaid->invoice }}</td>
+                                                    <td>{{ $unpaid->status }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($unpaid->total_amount, locale: 'id') }}
+                                                    </td>
+                                                    <td>
+                                                        <a wire:navigate href="/orders/{{ $unpaid->id }}"
+                                                            class="btn btn-sm">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="px-4 mt-4">
+                                        {{ $unpaid_orders->links() }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="openTab === 2"
+                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
+                                <p class="text-md font-semibold mb-2">Pesanan Dikemas</p>
+                                <div>
+                                    <table class="table text-center">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Invoice</th>
+                                                <th>Status</th>
+                                                <th>Total Pesanan</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($packed_orders as $no => $packed)
+                                                <tr>
+                                                    <th>{{ ++$no }}</th>
+                                                    <td>{{ $packed->invoice }}</td>
+                                                    <td>{{ $packed->status }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($packed->total_amount, locale: 'id') }}
+                                                    </td>
+                                                    <td>
+                                                        <a wire:navigate href="/orders/{{ $packed->id }}"
+                                                            class="btn btn-sm">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="px-4 mt-4">
+                                        {{ $packed_orders->links() }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="openTab === 3"
+                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
+                                <p class="text-md font-semibold mb-2">Pesanan Dikirm</p>
+                                <div>
+                                    <table class="table text-center">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Invoice</th>
+                                                <th>Status</th>
+                                                <th>Total Pesanan</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($shipped_orders as $no => $shipped)
+                                                <tr>
+                                                    <th>{{ ++$no }}</th>
+                                                    <td>{{ $shipped->invoice }}</td>
+                                                    <td>{{ $shipped->status }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($shipped->total_amount, locale: 'id') }}
+                                                    </td>
+                                                    <td>
+                                                        <a wire:navigate href="/orders/{{ $shipped->id }}"
+                                                            class="btn btn-sm">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="px-4 mt-4">
+                                        {{ $shipped_orders->links() }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="openTab === 4"
+                                class="transition-all duration-500 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
+                                <p class="text-md font-semibold mb-2">Pesanan Selesai</p>
+                                <div>
+                                    <table class="table text-center">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Invoice</th>
+                                                <th>Status</th>
+                                                <th>Total Pesanan</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($completed_orders as $no => $completed)
+                                                <tr>
+                                                    <th>{{ ++$no }}</th>
+                                                    <td>{{ $completed->invoice }}</td>
+                                                    <td>{{ $completed->status }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($completed->total_amount, locale: 'id') }}
+                                                    </td>
+                                                    <td>
+                                                        <a wire:navigate href="/orders/{{ $completed->id }}"
+                                                            class="btn btn-sm">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="px-4 mt-4">
+                                        {{ $completed_orders->links() }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="openTab === 5"
+                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
+                                <p class="text-md font-semibold mb-2">Pesanan Dibatalkan</p>
+                                <div>
+                                    <table class="table text-center">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Invoice</th>
+                                                <th>Status</th>
+                                                <th>Total Pesanan</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($cancelled_orders as $no => $cancelled)
+                                                <tr>
+                                                    <th>{{ ++$no }}</th>
+                                                    <td>{{ $cancelled->invoice }}</td>
+                                                    <td>{{ $cancelled->status }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($cancelled->total_amount, locale: 'id') }}
+                                                    </td>
+                                                    <td>
+                                                        <a wire:navigate href="/orders/{{ $cancelled->id }}"
+                                                            class="btn btn-sm">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="px-4 mt-4">
+                                        {{ $cancelled_orders->links() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="overflow-x-auto border rounded-xl p-6 mb-8">
-                    <h3 class="font-semibold text-xl">Pesanan Dikemas
-                        <span wire:loading class="loading loading-spinner loading-xs text-error"></span>
-                    </h3>
-                    <table class="table text-center">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Invoice</th>
-                                <th>Status</th>
-                                <th>Total Pesanan</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($packed_orders as $no => $packed)
-                                <tr>
-                                    <th>{{ ++$no }}</th>
-                                    <td>{{ $packed->invoice }}</td>
-                                    <td>{{ $packed->status }}</td>
-                                    <td>{{ 'Rp. ' . Number::format($packed->total_amount, locale: 'id') }}</td>
-                                    <td>
-                                        <a wire:navigate href="/orders/{{ $packed->id }}" class="btn btn-sm">Lihat</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="px-4 mt-4">
-                        {{ $packed_orders->links() }}
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto border rounded-xl p-6 mb-8">
-                    <h3 class="font-semibold text-xl">Pesanan Dikirim
-                        <span wire:loading class="loading loading-spinner loading-xs text-error"></span>
-                    </h3>
-                    <table class="table text-center">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Invoice</th>
-                                <th>Status</th>
-                                <th>Total Pesanan</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($shipped_orders as $no => $shipped)
-                                <tr>
-                                    <th>{{ ++$no }}</th>
-                                    <td>{{ $shipped->invoice }}</td>
-                                    <td>{{ $shipped->status }}</td>
-                                    <td>{{ 'Rp. ' . Number::format($shipped->total_amount, locale: 'id') }}</td>
-                                    <td>
-                                        <a wire:navigate href="/orders/{{ $shipped->id }}" class="btn btn-sm">Lihat</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="px-4 mt-4">
-                        {{ $shipped_orders->links() }}
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto border rounded-xl p-6 mb-8">
-                    <h3 class="font-semibold text-xl">Pesanan Selesai
-                        <span wire:loading class="loading loading-spinner loading-xs text-error"></span>
-                    </h3>
-                    <table class="table text-center">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Invoice</th>
-                                <th>Status</th>
-                                <th>Total Pesanan</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($completed_orders as $no => $completed)
-                                <tr>
-                                    <th>{{ ++$no }}</th>
-                                    <td>{{ $completed->invoice }}</td>
-                                    <td>{{ $completed->status }}</td>
-                                    <td>{{ 'Rp. ' . Number::format($completed->total_amount, locale: 'id') }}</td>
-                                    <td>
-                                        <a wire:navigate href="/orders/{{ $completed->id }}" class="btn btn-sm">Lihat</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="px-4 mt-4">
-                        {{ $completed_orders->links() }}
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto border rounded-xl p-6 mb-8">
-                    <h3 class="font-semibold text-xl">Pesanan Dibatalkan
-                        <span wire:loading class="loading loading-spinner loading-xs text-error"></span>
-                    </h3>
-                    <table class="table text-center">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Invoice</th>
-                                <th>Status</th>
-                                <th>Total Pesanan</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cancelled_orders as $no => $cancelled)
-                                <tr>
-                                    <th>{{ ++$no }}</th>
-                                    <td>{{ $cancelled->invoice }}</td>
-                                    <td>{{ $cancelled->status }}</td>
-                                    <td>{{ 'Rp. ' . Number::format($cancelled->total_amount, locale: 'id') }}</td>
-                                    <td>
-                                        <a wire:navigate href="/orders/{{ $cancelled->id }}" class="btn btn-sm">Lihat</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="px-4 mt-4">
-                        {{ $cancelled_orders->links() }}
-                    </div>
-                </div>
-
-
             </div>
         </div>
     @endvolt

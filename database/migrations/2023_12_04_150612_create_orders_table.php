@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('courier')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('proof_of_payment')->nullable();
+            $table->string('protect_cost')->nullable();
             $table->timestamps();
         });
     }
