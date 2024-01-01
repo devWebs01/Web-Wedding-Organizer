@@ -3,18 +3,31 @@
 use function Livewire\Volt\{state, rules, computed, usesPagination};
 use App\Models\Category;
 
-state(['name']);
+state(['name', 'categoryId']);
 rules(['name' => 'required|min:6|string']);
 
 usesPagination();
 
 $categories = computed(fn() => Category::latest()->paginate(10));
 
-$save = function () {
-    Category::create($this->validate());
-    $this->name = '';
+$save = function (Category $category) {
+    $validate = $this->validate();
 
-    $this->dispatch('category-stored');
+    if ($this->categoryId == null) {
+        $category->create($validate);
+    } else {
+        $categoryUpdate = Category::find($this->categoryId);
+        $categoryUpdate->update($validate);
+    }
+    $this->reset('name');
+
+    // $this->dispatch('category-stored');
+};
+
+$edit = function (Category $category) {
+    $category = Category::find($category->id);
+    $this->categoryId = $category->id;
+    $this->name = $category->name;
 };
 
 $destroy = function (Category $category) {
@@ -71,10 +84,11 @@ $destroy = function (Category $category) {
                                         <th>{{ ++$no }}</th>
                                         <th>{{ $category->name }}</th>
                                         <th class="join">
-                                            <a href="categories/{{ $category->id }}" wire:navigate.hover
+                                            <button wire:loading.attr='disabled' wire:click='edit({{ $category->id }})'
                                                 class="btn btn-outline btn-sm join-item">
-                                                {{ __('edit') }}
-                                            </a>
+                                                {{ __('Edit') }}
+                                            </button>
+
                                             <button wire:confirm.prompt="Are you sure?\n\nType delete to confirm|delete"
                                                 wire:loading.attr='disabled' wire:click='destroy({{ $category->id }})'
                                                 class="btn btn-outline btn-sm join-item">

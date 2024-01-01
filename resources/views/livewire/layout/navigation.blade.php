@@ -52,8 +52,8 @@ $logout = function (Logout $logout) {
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="url('/admin/categories')" active="request()->routeIs('/admin/categories')"
-                                    wire:navigate>
+                                <x-dropdown-link :href="url('/admin/products/categories')"
+                                    active="request()->routeIs('/admin/products/categories')" wire:navigate>
                                     {{ __('Kategori Produk') }}
                                 </x-dropdown-link>
 
@@ -88,12 +88,6 @@ $logout = function (Logout $logout) {
                                     wire:navigate>
                                     {{ __('Informasi Toko') }}
                                 </x-dropdown-link>
-                                {{-- <x-dropdown-link active="request()->routeIs('permissions')">
-                                    {{ __('Permissions') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link active="request()->routeIs('user_roles')">
-                                    {{ __('User Roles') }}
-                                </x-dropdown-link> --}}
                             </x-slot>
                         </x-dropdown>
                     </div>
@@ -154,14 +148,17 @@ $logout = function (Logout $logout) {
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('/dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="url('admin/categories')" :active="request()->routeIs('admin/categories')" wire:navigate>
+            <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')" wire:navigate>
                 {{ __('Kategori Produk') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="url('admin/products')" :active="request()->routeIs('admin/products')" wire:navigate>
+            <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
                 {{ __('Produk Toko') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                {{ __('Toko') }}
             </x-responsive-nav-link>
         </div>
 
