@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
             'telp' => '08' . fake()->isbn10(),
         ]);
 
-        $this->call([
-            ProductSeeder::class,
-        ]);
+        // $this->call([
+        //     ProductSeeder::class,
+        // ]);
 
         Artisan::call('rajaongkir:seed');
 
