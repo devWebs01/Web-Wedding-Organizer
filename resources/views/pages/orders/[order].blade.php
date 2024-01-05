@@ -295,20 +295,20 @@ on([
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/payments/{{ $order->id }}" wire:navigate class="btn btn-neutral btn-wide my-4 mx-3">
+                        <a href="/payments/{{ $order->id }}" wire:navigate class="btn btn-primary btn-wide my-4 mx-3">
                             <span wire:loading wire:target='confirmOrder' class="loading loading-spinner text-neutral">
                             </span>
-                            Lanjutkan Pembayaran
+                            Lakukan Pembayaran
                         </a>
                         <button wire:click="confirmOrder('{{ $order->id }}')"
                             class="btn btn-neutral btn-wide my-4 mx-3">
                             <span wire:loading wire:target='confirmOrder' class="loading loading-spinner text-neutral">
                             </span>
-                            Lanjutkan Pembayaran
+                            Lanjutkan Pembelian
                         </button>
                         <button wire:click="cancelOrder('{{ $order->id }}')"
-                            class="btn btn-neutral btn-wide my-4 mx-3">
-                            <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-neutral">
+                            class="btn btn-error btn-wide text-white my-4 mx-3">
+                            <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-white">
                             </span>
                             Batalkan Pesanan
                         </button>
