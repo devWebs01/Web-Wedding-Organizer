@@ -11,19 +11,16 @@ state([
 
 with(
     fn() => [
-        'unpaid_orders' => fn() => Order::where('user_id', auth()->id())
+        'process_orders' => fn() => Order::where('user_id', auth()->id())
             ->where('status', 'unpaid')
             ->orWhere('status', 'progress')
-            ->latest()
-            ->paginate(5),
-
-        'packed_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'packed')
+            ->orWhere('status', 'pending')
             ->latest()
             ->paginate(5),
 
         'shipped_orders' => fn() => Order::where('user_id', auth()->id())
             ->where('status', 'shipped')
+            ->orWhere('status', 'packed')
             ->latest()
             ->paginate(5),
 
@@ -50,29 +47,25 @@ with(
                         <div class="mx-auto">
                             <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md overflow-auto">
                                 <button x-on:click="openTab = 1" :class="{ 'bg-black text-white': openTab === 1 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Belum
-                                    Dibayar</button>
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Proses
+                                </button>
 
                                 <button x-on:click="openTab = 2" :class="{ 'bg-black text-white': openTab === 2 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
-                                    Dikemas</button>
-
-                                <button x-on:click="openTab = 3" :class="{ 'bg-black text-white': openTab === 3 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
                                     Dikirim</button>
 
-                                <button x-on:click="openTab = 4" :class="{ 'bg-black text-white': openTab === 4 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                <button x-on:click="openTab = 3" :class="{ 'bg-black text-white': openTab === 3 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
                                     Selesai</button>
 
-                                <button x-on:click="openTab = 5" :class="{ 'bg-black text-white': openTab === 5 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Pesanan
+                                <button x-on:click="openTab = 4" :class="{ 'bg-black text-white': openTab === 4 }"
+                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
                                     Dibatalkan</button>
                             </div>
 
                             <div x-show="openTab === 1"
                                 class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <p class="text-md font-semibold mb-2">Belum Dibayar</p>
+                                <p class="text-md font-semibold mb-2 text-center border-b">Proses</p>
                                 <div>
                                     <table class="table text-center">
                                         <!-- head -->
@@ -86,15 +79,19 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($unpaid_orders as $no => $unpaid)
+                                            @foreach ($process_orders as $no => $order)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
-                                                    <td>{{ $unpaid->invoice }}</td>
-                                                    <td>{{ $unpaid->status }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($unpaid->total_amount, locale: 'id') }}
+                                                    <td>{{ $order->invoice }}</td>
+                                                    <td>
+                                                        <div class="badge badge-neutral p-3 uppercase">
+                                                            {{ $order->status }}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $unpaid->id }}"
+                                                        <a wire:navigate href="/orders/{{ $order->id }}"
                                                             class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
@@ -102,14 +99,14 @@ with(
                                         </tbody>
                                     </table>
                                     <div class="px-4 mt-4">
-                                        {{ $unpaid_orders->links() }}
+                                        {{ $process_orders->links() }}
                                     </div>
                                 </div>
                             </div>
 
                             <div x-show="openTab === 2"
                                 class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <p class="text-md font-semibold mb-2">Pesanan Dikemas</p>
+                                <p class="text-md font-semibold mb-2 text-center border-b">Dikirm</p>
                                 <div>
                                     <table class="table text-center">
                                         <!-- head -->
@@ -123,52 +120,19 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($packed_orders as $no => $packed)
+                                            @foreach ($shipped_orders as $no => $order)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
-                                                    <td>{{ $packed->invoice }}</td>
-                                                    <td>{{ $packed->status }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($packed->total_amount, locale: 'id') }}
+                                                    <td>{{ $order->invoice }}</td>
+                                                    <td>
+                                                        <div class="badge badge-neutral p-3 uppercase">
+                                                            {{ $order->status }}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $packed->id }}"
-                                                            class="btn btn-sm">Lihat</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="px-4 mt-4">
-                                        {{ $packed_orders->links() }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div x-show="openTab === 3"
-                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <p class="text-md font-semibold mb-2">Pesanan Dikirm</p>
-                                <div>
-                                    <table class="table text-center">
-                                        <!-- head -->
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Invoice</th>
-                                                <th>Status</th>
-                                                <th>Total Pesanan</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($shipped_orders as $no => $shipped)
-                                                <tr>
-                                                    <th>{{ ++$no }}</th>
-                                                    <td>{{ $shipped->invoice }}</td>
-                                                    <td>{{ $shipped->status }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($shipped->total_amount, locale: 'id') }}
-                                                    </td>
-                                                    <td>
-                                                        <a wire:navigate href="/orders/{{ $shipped->id }}"
+                                                        <a wire:navigate href="/orders/{{ $order->id }}"
                                                             class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
@@ -181,9 +145,9 @@ with(
                                 </div>
                             </div>
 
-                            <div x-show="openTab === 4"
+                            <div x-show="openTab === 3"
                                 class="transition-all duration-500 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <p class="text-md font-semibold mb-2">Pesanan Selesai</p>
+                                <p class="text-md font-semibold mb-2 text-center border-b">Selesai</p>
                                 <div>
                                     <table class="table text-center">
                                         <!-- head -->
@@ -197,15 +161,19 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($completed_orders as $no => $completed)
+                                            @foreach ($completed_orders as $no => $order)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
-                                                    <td>{{ $completed->invoice }}</td>
-                                                    <td>{{ $completed->status }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($completed->total_amount, locale: 'id') }}
+                                                    <td>{{ $order->invoice }}</td>
+                                                    <td>
+                                                        <div class="badge badge-neutral p-3 uppercase">
+                                                            {{ $order->status }}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $completed->id }}"
+                                                        <a wire:navigate href="/orders/{{ $order->id }}"
                                                             class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
@@ -218,9 +186,9 @@ with(
                                 </div>
                             </div>
 
-                            <div x-show="openTab === 5"
+                            <div x-show="openTab === 4"
                                 class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <p class="text-md font-semibold mb-2">Pesanan Dibatalkan</p>
+                                <p class="text-md font-semibold mb-2 text-center border-b">Dibatalkan</p>
                                 <div>
                                     <table class="table text-center">
                                         <!-- head -->
@@ -234,15 +202,19 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($cancelled_orders as $no => $cancelled)
+                                            @foreach ($cancelled_orders as $no => $order)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
-                                                    <td>{{ $cancelled->invoice }}</td>
-                                                    <td>{{ $cancelled->status }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($cancelled->total_amount, locale: 'id') }}
+                                                    <td>{{ $order->invoice }}</td>
+                                                    <td>
+                                                        <div class="badge badge-neutral p-3 uppercase">
+                                                            {{ $order->status }}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $cancelled->id }}"
+                                                        <a wire:navigate href="/orders/{{ $order->id }}"
                                                             class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>

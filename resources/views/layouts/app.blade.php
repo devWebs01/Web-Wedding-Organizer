@@ -17,7 +17,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 bg-white">
+    <div class="min-h-screen  dark:bg-gray-900 bg-white">
         <livewire:layout.navigation />
 
         <!-- Page Heading -->

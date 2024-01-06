@@ -20,7 +20,7 @@ $submit = function () {
     $order = $this->order;
     $order->update([
         'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
-        'status' => 'packed',
+        'status' => 'pending',
     ]);
 
     $this->redirect('/orders', navigate: true);
@@ -118,7 +118,6 @@ $submit = function () {
                     </div>
                 </div>
             </div>
-
         </div>
     @endvolt
 </x-costumer-layout>

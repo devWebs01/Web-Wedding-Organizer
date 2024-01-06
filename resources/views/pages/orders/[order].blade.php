@@ -45,7 +45,7 @@ rules(['courier' => 'required', 'payment_method' => 'required']);
 $confirmOrder = function () {
     $this->validate();
     $bubble_wrap = $this->protect_cost == 0 ? '' : ' + Bubble Wrap';
-    $status_payment = $this->payment_method == 'Transfer Bank' ? 'Unpaid' : 'Packed';
+    $status_payment = $this->payment_method == 'Transfer Bank' ? 'Unpaid' : 'Pending';
     $order = $this->order;
     $order->update([
         'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
@@ -54,12 +54,17 @@ $confirmOrder = function () {
         'status' => $status_payment,
         'note' => $this->note,
         'estimated_delivery_time' => $this->selectCourier()->etd,
-        'courier' => $this->selectCourier()->description . $bubble_wrap,
+        'courier' => $this->selectCourier()->description,
         'protect_cost' => $this->protect_cost,
     ]);
 
     $this->dispatch('delete-couriers', 'courier');
-    $this->redirect('/payments/' . $order->id, navigate: true);
+
+    if ($this->payment_method == 'Transfer Bank') {
+        $this->redirect('/payments/' . $order->id, navigate: true);
+    } else {
+        $this->redirect('/orders', navigate: true);
+    }
 };
 
 $cancelOrder = function ($orderId) {
@@ -118,11 +123,28 @@ on([
                     </ol>
                 </nav>
             </div>
-
+            <div class="sm:px-8 mt-4 mx-auto">
+                <div role="alert" class="alert shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        class="stroke-black shrink-0 w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>
+                        {{ $order->user->name }} <br>
+                        {{ $order->user->email }}, {{ $order->user->telp }} <br>
+                        {{ $order->user->address->province->name }}, {{ $order->user->address->city->name }} <br>
+                        {{ $order->user->address->details }} <br>
+                    </span>
+                    <div>
+                        <button class="btn btn-sm uppercase btn-primary">{{ $order->status }}</button>
+                    </div>
+                </div>
+            </div>
 
             <div class="grid sm:px-8 lg:grid-cols-2 mx-auto gap-4">
                 <div>
-                    <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
+                    <div class="mt-4 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
                         <p class="font-bold text-xl border-b">Produk Pesanan</p>
                         <div>
                             @foreach ($orderItems as $orderItem)
@@ -139,7 +161,7 @@ on([
                                 </div>
                             @endforeach
                         </div>
-                        <div class="mt-8 py-2 px-4">
+                        <div class="mt-4 py-2 px-4">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Total Pesanan ({{ $orderItems->count() }} Produk)</p>
                                 <p class="font-semibold">
@@ -148,49 +170,9 @@ on([
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
-                        <p class="font-bold text-xl border-b mb-4">Informasi Penerima</p>
-                        <div>
-                            <x-input-label for="user" :value="__('Nama Lengkap')" />
-
-                            <x-text-input id="user" class="block mt-1 w-full" type="text"
-                                value="{{ $order->user->name }}" disabled />
-                        </div>
-                        <div>
-                            <x-input-label for="email" :value="__('Email')" />
-
-                            <x-text-input id="email" class="block mt-1 w-full" type="email"
-                                value="{{ $order->user->email }}" disabled />
-                        </div>
-                        <div>
-                            <x-input-label for="telp" :value="__('Telp')" />
-
-                            <x-text-input id="telp" class="block mt-1 w-full" type="text"
-                                value="{{ $order->user->telp }}" disabled />
-                        </div>
-                        <div>
-                            <x-input-label for="province_id" :value="__('Provinsi')" />
-
-                            <x-text-input id="province_id" class="block mt-1 w-full" type="text"
-                                value="{{ $order->user->address->province->name }}" disabled />
-                        </div>
-                        <div>
-                            <x-input-label for="city_id" :value="__('Kota')" />
-
-                            <x-text-input id="city_id" class="block mt-1 w-full" type="text"
-                                value="{{ $order->user->address->city->name }}" disabled />
-                        </div>
-                        <div>
-                            <x-input-label for="city_id" :value="__('Alamat')" />
-
-                            <textarea id="city_id" class="mt-1 w-full textarea textarea-bordered h-36" disabled />{{ $order->user->address->details }}
-                            </textarea>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
+                <div class="mt-4 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
                     <p class="font-bold text-xl border-b mb-4">Opsi Pengiriman</p>
                     <div>
                         <div role="alert" class="alert bg-neutral text-white">
@@ -269,7 +251,7 @@ on([
                     </div>
                     <div>
                         <!-- Total -->
-                        <div class="mt-6 border-t border-b py-2">
+                        <div class="mt-6 border-t py-2">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium">Subtotal untuk Produk</p>
                                 <p class="font-semibold"> {{ 'Rp. ' . Number::format($this->order->total_amount) }}</p>
@@ -295,35 +277,42 @@ on([
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/payments/{{ $order->id }}" wire:navigate class="btn btn-primary btn-wide my-4 mx-3">
-                            <span wire:loading wire:target='confirmOrder' class="loading loading-spinner text-neutral">
-                            </span>
-                            Lakukan Pembayaran
-                        </a>
-                        <button wire:click="confirmOrder('{{ $order->id }}')"
-                            class="btn btn-neutral btn-wide my-4 mx-3">
-                            <span wire:loading wire:target='confirmOrder' class="loading loading-spinner text-neutral">
-                            </span>
-                            Lanjutkan Pembelian
-                        </button>
-                        <button wire:click="cancelOrder('{{ $order->id }}')"
-                            class="btn btn-error btn-wide text-white my-4 mx-3">
-                            <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-white">
-                            </span>
-                            Batalkan Pesanan
-                        </button>
-
+                        @if ($order->status == 'Unpaid')
+                            <a href="/payments/{{ $order->id }}" wire:navigate
+                                class="btn btn-primary btn-wide my-4 mx-3">
+                                <span wire:loading wire:target='confirmOrder'
+                                    class="loading loading-spinner text-neutral">
+                                </span>
+                                Lakukan Pembayaran
+                            </a>
+                            <button wire:click="cancelOrder('{{ $order->id }}')"
+                                class="btn btn-error btn-wide text-white my-4 mx-3">
+                                <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-white">
+                                </span>
+                                Batalkan Pesanan
+                            </button>
+                        @elseif ($order->status == 'Progress')
+                            <button wire:click="confirmOrder('{{ $order->id }}')"
+                                class="btn btn-neutral btn-wide my-4 mx-3">
+                                <span wire:loading wire:target='confirmOrder'
+                                    class="loading loading-spinner text-neutral">
+                                </span>
+                                Lanjutkan Pembelian
+                            </button>
+                        @elseif ($order->proof_of_payment != null)
+                            <div class="collapse bg-base-200">
+                                <input type="checkbox" />
+                                <div class="collapse-title text-xl font-medium">
+                                    Lihat Bukti Pembayaran {{ $order->status }}
+                                </div>
+                                <div class="collapse-content">
+                                    <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
+                                        alt="proof of payment">
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
-                @if ($order->proof_of_payment != null)
-                    <div class="mt-8 space-y-3 rounded-lg border px-2 py-4 sm:px-6">
-                        <p class="font-bold text-xl border-b mb-4">Bukti Pembayaran</p>
-                        <div>
-                            <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
-                                alt="">
-                        </div>
-                    </div>
-                @endif
             </div>
 
         </div>

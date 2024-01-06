@@ -11,7 +11,7 @@ state([
 
 with(
     fn() => [
-        'orders' => fn() => Order::where('status', 'complated')
+        'orders' => fn() => Order::where('status', 'pending')
             ->latest()
             ->paginate(5),
     ],
@@ -24,7 +24,7 @@ with(
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Pesanan Selesai') }}
+                    {{ __('Pesanan Masuk') }}
                 </h2>
             </x-slot>
 

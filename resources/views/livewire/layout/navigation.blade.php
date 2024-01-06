@@ -91,18 +91,18 @@ $logout = function (Logout $logout) {
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="url('/admin/transactions/received')"
-                                    active="request()->routeIs('/admin/transactions/received')" wire:navigate>
+                                <x-dropdown-link :href="url('/admin/transactions/pending')"
+                                    active="request()->routeIs('/admin/transactions/pending')" wire:navigate>
                                     {{ __('Pesanan Masuk') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="url('/admin/transactions/inProgress')"
-                                    active="request()->routeIs('/admin/transactions/inProgress')" wire:navigate>
+                                <x-dropdown-link :href="url('/admin/transactions/packed')"
+                                    active="request()->routeIs('/admin/transactions/packed')" wire:navigate>
                                     {{ __('Pesanan Dikemas') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="url('/admin/transactions/inTransit')"
-                                    active="request()->routeIs('/admin/transactions/inTransit')" wire:navigate>
+                                <x-dropdown-link :href="url('/admin/transactions/shipping')"
+                                    active="request()->routeIs('/admin/transactions/shipping')" wire:navigate>
                                     {{ __('Pesanan Dikirim') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/transactions/complated')"

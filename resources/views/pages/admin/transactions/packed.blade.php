@@ -11,9 +11,7 @@ state([
 
 with(
     fn() => [
-        'receives' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'unpaid')
-            ->orWhere('status', 'progress')
+        'orders' => fn() => Order::where('status', 'packed')
             ->latest()
             ->paginate(5),
     ],
@@ -26,7 +24,7 @@ with(
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Pesanan Masuk') }}
+                    {{ __('Pesanan Dikemas') }}
                 </h2>
             </x-slot>
 
@@ -43,12 +41,12 @@ with(
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($receives as $no => $order)
+                            @foreach ($orders as $no => $order)
                                 <tr>
                                     <th>{{ ++$no }}</th>
                                     <th>{{ $order->invoice }}</th>
                                     <th>
-                                        <div class="badge badge-warning p-3">
+                                        <div class="badge badge-warning p-3 uppercase">
                                             {{ $order->status }}
                                         </div>
                                     </th>
@@ -65,7 +63,7 @@ with(
                             @endforeach
                         </tbody>
                         <div>
-                            {{ $receives->links() }}
+                            {{ $orders->links() }}
                         </div>
                     </table>
                 </div>
