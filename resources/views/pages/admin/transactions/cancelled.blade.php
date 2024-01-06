@@ -11,7 +11,7 @@ state([
 
 with(
     fn() => [
-        'orders' => fn() => Order::where('status', 'shipped')
+        'orders' => fn() => Order::where('status', 'CANCELLED')
             ->latest()
             ->paginate(5),
     ],

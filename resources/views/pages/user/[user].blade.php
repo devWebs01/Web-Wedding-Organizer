@@ -83,16 +83,21 @@ $sendVerification = function () {
                     <div class="mx-auto">
                         <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md">
                             <button x-on:click="openTab = 1" :class="{ 'bg-black text-white': openTab === 1 }"
-                                class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Profile
-                                Pengguna</button>
+                                class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
+                                Profile
+                                @if (Auth()->user()->telp == null)
+                                    <span class="indicator-item badge badge-warning">!</span>
+                                @endif
+                            </button>
                             <button x-on:click="openTab = 2" :class="{ 'bg-black text-white': openTab === 2 }"
                                 class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Alamat
-                                Pengguna</button>
+                            </button>
                         </div>
 
                         <div x-show="openTab === 1"
                             class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                            <h2 class="text-2xl font-semibold mb-2">Profil Pengguna</h2>
+                            <h2 class="text-2xl font-semibold mb-2">Profil Pengguna
+                            </h2>
                             <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
                                 <div>
                                     <x-input-label for="name" :value="__('Name')" />

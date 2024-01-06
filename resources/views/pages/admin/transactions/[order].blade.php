@@ -15,11 +15,11 @@ rules([
     'tracking_number' => 'required|min:10',
 ]);
 
-$confirm = fn() => $this->order->update(['status' => 'packed']);
+$confirm = fn() => $this->order->update(['status' => 'PACKED']);
 
 $submitTrackingNumber = function () {
     $validate = $this->validate();
-    $validate['status'] = 'shipped';
+    $validate['status'] = 'SHIPPED';
 
     $this->order->update($validate);
 };
@@ -45,12 +45,12 @@ $submitTrackingNumber = function () {
                         <!-- Col -->
 
                         <div class="text-right">
-                            @if ($order->status == 'pending')
+                            @if ($order->status == 'PENDING')
                                 <button wire:click='confirm' class="btn ">
                                     <span class="loading loading-spinner loading-md" wire:loading
                                         wire:target='confirm'></span>
                                     Konfirmasi Pesanan</button>
-                            @elseif ($order->status == 'packed')
+                            @elseif ($order->status == 'PACKED')
                                 <form wire:submit="submitTrackingNumber">
 
                                     <div class="join gap-3">
@@ -100,11 +100,11 @@ $submitTrackingNumber = function () {
                                         Rincian Pembeli:
                                     </dt>
                                     <dd class="font-medium dark:text-gray-200">
-                                        <span class="block font-semibold">{{ $order->user->name }}</span>
-                                        <address class="not-italic font-normal">
+                                        <div>
+                                            <span class="block font-semibold">{{ $order->user->name }}</span>
                                             {{ $order->user->email }}<br>
                                             {{ $order->user->telp }}<br>
-                                        </address>
+                                        </div>
                                     </dd>
                                 </dl>
 
@@ -113,12 +113,12 @@ $submitTrackingNumber = function () {
                                         Rincian Pengiriman:
                                     </dt>
                                     <dd class="font-medium dark:text-gray-200">
-                                        <span class="block font-semibold">{{ $order->user->name }}</span>
-                                        <address class="not-italic font-normal">
+                                        <div class="text-ballence">
+                                            <span class="block font-semibold">{{ $order->user->name }}</span>
                                             {{ $order->user->address->province->name }},
-                                            {{ $order->user->address->city->name }}<br>
-                                            {{ $order->user->address->details }}<br>
-                                        </address>
+                                            {{ $order->user->address->city->name }}
+                                            {{ $order->user->address->details }}
+                                        </div>
                                     </dd>
                                 </dl>
                             </div>

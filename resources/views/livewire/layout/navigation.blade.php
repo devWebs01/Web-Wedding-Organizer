@@ -105,8 +105,8 @@ $logout = function (Logout $logout) {
                                     active="request()->routeIs('/admin/transactions/shipping')" wire:navigate>
                                     {{ __('Pesanan Dikirim') }}
                                 </x-dropdown-link>
-                                <x-dropdown-link :href="url('/admin/transactions/complated')"
-                                    active="request()->routeIs('/admin/transactions/complated')" wire:navigate>
+                                <x-dropdown-link :href="url('/admin/transactions/completed')"
+                                    active="request()->routeIs('/admin/transactions/completed')" wire:navigate>
                                     {{ __('Pesanan Selesai') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/transactions/cancelled')"

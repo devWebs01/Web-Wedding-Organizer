@@ -12,25 +12,25 @@ state([
 with(
     fn() => [
         'process_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'unpaid')
-            ->orWhere('status', 'progress')
-            ->orWhere('status', 'pending')
+            ->where('status', 'UNPAID')
+            ->orWhere('status', 'PROGRESS')
+            ->orWhere('status', 'PENDING')
             ->latest()
             ->paginate(5),
 
         'shipped_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'shipped')
-            ->orWhere('status', 'packed')
+            ->where('status', 'SHIPPED')
+            ->orWhere('status', 'PACKED')
             ->latest()
             ->paginate(5),
 
         'completed_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'completed')
+            ->where('status', 'COMPLETED')
             ->latest()
             ->paginate(5),
 
         'cancelled_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'cancelled')
+            ->where('status', 'CANCELLED')
             ->latest()
             ->paginate(5),
     ],

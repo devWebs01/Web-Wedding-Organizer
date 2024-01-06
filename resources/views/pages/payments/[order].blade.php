@@ -20,7 +20,7 @@ $submit = function () {
     $order = $this->order;
     $order->update([
         'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
-        'status' => 'pending',
+        'status' => 'PENDING',
     ]);
 
     $this->redirect('/orders', navigate: true);

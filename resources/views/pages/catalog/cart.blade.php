@@ -60,7 +60,7 @@ $confirmCheckout = function () {
 
     $order = Order::create([
         'user_id' => auth()->id(),
-        'status' => 'Progress',
+        'status' => 'PROGRESS',
         'invoice' => 'INV-' . time(),
         'total_amount' => 0,
         'shipping_cost' => 0,

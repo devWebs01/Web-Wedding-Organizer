@@ -45,7 +45,7 @@ rules(['courier' => 'required', 'payment_method' => 'required']);
 $confirmOrder = function () {
     $this->validate();
     $bubble_wrap = $this->protect_cost == 0 ? '' : ' + Bubble Wrap';
-    $status_payment = $this->payment_method == 'Transfer Bank' ? 'Unpaid' : 'Pending';
+    $status_payment = $this->payment_method == 'Transfer Bank' ? 'UNPAID' : 'PENDING';
     $order = $this->order;
     $order->update([
         'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
@@ -82,8 +82,8 @@ $cancelOrder = function ($orderId) {
         $product->update(['quantity' => $newQuantity]);
     }
 
-    // Memperbarui status pesanan menjadi 'Cancelled'
-    $order->update(['status' => 'Cancelled']);
+    // Memperbarui status pesanan menjadi 'CANCELLED'
+    $order->update(['status' => 'CANCELLED']);
 
     // Menghapus data kurir terkait
     $this->dispatch('delete-couriers');
@@ -91,6 +91,8 @@ $cancelOrder = function ($orderId) {
     // Redirect ke halaman pesanan setelah pembatalan
     $this->redirect('/orders', navigate: true);
 };
+
+$complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
 on([
     'delete-couriers' => function () {
@@ -124,20 +126,65 @@ on([
                 </nav>
             </div>
             <div class="sm:px-8 mt-4 mx-auto">
-                <div role="alert" class="alert shadow-lg">
+                <div role="alert" class="alert shadow-lg mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         class="stroke-black shrink-0 w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span>
-                        {{ $order->user->name }} <br>
-                        {{ $order->user->email }}, {{ $order->user->telp }} <br>
-                        {{ $order->user->address->province->name }}, {{ $order->user->address->city->name }} <br>
-                        {{ $order->user->address->details }} <br>
-                    </span>
                     <div>
-                        <button class="btn btn-sm uppercase btn-primary">{{ $order->status }}</button>
+                        <h3 class="font-bold">Status Pesanan Terkini</h3>
+
+                        <div class="text-sm">
+                            @if ($order->status == 'SHIPPED')
+                                Pastikan barang telah diterima sebelum mengklik <span class="font-bold">"Terima
+                                    Pesanan"</span>
+                            @elseif ($order->status == 'COMPLETED')
+                                Pesanan telah diterima pada <span class="font-bold">{{ $order->updated_at }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn uppercase btn-primary">{{ $order->status }}</button>
+                        @if ($order->status == 'SHIPPED')
+                            <button wire:click="complatedOrder" class="btn btn-outline my-4 mx-3 indicator">
+                                <span class="indicator-item badge badge-primary font-bold">!</span>
+                                <span wire:loading wire:target='confirmOrder'
+                                    class="loading loading-spinner text-neutral"></span>
+                                Terima Pesanan
+                            </button>
+                        @endif
+                    </div>
+                </div>
+                <div role="alert" class="alert shadow-lg">
+                    <svg width="20px" height="20px" viewBox="-3 0 20 20" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>pin_sharp_circle [#625]</title>
+                            <desc>Created with Sketch.</desc>
+                            <defs> </defs>
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Dribbble-Light-Preview" transform="translate(-183.000000, -5439.000000)"
+                                    fill="#000000">
+                                    <g id="icons" transform="translate(56.000000, 160.000000)">
+                                        <path
+                                            d="M134,5287.635 C133.449,5287.635 133,5287.186 133,5286.635 C133,5286.084 133.449,5285.635 134,5285.635 C134.551,5285.635 135,5286.084 135,5286.635 C135,5287.186 134.551,5287.635 134,5287.635 M134,5283.635 C132.343,5283.635 131,5284.978 131,5286.635 C131,5288.292 132.343,5289.635 134,5289.635 C135.657,5289.635 137,5288.292 137,5286.635 C137,5284.978 135.657,5283.635 134,5283.635 M134,5296 C134,5296 129,5289 129,5286 C129,5283.243 131.243,5281 134,5281 C136.757,5281 139,5283.243 139,5286 C139,5289 134,5296 134,5296 M134,5279 C130.134,5279 127,5282.134 127,5286 C127,5289.866 134,5299 134,5299 C134,5299 141,5289.866 141,5286 C141,5282.134 137.866,5279 134,5279"
+                                            id="pin_sharp_circle-[#625]"> </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                    <div>
+                        <span class="font-bold">
+                            {{ $order->user->name }}
+                            - {{ $order->user->email }} - {{ $order->user->telp }}
+                        </span>
+                        <br>
+                        {{ $order->user->address->province->name }}, {{ $order->user->address->city->name }}
+                        {{ $order->user->address->details }} <br>
                     </div>
                 </div>
             </div>
@@ -190,7 +237,7 @@ on([
                         <!-- courier -->
                         <label class="form-control w-full mb-3">
                             <x-input-label for="courier" :value="__('Pilih Jasa Pengiriman')" class="mb-2" />
-                            @if ($order->status == 'Progress')
+                            @if ($order->status == 'PROGRESS')
                                 <select wire:model.live='courier' class="select select-bordered">
                                     <option disabled>Pilih salah satu</option>
                                     @foreach ($couriers as $courier)
@@ -212,7 +259,7 @@ on([
                         <!-- payment_method -->
                         <label class="form-control w-full mb-3">
                             <x-input-label for="payment_method" :value="__('Pilih Metode Pembayaran')" class="mb-2" />
-                            <select {{ $order->status == 'Progress' ?: 'disabled' }} wire:model='payment_method'
+                            <select {{ $order->status == 'PROGRESS' ?: 'disabled' }} wire:model='payment_method'
                                 class="select select-bordered">
                                 <option>Pilih salah satu</option>
                                 <option value="COD (Cash On Delivery)">COD (Cash On Delivery)</option>
@@ -226,7 +273,7 @@ on([
                         <label class="form-control w-full mb-3">
                             <x-input-label for="note" :value="__('Catatan Tambahan')" class="mb-2" />
                             <textarea wire:target='submit' wire:model.blur="note" class="mt-1 w-full textarea textarea-bordered h-36"
-                                {{ $order->status == 'Progress' ?: 'disabled' }} />
+                                {{ $order->status == 'PROGRESS' ?: 'disabled' }} />
                             </textarea>
                             <x-input-error :messages="$errors->get('note')" class="mt-2" />
                         </label>
@@ -277,33 +324,37 @@ on([
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        @if ($order->status == 'Unpaid')
+                        @if ($order->status == 'UNPAID')
                             <a href="/payments/{{ $order->id }}" wire:navigate
                                 class="btn btn-primary btn-wide my-4 mx-3">
                                 <span wire:loading wire:target='confirmOrder'
-                                    class="loading loading-spinner text-neutral">
-                                </span>
+                                    class="loading loading-spinner text-neutral"></span>
                                 Lakukan Pembayaran
                             </a>
                             <button wire:click="cancelOrder('{{ $order->id }}')"
                                 class="btn btn-error btn-wide text-white my-4 mx-3">
-                                <span wire:loading wire:target='cancelOrder' class="loading loading-spinner text-white">
-                                </span>
+                                <span wire:loading wire:target='cancelOrder'
+                                    class="loading loading-spinner text-white"></span>
                                 Batalkan Pesanan
                             </button>
-                        @elseif ($order->status == 'Progress')
+                        @elseif ($order->status == 'PROGRESS')
                             <button wire:click="confirmOrder('{{ $order->id }}')"
                                 class="btn btn-neutral btn-wide my-4 mx-3">
                                 <span wire:loading wire:target='confirmOrder'
-                                    class="loading loading-spinner text-neutral">
-                                </span>
+                                    class="loading loading-spinner text-neutral"></span>
                                 Lanjutkan Pembelian
+                            </button>
+                            <button wire:click="cancelOrder('{{ $order->id }}')"
+                                class="btn btn-error btn-wide text-white my-4 mx-3">
+                                <span wire:loading wire:target='cancelOrder'
+                                    class="loading loading-spinner text-white"></span>
+                                Batalkan Pesanan
                             </button>
                         @elseif ($order->proof_of_payment != null)
                             <div class="collapse bg-base-200">
                                 <input type="checkbox" />
                                 <div class="collapse-title text-xl font-medium">
-                                    Lihat Bukti Pembayaran {{ $order->status }}
+                                    Lihat Bukti Pembayaran
                                 </div>
                                 <div class="collapse-content">
                                     <img src="{{ Storage::url($order->proof_of_payment) }}" class="w-full rounded-lg"
@@ -312,6 +363,7 @@ on([
                             </div>
                         @endif
                     </div>
+
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ state([
 
 with(
     fn() => [
-        'orders' => fn() => Order::where('status', 'complated')
+        'orders' => fn() => Order::where('status', 'COMPLETED')
             ->latest()
             ->paginate(5),
     ],
