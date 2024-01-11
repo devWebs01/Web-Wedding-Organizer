@@ -45,12 +45,11 @@ $products = computed(function () {
                 <div class="text-center pt-5">
                     <h1
                         class="text-4xl font-extrabold tracking-tight text-gray-900 font-display sm:text-5xl md:text-6xl xl:text-7xl">
-                        <span class="block xl:inline">Telusuri Kebutuhan</span>
-                        <span class="block text-cool-indigo-600">Produk ATK Anda di Toko Kami</span>
+                        <span class="block xl:inline">Telusuri Kebutuhan yang seusai dengan</span>
+                        <span class="block text-cool-indigo-600">Toko Kami</span>
                     </h1>
                     <p class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                        Telusuri kategori produk kami yang luas, termasuk pensil, pulpen, kertas, dan peralatan kantor
-                        lainnya. Temukan produk unggulan kami yang akan memenuhi kebutuhan kantor Anda.
+                        Telusuri kategori produk temukan produk unggulan kami yang akan memenuhi kebutuhan kantor Anda.
                     </p>
                     <div class="relative max-w-3xl px-4 mx-auto mt-10 sm:px-6">
                         <input wire:model.live="search" type="search" placeholder="Type here"
