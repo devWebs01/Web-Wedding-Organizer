@@ -118,10 +118,11 @@ $submitTrackingNumber = function () {
                                     </dt>
                                     <dd class="font-medium dark:text-gray-200">
                                         <div class="text-ballence">
-                                            <span class="block font-semibold">{{ $order->user->name }}</span>
-                                            {{ $order->user->address->province->name }},
-                                            {{ $order->user->address->city->name }} <br>
                                             <span class="text-wrap" style="overflow-wrap: anywhere;">
+                                                {{ $order->user->name }}
+                                                <br>
+                                                {{ $order->user->address->province->name }},
+                                                {{ $order->user->address->city->name }} <br>
                                                 {{ $order->user->address->details }}
                                             </span>
                                         </div>

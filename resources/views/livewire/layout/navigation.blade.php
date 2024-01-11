@@ -43,10 +43,14 @@ on([
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-3 sm:-my-px sm:ms-10 sm:flex">
 
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                        {{ __('Pelanggan') }}
                     </x-nav-link>
 
                     <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
@@ -54,7 +58,7 @@ on([
                             <x-slot name="trigger">
                                 <button
                                     class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    <div>Manajemen Produk</div>
+                                    <div>Kelola Produk</div>
 
                                     <div class="ml-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +100,7 @@ on([
                                         <span class="badge badge-neutral indicator-item indicator-start">!</span>
                                     @endif
 
-                                    <div>Manajemen Transaksi</div>
+                                    <div>Kelola Transaksi</div>
                                     <div class="ml-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20">
@@ -143,6 +147,10 @@ on([
                             </x-slot>
                         </x-dropdown>
                     </div>
+
+                    <x-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
+                        {{ __('Laporan') }}
+                    </x-nav-link>
                 </div>
             </div>
 
