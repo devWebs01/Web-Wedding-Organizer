@@ -1,18 +1,32 @@
 <?php
 
-// Mengimpor kelas Logout dari namespace App\Livewire\Actions
 use App\Livewire\Actions\Logout;
+use App\Models\Order;
+use function Livewire\Volt\{computed, state, on};
 
-// Di sini kita membuat sebuah fungsi yang disebut $logout
-// Fungsi ini akan melakukan logout saat dipanggil
+state([
+    'orders' => fn() => Order::where('status', 'PENDING')
+        ->orWhere('status', 'PACKED')
+        ->count(),
+    'orderPending' => fn() => Order::where('status', 'PENDING')->count(),
+    'orderShipped' => fn() => Order::where('status', 'PACKED')->count(),
+]);
+
 $logout = function (Logout $logout) {
-    // Panggil fungsi khusus dalam objek Logout untuk mengeksekusi logout
     $logout();
 
-    // Setelah logout, arahkan pengguna kembali ke halaman utama dengan memberi tahu program untuk melakukan navigasi (bukan hanya memperbarui halaman)
     $this->redirect('/', navigate: true);
 };
 
+on([
+    'order-update' => function () {
+        $this->orders = Order::where('status', 'PENDING')
+            ->orWhere('status', 'PACKED')
+            ->count();
+        $this->orderPending = Order::where('status', 'PENDING')->count();
+        $this->orderShipped = Order::where('status', 'PACKED')->count();
+    },
+]);
 ?>
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -72,13 +86,17 @@ $logout = function (Logout $logout) {
                         {{ __('Toko') }}
                     </x-nav-link>
 
-                    <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
+                    <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1 indicator">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button
                                     class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    <div>Manajemen Transaksi</div>
 
+                                    @if ($orders)
+                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                                    @endif
+
+                                    <div>Manajemen Transaksi</div>
                                     <div class="ml-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20">
@@ -92,12 +110,20 @@ $logout = function (Logout $logout) {
 
                             <x-slot name="content">
                                 <x-dropdown-link :href="url('/admin/transactions/pending')"
-                                    active="request()->routeIs('/admin/transactions/pending')" wire:navigate>
+                                    active="request()->routeIs('/admin/transactions/pending')" class="indicator"
+                                    wire:navigate>
+                                    @if ($orderPending > 0)
+                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                                    @endif
                                     {{ __('Pesanan Masuk') }}
                                 </x-dropdown-link>
 
                                 <x-dropdown-link :href="url('/admin/transactions/packed')"
-                                    active="request()->routeIs('/admin/transactions/packed')" wire:navigate>
+                                    active="request()->routeIs('/admin/transactions/packed')" class="indicator"
+                                    wire:navigate>
+                                    @if ($orderShipped > 0)
+                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                                    @endif
                                     {{ __('Pesanan Dikemas') }}
                                 </x-dropdown-link>
 

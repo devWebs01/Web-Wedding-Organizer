@@ -15,13 +15,17 @@ rules([
     'tracking_number' => 'required|min:10',
 ]);
 
-$confirm = fn() => $this->order->update(['status' => 'PACKED']);
+$confirm = function () {
+    $this->order->update(['status' => 'PACKED']);
+    $this->dispatch('order-update');
+};
 
 $submitTrackingNumber = function () {
     $validate = $this->validate();
     $validate['status'] = 'SHIPPED';
 
     $this->order->update($validate);
+    $this->dispatch('order-update');
 };
 
 ?>
@@ -116,8 +120,10 @@ $submitTrackingNumber = function () {
                                         <div class="text-ballence">
                                             <span class="block font-semibold">{{ $order->user->name }}</span>
                                             {{ $order->user->address->province->name }},
-                                            {{ $order->user->address->city->name }}
-                                            {{ $order->user->address->details }}
+                                            {{ $order->user->address->city->name }} <br>
+                                            <span class="text-wrap" style="overflow-wrap: anywhere;">
+                                                {{ $order->user->address->details }}
+                                            </span>
                                         </div>
                                     </dd>
                                 </dl>
