@@ -49,6 +49,10 @@ on([
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="url('admin/users')" :active="request('admin/users')" wire:navigate>
+                        {{ __('Admin') }}
+                    </x-nav-link>
+
                     <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
                         {{ __('Pelanggan') }}
                     </x-nav-link>

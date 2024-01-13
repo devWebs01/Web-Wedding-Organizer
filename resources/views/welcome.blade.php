@@ -169,7 +169,7 @@ state([
                         <h1 class="text-xl text-center text-dark-grey-600">Terintegrasi Dengan Jasa
                             Pengiriman Terpecaya</h1>
                         <div
-                            class="flex flex-wrap items-center justify-center w-full gap-6 lg:gap-0 lg:flex-nowrap lg:justify-between">
+                            class="flex flex-wrap items-center justify-center w-full gap-6 lg:flex-nowrap">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="75.0209mm"
                                     height="20.32mm"
