@@ -99,7 +99,7 @@ $edit = function (Bank $bank) {
                                 class="btn btn-outline btn-sm join-item">
                                 {{ __('Edit') }}
                             </button>
-                            <button wire:confirm.prompt="Are you sure?\n\nType delete to confirm|delete"
+                            <button wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
                                 wire:loading.attr='disabled' wire:click='destroy({{ $bank->id }})'
                                 class="btn btn-outline btn-sm join-item">
                                 {{ __('Hapus') }}

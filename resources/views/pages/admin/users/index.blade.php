@@ -40,10 +40,10 @@ $destroy = function (User $user) {
                     <div class="py-5">
                         <div class="mx-auto">
                             <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-between">
-                                <a href="/admin/users/store" class="btn btn-neutral btn-sm">Tambah Admin</a>
+                                <a href="/admin/users/store" class="btn btn-neutral ">Tambah Admin</a>
                                 <label class="form-control w-full max-w-xs">
                                     <input wire:model.live="search" type="search" placeholder="Input Pencarian"
-                                        class="input input-bordered input-sm w-full max-w-xs" />
+                                        class="input input-bordered w-full max-w-xs" />
                                 </label>
                             </div>
 
@@ -67,11 +67,13 @@ $destroy = function (User $user) {
                                                     <td>{{ $user->name }}.</td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ $user->telp }}</td>
-                                                    <td>
+                                                    <td class="join">
                                                         <a href="/admin/users/{{ $user->id }}" wire:navigate
-                                                            class="btn btn-sm btn-outline">Edit</a>
-                                                            <button wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
-                                                            wire:loading.attr='disabled' wire:click='destroy({{ $user->id }})'
+                                                            class="btn btn-sm btn-outline join-item">Edit</a>
+                                                        <button
+                                                            wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
+                                                            wire:loading.attr='disabled'
+                                                            wire:click='destroy({{ $user->id }})'
                                                             class="btn join-item btn-outline btn-sm">
                                                             {{ __('Hapus') }}
                                                         </button>

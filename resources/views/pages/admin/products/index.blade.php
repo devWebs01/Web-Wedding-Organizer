@@ -52,7 +52,7 @@ $destroy = function (product $product) {
                                             </div>
                                         </th>
                                         <th>{{ $product->title }}</th>
-                                        <th>{{ $product->price }}</th>
+                                        <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
                                         <th>{{ $product->quantity }}</th>
                                         <th>
                                             <div class="join">
@@ -61,7 +61,8 @@ $destroy = function (product $product) {
                                                     {{ __('Edit') }}
                                                 </a>
 
-                                                <button wire:confirm.prompt="Are you sure?\n\nType delete to confirm|delete"
+                                                <button
+                                                    wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
                                                     wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
                                                     class="btn join-item btn-outline btn-sm">
                                                     {{ __('Hapus') }}
