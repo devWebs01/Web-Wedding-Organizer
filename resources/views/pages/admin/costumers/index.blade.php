@@ -36,7 +36,6 @@ $users = computed(function () {
                     <div class="py-5">
                         <div class="mx-auto">
                             <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-between">
-                                <span class="text-xl font-bold">Cari Data Pelanggan</span>
                                 <label class="form-control w-full max-w-xs">
                                     <input wire:model.live="search" type="search" placeholder="Input Pencarian"
                                         class="input input-bordered input-sm w-full max-w-xs" />

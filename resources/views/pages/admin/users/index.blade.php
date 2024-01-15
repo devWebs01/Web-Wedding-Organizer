@@ -21,6 +21,10 @@ $users = computed(function () {
     }
 });
 
+$destroy = function (User $user) {
+    $user->delete();
+};
+
 ?>
 <x-app-layout>
     @volt
@@ -53,6 +57,7 @@ $users = computed(function () {
                                                 <th>Nama</th>
                                                 <th>Email</th>
                                                 <th>Telp</th>
+                                                <th>#</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,6 +67,15 @@ $users = computed(function () {
                                                     <td>{{ $user->name }}.</td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ $user->telp }}</td>
+                                                    <td>
+                                                        <a href="/admin/users/{{ $user->id }}" wire:navigate
+                                                            class="btn btn-sm btn-outline">Edit</a>
+                                                            <button wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
+                                                            wire:loading.attr='disabled' wire:click='destroy({{ $user->id }})'
+                                                            class="btn join-item btn-outline btn-sm">
+                                                            {{ __('Hapus') }}
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
