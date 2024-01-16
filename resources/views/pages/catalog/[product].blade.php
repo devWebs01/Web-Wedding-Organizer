@@ -22,22 +22,20 @@ rules([
 ]);
 
 $addToCart = function () {
-    if (Auth::check()) {
+    if (Auth::check() && auth()->user()->role == 'costumer') {
         $existingCart = Cart::where('user_id', $this->user_id)
             ->where('product_id', $this->product_id)
             ->first();
 
         if ($existingCart) {
-            // If the product is already in the cart, update the quantity
             $existingCart->update(['qty' => $existingCart->qty + $this->qty]);
         } else {
-            // If the product is not in the cart, add it as a new item
             Cart::create($this->validate());
         }
 
         $this->dispatch('cart-updated');
     } else {
-        $this->redirect('/login', navigate:true);
+        $this->redirect('/login', navigate: true);
     }
 };
 ?>

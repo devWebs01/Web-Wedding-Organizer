@@ -43,59 +43,61 @@ on([
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="url('admin/users')" :active="request('admin/users')" wire:navigate>
-                        {{ __('Admin') }}
-                    </x-nav-link>
+                    @if (auth()->user()->role == 'superadmin')
+                        <x-nav-link :href="url('admin/users')" :active="request('admin/users')" wire:navigate>
+                            {{ __('Admin') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                            {{ __('Pelanggan') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
-                        {{ __('Pelanggan') }}
-                    </x-nav-link>
+                        <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button
+                                        class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <div>Kelola Produk</div>
 
-                    <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button
-                                    class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    <div>Kelola Produk</div>
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
 
-                                    <div class="ml-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </button>
-                            </x-slot>
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="url('/admin/products/categories')"
+                                        active="request()->routeIs('/admin/products/categories')" wire:navigate>
+                                        {{ __('Kategori Produk') }}
+                                    </x-dropdown-link>
 
-                            <x-slot name="content">
-                                <x-dropdown-link :href="url('/admin/products/categories')"
-                                    active="request()->routeIs('/admin/products/categories')" wire:navigate>
-                                    {{ __('Kategori Produk') }}
-                                </x-dropdown-link>
+                                    <x-dropdown-link :href="url('/admin/products')" active="request()->routeIs('/admin/products')"
+                                        wire:navigate>
+                                        {{ __('Produk Toko') }}
+                                    </x-dropdown-link>
 
-                                <x-dropdown-link :href="url('/admin/products')" active="request()->routeIs('/admin/products')"
-                                    wire:navigate>
-                                    {{ __('Produk Toko') }}
-                                </x-dropdown-link>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
 
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
+                        <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                            {{ __('Toko') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
-                        {{ __('Toko') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate class="indicator">
-                        @if ($orderPending > 0)
-                            <span class="badge badge-neutral indicator-item indicator-start">!</span>
-                        @elseif ($orderShipped > 0)
-                            <span class="badge badge-neutral indicator-item indicator-start">!</span>
-                        @endif
-                        {{ __('Transaksi') }}
-                    </x-nav-link>
+                        <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate class="indicator">
+                            @if ($orderPending > 0)
+                                <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                            @elseif ($orderShipped > 0)
+                                <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                            @endif
+                            {{ __('Transaksi') }}
+                        </x-nav-link>
+                    @endif
 
                     <x-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
                         {{ __('Laporan') }}
@@ -161,31 +163,31 @@ on([
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')" wire:navigate>
-                {{ __('Admin') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->role == 'superadmin')
+                <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')" wire:navigate>
+                    {{ __('Admin') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                    {{ __('Pelanggan') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
-                {{ __('Pelanggan') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')" wire:navigate>
+                    {{ __('Kategori Produk') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')" wire:navigate>
-                {{ __('Kategori Produk') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
+                    {{ __('Produk Toko') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
-                {{ __('Produk Toko') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                    {{ __('Toko') }}
+                </x-responsive-nav-link>
 
-
-            <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
-                {{ __('Toko') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')" wire:navigate>
-                {{ __('Transaksi') }}
-            </x-responsive-nav-link>
-
+                <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')" wire:navigate>
+                    {{ __('Transaksi') }}
+                </x-responsive-nav-link>
+            @endif
             <x-responsive-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
                 {{ __('Laporan') }}
             </x-responsive-nav-link>

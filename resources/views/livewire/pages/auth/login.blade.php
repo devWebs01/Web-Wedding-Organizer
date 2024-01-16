@@ -20,6 +20,8 @@ $login = function () {
 
     if (auth()->user()->role == 'admin') {
         $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
+    } elseif (auth()->user()->role == 'superadmin') {
+        $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
     } else {
         $this->redirect('/', navigate: true);
     }

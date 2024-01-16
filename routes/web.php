@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CalculateCostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified', 'admin'])
+    ->middleware(['auth', 'verified', 'checkRole:admin,superadmin'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('/calculateCost', [CalculateCostController::class, 'index']);
 
 
 require __DIR__ . '/auth.php';
