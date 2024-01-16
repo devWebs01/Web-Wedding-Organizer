@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\Bank::factory(3)->create();
 
         // \App\Models\Product::factory(10)->create();
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(20)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'testing',
             'email' => 'testing@testing.com',
-            'telp' => '08' . fake()->isbn10(),
+            'telp' => '08' . rand(1111111111,9999999999),
         ]);
 
         $this->call([

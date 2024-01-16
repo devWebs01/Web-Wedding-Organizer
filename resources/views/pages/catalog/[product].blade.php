@@ -7,7 +7,7 @@ use App\Models\User;
 
 state(['product' => fn() => Product::find($id)]);
 state([
-    'user_id' => fn() => Auth()->user()->id,
+    'user_id' => fn() => Auth()->user()->id ?? '',
     'product_id' => fn() => $this->product->id,
     'qty' => 1,
     'randomProduct' => fn() => Product::inRandomOrder()
@@ -22,19 +22,23 @@ rules([
 ]);
 
 $addToCart = function () {
-    $existingCart = Cart::where('user_id', $this->user_id)
-        ->where('product_id', $this->product_id)
-        ->first();
+    if (Auth::check()) {
+        $existingCart = Cart::where('user_id', $this->user_id)
+            ->where('product_id', $this->product_id)
+            ->first();
 
-    if ($existingCart) {
-        // If the product is already in the cart, update the quantity
-        $existingCart->update(['qty' => $existingCart->qty + $this->qty]);
+        if ($existingCart) {
+            // If the product is already in the cart, update the quantity
+            $existingCart->update(['qty' => $existingCart->qty + $this->qty]);
+        } else {
+            // If the product is not in the cart, add it as a new item
+            Cart::create($this->validate());
+        }
+
+        $this->dispatch('cart-updated');
     } else {
-        // If the product is not in the cart, add it as a new item
-        Cart::create($this->validate());
+        $this->redirect('/login', navigate:true);
     }
-
-    $this->dispatch('cart-updated');
 };
 ?>
 <x-costumer-layout>

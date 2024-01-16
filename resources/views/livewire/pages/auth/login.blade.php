@@ -1,35 +1,28 @@
 <?php
 
-// Mengimpor kelas LoginForm dari namespace App\Livewire\Forms
 use App\Livewire\Forms\LoginForm;
-// Mengimpor kelas RouteServiceProvider dari namespace App\Providers
 use App\Providers\RouteServiceProvider;
-// Mengimpor kelas Session dari namespace Illuminate\Support\Facades
 use Illuminate\Support\Facades\Session;
 
-// Menggunakan fungsi-fungsi dari Livewire\Volt
 use function Livewire\Volt\form;
 use function Livewire\Volt\layout;
 
-// Mengatur layout untuk halaman guest menggunakan 'layouts.guest'
 layout('layouts.guest');
 
-// Menampilkan formulir login menggunakan kelas LoginForm
 form(LoginForm::class);
 
-// Membuat fungsi bernama $login
 $login = function () {
-    // Memvalidasi input dengan aturan yang telah ditentukan sebelumnya
     $this->validate();
 
-    // Menggunakan metode authenticate dari objek form untuk melakukan proses login
     $this->form->authenticate();
 
-    // Me-generate session yang baru setelah login berhasil
     Session::regenerate();
 
-    // Arahkan pengguna ke halaman yang diinginkan atau halaman utama jika tidak ada yang diinginkan
-    $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
+    if (auth()->user()->role == 'admin') {
+        $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
+    } else {
+        $this->redirect('/', navigate: true);
+    }
 };
 
 ?>

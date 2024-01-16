@@ -9,9 +9,7 @@ usesPagination();
 $orders = computed(function () {
     if ($this->search == null) {
         return Order::query()->paginate(10);
-
     } else {
-        
         return Order::query()
             ->where('invoice', 'LIKE', "%{$this->search}%")
             ->orWhere('status', 'LIKE', "%{$this->search}%")
@@ -28,7 +26,7 @@ $orders = computed(function () {
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Transaksi Pembelian dan Penjualan') }}
+                    {{ __('Transaksi Toko') }}
                 </h2>
             </x-slot>
 
