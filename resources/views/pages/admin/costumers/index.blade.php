@@ -9,14 +9,17 @@ usesPagination();
 $users = computed(function () {
     if ($this->search == null) {
         return User::query()
-            //    ->where('role', 'admin')
+            ->where('role', 'customer')
             ->paginate(10);
     } else {
         return User::query()
-            //    ->where('role', 'admin')
-            ->where('name', 'LIKE', "%{$this->search}%")
-            ->orWhere('email', 'LIKE', "%{$this->search}%")
-            ->orWhere('telp', 'LIKE', "%{$this->search}%")
+            ->where('role', 'customer')
+            ->where(function ($query) {
+                $query
+                    ->where('name', 'LIKE', "%{$this->search}%")
+                    ->orWhere('email', 'LIKE', "%{$this->search}%")
+                    ->orWhere('telp', 'LIKE', "%{$this->search}%");
+            })
             ->paginate(10);
     }
 });

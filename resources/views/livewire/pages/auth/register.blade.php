@@ -18,7 +18,7 @@ state([
     'email' => '',
     'password' => '',
     'password_confirmation' => '',
-    'role' => 'costumer',
+    'role' => 'customer',
 ]);
 
 rules([
@@ -48,7 +48,7 @@ $register = function () {
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            {{-- <input type="hidden" wire:model="role" value="costumer"> --}}
+            {{-- <input type="hidden" wire:model="role" value="customer"> --}}
             <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required
                 autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />

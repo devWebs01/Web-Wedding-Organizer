@@ -22,7 +22,7 @@ rules([
 ]);
 
 $addToCart = function () {
-    if (Auth::check() && auth()->user()->role == 'costumer') {
+    if (Auth::check() && auth()->user()->role == 'customer') {
         $existingCart = Cart::where('user_id', $this->user_id)
             ->where('product_id', $this->product_id)
             ->first();

@@ -89,13 +89,12 @@ on([
                             {{ __('Toko') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate class="indicator">
-                            @if ($orderPending > 0)
-                                <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                        <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                            {{ __('Transaksi') }} @if ($orderPending > 0)
+                                <span class="ml-1 badge badge-neutral">!</span>
                             @elseif ($orderShipped > 0)
-                                <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                                <span class="ml-1 badge badge-neutral">!</span>
                             @endif
-                            {{ __('Transaksi') }}
                         </x-nav-link>
                     @endif
 

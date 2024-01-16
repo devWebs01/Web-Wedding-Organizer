@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
 
                 $product = Product::create([
                     'category_id' => Category::all()->random()->id,
-                    'title' => $item['title'],
+                    'title' => 'Pewangi ' . $item['title'],
                     'price' => rand(10000, 99999),
                     'quantity' => rand(1, 100), // Atur jumlah sesuai kebutuhan
                     'image' => 'public/images/' . $imageName,

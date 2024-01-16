@@ -168,8 +168,7 @@ state([
                     <div class="container flex flex-col items-center gap-8 mx-auto my-11">
                         <h1 class="text-xl text-center text-dark-grey-600">Terintegrasi Dengan Jasa
                             Pengiriman Terpecaya</h1>
-                        <div
-                            class="flex flex-wrap items-center justify-center w-full gap-6 lg:flex-nowrap">
+                        <div class="flex flex-wrap items-center justify-center w-full gap-6 lg:flex-nowrap">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="75.0209mm"
                                     height="20.32mm"
@@ -273,4 +272,4 @@ state([
             </div>
         </div>
     @endvolt
-</x-costumer-layout>
+    </x-costumer-layout>
