@@ -160,14 +160,34 @@ on([
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('/dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')" wire:navigate>
+                {{ __('Admin') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                {{ __('Pelanggan') }}
+            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')" wire:navigate>
                 {{ __('Kategori Produk') }}
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
                 {{ __('Produk Toko') }}
             </x-responsive-nav-link>
+
+
             <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
                 {{ __('Toko') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')" wire:navigate>
+                {{ __('Transaksi') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
+                {{ __('Laporan') }}
             </x-responsive-nav-link>
         </div>
 
