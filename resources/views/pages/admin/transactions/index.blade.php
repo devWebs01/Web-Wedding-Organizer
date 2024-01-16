@@ -1,21 +1,25 @@
 <?php
 
-use function Livewire\Volt\{state, usesPagination, with};
+use function Livewire\Volt\{state, usesPagination, computed};
 use App\Models\Order;
 
+state(['search'])->url();
 usesPagination();
 
-state([
-    // 'orders' => fn() => Order::where('user_id', auth()->id())->get(),
-]);
+$orders = computed(function () {
+    if ($this->search == null) {
+        return Order::query()->paginate(10);
 
-with(
-    fn() => [
-        'orders' => fn() => Order::where('status', 'PACKED')
-            ->latest()
-            ->paginate(5),
-    ],
-);
+    } else {
+        
+        return Order::query()
+            ->where('invoice', 'LIKE', "%{$this->search}%")
+            ->orWhere('status', 'LIKE', "%{$this->search}%")
+            ->orWhere('total_amount', 'LIKE', "%{$this->search}%")
+            ->paginate(10);
+    }
+});
+
 ?>
 
 
@@ -24,11 +28,17 @@ with(
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Pesanan Dikemas') }}
+                    {{ __('Transaksi Pembelian dan Penjualan') }}
                 </h2>
             </x-slot>
 
             <div class="py-5 p-4">
+                <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-end">
+                    <label class="form-control w-full max-w-xs">
+                        <input wire:model.live="search" type="search" placeholder="Input Pencarian"
+                            class="input input-bordered w-full max-w-xs" />
+                    </label>
+                </div>
                 <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
                     <table class="table text-center my-5">
                         <thead>
@@ -41,7 +51,7 @@ with(
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $no => $order)
+                            @foreach ($this->orders as $no => $order)
                                 <tr>
                                     <th>{{ ++$no }}</th>
                                     <th>{{ $order->invoice }}</th>
@@ -63,7 +73,7 @@ with(
                             @endforeach
                         </tbody>
                         <div>
-                            {{ $orders->links() }}
+                            {{ $this->orders->links() }}
                         </div>
                     </table>
                 </div>

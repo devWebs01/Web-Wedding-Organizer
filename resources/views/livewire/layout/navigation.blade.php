@@ -5,9 +5,6 @@ use App\Models\Order;
 use function Livewire\Volt\{computed, state, on};
 
 state([
-    'orders' => fn() => Order::where('status', 'PENDING')
-        ->orWhere('status', 'PACKED')
-        ->count(),
     'orderPending' => fn() => Order::where('status', 'PENDING')->count(),
     'orderShipped' => fn() => Order::where('status', 'PACKED')->count(),
 ]);
@@ -20,9 +17,6 @@ $logout = function (Logout $logout) {
 
 on([
     'order-update' => function () {
-        $this->orders = Order::where('status', 'PENDING')
-            ->orWhere('status', 'PACKED')
-            ->count();
         $this->orderPending = Order::where('status', 'PENDING')->count();
         $this->orderShipped = Order::where('status', 'PACKED')->count();
     },
@@ -94,63 +88,14 @@ on([
                         {{ __('Toko') }}
                     </x-nav-link>
 
-                    <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1 indicator">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button
-                                    class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-
-                                    @if ($orders)
-                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
-                                    @endif
-
-                                    <div>Kelola Transaksi</div>
-                                    <div class="ml-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </button>
-                            </x-slot>
-
-                            <x-slot name="content">
-                                <x-dropdown-link :href="url('/admin/transactions/pending')"
-                                    active="request()->routeIs('/admin/transactions/pending')" class="indicator"
-                                    wire:navigate>
-                                    @if ($orderPending > 0)
-                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
-                                    @endif
-                                    {{ __('Pesanan Masuk') }}
-                                </x-dropdown-link>
-
-                                <x-dropdown-link :href="url('/admin/transactions/packed')"
-                                    active="request()->routeIs('/admin/transactions/packed')" class="indicator"
-                                    wire:navigate>
-                                    @if ($orderShipped > 0)
-                                        <span class="badge badge-neutral indicator-item indicator-start">!</span>
-                                    @endif
-                                    {{ __('Pesanan Dikemas') }}
-                                </x-dropdown-link>
-
-                                <x-dropdown-link :href="url('/admin/transactions/shipping')"
-                                    active="request()->routeIs('/admin/transactions/shipping')" wire:navigate>
-                                    {{ __('Pesanan Dikirim') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link :href="url('/admin/transactions/completed')"
-                                    active="request()->routeIs('/admin/transactions/completed')" wire:navigate>
-                                    {{ __('Pesanan Selesai') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link :href="url('/admin/transactions/cancelled')"
-                                    active="request()->routeIs('/admin/transactions/cancelled')" wire:navigate>
-                                    {{ __('Pesanan Dibatalkan') }}
-                                </x-dropdown-link>
-
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
+                    <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate class="indicator">
+                        @if ($orderPending > 0)
+                            <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                        @elseif ($orderShipped > 0)
+                            <span class="badge badge-neutral indicator-item indicator-start">!</span>
+                        @endif
+                        {{ __('Transaksi') }}
+                    </x-nav-link>
 
                     <x-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
                         {{ __('Laporan') }}

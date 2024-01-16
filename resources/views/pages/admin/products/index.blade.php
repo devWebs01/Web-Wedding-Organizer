@@ -1,11 +1,22 @@
 <?php
 
-use function Livewire\Volt\{computed, usesPagination};
+use function Livewire\Volt\{computed, usesPagination, state};
 use App\Models\Product;
 
+state(['search'])->url();
 usesPagination();
 
-$products = computed(fn() => Product::latest()->paginate(10));
+$products = computed(function () {
+    if ($this->search == null) {
+        return Product::query()->paginate(10);
+    } else {
+        return Product::query()
+            ->where('title', 'LIKE', "%{$this->search}%")
+            ->orWhere('price', 'LIKE', "%{$this->search}%")
+            ->orWhere('quantity', 'LIKE', "%{$this->search}%")
+            ->paginate(10);
+    }
+});
 
 $destroy = function (product $product) {
     Storage::delete($product->image);
@@ -22,10 +33,14 @@ $destroy = function (product $product) {
                 </h2>
             </x-slot>
             <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
-                <div class="mb-5">
+                <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-between">
                     <a class="btn btn-neutral shadow-lg" href="/admin/products/store" wire:navigate>
                         Tambah Produk
                     </a>
+                    <label class="form-control w-full max-w-xs">
+                        <input wire:model.live="search" type="search" placeholder="Input Pencarian"
+                            class="input input-bordered w-full max-w-xs" />
+                    </label>
                 </div>
                 <div class="bg-white dark:bg-gray-800 overflow-hidden  shadow-md border-l-4 border-black rounded-lg p-4">
                     <div class="overflow-x-auto">
