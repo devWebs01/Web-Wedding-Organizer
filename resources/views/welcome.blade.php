@@ -31,7 +31,7 @@ state([
                             pengalaman mencuci yang menyenangkan dengan produk berkualitas terbaik. Kunjungi toko kami
                             sekarang dan temukan pewangi laundry favorit Anda!
                         </p>
-                        <a href="#_"
+                        <a wire:navigate href="/catalog/list"
                             class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Belanja
                             Sekarang</a>
                         <!-- Integrates with section -->
@@ -272,4 +272,4 @@ state([
             </div>
         </div>
     @endvolt
-    </x-costumer-layout>
+</x-costumer-layout>

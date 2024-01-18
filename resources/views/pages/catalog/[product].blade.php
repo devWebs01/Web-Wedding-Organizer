@@ -148,7 +148,7 @@ $addToCart = function () {
 
                                                     <h5
                                                         class="flex items-center text-xl font-bold leading-7 text-gray-900 group-hover:text-red">
-                                                        Rp. {{ $product->price }}
+                                                        Rp. {{ Number::format($product->price, locale: 'id') }}
                                                     </h5>
 
                                                 </a>

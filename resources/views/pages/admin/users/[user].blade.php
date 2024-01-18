@@ -12,7 +12,7 @@ $update = function () {
     $validateData = $this->validate([
         'name' => 'required|min:5',
         'email' => 'required|min:5|' . Rule::unique(User::class)->ignore($user->id),
-        'password' => 'min:5',
+        'password' => 'min:5|nullable',
         'telp' => 'required|digits_between:11,12|' . Rule::unique(User::class)->ignore($user->id),
     ]);
     $user = $this->user;

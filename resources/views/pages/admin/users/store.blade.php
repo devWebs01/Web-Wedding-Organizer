@@ -13,8 +13,9 @@ rules([
 ]);
 
 $save = function () {
-    $data = $this->validate();
-    User::create($data);
+    $validateData = $this->validate();
+    $validateData['role'] = 'admin';
+    User::create($validateData);
 
     $this->reset('name', 'email', 'password', 'telp');
 

@@ -8,7 +8,7 @@ use function Livewire\Volt\{state};
 
 state([
     'products' => fn() => Product::count(),
-    'users' => fn() => User::whereRole('costumer')->count(),
+    'users' => fn() => User::whereRole('customer')->count(),
     'orders' => fn() => Order::count(),
 ]);
 
