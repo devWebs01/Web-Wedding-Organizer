@@ -10,6 +10,7 @@ $users = computed(function () {
     if ($this->search == null) {
         return User::query()
             ->where('role', 'customer')
+            ->latest()
             ->paginate(10);
     } else {
         return User::query()
@@ -20,6 +21,7 @@ $users = computed(function () {
                     ->orWhere('email', 'LIKE', "%{$this->search}%")
                     ->orWhere('telp', 'LIKE', "%{$this->search}%");
             })
+            ->latest()
             ->paginate(10);
     }
 });
