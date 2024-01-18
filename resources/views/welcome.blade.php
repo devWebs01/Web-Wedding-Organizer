@@ -19,7 +19,7 @@ state([
     @volt
         <div>
             <!-- BEGIN HERO SECTION -->
-            <div class="relative items-center justify-center w-full overflow-x-hidden lg:pt-10 xl:pt-10 xl:pb-32">
+            <div class="relative items-center justify-center w-full overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
                 <div
                     class="container flex flex-col items-center justify-between h-full max-w-6xl px-8 mx-auto -mt-32 lg:flex-row xl:px-0">
                     <div
@@ -47,7 +47,7 @@ state([
             <!-- HERO SECTION END -->
 
             <!-- Icon Blocks -->
-            <div class="container px-10">
+            <div class="px-10">
                 <div class="max-w-[85rem] px-4 sm:px-6 mx-auto">
                     <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-12">
                         <!-- Icon Block -->
@@ -65,9 +65,8 @@ state([
                             </div>
                             <div class="mt-5">
                                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Temukan Aroma Ilahi</h3>
-                                <p class="mt-1 text-gray-600 dark:text-gray-400">Benamkan pakaian Anda dalam perpaduan aroma
-                                    bunga dan jeruk yang mempesona. Wewangian laundry terbaru kami dibuat untuk menghadirkan
-                                    sentuhan kemewahan pada setiap pencucian
+                                <p class="mt-1 text-gray-600 dark:text-gray-400">Benamkan pakaian Anda dalam wewangian
+                                    laundry bunga dan jeruk yang mempesona untuk sentuhan kemewahan pada setiap pencucian.
                                 </p>
                             </div>
                         </div>
@@ -88,10 +87,10 @@ state([
                                 </svg>
                             </div>
                             <div class="mt-5">
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Dengan Kesegaran Tahan Lama</h3>
-                                <p class="mt-1 text-gray-600 dark:text-gray-400"> Rasakan keharuman yang melekat pada
-                                    pakaian Anda sepanjang hari. Formula canggih kami memastikan cucian Anda berbau harum
-                                    untuk waktu yang lama.
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Dengan Kesegaran Tahan Lama
+                                </h3>
+                                <p class="mt-1 text-gray-600 dark:text-gray-400"> Nikmati keharuman yang tahan lama pada
+                                    pakaian Anda. Formula canggih kami membuat cucian Anda tetap harum sepanjang hari.
                                 </p>
                             </div>
                         </div>
@@ -133,9 +132,8 @@ state([
                             </div>
                             <div class="mt-5">
                                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Lembut pada Kain</h3>
-                                <p class="mt-1 text-gray-600 dark:text-gray-400">Jangan berkompromi dengan perawatan.
-                                    Wewangian terbaru kami dirancang untuk lembut pada kain sekaligus memberikan kesegaran
-                                    yang kuat. Pakaian Anda akan berterima kasih atas perhatian penuh kasih sayang.
+                                <p class="mt-1 text-gray-600 dark:text-gray-400">Jangan berkompromi dalam perawatan.
+                                    Wewangian terbaru kami lembut pada kain dan memberikan kesegaran yang kuat.
                                 </p>
                             </div>
                         </div>
