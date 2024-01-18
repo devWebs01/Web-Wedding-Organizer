@@ -60,63 +60,53 @@ $submit = function () {
                 </nav>
             </div>
             <div class="py-4 sm:px-6 lg:px-8">
-                <div role="alert" class="alert">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        class="stroke-info shrink-0 w-6 h-6 mb-auto">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <div>
-                        <h3 class="font-normal">Rekening Pembayaran :</h3>
-                        <h4
-                            class="mt-2 text-xl font-extrabold leading-8 text-gray-900 dark:text-white sm:text-3xl sm:leading-9">
-                            Selesaikan transaksi Anda dengan cepat dan aman.
-                        </h4>
-                    </div>
+                <section class="bg-gray-100 rounded-xl">
+                    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+                            <div class="lg:col-span-2 lg:py-12">
+                                <p class="max-w-xl text-lg">
+                                    Silakan unggah bukti pembayaran Anda di sini untuk memproses pesanan Anda lebih lanjut.
+                                    Terima kasih atas kerjasama Anda.
+                                </p>
 
-                </div>
-                <div class="grid md:grid-cols-2 grid-rows-1 gap-4">
-                    <div class="p-4">
-                        <div class="lg:ml-4 lg:col-start-2 ">
-                            <ul class="mt-8 space-y-3 font-medium">
-                                @foreach ($banks as $bank)
-                                    <li class="flex items-start lg:col-span-1">
-                                        <div class="flex-shrink-0">
-                                            <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
+                                <div class="mt-8">
+                                    @foreach ($banks as $item)
+                                        <div>
+                                            <p class="text-2xl font-bold text-primary"> {{ $item->account_number }} </p>
+
+                                            <p class="mb-2 not-italic">{{ $item->account_owner }} (<span
+                                                    class="text-primary">{{ $item->bank_name }}</span>)
+                                            </p>
                                         </div>
-                                        <p class="ml-3 leading-5 text-gray-600">
-                                            {{ $bank->bank_name }}, {{ $bank->account_owner }}
-                                            <br>
-                                            <span class="text-primary">
-                                                {{ $bank->account_number }}
-                                            </span>
-                                        </p>
-                                    </li>
-                                @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-4 mt-8">
-                        <p class="mb-2 font-bold"> Total Pembayaran
-                        </p>
-                        <h2 class="text-4xl font-extrabold">
-                            {{ 'Rp. ' . Number::format($order->total_amount) }}
-                        </h2>
-                        <p class="mb-5"> Masukkan bukti pembayaran Anda pada form input:
-                        </p>
-                        <form wire:submit="submit">
-                            <input type="file" wire:model='proof_of_payment'
-                                class="file-input file-input-bordered file-input-primary w-full " />
-                            <x-input-error :messages="$errors->get('proof_of_payment')" class="my-2" />
-                            <button class="my-5 btn btn-wide btn-primary">SUBMIT</button>
-                        </form>
-                    </div>
-                </div>
+                            <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                        <div>
+                                            <div class="p-4">
+                                                <p class="mb-2 font-bold"> Total Pembayaran
+                                                </p>
+                                                <h2 class="text-4xl font-extrabold">
+                                                    {{ 'Rp. ' . Number::format($order->total_amount) }}
+                                                </h2>
+                                                <p class="mb-5"> Masukkan bukti pembayaran Anda pada form input:
+                                                </p>
+                                                <form wire:submit="submit">
+                                                    <input type="file" wire:model='proof_of_payment'
+                                                        class="file-input file-input-bordered file-input-primary w-full " />
+                                                    <x-input-error :messages="$errors->get('proof_of_payment')" class="my-2" />
+                                                    <button class="my-5 btn btn-wide btn-primary">SUBMIT</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                </section>
             </div>
         </div>
     @endvolt

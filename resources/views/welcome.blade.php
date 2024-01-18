@@ -6,7 +6,7 @@ use App\Models\Product;
 
 state([
     'products' => fn() => Product::latest()
-        ->limit(3)
+        ->limit(2)
         ->get(),
     'randomProduct' => fn() => Product::inRandomOrder()
         ->limit(6)
@@ -19,7 +19,7 @@ state([
     @volt
         <div>
             <!-- BEGIN HERO SECTION -->
-            <div class="relative items-center justify-center w-full overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
+            <div class="relative items-center justify-center w-full overflow-x-hidden lg:pt-10 xl:pt-10 xl:pb-32">
                 <div
                     class="container flex flex-col items-center justify-between h-full max-w-6xl px-8 mx-auto -mt-32 lg:flex-row xl:px-0">
                     <div
@@ -46,70 +46,159 @@ state([
             </div>
             <!-- HERO SECTION END -->
 
-            <!-- PRODUCT NEW START -->
-            <div class="max-w-lg px-4 pt-12 mx-auto md:max-w-screen-2xl md:px-6 xl:px-8 2xl:px-12">
-                <div data-controller="pagination lazy-loader">
-                    <h1 class="text-4xl font-bold mb-5">Produk Terbaru</h1>
-                    <div id="resources"
-                        class="grid mx-auto gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 2xl:gap-x-12 2xl:gap-y-16 xl:gap-y-14 bg-gray-100 p-10 rounded-xl">
-                        @if ($products->isNotEmpty())
-                            @foreach ($products as $product)
-                                <div class="border rounded-xl">
-                                    <div
-                                        class="flex flex-col w-full overflow-hidden bg-gray-100 rounded-2xl h-72 sm:h-80 md:h-72 lg:h-64 xl:h-80">
-                                        <div class="relative flex items-center justify-center flex-shrink-0 h-full group">
-                                            <img class="rounded-lg shadow-md mx-auto object-cover object-left-top transition ease-in-out duration-300"
-                                                alt="{{ $product->title }}" data-lazy-loader-target="entry"
-                                                src="{{ Storage::url($product->image) }}">
-                                            <div
-                                                class="absolute inset-0 transition duration-200 bg-gray-900 opacity-0 rounded-2xl group-hover:opacity-60">
-                                            </div>
-                                            <div
-                                                class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
-                                                <div class="shadow-sm w-33 rounded-2xl">
-                                                    <a wire:navigate
-                                                        class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
-                                                        href="/catalog/{{ $product->id }}">View details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
-                                            <div class="flex-1">
-                                                <a wire:navigate class="block group" href="/catalog/{{ $product->id }}">
-                                                    <div class="badge badge-outline">
-                                                        {{ Str::limit($product->category->name, 30, '...') }}</div>
+            <!-- Icon Blocks -->
+            <div class="container px-10">
+                <div class="max-w-[85rem] px-4 sm:px-6 mx-auto">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-12">
+                        <!-- Icon Block -->
+                        <div>
+                            <div
+                                class="relative flex justify-center items-center w-12 h-12 bg-white rounded-xl before:absolute before:-inset-px before:-z-[1] before:bg-gradient-to-br before:from-blue-600 before:via-transparent before:to-violet-600 before:rounded-xl dark:bg-slate-900">
+                                <svg class="flex-shrink-0 w-6 h-6 text-blue-600 dark:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect width="10" height="14" x="3" y="8" rx="2" />
+                                    <path d="M5 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-2.4" />
+                                    <path d="M8 18h.01" />
+                                </svg>
+                            </div>
+                            <div class="mt-5">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Temukan Aroma Ilahi</h3>
+                                <p class="mt-1 text-gray-600 dark:text-gray-400">Benamkan pakaian Anda dalam perpaduan aroma
+                                    bunga dan jeruk yang mempesona. Wewangian laundry terbaru kami dibuat untuk menghadirkan
+                                    sentuhan kemewahan pada setiap pencucian
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Icon Block -->
 
-                                                    <h5
-                                                        class="flex items-center font-bold leading-7 text-gray-900 group-hover:text-cool-indigo-600">
-                                                        {{ $product->title }}
-                                                    </h5>
+                        <!-- Icon Block -->
+                        <div>
+                            <div
+                                class="relative flex justify-center items-center w-12 h-12 bg-white rounded-xl before:absolute before:-inset-px before:-z-[1] before:bg-gradient-to-br before:from-blue-600 before:via-transparent before:to-violet-600 before:rounded-xl dark:bg-slate-900">
+                                <svg class="flex-shrink-0 w-6 h-6 text-blue-600 dark:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 7h-9" />
+                                    <path d="M14 17H5" />
+                                    <circle cx="17" cy="17" r="3" />
+                                    <circle cx="7" cy="7" r="3" />
+                                </svg>
+                            </div>
+                            <div class="mt-5">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Dengan Kesegaran Tahan Lama</h3>
+                                <p class="mt-1 text-gray-600 dark:text-gray-400"> Rasakan keharuman yang melekat pada
+                                    pakaian Anda sepanjang hari. Formula canggih kami memastikan cucian Anda berbau harum
+                                    untuk waktu yang lama.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Icon Block -->
 
-                                                    <h5
-                                                        class="flex items-center text-xl font-bold leading-7 text-gray-900 group-hover:text-red">
-                                                        {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
-                                                    </h5>
+                        <!-- Icon Block -->
+                        <div>
+                            <div
+                                class="relative flex justify-center items-center w-12 h-12 bg-white rounded-xl before:absolute before:-inset-px before:-z-[1] before:bg-gradient-to-br before:from-blue-600 before:via-transparent before:to-violet-600 before:rounded-xl dark:bg-slate-900">
+                                <svg class="flex-shrink-0 w-6 h-6 text-blue-600 dark:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                </svg>
+                            </div>
+                            <div class="mt-5">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Penawaran Peluncuran
+                                    Eksklusif</h3>
+                                <p class="mt-1 text-gray-600 dark:text-gray-400">Jadilah orang pertama yang merasakan
+                                    keajaiban! Nikmati penawaran peluncuran spesial untuk wewangian laundry terbaru kami.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Icon Block -->
 
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-
+                        <!-- Icon Block -->
+                        <div>
+                            <div
+                                class="relative flex justify-center items-center w-12 h-12 bg-white rounded-xl before:absolute before:-inset-px before:-z-[1] before:bg-gradient-to-br before:from-blue-600 before:via-transparent before:to-violet-600 before:rounded-xl dark:bg-slate-900">
+                                <svg class="flex-shrink-0 w-6 h-6 text-blue-600 dark:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" />
+                                    <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
+                                </svg>
+                            </div>
+                            <div class="mt-5">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Lembut pada Kain</h3>
+                                <p class="mt-1 text-gray-600 dark:text-gray-400">Jangan berkompromi dengan perawatan.
+                                    Wewangian terbaru kami dirancang untuk lembut pada kain sekaligus memberikan kesegaran
+                                    yang kuat. Pakaian Anda akan berterima kasih atas perhatian penuh kasih sayang.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Icon Block -->
                     </div>
                 </div>
             </div>
+            <!-- End Icon Blocks -->
+
+            <!-- PRODUCT NEW START -->
+            <section>
+                <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
+                        <div class="grid place-content-center rounded bg-gray-100 p-6 sm:p-8">
+                            <div class="mx-auto max-w-md text-center lg:text-left">
+                                <header>
+                                    <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Pilihan Terbaik</h2>
+
+                                    <p class="mt-4 text-gray-500">
+                                        Pewangi Laundry Terbaik untuk Hasil yang Harum dan Tahan Lama. Temukan Pilihan
+                                        Pewangi Laundry Berkualitas Tinggi di Toko Kami!
+                                    </p>
+                                </header>
+
+                                <a wire:navigate href="/catalog/list"
+                                    class="mt-8 inline-block rounded border border-gray-900 bg-gray-900 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none focus:ring">
+                                    Lihat Lebih
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-2 lg:py-8">
+                            <ul class="grid grid-cols-2 gap-4">
+                                @foreach ($products as $item)
+                                    <li>
+                                        <a wire:navigate href="/catalog/{{ $item->id }}" class="group block">
+                                            <img src="{{ Storage::url($item->image) }}" alt=""
+                                                class="aspect-square w-full rounded object-cover" />
+
+                                        </a>
+                                    </li>
+                                @endforeach
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- PRODUCT NEW END -->
 
             <!-- PRODUCT POPULER sTART-->
-            <div class="max-w-lg px-4 pt-12 mx-auto md:max-w-screen-2xl md:px-6 xl:px-8 2xl:px-12">
+            <div class="max-w-lg pt-12 mx-auto md:max-w-screen-2xl">
                 <div data-controller="pagination lazy-loader">
-                    <h1 class="text-4xl font-bold mb-5">Produk Terbaru</h1>
+                    <div class="text-center">
+                        <h1 class="text-4xl px-10 font-bold mb-0">Produk Terbaru</h1>
+                        <p class="text-lg px-10 mb-0">Belanja sekarang dan ubah setiap pencucian menjadi pengalaman
+                            menyenangkan. <br>
+                            Rangkullah kesegaran yang
+                            belum pernah ada sebelumnya!
+                        </p>
+                    </div>
                     <div id="resources"
-                        class="grid mx-auto gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 2xl:gap-x-12 2xl:gap-y-16 xl:gap-y-14 bg-gray-100 p-10 rounded-xl">
+                        class="grid mx-auto gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 2xl:gap-x-12 2xl:gap-y-16 xl:gap-y-14 p-10">
                         @if ($randomProduct->isNotEmpty())
                             @foreach ($randomProduct as $product)
                                 <div class="border rounded-xl">
@@ -256,20 +345,258 @@ state([
                 </div>
             </div>
 
-            <div class="container mx-auto mt-10">
-                <div class="card lg:card-side bg-base-100 shadow-xl">
-                    <figure>
-                        <img src="https://plus.unsplash.com/premium_photo-1661409078904-42334551db0c?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y291cmllcnxlbnwwfHwwfHx8MA%3D%3D"
-                            alt="Album" class="w-96" />
-                    </figure>
-                    <div class="card-body text-center lg:text-left">
-                        <h2 class="card-title self-center lg:self-auto">Keharuman Laundry Sampai Kerumahmu!</h2>
-                        <p>Dengan layanan pengiriman pewangi laundry kami, pakaian Anda akan kembali segar dan harum seperti
-                            baru. Pilihlah aroma kesukaan Anda dan biarkan kami menghadirkannya langsung ke pintu rumah
-                            Anda. Tidak perlu repot lagi, cukup nikmati keharuman yang menyegarkan setiap saat</p>
+            <link href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.css" rel="stylesheet" />
+
+            <script type="module">
+                import KeenSlider from 'https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm'
+
+                const keenSlider = new KeenSlider(
+                    '#keen-slider', {
+                        loop: true,
+                        slides: {
+                            origin: 'center',
+                            perView: 1.25,
+                            spacing: 16,
+                        },
+                        breakpoints: {
+                            '(min-width: 1024px)': {
+                                slides: {
+                                    origin: 'auto',
+                                    perView: 1.5,
+                                    spacing: 32,
+                                },
+                            },
+                        },
+                    },
+                    []
+                )
+
+                const keenSliderPrevious = document.getElementById('keen-slider-previous')
+                const keenSliderNext = document.getElementById('keen-slider-next')
+
+                const keenSliderPreviousDesktop = document.getElementById('keen-slider-previous-desktop')
+                const keenSliderNextDesktop = document.getElementById('keen-slider-next-desktop')
+
+                keenSliderPrevious.addEventListener('click', () => keenSlider.prev())
+                keenSliderNext.addEventListener('click', () => keenSlider.next())
+
+                keenSliderPreviousDesktop.addEventListener('click', () => keenSlider.prev())
+                keenSliderNextDesktop.addEventListener('click', () => keenSlider.next())
+            </script>
+
+            <section class="bg-gray-50">
+                <div class="mx-auto max-w-[1340px] px-4 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-0 lg:ps-8 xl:py-24">
+                    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-center lg:gap-16">
+                        <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+                            <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                                Coba dengarkan apa kata pembeli kami...
+                            </h2>
+
+                            <p class="mt-4 text-gray-700">
+                                Testimoni pembeli dengan kepuasan terbaik!
+                            </p>
+
+                            <div class="hidden lg:mt-8 lg:flex lg:gap-4 sm:ml-32">
+                                <button aria-label="Previous slide" id="keen-slider-previous-desktop"
+                                    class="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="h-5 w-5 rtl:rotate-180">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                </button>
+
+                                <button aria-label="Next slide" id="keen-slider-next-desktop"
+                                    class="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white">
+                                    <svg class="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="-mx-6 lg:col-span-2 lg:mx-0">
+                            <div id="keen-slider" class="keen-slider">
+                                <div class="keen-slider__slide">
+                                    <blockquote
+                                        class="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12">
+                                        <div>
+                                            <div class="flex gap-0.5 text-green-500">
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <p class="mt-4 leading-relaxed text-gray-700">
+                                                    Saya kagum dengan wangi wewangian laundry yang saya beli tahan lama!
+                                                    Benar-benar tahan 24 jam, sesuai janji. Sangat merekomendasikan produk
+                                                    ini karena aromanya segar dan bertahan lama
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <footer class="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
+                                            &mdash; Budi Santoso
+                                        </footer>
+                                    </blockquote>
+                                </div>
+
+                                <div class="keen-slider__slide">
+                                    <blockquote
+                                        class="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12">
+                                        <div>
+                                            <div class="flex gap-0.5 text-green-500">
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <p class="mt-4 leading-relaxed text-gray-700">
+                                                    Baru-baru ini membeli wewangian cucian, dan saya jatuh cinta dengan
+                                                    aroma Signature! Pakaiannya terasa sangat lembut dan bersih tanpa bau
+                                                    buatan.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <footer class="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
+                                            &mdash; Ratna Dewi
+
+                                        </footer>
+                                    </blockquote>
+                                </div>
+
+                                <div class="keen-slider__slide">
+                                    <blockquote
+                                        class="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12">
+                                        <div>
+                                            <div class="flex gap-0.5 text-green-500">
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+
+                                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            </div>
+
+                                            <div class="mt-4">
+
+                                                <p class="mt-4 leading-relaxed text-gray-700">
+                                                    Sangat puas dengan pewangi laundry ini! Aromanya tahan lama dan membuat
+                                                    pakaian terasa segar. Setelah mencuci, wanginya masih terasa hingga
+                                                    beberapa hari ke depan. Sangat direkomendasikan
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <footer class="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
+                                            &mdash; Irfan Setiawan
+
+                                        </footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-center gap-4 lg:hidden">
+                        <button aria-label="Previous slide" id="keen-slider-previous"
+                            class="rounded-full border border-rose-600 p-4 text-rose-600 transition hover:bg-rose-600 hover:text-white">
+                            <svg class="h-5 w-5 -rotate-180 transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                            </svg>
+                        </button>
+
+                        <button aria-label="Next slide" id="keen-slider-next"
+                            class="rounded-full border border-rose-600 p-4 text-rose-600 transition hover:bg-rose-600 hover:text-white">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     @endvolt
 </x-costumer-layout>
