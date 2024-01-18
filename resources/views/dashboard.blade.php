@@ -21,7 +21,6 @@ state([
                     {{ __('Dashboard') }}
                 </h2>
             </x-slot>
-
             <div class="card py-3 justify-center">
                 <div class="card-body">
                     <div class="items-center flex-col justify-center flex gap-4  lg:flex-row">
