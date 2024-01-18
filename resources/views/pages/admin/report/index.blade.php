@@ -8,18 +8,32 @@ usesPagination();
 
 $orders = computed(function () {
     if ($this->search == null) {
-        return Order::query()
-            //    ->where('role', 'admin')
-            ->paginate(10);
+        return Order::query()->paginate(10);
     } else {
         return Order::query()
-            //    ->where('role', 'admin')
-            // ->where('name', 'LIKE', "%{$this->search}%")
-            // ->orWhere('email', 'LIKE', "%{$this->search}%")
-            // ->orWhere('telp', 'LIKE', "%{$this->search}%")
+            ->where('invoice', 'LIKE', "%{$this->search}%")
+            ->orWhere('status', 'LIKE', "%{$this->search}%")
+            ->orWhere('total_amount', 'LIKE', "%{$this->search}%")
+            ->orWhere('tracking_number', 'LIKE', "%{$this->search}%")
+            ->orWhere('payment_method', 'LIKE', "%{$this->search}%")
+            ->orWhere('courier', 'LIKE', "%{$this->search}%")
             ->paginate(10);
     }
 });
+
+// 'user_id',
+//         'invoice',
+//         'status',
+//         'total_amount',
+//         'total_weight',
+//         'tracking_number',
+//         'shipping_cost',
+//         'payment_method',
+//         'note',
+//         'estimated_delivery_time',
+//         'courier',
+//         'proof_of_payment',
+//         'protect_cost'
 
 ?>
 <x-app-layout>
@@ -31,11 +45,12 @@ $orders = computed(function () {
                 </h2>
             </x-slot>
 
-            <div>
+            <div class="print:block">
                 <div class="sm:px-6 lg:px-8">
                     <div class="py-5">
                         <div class="mx-auto">
-                            <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-end">
+                            <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-between">
+                                <button class="btn btn-outline" onclick="window.print()">Cetak</button>
                                 <label class="form-control w-full max-w-xs">
                                     <input wire:model.live="search" type="search" placeholder="Input Pencarian"
                                         class="input input-bordered w-full max-w-xs" />
@@ -48,7 +63,6 @@ $orders = computed(function () {
                                         <!-- head -->
                                         <thead>
                                             <tr>
-                                                <th>Pembeli</th>
                                                 <th>Invoice</th>
                                                 <th>Status</th>
                                                 <th>Total_amount</th>
@@ -60,7 +74,6 @@ $orders = computed(function () {
                                         <tbody>
                                             @foreach ($this->orders as $no => $order)
                                                 <tr>
-                                                    <td>{{ $order->user->name }}.</td>
                                                     <td>{{ $order->invoice }}.</td>
                                                     <td>{{ $order->status }}</td>
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
