@@ -3,7 +3,12 @@
 use App\Models\Order;
 use function Livewire\Volt\{computed};
 
-$orders = computed(fn() => Order::query()->get());
+$orders = computed(
+    fn() => Order::query()
+        ->where('status', 'SHIPPED')
+        ->orWhere('status', 'COMPLETED')
+        ->get(),
+);
 
 ?>
 <x-app-layout>
@@ -53,7 +58,8 @@ $orders = computed(fn() => Order::query()->get());
                                                     <td>{{ $order->total_weight }} gram</td>
                                                     <td>{{ $order->protect_cost == 1 ? 'Bubble Wrap' : '-' }}</td>
                                                     <td>{{ $order->courier }}</td>
-                                                    <td>{{ 'Rp. ' . Number::format($order->shipping_cost, locale:'id') }}</td>
+                                                    <td>{{ 'Rp. ' . Number::format($order->shipping_cost, locale: 'id') }}
+                                                    </td>
                                                     <td>{{ $order->estimated_delivery_time }} Hari</td>
                                                     <td>
                                                         {{ $order->user->address->province->name ?? '-' }},

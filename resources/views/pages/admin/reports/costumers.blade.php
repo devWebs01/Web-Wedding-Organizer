@@ -24,13 +24,6 @@ $users = computed(
                 <div class="sm:px-6 lg:px-8">
                     <div class="py-5">
                         <div class="mx-auto">
-                            <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md justify-between">
-                                <button class="btn btn-outline" onclick="window.print()">Cetak</button>
-                                <label class="form-control w-full max-w-xs">
-                                    <input wire:model.live="search" type="search" placeholder="Input Pencarian"
-                                        class="input input-bordered w-full max-w-xs" />
-                                </label>
-                            </div>
                             <div class=" bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
                                 <div class="overflow-x-auto">
                                     <table id="example" class="display" style="width:100%">

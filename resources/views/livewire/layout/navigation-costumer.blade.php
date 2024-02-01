@@ -115,16 +115,16 @@ on([
                         class="menu menu-sm dropdown-content mt-3 z-[100] p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
                             <a href="/user/{{ auth()->id() }}" wire:navigate class="justify-between">
-                                Profile Akun
+                                Profil Saya
                             </a>
                         </li>
-                        <li wire:click="logout"><a>Logout</a></li>
+                        <li wire:click="logout"><a>Keluar</a></li>
                     </ul>
                 </div>
             </div>
         @else
-            <a href="/login" wire:navigate class="btn mx-2">Login</a>
-            <a href="/register" wire:navigate class="btn mx-2">Register</a>
+            <a href="/login" wire:navigate class="btn btn-outline btn-neutral mx-2">Masuk</a>
+            <a href="/register" wire:navigate class="btn btn-neutral hover:bg-white hover:text-black mx-2">Daftar</a>
         @endauth
     </div>
 </div>

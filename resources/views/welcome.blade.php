@@ -214,7 +214,7 @@ state([
                                                 <div class="shadow-sm w-33 rounded-2xl">
                                                     <a wire:navigate
                                                         class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
-                                                        href="/catalog/{{ $product->id }}">View details</a>
+                                                        href="/catalog/{{ $product->id }}">Lihat Produk</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,15 +3,13 @@
 use function Livewire\Volt\{computed};
 use App\Models\Product;
 
-$products = computed(fn() => Product::latest()
-        ->get(),
-);
+$products = computed(fn() => Product::latest()->get());
 
 ?>
 
 <x-app-layout>
     @volt
-    @include('layouts.print')
+        @include('layouts.print')
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -35,9 +33,9 @@ $products = computed(fn() => Product::latest()
                                 @foreach ($this->products as $no => $product)
                                     <tr>
                                         <td>{{ ++$no }}</td>
-                                        <td>{{ $product->title }}</td>
+                                        <td>{{ Str::limit($product->title, 40, '...') }}</td>
                                         <td>{{ 'Rp. ' . Number::format($product->price, locale: 'id') }}</td>
-                                        <td>{{ $product->quantity }}</td>
+                                        <td>{{ $product->quantity }} Tersedia</td>
                                         <td>{{ $product->weight }} gram</td>
                                     </tr>
                                 @endforeach

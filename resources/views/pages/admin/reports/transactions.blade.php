@@ -8,7 +8,7 @@ $orders = computed(fn() => Order::query()->get());
 ?>
 <x-app-layout>
     @volt
-      @include('layouts.print')
+        @include('layouts.print')
         <div>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -31,10 +31,9 @@ $orders = computed(fn() => Order::query()->get());
                                                 <th>Pembeli</th>
                                                 <th>Status</th>
                                                 <th>Total Belanja</th>
-                                                <th>Nomor Resi</th>
                                                 <th>Metode Pembayaran</th>
                                                 <th>Tambahan</th>
-                                                <th>Kurir</th>
+                                                <th>Jumlah </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -46,10 +45,9 @@ $orders = computed(fn() => Order::query()->get());
                                                     <td>{{ $order->status }}</td>
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
-                                                    <td>{{ $order->tracking_number }}</td>
                                                     <td>{{ $order->payment_method }}</td>
                                                     <td>{{ $order->protect_cost == 1 ? 'Bubble Wrap' : '-' }}</td>
-                                                    <td>{{ $order->courier }}</td>
+                                                    <td>{{ $order->items->count() }} Barang</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

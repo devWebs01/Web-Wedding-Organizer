@@ -269,14 +269,19 @@ $submitTrackingNumber = function () {
                                         {{ 'Rp.' . Number::format($order->shipping_cost, locale: 'id') }}</dd>
                                 </dl>
                                 <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+                                    <dt class="col-span-3 text-gray-500">Berat Barang:</dt>
+                                    <dd class="col-span-2 font-medium dark:text-gray-200">
+                                        {{ $order->total_weight }} gram</dd>
+                                </dl>
+                                <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
                                     <dt class="col-span-3 text-gray-500">Biaya Tambahan:</dt>
                                     <dd class="col-span-2 font-medium dark:text-gray-200">
                                         Rp. 3000</dd>
                                 </dl>
 
                                 <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
-                                    <dt class="col-span-3 text-gray-500">Total:</dt>
-                                    <dd class="col-span-2 font-medium dark:text-gray-200">
+                                    <dt class="col-span-3 text-gray-500 font-extrabold text-xl">Total:</dt>
+                                    <dd class="col-span-2 dark:text-gray-200 font-extrabold text-xl">
                                         {{ 'Rp.' . Number::format($order->total_amount, locale: 'id') }}</dd>
                                 </dl>
                             </div>

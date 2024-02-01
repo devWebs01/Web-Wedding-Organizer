@@ -47,6 +47,10 @@ on([
                         <x-nav-link :href="url('admin/users')" :active="request('admin/users')" wire:navigate>
                             {{ __('Admin') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                            {{ __('Toko') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
                             {{ __('Pelanggan') }}
@@ -84,10 +88,6 @@ on([
                                 </x-slot>
                             </x-dropdown>
                         </div>
-
-                        <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
-                            {{ __('Toko') }}
-                        </x-nav-link>
 
                         <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
                             {{ __('Transaksi') }} @if ($orderPending > 0)
@@ -180,7 +180,7 @@ on([
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
-                                {{ __('Log Out') }}
+                                {{ __('Keluar') }}
                             </x-dropdown-link>
                         </button>
                     </x-slot>
@@ -214,6 +214,10 @@ on([
                 <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')" wire:navigate>
                     {{ __('Admin') }}
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                    {{ __('Toko') }}
+                </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
                     {{ __('Pelanggan') }}
@@ -225,10 +229,6 @@ on([
 
                 <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
                     {{ __('Produk Toko') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
-                    {{ __('Toko') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')" wire:navigate>
@@ -256,7 +256,7 @@ on([
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
                     <x-responsive-nav-link>
-                        {{ __('Log Out') }}
+                        {{ __('Keluar') }}
                     </x-responsive-nav-link>
                 </button>
             </div>
