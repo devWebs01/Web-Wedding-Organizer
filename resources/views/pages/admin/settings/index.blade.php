@@ -1,3 +1,10 @@
+<?php
+
+use function Laravel\Folio\name;
+
+name('setting-store');
+
+?>
 <x-app-layout>
     @volt
         <div>

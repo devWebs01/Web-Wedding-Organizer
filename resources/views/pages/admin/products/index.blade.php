@@ -2,6 +2,9 @@
 
 use function Livewire\Volt\{computed, usesPagination, state};
 use App\Models\Product;
+use function Laravel\Folio\name;
+
+name('products.index');
 
 state(['search'])->url();
 usesPagination();

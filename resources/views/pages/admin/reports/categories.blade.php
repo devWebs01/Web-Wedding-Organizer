@@ -2,6 +2,9 @@
 
 use function Livewire\Volt\{computed};
 use App\Models\Category;
+use function Laravel\Folio\name;
+
+name('report.categories-product');
 
 
 $categories = computed(fn() => Category::latest()->get());

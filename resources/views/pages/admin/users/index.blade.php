@@ -2,6 +2,9 @@
 
 use App\Models\User;
 use function Livewire\Volt\{computed, state, usesPagination};
+use function Laravel\Folio\name;
+
+name('users.index');
 
 state(['search'])->url();
 usesPagination();

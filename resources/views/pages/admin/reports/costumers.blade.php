@@ -2,6 +2,9 @@
 
 use App\Models\User;
 use function Livewire\Volt\{computed};
+use function Laravel\Folio\name;
+
+name('report.customers');
 
 $users = computed(
     fn() => User::where('role', 'customer')

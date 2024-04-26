@@ -2,6 +2,9 @@
 
 use function Livewire\Volt\{computed};
 use App\Models\Product;
+use function Laravel\Folio\name;
+
+name('report.products');
 
 $products = computed(fn() => Product::latest()->get());
 

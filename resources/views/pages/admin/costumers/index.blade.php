@@ -2,16 +2,16 @@
 
 use App\Models\User;
 use function Livewire\Volt\{computed, state, usesPagination};
+use function Laravel\Folio\name;
+
+name('customers');
 
 state(['search'])->url();
 usesPagination();
 
 $users = computed(function () {
     if ($this->search == null) {
-        return User::query()
-            ->where('role', 'customer')
-            ->latest()
-            ->paginate(10);
+        return User::query()->where('role', 'customer')->latest()->paginate(10);
     } else {
         return User::query()
             ->where('role', 'customer')

@@ -2,6 +2,9 @@
 
 use function Livewire\Volt\{state, rules, computed, usesPagination};
 use App\Models\Category;
+use function Laravel\Folio\name;
+
+name('categories-product');
 
 state(['name', 'categoryId']);
 rules(['name' => 'required|min:6|string']);

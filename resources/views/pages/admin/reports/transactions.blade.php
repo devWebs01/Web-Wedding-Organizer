@@ -2,6 +2,9 @@
 
 use App\Models\Order;
 use function Livewire\Volt\{computed};
+use function Laravel\Folio\name;
+
+name('report.transactions');
 
 $orders = computed(fn() => Order::query()->get());
 
