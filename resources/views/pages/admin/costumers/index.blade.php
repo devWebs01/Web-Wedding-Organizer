@@ -4,7 +4,7 @@ use App\Models\User;
 use function Livewire\Volt\{computed, state, usesPagination};
 use function Laravel\Folio\name;
 
-name('customers');
+// name('customers');
 
 state(['search'])->url();
 usesPagination();

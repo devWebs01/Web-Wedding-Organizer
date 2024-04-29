@@ -4,17 +4,17 @@ use App\Models\User;
 use function Livewire\Volt\{computed, state, usesPagination};
 use function Laravel\Folio\name;
 
-name('users.index');
+name('customers');
 
 state(['search'])->url();
 usesPagination(theme: 'bootstrap');
 
 $users = computed(function () {
     if ($this->search == null) {
-        return User::query()->where('role', 'admin')->latest()->paginate(10);
+        return User::query()->where('role', 'customer')->latest()->paginate(10);
     } else {
         return User::query()
-            ->where('role', 'admin')
+            ->where('role', 'customer')
             ->where(function ($query) {
                 $query
                     ->where('name', 'LIKE', "%{$this->search}%")
@@ -26,17 +26,14 @@ $users = computed(function () {
     }
 });
 
-$destroy = function (User $user) {
-    $user->delete();
-};
-
 ?>
+
 <x-admin-layout>
     <div>
-        <x-slot name="title">Admin</x-slot>
+        <x-slot name="title">Pelanggan</x-slot>
         <x-slot name="header">
             <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('users.index') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a wire:navigate href="{{ route('customers') }}">Pelanggan</a></li>
         </x-slot>
 
         @volt
@@ -47,7 +44,7 @@ $destroy = function (User $user) {
                             <div class="row">
                                 <div class="col">
                                     <a wire:navigate href="{{ route('users.create') }}" class="btn btn-primary">Tambah
-                                        Admin</a>
+                                        Pelanggan</a>
                                 </div>
                                 <div class="col">
                                     <input wire:model.live="search" type="search" class="form-control" name=""
@@ -64,7 +61,7 @@ $destroy = function (User $user) {
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Telp</th>
-                                        <th>Opsi</th>
+                                        <th>Alamat</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,19 +71,7 @@ $destroy = function (User $user) {
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->telp }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a wire:navigate href="/admin/users/{{ $user->id }}" wire:navigate
-                                                        class="btn btn-sm btn-light">Edit</a>
-                                                    <button
-                                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                        wire:loading.attr='disabled'
-                                                        wire:click='destroy({{ $user->id }})'
-                                                        class="btn btn-sm btn-dark">
-                                                        {{ __('Hapus') }}
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            <td>{{ $user->address ?? '-' }}</td>
                                         </tr>
                                     @endforeach
 

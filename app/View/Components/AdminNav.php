@@ -21,6 +21,6 @@ class AdminNav extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin-nav');
+        return view('livewire.layout.admin-nav');
     }
 }

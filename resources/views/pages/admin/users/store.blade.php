@@ -2,14 +2,16 @@
 
 use App\Models\User;
 use function Livewire\Volt\{state, rules};
+use function Laravel\Folio\name;
 
+name('users.create');
 state(['name', 'email', 'password', 'telp']);
 
 rules([
     'name' => 'required|min:5',
     'email' => 'required|min:5|unique:users,email',
     'password' => 'required|min:5',
-    'telp' => 'required|unique:users,telp,id|digits_between:11,12',
+    'telp' => 'required|unique:users,telp,id|digits_between:11,13',
 ]);
 
 $save = function () {
@@ -19,56 +21,78 @@ $save = function () {
 
     $this->reset('name', 'email', 'password', 'telp');
 
-    $this->redirect('/admin/users', navigate: true);
+    $this->redirectRoute('users.index', navigate: true);
 };
 
 ?>
-<x-app-layout>
+<x-admin-layout>
+    <x-slot name="title">Tambah Admin Baru</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Admin</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('users.create') }}">Admin Baru</a></li>
+    </x-slot>
+
     @volt
         <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Tambah Admin
-                </h2>
-            </x-slot>
-            <form wire:submit="save">
-                <div class="card">
-                    <div class="card-body">
-
-                        <div class="mt-6">
-                            <x-input-label for="name" :value="__('Nama Lengkap')" />
-                            <x-text-input wire:loading.attr="disabled" wire:model="name" id="name"
-                                class="block mt-1 w-full" type="text" name="name" autofocus autocomplete="name" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <div class="card">
+                <div class="card-body">
+                    <form wire:submit="save">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        wire:model="name" id="name" aria-describedby="nameId"
+                                        placeholder="Enter admin name" autofocus autocomplete="name" />
+                                    @error('name')
+                                        <small id="nameId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        wire:model="email" id="email" aria-describedby="emailId"
+                                        placeholder="Enter admin email" />
+                                    @error('email')
+                                        <small id="emailId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mt-6">
-                            <x-input-label for="email" :value="__('Email')" />
-                            <x-text-input wire:loading.attr="disabled" wire:model="email" id="email"
-                                class="block mt-1 w-full" type="email" name="email" autofocus autocomplete="email" />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="mb-3">
+                                    <label for="telp" class="form-label">Telpon</label>
+                                    <input type="number" class="form-control @error('telp') is-invalid @enderror"
+                                        wire:model="telp" id="telp" aria-describedby="telpId"
+                                        placeholder="Enter admin telp" />
+                                    @error('telp')
+                                        <small id="telpId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Kata Sandi</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        wire:model="password" id="password" aria-describedby="passwordId"
+                                        placeholder="Enter admin password" />
+                                    @error('password')
+                                        <small id="passwordId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mt-6">
-                            <x-input-label for="password" :value="__('Password')" />
-                            <x-text-input wire:loading.attr="disabled" wire:model="password" id="password"
-                                class="block mt-1 w-full" type="password" name="password" autofocus
-                                autocomplete="password" />
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
-
-                        <div class="mt-6">
-                            <x-input-label for="telp" :value="__('Telp')" />
-                            <x-text-input wire:loading.attr="disabled" wire:model="telp" id="telp"
-                                class="block mt-1 w-full" type="number" name="telp" autofocus autocomplete="telp" />
-                            <x-input-error :messages="$errors->get('telp')" class="mt-2" />
-                        </div>
-                        <div class="mt-6">
-                            <button type="submit" class="btn btn-neutral">Simpan</button>
-                        </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     @endvolt
-</x-app-layout>
+</x-admin-layout>
