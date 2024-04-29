@@ -1,22 +1,24 @@
 <?php
 
 use function Livewire\Volt\{state, rules, usesFileUploads};
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use function Laravel\Folio\name;
 
-name('products.create');
+name('products.edit');
+
 usesFileUploads();
 
 state([
     'categories' => fn() => Category::get(),
-    'category_id',
-    'title',
-    'price',
-    'quantity',
+    'category_id' => fn() => $this->product->category_id,
+    'title' => fn() => $this->product->title,
+    'price' => fn() => $this->product->price,
+    'quantity' => fn() => $this->product->quantity,
+    'weight' => fn() => $this->product->weight,
+    'description' => fn() => $this->product->description,
     'image',
-    'weight',
-    'description',
+    'product',
 ]);
 
 rules([
@@ -24,35 +26,41 @@ rules([
     'title' => 'required|min:5',
     'price' => 'required|numeric',
     'quantity' => 'required|numeric',
-    'image' => 'required',
+    'image' => 'nullable',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
 ]);
 
 $save = function () {
     $validate = $this->validate();
-    $validate['image'] = $this->image->store('public/images');
-
-    Product::create($validate);
-    $this->reset('category_id', 'title', 'price', 'quantity', 'weight', 'description');
+    if ($this->image) {
+        $validate['image'] = $this->image->store('public/images');
+        Storage::delete($this->product->image);
+    } else {
+        $validate['image'] = $this->product->image;
+    }
+    product::whereId($this->product->id)->update($validate);
 
     $this->redirectRoute('products.index', navigate: true);
 };
 ?>
-
-
 <x-admin-layout>
     <x-slot name="title">Produk</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a wire:navigate href="{{ route('products.index') }}">Produk</a></li>
-        <li class="breadcrumb-item"><a wire:navigate href="{{ route('products.create') }}">Produk Baru</a></li>
+        <li class="breadcrumb-item"><a wire:navigate href="{{ route('products.index') }}">Produk Toko</a></li>
+        <li class="breadcrumb-item"><a wire:navigate
+                href="{{ route('products.edit', ['product' => $product->id]) }}">{{ $product->title }}</a></li>
     </x-slot>
 
     @volt
         <div>
             <div class="card">
+                <div class="position-relative">
+                    <img src="{{ Storage::url($product->image) }}" class="card-img-top rounded-0 object-fit-cover"
+                        alt="matdash-img" height="440">
 
+                </div>
                 <div class="card-body">
                     <form wire:submit="save" enctype="multipart/form-data">
                         @csrf

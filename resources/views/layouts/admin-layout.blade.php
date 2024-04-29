@@ -10,6 +10,11 @@
     @livewireStyles
 
     <link rel="stylesheet" href="{{ asset('/admin/css/styles.min.css') }}" />
+    <style>
+        .btn-danger {
+            --bs-btn-bg: #fc3a4e;
+        }
+    </style>
     @vite([])
 </head>
 

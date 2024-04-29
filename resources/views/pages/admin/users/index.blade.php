@@ -42,20 +42,20 @@ $destroy = function (User $user) {
         @volt
             <div>
                 <div class="card">
-                    <div class="card-body">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col">
-                                    <a wire:navigate href="{{ route('users.create') }}" class="btn btn-primary">Tambah
-                                        Admin</a>
-                                </div>
-                                <div class="col">
-                                    <input wire:model.live="search" type="search" class="form-control" name=""
-                                        id="" aria-describedby="helpId" placeholder="Masukkan nama pengguna" />
-                                </div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <a wire:navigate href="{{ route('users.create') }}" class="btn btn-primary">Tambah
+                                    Admin</a>
+                            </div>
+                            <div class="col">
+                                <input wire:model.live="search" type="search" class="form-control" name=""
+                                    id="" aria-describedby="helpId" placeholder="Masukkan nama pengguna" />
                             </div>
                         </div>
-
+                    </div>
+                    
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped text-center rounded">
                                 <thead>
@@ -76,13 +76,14 @@ $destroy = function (User $user) {
                                             <td>{{ $user->telp }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a wire:navigate href="/admin/users/{{ $user->id }}" wire:navigate
-                                                        class="btn btn-sm btn-light">Edit</a>
+                                                    <a wire:navigate
+                                                        href="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                        wire:navigate class="btn btn-sm btn-warning">Edit</a>
                                                     <button
                                                         wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
                                                         wire:loading.attr='disabled'
                                                         wire:click='destroy({{ $user->id }})'
-                                                        class="btn btn-sm btn-dark">
+                                                        class="btn btn-sm btn-danger">
                                                         {{ __('Hapus') }}
                                                     </button>
                                                 </div>

@@ -9,7 +9,7 @@ name('categories-product');
 state(['name', 'categoryId']);
 rules(['name' => 'required|min:6|string']);
 
-usesPagination();
+usesPagination(theme: 'bootstrap');
 
 $categories = computed(fn() => Category::latest()->paginate(10));
 
@@ -23,8 +23,6 @@ $save = function (Category $category) {
         $categoryUpdate->update($validate);
     }
     $this->reset('name');
-
-    // $this->dispatch('category-stored');
 };
 
 $edit = function (Category $category) {
@@ -39,75 +37,85 @@ $destroy = function (Category $category) {
 };
 ?>
 
-<x-app-layout>
-    @volt
-        <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Kategori Produk') }}
-                </h2>
-            </x-slot>
 
+<x-admin-layout>
+    <div>
+        <x-slot name="title">Kategori Produk</x-slot>
+        <x-slot name="header">
+            <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a wire:navigate href="{{ route('categories-product') }}">Kategori Produk</a></li>
+        </x-slot>
+
+        @volt
             <div>
-                <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
-                    <div class="bg-white rounded-lg shadow-md">
-                        <form wire:submit="save"
-                            class="bg-white dark:bg-gray-800 overflow-hidden shadow-md border-l-4 border-black rounded-lg p-4">
-                            <x-input-label for="name" :value="__('Tambah Kategori Produk')" />
-                            <x-text-input wire:loading.attr="disabled" wire:model="name" id="name"
-                                class="block mt-1 w-full" type="name" name="name" required autocomplete="name" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <form wire:submit="save">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Kategori Baru</label>
+                                    <input type="text" class="form-control" wire:model="name" id="name"
+                                        aria-describedby="helpId" placeholder="Masukkan kategori baru" />
 
-                            <div class="flex items-center mt-5 gap-4">
-                                <x-primary-button>{{ __('Submit') }}</x-primary-button>
+                                    @error('name')
+                                        <small id="helpId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
 
-                                <x-action-message wire:loading class="me-3" on="category-stored">
-                                    {{ __('loading...') }}
-                                </x-action-message>
+                                <div class="text-end">
+                                    <button type="reset" class="btn btn-danger">
+                                        Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
 
-                                <x-action-message class="me-3" on="category-stored">
-                                    {{ __('Saved!') }}
-                                </x-action-message>
-                        </form>
-                    </div>
-                </div>
-                <div>
-                    <div
-                        class="overflow-x-auto mt-6 border-l-4 border-black bg-white dark:bg-gray-800 overflow-hidden shadow-md  rounded-lg p-4">
-                        <table class="table text-center">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Name</th>
-                                    <th>#</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($this->categories as $no => $category)
+                            </form>
+
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped text-center rounded">
+                                <thead>
                                     <tr>
-                                        <th>{{ ++$no }}</th>
-                                        <th>{{ $category->name }}</th>
-                                        <th class="join">
-                                            <button wire:loading.attr='disabled' wire:click='edit({{ $category->id }})'
-                                                class="btn btn-outline btn-sm join-item">
-                                                {{ __('Edit') }}
-                                            </button>
-
-                                            <button
-                                                wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
-                                                wire:loading.attr='disabled' wire:click='destroy({{ $category->id }})'
-                                                class="btn btn-outline btn-sm join-item">
-                                                {{ __('Hapus') }}
-                                            </button>
-                                        </th>
+                                        <th>No.</th>
+                                        <th>Nama</th>
+                                        <th>Opsi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($this->categories as $no => $category)
+                                        <tr>
+                                            <td>{{ ++$no }}</td>
+                                            <td>{{ $category->name }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a wire:click='edit({{ $category->id }})'
+                                                        class="btn btn-sm btn-warning">Edit</a>
+                                                    <button
+                                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
+                                                        wire:loading.attr='disabled'
+                                                        wire:click='destroy({{ $category->id }})'
+                                                        class="btn btn-sm btn-danger">
+                                                        Hapus
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                            {{ $this->categories->links() }}
+                        </div>
+
                     </div>
-                    {{ $this->categories->links() }}
                 </div>
             </div>
-        </div>
-    @endvolt
-</x-app-layout>
+        @endvolt
+
+    </div>
+</x-admin-layout>
