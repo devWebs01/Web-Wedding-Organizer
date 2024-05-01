@@ -41,15 +41,11 @@ $users = computed(function () {
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col">
-                                    <a wire:navigate href="{{ route('users.create') }}" class="btn btn-primary">Tambah
-                                        Pelanggan</a>
-                                </div>
-                                <div class="col">
-                                    <input wire:model.live="search" type="search" class="form-control" name=""
-                                        id="" aria-describedby="helpId" placeholder="Masukkan nama pengguna" />
-                                </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Cari Pelanggan</label>
+                                <input wire:model.live="search" type="search" class="form-control" name="search"
+                                    id="search" aria-describedby="helpId"
+                                    placeholder="Masukkan nama pengguna / email / telp" />
                             </div>
                         </div>
 

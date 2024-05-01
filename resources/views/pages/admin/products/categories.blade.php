@@ -54,24 +54,29 @@ $destroy = function (Category $category) {
                             <form wire:submit="save">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Kategori Baru</label>
+                                    <label for="name" class="form-label">Kategori
+                                        Produk</label>
                                     <input type="text" class="form-control" wire:model="name" id="name"
-                                        aria-describedby="helpId" placeholder="Masukkan kategori baru" />
+                                        aria-describedby="helpId" placeholder="Masukkan kategori baru / edit" />
 
                                     @error('name')
                                         <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
-                                </div>
+                                    <div class="row justift-content-between">
+                                        <div class="col-md mt-3">
+                                            <button type="reset" class="btn btn-danger">
+                                                Reset
+                                            </button>
 
-                                <div class="text-end">
-                                    <button type="reset" class="btn btn-danger">
-                                        Reset
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        Submit
-                                    </button>
-                                </div>
+                                        </div>
+                                        <div class="col-md mt-3 text-end">
+                                            <button type="submit" class="btn btn-primary">
+                                                Submit
+                                            </button>
 
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
 
                         </div>

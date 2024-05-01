@@ -56,16 +56,21 @@ $save = function () {
     @volt
         <div>
             <div class="card">
-                <div class="position-relative">
-                    <img src="{{ Storage::url($product->image) }}" class="card-img-top rounded-0 object-fit-cover"
-                        alt="matdash-img" height="440">
-
-                </div>
                 <div class="card-body">
                     <form wire:submit="save" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            <div class="col-md mb-3">
+                                @if ($image)
+                                    <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
+                                        alt="image" loading="lazy" height="490px" width="100%" />
+                                @elseif ($product->image)
+                                    <img src="{{ Storage::url($product->image) }}" class="img rounded object-fit-cover"
+                                        alt="image" loading="lazy" height="490px" width="100%" />
+                                @endif
+                            </div>
                             <div class="col-md">
+
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Nama Produk</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
@@ -75,9 +80,7 @@ $save = function () {
                                         <small id="titleId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md">
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Harga Produk</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
@@ -87,12 +90,8 @@ $save = function () {
                                         <small id="priceId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
 
-                            <div class="col-md">
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
@@ -102,9 +101,7 @@ $save = function () {
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md">
                                 <div class="mb-3">
                                     <label for="quantity" class="form-label">Jumlah Produk</label>
                                     <input type="number" class="form-control @error('quantity') is-invalid @enderror"
@@ -114,11 +111,7 @@ $save = function () {
                                         <small id="quantityId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md">
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
@@ -132,9 +125,7 @@ $save = function () {
                                         <small id="category_id" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md">
                                 <div class="mb-3">
                                     <label for="weight" class="form-label">Berat Produk</label>
                                     <input type="number" class="form-control @error('weight') is-invalid @enderror"
@@ -144,24 +135,25 @@ $save = function () {
                                         <small id="weightId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+
                             </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Keterangan</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description" id="description"
-                                aria-describedby="descriptionId" placeholder="Enter product description" rows="3"></textarea>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Penjelasan Produk</label>
+                                <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description" id="description"
+                                    aria-describedby="descriptionId" placeholder="Enter product description" rows="8"></textarea>
 
-                            @error('description')
-                                <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                                @error('description')
+                                    <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
 
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
-                        </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
                     </form>
                 </div>
             </div>

@@ -11,7 +11,7 @@ usesPagination(theme: 'bootstrap');
 
 $products = computed(function () {
     if ($this->search == null) {
-        return Product::query()->paginate(10);
+        return Product::query()->latest()->paginate(10);
     } else {
         return Product::query()
             ->where('title', 'LIKE', "%{$this->search}%")
