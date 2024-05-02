@@ -30,7 +30,7 @@ on([
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
+                    <a href="{{ route('dashboard') }}">
                         <img src="https://api.dicebear.com/7.x/notionists/svg?seed={{ Str::slug(Auth()->user()->name) }}"
                             class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
@@ -39,20 +39,20 @@ on([
                 <!-- Navigation Links -->
                 <div class="hidden space-x-3 sm:-my-px sm:ms-10 sm:flex">
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
                     @if (auth()->user()->role == 'superadmin')
-                        <x-nav-link :href="url('admin/users')" :active="request('admin/users')" wire:navigate>
+                        <x-nav-link :href="url('admin/users')" :active="request('admin/users')">
                             {{ __('Admin') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                        <x-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')">
                             {{ __('Toko') }}
                         </x-nav-link>
                     @else
-                        <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                        <x-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')">
                             {{ __('Pelanggan') }}
                         </x-nav-link>
 
@@ -76,12 +76,11 @@ on([
 
                                 <x-slot name="content">
                                     <x-dropdown-link :href="url('/admin/products/categories')"
-                                        active="request()->routeIs('/admin/products/categories')" wire:navigate>
+                                        active="request()->routeIs('/admin/products/categories')">
                                         {{ __('Kategori Produk') }}
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link :href="url('/admin/products')" active="request()->routeIs('/admin/products')"
-                                        wire:navigate>
+                                    <x-dropdown-link :href="url('/admin/products')" active="request()->routeIs('/admin/products')">
                                         {{ __('Produk Toko') }}
                                     </x-dropdown-link>
 
@@ -89,7 +88,7 @@ on([
                             </x-dropdown>
                         </div>
 
-                        <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                        <x-nav-link :href="url('/admin/transactions/index')" :active="request()->routeIs('/admin/costumers')">
                             {{ __('Transaksi') }} @if ($orderPending > 0)
                                 <span class="ml-1 badge badge-neutral">!</span>
                             @elseif ($orderShipped > 0)
@@ -118,31 +117,31 @@ on([
 
                             <x-slot name="content">
                                 <x-dropdown-link :href="url('/admin/reports/costumers')"
-                                    active="request()->routeIs('/admin/reports/costumers')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/costumers')">
                                     {{ __('Pelanggan') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/products')"
-                                    active="request()->routeIs('/admin/reports/products')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/products')">
                                     {{ __('Produk Toko') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/categories')"
-                                    active="request()->routeIs('/admin/reports/categories')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/categories')">
                                     {{ __('Kategori Produk') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/transactions')"
-                                    active="request()->routeIs('/admin/reports/transactions')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/transactions')">
                                     {{ __('Penjualan') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/shipping')"
-                                    active="request()->routeIs('/admin/reports/shipping')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/shipping')">
                                     {{ __('Pengiriman') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/rank_categories')"
-                                    active="request()->routeIs('/admin/reports/rank_categories')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/rank_categories')">
                                     {{ __('Kategori Terlaris') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="url('/admin/reports/rank_products')"
-                                    active="request()->routeIs('/admin/reports/rank_products')" wire:navigate>
+                                    active="request()->routeIs('/admin/reports/rank_products')">
                                     {{ __('Produk Terlaris') }}
                                 </x-dropdown-link>
 
@@ -173,7 +172,7 @@ on([
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="url('/admin/account')" wire:navigate>
+                        <x-dropdown-link :href="url('/admin/account')">
                             {{ __('Akun Pengguna') }}
                         </x-dropdown-link>
 
@@ -206,36 +205,36 @@ on([
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('/dashboard')" wire:navigate>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('/dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
             @if (auth()->user()->role == 'superadmin')
-                <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/users')" :active="request()->routeIs('/admin/users')">
                     {{ __('Admin') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/settings')" :active="request()->routeIs('/admin/settings')">
                     {{ __('Toko') }}
                 </x-responsive-nav-link>
             @else
-                <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/costumers')" :active="request()->routeIs('/admin/costumers')">
                     {{ __('Pelanggan') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/products/categories')" :active="request()->routeIs('/admin/products/categories')">
                     {{ __('Kategori Produk') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/products')" :active="request()->routeIs('/admin/products')">
                     {{ __('Produk Toko') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/transactions')" :active="request()->routeIs('/admin/transactions')">
                     {{ __('Transaksi') }}
                 </x-responsive-nav-link>
             @endif
-            <x-responsive-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')" wire:navigate>
+            <x-responsive-nav-link :href="url('/admin/report')" :active="request()->routeIs('/admin/report')">
                 {{ __('Laporan') }}
             </x-responsive-nav-link>
         </div>
@@ -249,7 +248,7 @@ on([
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="url('/admin/account')" wire:navigate>
+                <x-responsive-nav-link :href="url('/admin/account')">
                     {{ __('Akun Pengguna') }}
                 </x-responsive-nav-link>
 

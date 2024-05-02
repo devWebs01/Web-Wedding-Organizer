@@ -35,8 +35,8 @@ $destroy = function (User $user) {
     <div>
         <x-slot name="title">Admin</x-slot>
         <x-slot name="header">
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('users.index') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Admin</a></li>
         </x-slot>
 
         @volt
@@ -45,7 +45,7 @@ $destroy = function (User $user) {
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <a wire:navigate href="{{ route('users.create') }}" class="btn btn-primary">Tambah
+                                <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah
                                     Admin</a>
                             </div>
                             <div class="col">
@@ -54,7 +54,7 @@ $destroy = function (User $user) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped text-center rounded">
@@ -76,9 +76,8 @@ $destroy = function (User $user) {
                                             <td>{{ $user->telp }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a wire:navigate
-                                                        href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                                        wire:navigate class="btn btn-sm btn-warning">Edit</a>
+                                                    <a href="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                        class="btn btn-sm btn-warning">Edit</a>
                                                     <button
                                                         wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
                                                         wire:loading.attr='disabled'

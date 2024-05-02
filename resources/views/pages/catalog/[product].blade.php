@@ -10,9 +10,7 @@ state([
     'user_id' => fn() => Auth()->user()->id ?? '',
     'product_id' => fn() => $this->product->id,
     'qty' => 1,
-    'randomProduct' => fn() => Product::inRandomOrder()
-        ->limit(6)
-        ->get(),
+    'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
 ]);
 
 rules([
@@ -46,8 +44,8 @@ $addToCart = function () {
                 <div class="pt-6">
                     <div class="text-sm breadcrumbs">
                         <ul class="px-4 sm:px-6 lg:px-8">
-                            <li><a wire:navigate href="/catalog/list">Katalog Produk</a></li>
-                            <li><a wire:navigate href="#">Produk</a></li>
+                            <li><a href="/catalog/list">Katalog Produk</a></li>
+                            <li><a href="#">Produk</a></li>
                         </ul>
                     </div>
 
@@ -127,8 +125,7 @@ $addToCart = function () {
                                             <div
                                                 class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
                                                 <div class="shadow-sm w-33 rounded-2xl">
-                                                    <a wire:navigate
-                                                        class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
+                                                    <a class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
                                                         href="/catalog/{{ $product->id }}">Lihat Produk</a>
                                                 </div>
                                             </div>
@@ -137,7 +134,7 @@ $addToCart = function () {
                                     <div>
                                         <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
                                             <div class="flex-1">
-                                                <a wire:navigate class="block group" href="/catalog/{{ $product->id }}">
+                                                <a class="block group" href="/catalog/{{ $product->id }}">
                                                     <div class="badge badge-outline">
                                                         {{ Str::limit($product->category->name, 30, '...') }}</div>
 

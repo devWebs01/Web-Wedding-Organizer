@@ -108,7 +108,7 @@
                 <a class="sidebar-link" href="{{ route('report.transactions') }}" aria-expanded="false"
                     {{ request()->routeIs('report.transactions') }}>
                     <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
-                    <span class="hide-menu">Data Pelanggan</span>
+                    <span class="hide-menu">Data Transaksi</span>
                 </a>
             </li>
             <li>

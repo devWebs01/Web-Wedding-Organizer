@@ -47,9 +47,9 @@ $save = function () {
 <x-admin-layout>
     <x-slot name="title">Produk</x-slot>
     <x-slot name="header">
-        <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a wire:navigate href="{{ route('products.index') }}">Produk Toko</a></li>
-        <li class="breadcrumb-item"><a wire:navigate
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk Toko</a></li>
+        <li class="breadcrumb-item"><a
                 href="{{ route('products.edit', ['product' => $product->id]) }}">{{ $product->title }}</a></li>
     </x-slot>
 

@@ -325,8 +325,7 @@ on([
                     </div>
                     <div class="text-center mt-5">
                         @if ($order->status == 'UNPAID')
-                            <a href="/payments/{{ $order->id }}" wire:navigate
-                                class="btn btn-primary btn-wide my-4 mx-3">
+                            <a href="/payments/{{ $order->id }}" class="btn btn-primary btn-wide my-4 mx-3">
                                 <span wire:loading wire:target='confirmOrder'
                                     class="loading loading-spinner text-neutral"></span>
                                 Lakukan Pembayaran

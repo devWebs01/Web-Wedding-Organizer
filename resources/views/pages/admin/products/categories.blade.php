@@ -42,8 +42,8 @@ $destroy = function (Category $category) {
     <div>
         <x-slot name="title">Kategori Produk</x-slot>
         <x-slot name="header">
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('categories-product') }}">Kategori Produk</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('categories-product') }}">Kategori Produk</a></li>
         </x-slot>
 
         @volt

@@ -11,28 +11,13 @@ state([
 
 with(
     fn() => [
-        'process_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'UNPAID')
-            ->orWhere('status', 'PROGRESS')
-            ->orWhere('status', 'PENDING')
-            ->latest()
-            ->paginate(5),
+        'process_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PENDING')->latest()->paginate(5),
 
-        'shipped_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'SHIPPED')
-            ->orWhere('status', 'PACKED')
-            ->latest()
-            ->paginate(5),
+        'shipped_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'SHIPPED')->orWhere('status', 'PACKED')->latest()->paginate(5),
 
-        'completed_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'COMPLETED')
-            ->latest()
-            ->paginate(5),
+        'completed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'COMPLETED')->latest()->paginate(5),
 
-        'cancelled_orders' => fn() => Order::where('user_id', auth()->id())
-            ->where('status', 'CANCELLED')
-            ->latest()
-            ->paginate(5),
+        'cancelled_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CANCELLED')->latest()->paginate(5),
     ],
 );
 
@@ -91,8 +76,7 @@ with(
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $order->id }}"
-                                                            class="btn btn-sm">Lihat</a>
+                                                        <a href="/orders/{{ $order->id }}" class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -132,8 +116,7 @@ with(
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $order->id }}"
-                                                            class="btn btn-sm">Lihat</a>
+                                                        <a href="/orders/{{ $order->id }}" class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -173,8 +156,7 @@ with(
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $order->id }}"
-                                                            class="btn btn-sm">Lihat</a>
+                                                        <a href="/orders/{{ $order->id }}" class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -214,8 +196,7 @@ with(
                                                     <td>{{ 'Rp. ' . Number::format($order->total_amount, locale: 'id') }}
                                                     </td>
                                                     <td>
-                                                        <a wire:navigate href="/orders/{{ $order->id }}"
-                                                            class="btn btn-sm">Lihat</a>
+                                                        <a href="/orders/{{ $order->id }}" class="btn btn-sm">Lihat</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

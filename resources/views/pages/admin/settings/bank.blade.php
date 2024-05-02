@@ -45,70 +45,96 @@ $edit = function (Bank $bank) {
 ?>
 @volt
     <div>
-        <div>
-            <form wire:submit="save">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <x-input-label for="account_owner" :value="__('Atas Nama')" />
-                        <x-text-input wire:loading.attr="disabled" wire:model.blur="account_owner" id="account_owner"
-                            class="block mt-1 w-full" type="text" name="account_owner" autofocus
-                            autocomplete="account_owner" />
-                        <x-input-error :messages="$errors->get('account_owner')" class="mt-2" />
-                    </div>
-                    <div>
-                        <x-input-label for="bank_name" :value="__('Nama Bank')" />
-                        <x-text-input wire:loading.attr="disabled" wire:model.blur="bank_name" id="bank_name"
-                            class="block mt-1 w-full" type="text" name="bank_name" autofocus autocomplete="bank_name" />
-                        <x-input-error :messages="$errors->get('bank_name')" class="mt-2" />
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <x-input-label for="account_number" :value="__('Nomor Rekening')" />
-                    <x-text-input wire:loading.attr="disabled" wire:model.blur="account_number" id="account_number"
-                        class="block mt-1 w-full" type="number" name="account_number" autofocus
-                        autocomplete="account_number" />
-                    <x-input-error :messages="$errors->get('account_number')" class="mt-2" />
-                </div>
-                <div class="mt-3 flex justify-end">
-                    <x-primary-button class="ms-3">
-                        <span wire:target='save' wire:loading class="loading loading-spinner"></span>
-                        {{ __('Submit') }}
-                    </x-primary-button>
-                </div>
-            </form>
+        <div class="alert alert-primary" role="alert">
+            <strong>Rekening Pembayaran</strong>
+            <p>tempat Anda dapat menyimpan informasi penting tentang rekening bank toko Anda. Pastikan untuk
+                memasukkan informasi dengan benar untuk memastikan kelancaran proses pembayaran dan transaksi keuangan.</p>
         </div>
-        <table class="table text-center my-5">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Atas Nama</th>
-                    <th>Jenis Bank</th>
-                    <th>Nomor Bank</th>
-                    <th>#</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($this->banks as $no => $bank)
+        <form wire:submit="save">
+            @csrf
+
+            <div class="mb-3">
+                <label for="account_owner" class="form-label">Nama Pemilik</label>
+                <input type="text" class="form-control @error('account_owner') is-invalid @enderror"
+                    wire:model="account_owner" id="account_owner" aria-describedby="account_ownerId"
+                    placeholder="Enter account owner" />
+                @error('account_owner')
+                    <small id="account_ownerId" class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="bank_name" class="form-label">Nama Bank</label>
+                <input type="text" class="form-control @error('bank_name') is-invalid @enderror" wire:model="bank_name"
+                    id="bank_name" aria-describedby="bank_nameId" placeholder="Enter bank name" />
+                @error('bank_name')
+                    <small id="bank_nameId" class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="account_number" class="form-label">Nomor Rekening</label>
+                <input type="text" class="form-control @error('account_number') is-invalid @enderror"
+                    wire:model="account_number" id="account_number" aria-describedby="account_numberId"
+                    placeholder="Enter bank number" />
+                @error('account_number')
+                    <small id="account_numberId" class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <button type="reset" class="btn btn-danger">
+                        Reset
+                    </button>
+                </div>
+
+                <div class="col-md text-end">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive border rounded my-3">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th>{{ ++$no }}</th>
-                        <th>{{ $bank->account_owner }}</th>
-                        <th>{{ $bank->bank_name }}</th>
-                        <th>{{ $bank->account_number }}</th>
-                        <th class="join">
-                            <button wire:loading.attr='disabled' wire:click='edit({{ $bank->id }})'
-                                class="btn btn-outline btn-sm join-item">
-                                {{ __('Edit') }}
-                            </button>
-                            <button wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'Hapus' untuk konfirmasi!|Hapus"
-                                wire:loading.attr='disabled' wire:click='destroy({{ $bank->id }})'
-                                class="btn btn-outline btn-sm join-item">
-                                {{ __('Hapus') }}
-                            </button>
-                        </th>
+                        <th>No.</th>
+                        <th>Atas Nama</th>
+                        <th>Jenis Bank</th>
+                        <th>Nomor Bank</th>
+                        <th>Opsi</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $this->banks->links() }}
+                </thead>
+                <tbody>
+                    @foreach ($this->banks as $no => $bank)
+                        <tr>
+                            <th>{{ ++$no }}</th>
+                            <th>{{ $bank->account_owner }}</th>
+                            <th>{{ $bank->bank_name }}</th>
+                            <th>{{ $bank->account_number }}</th>
+                            <th>
+                                <div class="btn-group">
+                                    <button wire:loading.attr='disabled' wire:click='edit({{ $bank->id }})'
+                                        class="btn btn-warning btn-sm">
+                                        Edit
+                                    </button>
+                                    <button
+                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
+                                        wire:loading.attr='disabled' wire:click='destroy({{ $bank->id }})'
+                                        class="btn btn-danger btn-sm join-item">
+                                        Hapus
+                                    </button>
+                                </div>
+                            </th>
+                        </tr>
+                    @endforeach
+                </tbody>
+                {{ $this->banks->links() }}
+            </table>
+        </div>
+
     </div>
 @endvolt

@@ -45,7 +45,7 @@ $register = function () {
 
 <div>
     <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-        href="/" wire:navigate>
+        href="/">
         {{ __('Home') }}
     </a>
     <span class="py-5 text-4xl font-extrabold flex gap-5">
@@ -96,7 +96,7 @@ $register = function () {
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                href="{{ route('login') }}" wire:navigate>
+                href="{{ route('login') }}">
                 {{ __('Sudah terdaftar?') }}
             </a>
 

@@ -41,19 +41,27 @@ $save = function () {
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
         <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Admin</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('users.create') }}">Admin Baru</a></li>
+        <li class="breadcrumb-item"><a href="#">Edit Admin</a></li>
     </x-slot>
 
     @volt
         <div>
             <div class="card">
+                <div class="card-header">
+                    <div class="alert alert-primary" role="alert">
+                        <strong>Edit Admin</strong>
+                        <p>Pada halaman edit pengguna, Anda dapat mengubah informasi pengguna yang sudah ada, termasuk peran
+                            pengguna. Ini memungkinkan Anda untuk memperbarui akses dan izin pengguna sesuai kebutuhan.
+                        </p>
+                    </div>
+                </div>
                 <div class="card-body">
                     <form wire:submit="save">
                         @csrf
                         <div class="row">
                             <div class="col-md">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
+                                    <label for="name" class="form-label">Nama</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         wire:model="name" id="name" aria-describedby="nameId"
                                         placeholder="Enter admin name" autofocus autocomplete="name" />

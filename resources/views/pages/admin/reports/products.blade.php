@@ -10,19 +10,21 @@ $products = computed(fn() => Product::latest()->get());
 
 ?>
 
-<x-app-layout>
+<x-admin-layout>
+    @include('layouts.print')
+
+    <x-slot name="title">Laporan Produk</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.products') }}">Laporan Produk</a></li>
+    </x-slot>
     @volt
-        @include('layouts.print')
         <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Laporan Data Produk Toko') }}
-                </h2>
-            </x-slot>
-            <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden  shadow-md border-l-4 border-black rounded-lg p-4">
-                    <div class="overflow-x-auto">
-                        <table id="example" class="display" style="width:100%">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table display table-sm">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -47,6 +49,8 @@ $products = computed(fn() => Product::latest()->get());
                     </div>
                 </div>
             </div>
+
+          
         </div>
     @endvolt
-</x-app-layout>
+</x-admin-layout>

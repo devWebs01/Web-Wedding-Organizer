@@ -6,64 +6,51 @@ use function Laravel\Folio\name;
 
 name('report.customers');
 
-$users = computed(
-    fn() => User::where('role', 'customer')
-        ->latest()
-        ->get(),
-);
+$users = computed(fn() => User::where('role', 'customer')->latest()->get());
 
 ?>
-<x-app-layout>
+<x-admin-layout>
+    @include('layouts.print')
+    <x-slot name="title">Laporan Daftar Pelanggan</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.customers') }}">Laporan Daftar Pelanggan</a></li>
+    </x-slot>
     @volt
-        @include('layouts.print')
         <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Laporan Data Pelanggan
-                </h2>
-            </x-slot>
-
-            <div>
-                <div class="sm:px-6 lg:px-8">
-                    <div class="py-5">
-                        <div class="mx-auto">
-                            <div class=" bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <div class="overflow-x-auto">
-                                    <table id="example" class="display" style="width:100%">
-                                        <!-- head -->
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Nama</th>
-                                                <th>Email</th>
-                                                <th>Telp</th>
-                                                <th>Alamat</th>
-                                                <th>Total Transaksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($this->users as $no => $user)
-                                                <tr>
-                                                    <td>{{ ++$no }}</td>
-                                                    <td>{{ $user->name }}.</td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td>{{ $user->telp }}</td>
-                                                    <td>
-                                                        {{ $user->address->province->name ?? '-' }},
-                                                        {{ $user->address->city->name ?? '-' }}
-                                                    </td>
-                                                    <td>{{ $user->orders->count() }} Transaksi</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table display table-sm">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Telp</th>
+                                    <th>Alamat</th>
+                                    <th>Total Transaksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($this->users as $no => $user)
+                                    <tr>
+                                        <td>{{ ++$no }}</td>
+                                        <td>{{ $user->name }}.</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->telp }}</td>
+                                        <td>
+                                            {{ $user->address->province->name ?? '-' }},
+                                            {{ $user->address->city->name ?? '-' }}
+                                        </td>
+                                        <td>{{ $user->orders->count() }} Transaksi</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
         </div>
     @endvolt
-</x-app-layout>
+</x-admin-layout>

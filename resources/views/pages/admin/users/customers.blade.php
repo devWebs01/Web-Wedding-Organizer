@@ -32,8 +32,8 @@ $users = computed(function () {
     <div>
         <x-slot name="title">Pelanggan</x-slot>
         <x-slot name="header">
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('customers') }}">Pelanggan</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('customers') }}">Pelanggan</a></li>
         </x-slot>
 
         @volt

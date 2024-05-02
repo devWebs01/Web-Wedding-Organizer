@@ -228,7 +228,7 @@ $confirmCheckout = function () {
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <a href="/catalog/list" wire:navigate class="join-item btn btn-outline">
+                                    <a href="/catalog/list" class="join-item btn btn-outline">
                                         Lanjut Belanja
                                     </a>
                                 </td>

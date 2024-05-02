@@ -30,12 +30,22 @@ $save = function () {
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
         <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Admin</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('users.create') }}">Admin Baru</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('users.create') }}">Tambah Admin</a></li>
     </x-slot>
 
     @volt
         <div>
             <div class="card">
+                <div class="card-header">
+                    <div class="alert alert-primary" role="alert">
+                        <strong>Tambah Admin</strong>
+                        <p>Pada halaman tambah pengguna, Anda dapat memasukkan informasi pengguna baru, seperti nama, alamat
+                            email,
+                            kata sandi, dan peran pengguna (admin)
+                        </p>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <form wire:submit="save">
                         @csrf

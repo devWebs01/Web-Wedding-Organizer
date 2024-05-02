@@ -30,76 +30,73 @@ $destroy = function (product $product) {
 
 
 <x-admin-layout>
-    <div>
-        <x-slot name="title">Produk Toko</x-slot>
-        <x-slot name="header">
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a wire:navigate href="{{ route('products.index') }}">Produk Toko</a></li>
-        </x-slot>
+    <x-slot name="title">Produk Toko</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk Toko</a></li>
+    </x-slot>
 
-        @volt
-            <div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <a wire:navigate href="{{ route('products.create') }}" class="btn btn-primary">Tambah
-                                    Produk Toko</a>
-                            </div>
-                            <div class="col">
-                                <input wire:model.live="search" type="search" class="form-control" name="search"
-                                    id="search" aria-describedby="helpId" placeholder="Masukkan nama produk toko" />
-                            </div>
+    @volt
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{{ route('products.create') }}" class="btn btn-primary">Tambah
+                                Produk Toko</a>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped text-center rounded">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Nama Produk</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>#</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($this->products as $no => $product)
-                                        <tr>
-                                            <th>{{ ++$no }}</th>
-                                            <th>{{ $product->title }}</th>
-                                            <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
-                                            <th>{{ $product->quantity }}</th>
-                                            <th>
-                                                <div class="btn-group">
-                                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                                        class="btn btn-sm btn-warning">
-                                                        Edit
-                                                    </a>
-
-                                                    <button
-                                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                        wire:loading.attr='disabled'
-                                                        wire:click='destroy({{ $product->id }})'
-                                                        class="btn btn-sm btn-danger">
-                                                        Hapus
-                                                    </button>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-
-                            {{ $this->products->links() }}
+                        <div class="col">
+                            <input wire:model.live="search" type="search" class="form-control" name="search"
+                                id="search" aria-describedby="helpId" placeholder="Masukkan nama produk toko" />
                         </div>
-
                     </div>
                 </div>
-            </div>
-        @endvolt
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center rounded">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Produk</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($this->products as $no => $product)
+                                    <tr>
+                                        <th>{{ ++$no }}</th>
+                                        <th>{{ $product->title }}</th>
+                                        <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
+                                        <th>{{ $product->quantity }}</th>
+                                        <th>
+                                            <div class="btn-group">
+                                                <a href="{{ route('products.edit', ['product' => $product->id]) }}"
+                                                    class="btn btn-sm btn-warning">
+                                                    Edit
+                                                </a>
 
-    </div>
+                                                <button
+                                                    wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
+                                                    wire:loading.attr='disabled'
+                                                    wire:click='destroy({{ $product->id }})'
+                                                    class="btn btn-sm btn-danger">
+                                                    Hapus
+                                                </button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+
+                        {{ $this->products->links() }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endvolt
 </x-admin-layout>

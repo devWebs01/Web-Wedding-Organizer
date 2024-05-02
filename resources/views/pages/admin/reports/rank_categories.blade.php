@@ -2,6 +2,9 @@
 
 use function Livewire\Volt\{computed};
 use App\Models\Category;
+use function Laravel\Folio\name;
+
+name('report.rankCategories');
 
 $categories = computed(
     fn() => Category::with([
@@ -15,46 +18,45 @@ $categories = computed(
 
 ?>
 
-<x-app-layout>
+<x-admin-layout>
+    @include('layouts.print')
+    <x-slot name="title">Laporan Data Kategori Produk Terlaris</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.rankCategories') }}">Laporan Data Kategori Produk
+                Terlaris</a></li>
+    </x-slot>
+
     @volt
-        @include('layouts.print')
         <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Laporan Data Kategori Produk Terlaris') }}
-                </h2>
-            </x-slot>
-
-            <div class="sm:px-6 lg:px-8">
-                <div class="py-5">
-                    <div class="mx-auto">
-                        <div
-                            class="overflow-x-auto mt-6 border-l-4 border-black bg-white dark:bg-gray-800 overflow-hidden shadow-md  rounded-lg p-4">
-                            <table id="example" class="display" style="width:100%">
-                                <thead>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table display table-sm">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Jumlah Produk</th>
+                                    <th>Jumlah Produk Terjual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($this->categories as $no => $category)
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Name</th>
-                                        <th>Jumlah Produk</th>
-                                        <th>Jumlah Produk Terjual</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($this->categories as $no => $category)
-                                        <tr>
-                                            <td>{{ ++$no }}</td>
-                                            <td>{{ $category->name }}</td>
-                                            <td>{{ $category->products->count() }} Produk Toko</td>
-                                            <td>{{ $category->products->sum('items_sum_qty') }} Terjual</td>
+                                        <td>{{ ++$no }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->products->count() }} Produk Toko</td>
+                                        <td>{{ $category->products->sum('items_sum_qty') }} Terjual</td>
 
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+
         </div>
     @endvolt
-</x-app-layout>
+</x-admin-layout>

@@ -5,12 +5,8 @@ use App\Models\Category;
 use App\Models\Product;
 
 state([
-    'products' => fn() => Product::latest()
-        ->limit(2)
-        ->get(),
-    'randomProduct' => fn() => Product::inRandomOrder()
-        ->limit(6)
-        ->get(),
+    'products' => fn() => Product::latest()->limit(2)->get(),
+    'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
 ]);
 
 ?>
@@ -31,7 +27,7 @@ state([
                             pengalaman mencuci yang menyenangkan dengan produk berkualitas terbaik. Kunjungi toko kami
                             sekarang dan temukan pewangi laundry favorit Anda!
                         </p>
-                        <a wire:navigate href="/catalog/list"
+                        <a href="/catalog/list"
                             class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Belanja
                             Sekarang</a>
                         <!-- Integrates with section -->
@@ -158,7 +154,7 @@ state([
                                     </p>
                                 </header>
 
-                                <a wire:navigate href="/catalog/list"
+                                <a href="/catalog/list"
                                     class="mt-8 inline-block rounded border border-gray-900 bg-gray-900 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none focus:ring">
                                     Lihat Lebih
                                 </a>
@@ -169,7 +165,7 @@ state([
                             <ul class="grid grid-cols-2 gap-4">
                                 @foreach ($products as $item)
                                     <li>
-                                        <a wire:navigate href="/catalog/{{ $item->id }}" class="group block">
+                                        <a href="/catalog/{{ $item->id }}" class="group block">
                                             <img src="{{ Storage::url($item->image) }}" alt=""
                                                 class="aspect-square w-full rounded object-cover" />
 
@@ -212,8 +208,7 @@ state([
                                             <div
                                                 class="absolute inset-0 flex flex-col items-center justify-center transition duration-200 opacity-0 group-hover:opacity-100">
                                                 <div class="shadow-sm w-33 rounded-2xl">
-                                                    <a wire:navigate
-                                                        class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
+                                                    <a class="w-full justify-center inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-2xl shadow-sm text-white transition duration-150 bg-cool-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cool-indigo-500"
                                                         href="/catalog/{{ $product->id }}">Lihat Produk</a>
                                                 </div>
                                             </div>
@@ -222,7 +217,7 @@ state([
                                     <div>
                                         <div class="flex flex-col justify-between flex-1 px-6 pt-6 pb-0">
                                             <div class="flex-1">
-                                                <a wire:navigate class="block group" href="/catalog/{{ $product->id }}">
+                                                <a class="block group" href="/catalog/{{ $product->id }}">
                                                     <div class="badge badge-outline">
                                                         {{ Str::limit($product->category->name, 30, '...') }}</div>
 

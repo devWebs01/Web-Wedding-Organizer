@@ -34,7 +34,7 @@ $login = function () {
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
     <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-        href="/" wire:navigate>
+        href="/">
         {{ __('Home') }}
     </a>
     <span class="py-5 text-4xl font-extrabold flex gap-5">
@@ -76,12 +76,12 @@ $login = function () {
 
         <div class="flex items-center justify-between mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                href="{{ route('register') }}" wire:navigate>
+                href="{{ route('register') }}">
                 {{ __('Kamu belum punya akun?') }}
             </a>
             {{-- @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                    href="{{ route('password.request') }}" wire:navigate>
+                    href="{{ route('password.request') }}" >
                     {{ __('Forgot your password?') }}
                 </a>
             @endif --}}
