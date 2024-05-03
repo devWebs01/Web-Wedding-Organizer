@@ -62,6 +62,9 @@ $destroy = function (Category $category) {
                                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                                 <div class="row justift-content-between">
+                                    <x-action-message wire:loading>
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </x-action-message>
                                     <div class="col-md mt-3">
                                         <button type="reset" class="btn btn-danger">
                                             Reset
@@ -72,7 +75,6 @@ $destroy = function (Category $category) {
                                         <button type="submit" class="btn btn-primary">
                                             Submit
                                         </button>
-
                                     </div>
                                 </div>
                             </div>

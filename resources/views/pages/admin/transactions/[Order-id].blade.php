@@ -23,7 +23,7 @@ $confirm = function () {
     $this->dispatch('order-update');
 };
 
-$submitTrackingNumber = function () {
+$saveTrackingNumber = function () {
     $validate = $this->validate();
     $validate['status'] = 'SHIPPED';
 
@@ -46,7 +46,7 @@ $submitTrackingNumber = function () {
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md">
-                            <form wire:submit="submitTrackingNumber">
+                            <form wire:submit="saveTrackingNumber">
                                 @if ($order->status == 'PACKED')
                                     <div class="input-group mb-3">
                                         <input wire:model="tracking_number" type="text"
@@ -58,6 +58,9 @@ $submitTrackingNumber = function () {
                                         <button class="btn btn-primary" type="submit">
                                             <i class="ti ti-check fs-5"></i>
                                         </button>
+                                        <x-action-message wire:loading on="saveTrackingNumber">
+                                            <span class="spinner-border spinner-border-sm"></span>
+                                        </x-action-message>
                                     </div>
                                     @error('tracking_number')
                                         <small id="tracking_numberId" class="form-text text-danger">{{ $message }}</small>
@@ -68,6 +71,9 @@ $submitTrackingNumber = function () {
                         <div class="col-md">
                             <div class="text-end">
                                 @if ($order->status == 'PENDING')
+                                    <x-action-message wire:loading on="password-updated">
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </x-action-message>
                                     <button wire:click='confirm' class="btn btn-primary" type="submit">
                                         <i class="ti ti-circle-check fs-3"></i>
                                         Proses Pesanan

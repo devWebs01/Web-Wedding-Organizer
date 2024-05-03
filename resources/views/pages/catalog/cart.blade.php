@@ -237,14 +237,14 @@ $confirmCheckout = function () {
                                         @if (!$this->destination)
                                             <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
                                                 class="join-item btn btn-neutral">
-                                                <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                                <span wire:loading.delay wire:target="confirmCheckout"
                                                     class="loading loading-spinner loading-xs"></span>
                                                 Atur Alamat</a>
                                         @else
                                             <form wire:submit="confirmCheckout">
                                                 <button wire:loading.attr='disable' type="submit"
                                                     class="join-item btn btn-neutral">
-                                                    <span wire:loading.delay wire:loading wire:target="confirmCheckout"
+                                                    <span wire:loading.delay wire:target="confirmCheckout"
                                                         class="loading loading-spinner loading-xs"></span>
                                                     Checkout</button>
                                             </form>

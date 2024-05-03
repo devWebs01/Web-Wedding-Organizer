@@ -108,7 +108,12 @@ $save = function () {
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <x-action-message wire:loading on="save">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </x-action-message>
+                        </div>
                     </form>
                 </div>
             </div>

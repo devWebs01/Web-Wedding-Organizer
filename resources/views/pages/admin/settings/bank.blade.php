@@ -94,6 +94,9 @@ $edit = function (Bank $bank) {
                         Submit
                     </button>
                 </div>
+                <x-action-message wire:loading on="save">
+                    <span class="spinner-border spinner-border-sm"></span>
+                </x-action-message>
             </div>
         </form>
 

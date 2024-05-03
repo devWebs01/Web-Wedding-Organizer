@@ -30,7 +30,7 @@ rules([
     'details' => 'required|min:20',
 ]);
 
-$submit = function () {
+$save = function () {
     $validate = $this->validate();
     if ($this->getShop) {
         $updateShop = Shop::first();
@@ -51,7 +51,7 @@ $submit = function () {
                 memastikan kelancaran proses pengiriman.</p>
         </div>
 
-        <form wire:submit.prevent="submit">
+        <form wire:submit="save">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Toko</label>
@@ -102,7 +102,9 @@ $submit = function () {
                 <button type="submit" class="btn btn-primary">
                     Submit
                 </button>
-
+                <x-action-message wire:loading on="save">
+                    <span class="spinner-border spinner-border-sm"></span>
+                </x-action-message>
             </div>
         </form>
     </div>

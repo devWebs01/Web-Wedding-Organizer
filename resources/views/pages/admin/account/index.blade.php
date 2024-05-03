@@ -1,15 +1,13 @@
 <?php
 
+use function Laravel\Folio\name;
 use Dipantry\Rajaongkir\Models\ROProvince;
 use Dipantry\Rajaongkir\Models\ROCity;
-use App\Models\Shop;
 use function Livewire\Volt\{state, computed, rules};
 
-state(['province_id'])->url();
+name('account.auth');
 
-$getShop = computed(function () {
-    return Shop::first();
-});
+state(['province_id'])->url();
 
 state([
     'name' => fn() => $this->getShop->name ?? '',
@@ -42,47 +40,52 @@ $submit = function () {
 };
 
 ?>
+<x-admin-layout>
+    <x-slot name="title">Akun Profile</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('account.auth') }}">Akun Profile</a></li>
+    </x-slot>
 
-<x-app-layout>
     @volt
         <div>
-            <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Pengaturan Informasi
-                </h2>
-            </x-slot>
+            <div class="card overflow-hidden">
+                <div class="card-header p-0">
+                    <img src="https://bootstrapdemos.adminmart.com/matdash/dist/assets/images/backgrounds/profilebg.jpg"
+                        alt="matdash-img" class="img-fluid">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
 
-            <div>
-                <div class="sm:px-6 lg:px-8">
-                    <div x-data="{ openTab: 1 }" class="py-8">
-                        <div class="mx-auto">
-                            <div class="mb-4 flex space-x-4 p-2 bg-white rounded-lg shadow-md">
-                                <button x-on:click="openTab = 1" :class="{ 'bg-black text-white': openTab === 1 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Profile
-                                    Pengguna</button>
+                            <button class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-profile" type="button" role="tab"
+                                aria-controls="v-pills-profile" aria-selected="true">Akun Profile</button>
 
-                                <button x-on:click="openTab = 2" :class="{ 'bg-black text-white': openTab === 2 }"
-                                    class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">Update
-                                    Password</button>
+                            <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-password" type="button" role="tab"
+                                aria-controls="v-pills-password" aria-selected="true">Ganti Password</button>
 
+
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent">
+
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                                aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                @include('pages.admin.account.profile')
 
                             </div>
 
-                            <div x-show="openTab === 1"
-                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <h2 class="text-2xl font-semibold mb-2">Profil Pengguna</h2>
-                                <livewire:profile.update-profile-information-form />
-                            </div>
+                            <div class="tab-pane fade" id="v-pills-password" role="tabpanel"
+                                aria-labelledby="v-pills-password-tab" tabindex="0">
+                                @include('pages.admin.account.password')
 
-                            <div x-show="openTab === 2"
-                                class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-black">
-                                <h2 class="text-2xl font-semibold mb-2">Profil Pengguna</h2>
-                                <livewire:profile.update-password-form />
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        @endvolt
-</x-app-layout>
+        </div>
+    @endvolt
+</x-admin-layout>

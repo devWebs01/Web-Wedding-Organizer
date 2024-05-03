@@ -146,6 +146,9 @@ $save = function () {
 
 
                             <div class="text-end">
+                                <x-action-message wire:loading on="save">
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                </x-action-message>
                                 <button type="submit" class="btn btn-primary">
                                     Submit
                                 </button>
