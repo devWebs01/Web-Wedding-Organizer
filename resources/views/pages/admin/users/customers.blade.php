@@ -39,25 +39,27 @@ $users = computed(function () {
         @volt
             <div>
                 <div class="card">
-                    <div class="card-body">
-                        <div class="card-header">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Cari Pelanggan</label>
-                                <input wire:model.live="search" type="search" class="form-control" name="search"
-                                    id="search" aria-describedby="helpId"
-                                    placeholder="Masukkan nama pengguna / email / telp" />
-                            </div>
+                    <div class="card-header">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Cari Pelanggan</label>
+                            <input wire:model.live="search" type="search" class="form-control" name="search"
+                                id="search" aria-describedby="helpId"
+                                placeholder="Masukkan nama pengguna / email / telp" />
                         </div>
+                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-striped text-center rounded">
+                    <div class="card-body">
+                        <div class="table-responsive border rounded">
+                            <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Telp</th>
-                                        <th>Alamat</th>
+                                        <th>Provinsi</th>
+                                        <th>Kota</th>
+                                        <th>Alamat Lengkap</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +69,13 @@ $users = computed(function () {
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->telp }}</td>
-                                            <td>{{ $user->address ?? '-' }}</td>
+                                            <td>{{ $user->address->province->name ?? '-' }}</td>
+                                            <td>
+                                                {{ $user->address->city->name ?? '-' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->address->details ?? '-' }}
+                                            </td>
                                         </tr>
                                     @endforeach
 

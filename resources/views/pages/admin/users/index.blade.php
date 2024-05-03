@@ -56,8 +56,8 @@ $destroy = function (User $user) {
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped text-center rounded">
+                        <div class="table-responsive border rounded">
+                            <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

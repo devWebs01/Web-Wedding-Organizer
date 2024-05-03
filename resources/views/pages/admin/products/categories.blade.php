@@ -49,40 +49,40 @@ $destroy = function (Category $category) {
         @volt
             <div>
                 <div class="card">
-                    <div class="card-body">
-                        <div class="card-header">
-                            <form wire:submit="save">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Kategori
-                                        Produk</label>
-                                    <input type="text" class="form-control" wire:model="name" id="name"
-                                        aria-describedby="helpId" placeholder="Masukkan kategori baru / edit" />
+                    <div class="card-header">
+                        <form wire:submit="save">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Kategori
+                                    Produk</label>
+                                <input type="text" class="form-control" wire:model="name" id="name"
+                                    aria-describedby="helpId" placeholder="Masukkan kategori baru / edit" />
 
-                                    @error('name')
-                                        <small id="helpId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                    <div class="row justift-content-between">
-                                        <div class="col-md mt-3">
-                                            <button type="reset" class="btn btn-danger">
-                                                Reset
-                                            </button>
+                                @error('name')
+                                    <small id="helpId" class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                                <div class="row justift-content-between">
+                                    <div class="col-md mt-3">
+                                        <button type="reset" class="btn btn-danger">
+                                            Reset
+                                        </button>
 
-                                        </div>
-                                        <div class="col-md mt-3 text-end">
-                                            <button type="submit" class="btn btn-primary">
-                                                Submit
-                                            </button>
+                                    </div>
+                                    <div class="col-md mt-3 text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
 
-                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                        </form>
 
-                        </div>
+                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-striped text-center rounded">
+                    <div class="card-body">
+                        <div class="table-responsive border rounded">
+                            <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

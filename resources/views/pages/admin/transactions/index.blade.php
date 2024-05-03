@@ -41,7 +41,7 @@ $orders = computed(function () {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive border rounded">
-                        <table class="table text-center">
+                        <table class="table text-center text-nowrap">
                             <thead>
                                 <tr>
                                     <th>No.</th>

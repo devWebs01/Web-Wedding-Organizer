@@ -52,8 +52,8 @@ $destroy = function (product $product) {
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped text-center rounded">
+                    <div class="table-responsive border rounded">
+                        <table class="table text-center text-nowrap">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -79,8 +79,7 @@ $destroy = function (product $product) {
 
                                                 <button
                                                     wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                    wire:loading.attr='disabled'
-                                                    wire:click='destroy({{ $product->id }})'
+                                                    wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
                                                     class="btn btn-sm btn-danger">
                                                     Hapus
                                                 </button>
