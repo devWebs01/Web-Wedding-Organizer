@@ -3,7 +3,6 @@
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
-
 use function Livewire\Volt\{state};
 
 state([

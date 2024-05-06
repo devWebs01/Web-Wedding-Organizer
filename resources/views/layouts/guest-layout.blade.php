@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Head -->
+
+<head>
+    <!-- Page Meta Tags-->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+
+    <!-- Custom Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/guest/images/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/guest/images/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/guest/images/favicon/favicon-16x16.png') }}">
+    <link rel="mask-icon" href="{{ asset('/guest/images/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{{ asset('/guest/css/libs.bundle.css') }}" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('/guest/css/theme.bundle.css') }}" />
+
+    <!-- Fix for custom scrollbar if JS is disabled-->
+    @livewireStyles
+    <noscript>
+        <style>
+            /**
+          * Reinstate scrolling for non-JS clients
+          */
+            .simplebar-content-wrapper {
+                overflow: auto;
+            }
+        </style>
+    </noscript>
+
+    <!-- Page Title -->
+    <title>APOLA.CO.ID | Bootstrap 5 HTML Template</title>
+    @vite([])
+</head>
+
+<body class="">
+
+    <!-- Navbar -->
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white flex-column border-0  ">
+        <div class="container-fluid">
+            <div class="w-100">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                    <!-- Logo-->
+                    <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="./index.html">
+                        <div class="d-flex align-items-center">
+                            <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26">
+                                <path
+                                    d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z"
+                                    fill="currentColor" fill-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </a>
+                    <!-- / Logo-->
+
+                    <!-- Navbar Icons-->
+                    @livewire('layout.guest-header')
+                    <!-- Navbar Icons-->
+
+                    <!-- Main Navigation-->
+                    <div class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
+                        id="navbarNavDropdown">
+
+                        <!-- Menu-->
+                        <x-guest-nav></x-guest-nav>
+                        <!-- / Menu-->
+
+                    </div>
+                    <!-- / Main Navigation-->
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- / Navbar--> <!-- / Navbar-->
+
+    <!-- Main Section-->
+    <section class="mt-0 overflow-hidden ">
+        <!-- Page Content Goes Here -->
+
+        {{ $slot }}
+
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
+
+    <!-- Footer -->
+    <footer class="border-top py-5 mt-4  ">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
+                <div>
+                    <ul class="list-unstyled">
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-instagram-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-facebook-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-twitter-fill"></i></a></li>
+                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
+                                href="#"><i class="ri-snapchat-fill"></i></a></li>
+                    </ul>
+                </div>
+                <div class="d-flex align-items-center justify-content-end flex-column flex-lg-row">
+                    <p class="small m-0 text-center text-lg-start">&copy; 2021 APOLA.CO.ID All Rights Reserved. Template
+                        by <a href="https://www.pixelrocket.store">Pixel Rocket</a></p>
+                    <ul class="list-unstyled mb-0 ms-lg-4 mt-3 mt-lg-0 d-flex justify-content-end align-items-center">
+                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                            <i class="pi pi-sm pi-paypal"></i>
+                        </li>
+                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                            <i class="pi pi-sm pi-mastercard"></i>
+                        </li>
+                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+                            <i class="pi pi-sm pi-american-express"></i>
+                        </li>
+                        <li class="bg-light p-2 d-flex align-items-center justify-content-center"><i
+                                class="pi pi-sm pi-visa"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer> <!-- / Footer-->
+
+
+    <!-- Theme JS -->
+    <!-- Vendor JS -->
+    <script src="{{ asset('/guest/js/vendor.bundle.js') }}"></script>
+
+    <!-- Theme JS -->
+    <script src="{{ asset('/guest/js/theme.bundle.js') }}"></script>
+    @livewireScripts
+</body>
+
+</html>

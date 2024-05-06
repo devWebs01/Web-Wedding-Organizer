@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Session;
 
 use function Livewire\Volt\form;
 use function Livewire\Volt\layout;
+use function Laravel\Folio\name;
+
+name('login');
 
 layout('layouts.guest');
 

@@ -6,7 +6,7 @@ use function Livewire\Volt\{computed, state, on};
 
 $logout = function (Logout $logout) {
     $logout();
-    $this->redirect('/', navigate: true);
+    $this->redirect('/');
 };
 ?>
 

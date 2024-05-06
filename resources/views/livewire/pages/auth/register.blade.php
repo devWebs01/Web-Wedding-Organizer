@@ -10,6 +10,9 @@ use Illuminate\Validation\Rules;
 use function Livewire\Volt\layout;
 use function Livewire\Volt\rules;
 use function Livewire\Volt\state;
+use function Laravel\Folio\name;
+
+name('register');
 
 layout('layouts.guest');
 
