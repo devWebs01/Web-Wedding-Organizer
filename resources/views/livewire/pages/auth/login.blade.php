@@ -10,7 +10,7 @@ use function Laravel\Folio\name;
 
 name('login');
 
-layout('layouts.guest');
+layout('layouts.auth-layout');
 
 form(LoginForm::class);
 
@@ -26,14 +26,14 @@ $login = function () {
     } elseif (auth()->user()->role == 'superadmin') {
         $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
     } else {
-        $this->redirect('/', navigate: true);
+        $this->redirect('/');
     }
 };
 
 ?>
 
 
-<div>
+{{-- <div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
     <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
@@ -68,30 +68,72 @@ $login = function () {
         </div>
 
         <!-- Remember Me -->
-        {{-- <div class="block mt-4">
+        <div class="block mt-4">
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox"
                     class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
                     name="remember">
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Ingat Saya') }}</span>
             </label>
-        </div> --}}
+        </div>
 
         <div class="flex items-center justify-between mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 href="{{ route('register') }}">
                 {{ __('Kamu belum punya akun?') }}
             </a>
-            {{-- @if (Route::has('password.request'))
+            @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                     href="{{ route('password.request') }}" >
                     {{ __('Forgot your password?') }}
                 </a>
-            @endif --}}
+            @endif
 
             <x-primary-button class="ms-3">
                 {{ __('Masuk') }}
             </x-primary-button>
         </div>
     </form>
+</div> --}}
+
+<div>
+    <div class="card login-card">
+        <div class="row no-gutters">
+            <div class="col-md-5">
+                <img src="/auth/images/login.jpg" alt="login" class="login-card-img">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <div class="brand-wrapper">
+                        <div style="tex">
+                            APOLA.CO.ID
+                        </div>
+                    </div>
+                    <p class="login-card-description">
+                        Masuk ke akun Anda
+                    </p>
+                    <form wire:submit="login">
+                        @csrf
+                        <div class="form-group">
+                            <label wire:model="form.email" for="email" class="sr-only">Email</label>
+                            <input type="email" name="email" id="email" class="form-control"
+                                placeholder="Email address">
+
+                            @error('details')
+                                <small id="detailsId" class="form-text text-danger" form.email>{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="password" wire:model="form.password" class="sr-only">Password</label>
+                            <input type="password" name="password" id="password" class="form-control"
+                                placeholder="***********">
+                        </div>
+                        <button name="login" id="login" class="btn btn-block login-btn mb-4" type="submit">
+                            Masuk
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
