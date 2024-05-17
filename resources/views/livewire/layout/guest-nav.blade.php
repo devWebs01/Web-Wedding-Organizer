@@ -7,7 +7,7 @@ use function Livewire\Volt\{state, computed, on};
 $logout = function (Logout $logout) {
     $logout();
 
-    $this->redirect('/', navigate: true);
+    $this->redirect('/');
 };
 
 state([
@@ -33,14 +33,28 @@ on([
 <div>
     @auth
         <div class="d-lg-flex gap-3">
-            <a href="{{ route('catalog-cart') }}" class="text-dark btn border">
+            <a href="{{ route('catalog-cart') }}" class="text-dark btn border position-relative">
                 <i class="fa-solid fa-cart-shopping"></i>
+                @if ($cart->count() > 0)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $cart->count() }}
+                    </span>
+                @endif
             </a>
             <a href="/orders" class="text-dark btn border">
                 <i class="fa-solid fa-truck"></i>
             </a>
-            <a href="/user/{{ auth()->id() }}" class="text-dark btn border">
+            <a href="/user/{{ auth()->id() }}" class="text-dark btn border position-relative">
                 <i class="fa-solid fa-user"></i>
+                @if (auth()->user()->telp == null)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        !
+                    </span>
+                @elseif (!auth()->user()->address)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        !
+                    </span>
+                @endif
             </a>
             <a wire:click="logout" href="#" class="text-dark btn border">
                 <i class="fa-solid fa-right-from-bracket"></i>

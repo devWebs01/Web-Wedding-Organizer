@@ -125,6 +125,130 @@ on([
                             </span>
                         </strong>
                     </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        @foreach ($orderItems as $item)
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <img src="{{ Storage::url($item->product->image) }}"
+                                        class="img rounded object-fit-cover border rounded" height="100px" width="200px"
+                                        alt="{{ $item->product->title }}" />
+                                </div>
+                                <div class="col">
+                                    <h5 id="font-custom">
+                                        {{ $item->product->title }}
+                                    </h5>
+                                    <p>X {{ $item->qty }} item</p>
+                                    <h6 class="fw-bold" style="color: #f35525">
+                                        Rp.
+                                        {{ Number::format($item->qty * $item->product->price, locale: 'id') }}
+                                    </h6>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="mb-3">
+                            <label for="courier" class="form-label">Pilih Jasa Kirim</label>
+                            <select wire:model.live='courier' class="form-select" name="courier" id="courier"
+                                {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
+                                <option selected value=" ">Pilih satu</option>
+                                @foreach ($couriers as $courier)
+                                    <option value="{{ $courier->id }}">
+                                        {{ $courier->description }} -
+                                        {{ $courier->etd . ' Hari' }} -
+                                        {{ 'Rp. ' . Number::format($courier->value, locale: 'id') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('courier')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Metode Pembayaran</label>
+                            <select wire:model.live='payment_method' class="form-select" name="payment_method"
+                                id="payment_method" {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
+                                <option value=" ">Pilih satu</option>
+                                <option value="COD (Cash On Delivery)">COD (Cash On Delivery)</option>
+                                <option value="Transfer Bank">Transfer Bank</option>
+                            </select>
+                            @error('courier')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Pesan Tambahan</label>
+                            <textarea wire:model='note' class="form-control" name="note" id="note" rows="3"
+                                {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
+                            </textarea>
+                            @error('note')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input wire:model.live='protect_cost' class="form-check-input" type="checkbox" value=""
+                                id="protect_cost" {{ $order->protect_cost == 0 ?: 'checked' }}
+                                {{ $order->protect_cost == null ?: 'disabled' }}>
+                            <label class="form-check-label" for="protect_cost">
+                                <strong>Proteksi Pesanan</strong>
+                                <p>Lindungi pesananmu dari kemungkinan yang tidak diinginkan </p>
+                                <p class="fw-bold" style="color: #f35525">
+                                    Rp. 3.000
+                                </p>
+                            </label>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col">
+                                Total Produk
+                            </div>
+                            <div class="col text-end fw-bold" style="color: #f35525">
+                                {{ 'Rp. ' . Number::format($this->order->total_amount) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                Biaya Pengiriman
+                            </div>
+                            <div class="col text-end fw-bold" style="color: #f35525">
+                                {{ 'Rp. ' . Number::format($shipping_cost, locale: 'id') }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                Total Harga
+                            </div>
+                            <div class="col text-end fw-bold" style="color: #f35525">
+                                {{ 'Rp. ' . Number::format($order->total_amount + $shipping_cost + $this->protect_cost_opsional(), locale: 'id') }}
+                            </div>
+                        </div>
+                        <hr>
+                        @if ($order->status === 'PROGRESS')
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
+                                        role="button">
+                                        Batalkan Pesanan
+                                    </button>
+
+                                </div>
+                                <div class="col text-end">
+                                    <button wire:click="confirmOrder('{{ $order->id }}')" class="btn btn-dark">
+                                        Lanjutkan Pembayaran
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+
+                    </div>
 
                 </div>
             </div>

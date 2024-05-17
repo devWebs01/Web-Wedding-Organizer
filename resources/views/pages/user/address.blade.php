@@ -45,7 +45,7 @@ $submit = function () {
 @volt
     <div>
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         
 
             <strong>Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
                 yang sesuai tujuanmu.</strong>

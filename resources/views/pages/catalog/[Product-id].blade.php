@@ -40,7 +40,6 @@ $addToCart = function (Product $product) {
 
     @volt
         <div>
-
             <section class="pt-5">
                 <div class="container mb-5">
                     <div class="row">
@@ -66,9 +65,9 @@ $addToCart = function (Product $product) {
                         <aside class="col-lg-6">
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
                                 <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp">
+                                    href="{{ Storage::url($product->image) }}">
                                     <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
+                                        src="{{ Storage::url($product->image) }}" />
                                 </a>
                             </div>
                             {{-- <div class="d-flex justify-content-center mb-3">
