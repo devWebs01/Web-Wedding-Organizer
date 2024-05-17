@@ -7,6 +7,9 @@ use App\Models\Order;
 use App\Models\Item;
 use App\Models\Address;
 use App\Models\Shop;
+use function Laravel\Folio\name;
+
+name('catalog-cart');
 
 state([
     'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
@@ -139,7 +142,7 @@ $confirmCheckout = function () {
 
         $this->dispatch('cart-updated');
 
-        $this->redirect('/orders/' . $order->id, navigate: true);
+        $this->redirect('/orders/' . $order->id);
     } catch (\Throwable $th) {
         Order::find($order->id)->delete();
     }
@@ -147,127 +150,117 @@ $confirmCheckout = function () {
 
 ?>
 
-<x-costumer-layout>
+<x-guest-layout>
+    <x-slot name="title">Keranjang Belanja</x-slot>
     @volt
         <div>
-            <div class="pt-6">
-                <nav aria-label="Breadcrumb">
-                    <ol role="list" class="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                        <li>
-                            <div class="flex items-center">
-                                <a href="/catalog/list" class="mr-2 text-sm font-medium text-gray-900">Katalog Produk</a>
-                                <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"
-                                    class="h-5 w-4 text-gray-300">
-                                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                                </svg>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <a href="/catalog/cart" class="mr-2 text-sm font-medium text-gray-900">Keranjang Barang</a>
-                            </div>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-            <div class="px-4 sm:px-6 lg:px-8 pt-6">
-                <div class="rounded overflow-x-auto">
-                    <table class="table text-center border">
-                        <!-- head -->
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Item</th>
-                                <th>Qty</th>
-                                <th>Total Harga</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($carts as $no => $cart)
-                                <tr>
-                                    <td>{{ ++$no }}.</td>
-                                    <td>{{ Str::limit($cart->product->title, 50, '...') }}</td>
-                                    <td>
-                                        <div class="join gap-4 flex justify-center items-center">
-                                            <button wire:loading.attr='disabled'
-                                                wire:click="increaseQty('{{ $cart->id }}')"
-                                                class="btn btn-xs join-item font-bold btn-outline">+</button>
-                                            <span class="join-item">{{ $cart->qty }}</span>
-                                            <button wire:loading.attr='disabled'
-                                                wire:click="decreaseQty('{{ $cart->id }}')"
-                                                class="btn btn-xs join-item font-bold btn-outline">-</button>
-                                        </div>
-                                    </td>
-                                    <td class="w-1/6">
-                                        {{ 'Rp.' . Number::format($cart->qty * $cart->product->price, locale: 'id') }}</td>
-                                    <td>
-                                        <button wire:click="deleteProduct('{{ $cart->id }}')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        <tfoot>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <span class="font-extrabold text-lg text-black">Total: </span>
-                                </td>
-                                <td>
-                                    <span class="font-extrabold text-lg text-black">
-                                        {{ 'Rp.' . Number::format($this->calculateTotal(), locale: 'id') }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="/catalog/list" class="join-item btn btn-outline">
-                                        Lanjut Belanja
-                                    </a>
-                                </td>
-                                <td>
-                                    @if ($carts->count() > 0)
-                                        @if (!$this->destination)
-                                            <a href="/user/{{ auth()->id() }}" wire:loading.attr='disable'
-                                                class="join-item btn btn-neutral">
-                                                <span wire:loading.delay wire:target="confirmCheckout"
-                                                    class="loading loading-spinner loading-xs"></span>
-                                                Atur Alamat</a>
-                                        @else
-                                            <form wire:submit="confirmCheckout">
-                                                <button wire:loading.attr='disable' type="submit"
-                                                    class="join-item btn btn-neutral">
-                                                    <span wire:loading.delay wire:target="confirmCheckout"
-                                                        class="loading loading-spinner loading-xs"></span>
-                                                    Checkout</button>
-                                            </form>
-                                        @endif
-                                    @endif
-                                </td>
-                                <td>
-                                    <x-action-message on="cart-updated">
-                                        <button style="text-align: -webkit-center;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </button>
-                                    </x-action-message>
-                                </td>
-                            </tr>
-                        </tfoot>
-                        </tbody>
-                    </table>
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2 id="font-custom" class="display-4 fw-bold">
+                            Keranjang Belanja
+                        </h2>
+                    </div>
+                    <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
+                        <p>
+                            Terima kasih telah memilih produk-produk kami. Sekarang saatnya untuk menyelesaikan pembelianmu.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table rounded table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Item</th>
+                                        <th>Jumlah</th>
+                                        <th>Total Harga</th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carts as $no => $cart)
+                                        <tr class="align-items-center">
+                                            <td>{{ ++$no }}.</td>
+                                            <td>{{ Str::limit($cart->product->title, 20, '...') }}</td>
+                                            <td>
+                                                <div class="input-group input-group-sm justify-content-center">
+                                                    <button class="btn btn-body btn-sm border rounded-start-pill"
+                                                        wire:loading.attr='disabled'
+                                                        wire:click="decreaseQty('{{ $cart->id }}')">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+                                                    <span class="input-group-text bg-body border">
+                                                        {{ $cart->qty }}
+                                                    </span>
+                                                    <button class="btn btn-body btn-sm border rounded-end-circle"
+                                                        wire:loading.attr='disabled'
+                                                        wire:click="increaseQty('{{ $cart->id }}')">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                            <td class="w-1/6">
+                                                {{ 'Rp.' . Number::format($cart->qty * $cart->product->price, locale: 'id') }}
+                                            </td>
+                                            <td>
+                                                <button wire:click="deleteProduct('{{ $cart->id }}')" type="button"
+                                                    class="btn btn-body btn-sm">
+                                                    <i class="fa-solid fa-x"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td>Total:</td>
+                                        <td>
+                                            {{ 'Rp.' . Number::format($this->calculateTotal(), locale: 'id') }}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td>
+                                            <a class="btn btn-outline-dark btn-sm" href="{{ route('catalog-products') }}"
+                                                role="button">
+                                                Lanjut Belanja
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if ($carts->count() > 0)
+                                                @if (!$this->destination)
+                                                    <a class="btn btn-outline-dark btn-sm" href="/user/{{ auth()->id() }}"
+                                                        role="button">
+                                                        Atur Alamat
+                                                    </a>
+                                                @else
+                                                    <form wire:submit="confirmCheckout">
+                                                        <button wire:loading.attr='disable' type="submit"
+                                                            class="btn btn-sm btn-outline-dark">
+                                                            <span wire:loading.delay wire:target="confirmCheckout"
+                                                                class="loading loading-spinner loading-xs"></span>
+                                                            Checkout</button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
+
+
     @endvolt
-</x-costumer-layout>
+</x-guest-layout>

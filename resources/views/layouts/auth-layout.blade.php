@@ -1,28 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Template</title>
-    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/auth/css/login.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $title ?? '' }}</title>
+    <link rel="shortcut icon" type="image/png" href="/admin/images/logos/favicon.png" />
+
     @livewireStyles
+
+    <link rel="stylesheet" href="{{ asset('/admin/css/styles.min.css') }}" />
+    <style>
+        .btn-danger {
+            --bs-btn-bg: #fc3a4e;
+        }
+    </style>
+
+    @stack('css')
+
     @vite([])
 </head>
 
 <body>
-    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-        <div class="container">
-            {{ $slot }}
+
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <div
+            class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                {{ $slot }}
+            </div>
         </div>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    </div>
+
+    <script src="{{ asset('/admin/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('/admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/admin/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('/admin/js/app.min.js') }}"></script>
+    <script src="{{ asset('/admin/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('/admin/libs/simplebar/dist/simplebar.js') }}"></script>
+    <script src="{{ asset('/admin/js/dashboard.js') }}"></script>
+    <!-- solar icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+    @stack('scripts')
+
     @livewireScripts
 </body>
 

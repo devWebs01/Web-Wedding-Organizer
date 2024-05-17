@@ -5,9 +5,9 @@ use App\Models\Order;
 
 usesPagination();
 
-state([
-    // 'orders' => fn() => Order::where('user_id', auth()->id())->get(),
-]);
+state(['count' => 0]);
+
+$increment = fn() => $this->count++;
 
 with(
     fn() => [
@@ -22,10 +22,11 @@ with(
 );
 
 ?>
-<x-costumer-layout>
+<x-guest-layout>
     @volt
         <div>
-
+            <h1>{{ $count }}</h1>
+            <button wire:click="increment">+</button>
             <div>
                 <div class="sm:px-6 lg:px-8">
                     <div x-data="{ openTab: 1 }" class="py-5">
@@ -213,4 +214,4 @@ with(
             </div>
         </div>
     @endvolt
-</x-costumer-layout>
+</x-guest-layout>

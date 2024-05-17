@@ -44,61 +44,69 @@ $submit = function () {
 ?>
 @volt
     <div>
+        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+            <strong>Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
+                yang sesuai tujuanmu.</strong>
+        </div>
         <form wire:submit.prevent="submit">
+            @csrf
             <div class="mb-3">
-                <label class="form-control w-full">
-                    <div class="label">
-                        <span class="label-text">Pilih Provinsi </span>
-                    </div>
-                    <select wire:model.live="province_id" wire:loading.attr="disabled" class="select select-bordered">
-                        <option>Pick one</option>
-                        @foreach ($provinces as $province)
-                            <option value="{{ $province->id }}">
-                                {{ $province->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <x-input-error class="mt-2" :messages="$errors->get('province_id')" />
-                </label>
+                <label for="province_id" class="form-label">Pilih Provinsi</label>
+                <select wire:model.live="province_id" wire:loading.attr="disabled" class="form-select" name="province_id"
+                    id="province_id">
+                    <option>Pick one</option>
+                    @foreach ($provinces as $province)
+                        <option value="{{ $province->id }}">
+                            {{ $province->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('province_id')
+                    <p class="text-danger">
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
             <div class="mb-3">
-                <label class="form-control w-full">
-                    <div class="label">
-                        <span class="label-text">Pilih Kota</span>
-                    </div>
-                    <select wire:model='city_id' class="select select-bordered" wire:loading.attr="disabled">
-                        <option>Pick one</option>
-                        @foreach ($this->cities as $city)
-                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error class="mt-2" :messages="$errors->get('city_id')" />
-                    <div class="label" wire:loading wire:target='province_id'>
-                        <span class="label-text-alt">loading...</span>
-                        <span class="label-text-alt">
-                            <span class="loading loading-spinner loading-xs"></span>
-                        </span>
-                    </div>
-                </label>
+                <label for="city_id" class="form-label">Pilih Kota</label>
+                <select wire:model="city_id" wire:loading.attr="disabled" class="form-select" name="city_id" id="city_id">
+                    <option selected>Pick one</option>
+                    @foreach ($this->cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+                @error('province_id')
+                    <p class="text-danger">
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
             <div class="mb-3">
-                <div class="label">
-                    <span class="label-text">Detail alamat</span>
+                <label for="details" class="form-label">
+                    Detail Lengkap
+                </label>
+                <textarea class="form-control" wire:model='details' name="details" id="details" rows="3"></textarea>
+            </div>
+
+
+            <div class="mb-3 d-flex justify-content-end align-items-center">
+
+                {{-- Loading Spinner --}}
+                <div wire:loading class="spinner-border spinner-border-sm mx-5" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <textarea wire:model='details' placeholder="..." class="textarea textarea-bordered w-full" wire:loading.attr="disabled"></textarea>
-                <x-input-error class="mt-2" :messages="$errors->get('details')" />
-            </div>
 
-            <div class="flex items-center gap-4">
-                <x-primary-button>{{ __('Simpan') }}</x-primary-button>
-
-                <x-action-message wire:loading class="me-3" on="address-update">
-                    {{ __('loading...') }}
-                </x-action-message>
-
+                {{-- Success Notif --}}
                 <x-action-message class="me-3" on="address-update">
-                    {{ __('Tersimpan!') }}
+                    Berhasil
                 </x-action-message>
+
+                <button type="submit" class="btn btn-dark">
+                    Submit
+                </button>
+
             </div>
         </form>
     </div>

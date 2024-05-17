@@ -42,100 +42,81 @@ $products = computed(function () {
 
 ?>
 <x-guest-layout>
+    <x-slot name="title">Katalog Produk</x-slot>
     @volt
         <div>
             <!-- Category Top Banner -->
-            <div class="py-10 bg-img-cover bg-overlay-dark position-relative overflow-hidden bg-pos-center-center rounded-0"
-                style="background-image: url(/guest/apola_image/thumbnail1.jpg);">
-                <div class="container-fluid position-relative z-index-20">
-                    <h1 class="fw-bold display-6 mb-4 text-white">APOLA.CO.ID</h1>
-                    <div class="col-12 col-md-6">
-                        <p class="text-white mb-0 fs-5">
-                            Jelajahi beragam pilihan gaya dan tren terbaru dalam mode pakaian kami. Dari koleksi santai yang
-                            nyaman hingga pakaian kasual yang stylish, kami memiliki segala yang Anda butuhkan untuk tampil
-                            percaya diri dan menarik setiap hari.
-                        </p>
+            <section class="pt-5">
+                <div class="container mb-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2 id="font-custom" class="display-2 fw-bold">
+                                Katalog Produk
+                            </h2>
+                        </div>
+                        <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
+                            <p>
+                                Jelajahi beragam pilihan gaya dan tren terbaru dalam mode pakaian kami. Dari koleksi santai
+                                yang
+                                nyaman hingga pakaian kasual yang stylish, kami memiliki segala yang Anda butuhkan untuk
+                                tampil
+                                percaya diri dan menarik setiap hari.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="mb-4 row">
+                            <label for="inputsearch" class="col-sm-2 col-form-label">Kata Kunci</label>
+                            <div class="col-sm-10">
+                                <input wire:model.live="search" type="search" class="form-control" id="inputsearch">
+                            </div>
+                        </div>
+                        <div class="mb-4 row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label">Kategori</label>
+                            <div class="col-sm-10">
+                                <select wire:model.live="category_id" class="form-select" name="category_id"
+                                    id="">
+                                    <option selected value="">Kategori Produk</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             <!-- Category Top Banner -->
-
-            <div class="container-fluid mb-5">
-                <!-- Category Toolbar-->
-                <div class="d-flex justify-content-between items-center pt-5 flex-column flex-lg-row">
-                    <div>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="/">Home</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('catalog-products') }}">Katalog</a>
-                                </li>
-                            </ol>
-                        </nav>
-                        <h1 class="fw-bold fs-3 mb-2">Menampilkan ({{ $this->products->count() }})</h1>
-                    </div>
-                    <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
-                        <x-action-message wire:loading on="search">
-                            <span class="spinner-border spinner-border-sm"></span>
-                        </x-action-message>
-                        <div class="rounded me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto">
-                            <input wire:model.live="search" type="search" class="form-control rounded rounded-5"
-                                name="search" id="search" placeholder="Input pencarian..." />
-                        </div>
-
-                        <div class="me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto">
-                            <select class="form-select rounded rounded-5" name="" id=""
-                                wire:model.live="category_id">
-                                <option selected value="">Kategori Produk</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
-                                @endforeach
-                            </select>
-                        </div>
-
-                    </div>
-                </div> <!-- /Category Toolbar-->
-
-                <!-- Products-->
-                <div class="row g-4">
-                    @if ($this->products->isNotEmpty())
+            <div class="properties section mt-0">
+                <div class="container">
+                    <div class="row">
                         @foreach ($this->products as $product)
-                            <div class="col-12 col-sm-6 col-lg-4">
-                                <!-- Card Product-->
-                                <div
-                                    class="card border border-transparent position-relative overflow-hidden h-100 transparent">
-                                    <div class="card-img position-relative">
-                                        <picture class="position-relative overflow-hidden d-block bg-light">
-                                            <img class="w-100 rounded z-index-10" style="object-fit: cover" width="300"
-                                                height="350" title="{{ $product->title }}"
-                                                src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}">
-                                        </picture>
-                                        <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
-                                            <a href="{{ route('product-detail', ['product' => $product->id]) }}"
-                                                class="btn btn-quick-add rounded fw-bold fs-4 rouned">
-                                                {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body px-0">
-                                        <p class="title-small mb-2 text-muted">{{ $product->category->name }}</p>
-                                        <h4 class="lead fw-bold">{{ $product->title }}</h4>
-                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}"
-                                            class="btn btn-psuedo align-self-start">
-                                            Beli Sekarang
+                            <div class="col-lg-4 col-md-6">
+                                <div class="item">
+                                    <a href="{{ route('product-detail', ['product' => $product->id]) }}"><img
+                                            src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
+                                            class="object-fit-cover" style="width: 100%; height: 300px;"></a>
+                                    <span class="category">
+                                        {{ Str::limit($product->category->name, 13, '...') }}
+                                    </span>
+                                    <h6>
+                                        {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
+                                    </h6>
+                                    <h4>
+                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">
+                                            {{ Str::limit($product->title, 50, '...') }}
                                         </a>
+                                    </h4>
+                                    <div class="main-button">
+                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli Sekarang</a>
                                     </div>
                                 </div>
-                                <!--/ Card Product-->
                             </div>
                         @endforeach
-                    @endif
+                    </div>
                 </div>
-                <!-- / Products-->
             </div>
-
         </div>
     @endvolt
     </x-costumer-layout>

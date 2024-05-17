@@ -1,152 +1,445 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
-<!-- Head -->
-
 <head>
-    <!-- Page Meta Tags-->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
 
-    <!-- Custom Google Fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/guest/images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/guest/images/favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/guest/images/favicon/favicon-16x16.png') }}">
-    <link rel="mask-icon" href="{{ asset('/guest/images/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <title>{{ $title ?? '' }} | APOLA.CO.ID</title>
 
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="{{ asset('/guest/css/libs.bundle.css') }}" />
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ asset('/guest/css/theme.bundle.css') }}" />
-
-    <!-- Fix for custom scrollbar if JS is disabled-->
     @livewireStyles
-    <noscript>
-        <style>
-            /**
-          * Reinstate scrolling for non-JS clients
-          */
-            .simplebar-content-wrapper {
-                overflow: auto;
-            }
-        </style>
-    </noscript>
 
-    <!-- Page Title -->
-    <title>APOLA.CO.ID | Bootstrap 5 HTML Template</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('/guest/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{{ asset('/guest/css/fontawesome.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('/guest/css/templatemo-villa-agency.css') }}">
+    <link rel="stylesheet" href="{{ asset('/guest/css/owl.css') }}">
+    <link rel="stylesheet" href="{{ asset('/guest/css/animate.css') }}">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    @stack('css')
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+        * {
+            font-family: "Reddit Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+        }
+
+        #font-custom {
+            font-family: "DM Serif Display", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .font-stroke {
+            text-shadow: 2px 2px #646262;
+        }
+
+        .btn-custom {
+            padding: 12px 24px;
+            background-color: white;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-custom span {
+            color: black;
+            position: relative;
+            z-index: 1;
+            transition: color 0.6s cubic-bezier(0.53, 0.21, 0, 1);
+        }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            border-radius: 6px;
+            transform: translate(-100%, -50%);
+            width: 100%;
+            height: 100%;
+            background-color: hsl(244, 63%, 69%);
+            transition: transform 0.6s cubic-bezier(0.53, 0.21, 0, 1);
+        }
+
+        .btn-custom:hover span {
+            color: white;
+        }
+
+        .btn-custom:hover::before {
+            transform: translate(0, -50%);
+        }
+
+
+        #parallax {
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .glitch {
+            position: relative;
+            font-size: 80px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #000000;
+            letter-spacing: 5px;
+            animation: shift 4s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        .glitch:before {
+            content: attr(data-glitch);
+            position: absolute;
+            top: 0;
+            left: -2px;
+            text-shadow: -1px 0 #9afa95;
+            width: 100%;
+            color: #ffffff;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: noise-before 3s infinite linear alternate-reverse;
+        }
+
+        .glitch:after {
+            content: attr(data-glitch);
+            position: absolute;
+            top: 0;
+            left: 2px;
+            text-shadow: 1px 0 #ff1212;
+            width: 100%;
+            color: #000000;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: noise-after 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes noise-before {
+            0% {
+                clip: rect(61px, 9999px, 52px, 0);
+            }
+
+            5% {
+                clip: rect(33px, 9999px, 144px, 0);
+            }
+
+            10% {
+                clip: rect(121px, 9999px, 115px, 0);
+            }
+
+            15% {
+                clip: rect(144px, 9999px, 162px, 0);
+            }
+
+            20% {
+                clip: rect(62px, 9999px, 180px, 0);
+            }
+
+            25% {
+                clip: rect(34px, 9999px, 42px, 0);
+            }
+
+            30% {
+                clip: rect(147px, 9999px, 179px, 0);
+            }
+
+            35% {
+                clip: rect(99px, 9999px, 63px, 0);
+            }
+
+            40% {
+                clip: rect(188px, 9999px, 122px, 0);
+            }
+
+            45% {
+                clip: rect(154px, 9999px, 14px, 0);
+            }
+
+            50% {
+                clip: rect(63px, 9999px, 37px, 0);
+            }
+
+            55% {
+                clip: rect(161px, 9999px, 147px, 0);
+            }
+
+            60% {
+                clip: rect(109px, 9999px, 175px, 0);
+            }
+
+            65% {
+                clip: rect(157px, 9999px, 88px, 0);
+            }
+
+            70% {
+                clip: rect(173px, 9999px, 131px, 0);
+            }
+
+            75% {
+                clip: rect(62px, 9999px, 70px, 0);
+            }
+
+            80% {
+                clip: rect(24px, 9999px, 153px, 0);
+            }
+
+            85% {
+                clip: rect(138px, 9999px, 40px, 0);
+            }
+
+            90% {
+                clip: rect(79px, 9999px, 136px, 0);
+            }
+
+            95% {
+                clip: rect(25px, 9999px, 34px, 0);
+            }
+
+            100% {
+                clip: rect(173px, 9999px, 166px, 0);
+            }
+        }
+
+        @keyframes noise-after {
+            0% {
+                clip: rect(26px, 9999px, 33px, 0);
+            }
+
+            5% {
+                clip: rect(140px, 9999px, 198px, 0);
+            }
+
+            10% {
+                clip: rect(184px, 9999px, 89px, 0);
+            }
+
+            15% {
+                clip: rect(121px, 9999px, 6px, 0);
+            }
+
+            20% {
+                clip: rect(181px, 9999px, 99px, 0);
+            }
+
+            25% {
+                clip: rect(154px, 9999px, 133px, 0);
+            }
+
+            30% {
+                clip: rect(134px, 9999px, 169px, 0);
+            }
+
+            35% {
+                clip: rect(26px, 9999px, 187px, 0);
+            }
+
+            40% {
+                clip: rect(147px, 9999px, 137px, 0);
+            }
+
+            45% {
+                clip: rect(31px, 9999px, 52px, 0);
+            }
+
+            50% {
+                clip: rect(191px, 9999px, 109px, 0);
+            }
+
+            55% {
+                clip: rect(74px, 9999px, 54px, 0);
+            }
+
+            60% {
+                clip: rect(145px, 9999px, 75px, 0);
+            }
+
+            65% {
+                clip: rect(153px, 9999px, 198px, 0);
+            }
+
+            70% {
+                clip: rect(99px, 9999px, 136px, 0);
+            }
+
+            75% {
+                clip: rect(118px, 9999px, 192px, 0);
+            }
+
+            80% {
+                clip: rect(1px, 9999px, 83px, 0);
+            }
+
+            85% {
+                clip: rect(145px, 9999px, 98px, 0);
+            }
+
+            90% {
+                clip: rect(121px, 9999px, 154px, 0);
+            }
+
+            95% {
+                clip: rect(156px, 9999px, 44px, 0);
+            }
+
+            100% {
+                clip: rect(67px, 9999px, 122px, 0);
+            }
+        }
+
+        @keyframes shift {
+
+            0%,
+            40%,
+            44%,
+            58%,
+            61%,
+            65%,
+            69%,
+            73%,
+            100% {
+                transform: skewX(0deg);
+            }
+
+            41% {
+                transform: skewX(10deg);
+            }
+
+            42% {
+                transform: skewX(-10deg);
+            }
+
+            59% {
+                transform: skewX(40deg) skewY(10deg);
+            }
+
+            60% {
+                transform: skewX(-40deg) skewY(-10deg);
+            }
+
+            63% {
+                transform: skewX(10deg) skewY(-5deg);
+            }
+
+            70% {
+                transform: skewX(-50deg) skewY(-20deg);
+            }
+
+            71% {
+                transform: skewX(10deg) skewY(-10deg);
+            }
+        }
+    </style>
+
     @vite([])
 </head>
 
-<body class="">
+<body>
 
-    <!-- Navbar -->
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white flex-column border-0  ">
-        <div class="container-fluid">
-            <div class="w-100">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-
-                    <!-- Logo-->
-                    <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="./index.html">
-                        <div class="d-flex align-items-center">
-                            <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26">
-                                <path
-                                    d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z"
-                                    fill="currentColor" fill-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </a>
-                    <!-- / Logo-->
-
-                    <!-- Navbar Icons-->
-                    @livewire('layout.guest-header')
-                    <!-- Navbar Icons-->
-
-                    <!-- Main Navigation-->
-                    <div class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
-                        id="navbarNavDropdown">
-
-                        <!-- Menu-->
-                        <x-guest-nav></x-guest-nav>
-                        <!-- / Menu-->
-
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body mb-3">
+            <div class="container border rounded-5 p-3">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a id="font-custom" class="navbar-brand fw-bold"
+                    href="https://themewagon.github.io/VillaAgency/index.html">
+                    APOLA.CO.ID
+                </a>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">
+                                </i>Beranda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ route('catalog-products') }}">
+                                Katalog
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="gap-5">
+                        @livewire('layout.guest-nav')
                     </div>
-                    <!-- / Main Navigation-->
-
                 </div>
+
             </div>
-        </div>
-    </nav>
-    <!-- / Navbar--> <!-- / Navbar-->
+        </nav>
+    </header>
+    <!-- ***** Header Area End ***** -->
+    @include('layouts.payment')
+    {{ $slot }}
 
-    <!-- Main Section-->
-    <section class="mt-0 overflow-hidden ">
-        <!-- Page Content Goes Here -->
-
-        {{ $slot }}
-
-        <!-- /Page Content -->
-    </section>
-    <!-- / Main Section-->
-
-    <!-- Footer -->
-    <footer class="border-top py-5 mt-4  ">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
-                <div>
-                    <ul class="list-unstyled">
-                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
-                                href="#"><i class="ri-instagram-fill"></i></a></li>
-                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
-                                href="#"><i class="ri-facebook-fill"></i></a></li>
-                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
-                                href="#"><i class="ri-twitter-fill"></i></a></li>
-                        <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all"
-                                href="#"><i class="ri-snapchat-fill"></i></a></li>
-                    </ul>
+    <footer class="py-4">
+        <div class="container">
+            <div class="row align-items-center py-4">
+                <div class="col-12 col-lg-3 text-center text-lg-start">
+                    <span id="font-custom" class="text-white fw-bold fs-2">APOLA.CO.ID</span>
                 </div>
-                <div class="d-flex align-items-center justify-content-end flex-column flex-lg-row">
-                    <p class="small m-0 text-center text-lg-start">&copy; 2021 APOLA.CO.ID All Rights Reserved. Template
-                        by <a href="https://www.pixelrocket.store">Pixel Rocket</a></p>
-                    <ul class="list-unstyled mb-0 ms-lg-4 mt-3 mt-lg-0 d-flex justify-content-end align-items-center">
-                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
-                            <i class="pi pi-sm pi-paypal"></i>
+                <div class="col-12 col-lg-6 navbar-expand text-center">
+                    <ul class="list-unstyled d-block d-lg-flex justify-content-center mb-3 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="text-white text-decoration-none me-lg-3" href="">Home</a>
                         </li>
-                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
-                            <i class="pi pi-sm pi-mastercard"></i>
+                        <li class="nav-item">
+                            <a class="text-white text-decoration-none me-lg-3" href="">About</a>
                         </li>
-                        <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
-                            <i class="pi pi-sm pi-american-express"></i>
+                        <li class="nav-item">
+                            <a class="text-white text-decoration-none me-lg-3" href="">Shop</a>
                         </li>
-                        <li class="bg-light p-2 d-flex align-items-center justify-content-center"><i
-                                class="pi pi-sm pi-visa"></i>
+                        <li class="nav-item">
+                            <a class="text-white text-decoration-none me-lg-3" href="">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="text-white text-decoration-none" href="">Contact</a>
                         </li>
                     </ul>
                 </div>
+                <div class="col-12 col-lg-3 text-center text-lg-end text-white">
+                    <a class="me-2 text-white" href="">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a class="me-2 text-white" href="">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a class="me-2 text-white" href="">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <div class="col-12 text-center small text-muted">
+                    © 2023 FreeFrontend.dev. All rights reserved. <a class="d-block d-lg-inline text-muted mx-1"
+                        href="">Privacy Policy</a> <a class="d-block d-lg-inline text-muted mx-1"
+                        href="">Terms of Service</a>
+                </div>
             </div>
         </div>
-    </footer> <!-- / Footer-->
+    </footer>
 
-
-    <!-- Theme JS -->
-    <!-- Vendor JS -->
-    <script src="{{ asset('/guest/js/vendor.bundle.js') }}"></script>
-
-    <!-- Theme JS -->
-    <script src="{{ asset('/guest/js/theme.bundle.js') }}"></script>
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ asset('/guest/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/guest/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/guest/js/isotope.min.js') }}"></script>
+    <script src="{{ asset('/guest/js/owl-carousel.js') }}"></script>
+    <script src="{{ asset('/guest/js/counter.js') }}"></script>
+    <script src="{{ asset('/guest/js/custom.js') }}"></script>
+    @stack('scripts')
     @livewireScripts
 </body>
 
