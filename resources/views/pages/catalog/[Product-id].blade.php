@@ -107,8 +107,6 @@ $addToCart = function (Product $product) {
                                         src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
                                 </a>
                             </div> --}}
-                            <!-- thumbs-wrap.// -->
-                            <!-- gallery-wrap .end// -->
                         </aside>
                         <main class="col-lg-6">
                             <div class="ps-lg-3">

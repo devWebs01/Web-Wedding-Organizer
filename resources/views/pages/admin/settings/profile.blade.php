@@ -98,13 +98,16 @@ $save = function () {
                     <small id="detailsId" class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="text-end">
+            <div class="d-flex justify-content-end align-items-center">
+                <span wire:loading class="spinner-border spinner-border-sm me-3"></span>
+
+                <x-action-message on="address-update">
+                    Berhasil
+                </x-action-message>
+
                 <button type="submit" class="btn btn-primary">
                     Submit
                 </button>
-                <x-action-message wire:loading on="save">
-                    <span class="spinner-border spinner-border-sm"></span>
-                </x-action-message>
             </div>
         </form>
     </div>

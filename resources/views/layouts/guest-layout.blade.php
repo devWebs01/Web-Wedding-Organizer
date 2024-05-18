@@ -34,6 +34,27 @@
             font-style: normal;
         }
 
+        .pagination {
+            justify-content: center;
+            --bs-pagination-active-bg: #000000;
+            --bs-pagination-color: black;
+        }
+
+        .active>.page-link,
+        .page-link.active {
+            border-color: #000000;
+        }
+
+        .nav-pills .nav-link {
+            color: black;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: white;
+            background-color: black;
+        }
+
         #font-custom {
             font-family: "DM Serif Display", serif;
             font-weight: 400;

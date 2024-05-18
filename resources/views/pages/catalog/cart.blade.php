@@ -249,7 +249,11 @@ $confirmCheckout = function () {
                                                 @endif
                                             @endif
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

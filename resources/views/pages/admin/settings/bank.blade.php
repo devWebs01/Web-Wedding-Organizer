@@ -31,6 +31,7 @@ $save = function (Bank $bank) {
     }
 
     $this->reset('account_owner', 'bank_name', 'account_number');
+    $this->dispatch('bank-update');
 };
 
 $edit = function (Bank $bank) {
@@ -82,21 +83,19 @@ $edit = function (Bank $bank) {
                 @enderror
             </div>
 
-            <div class="row">
-                <div class="col-md">
-                    <button type="reset" class="btn btn-danger">
-                        Reset
-                    </button>
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="reset" class="btn btn-danger">
+                    Reset
+                </button>
+                <div>
+                    <span wire:loading class="spinner-border spinner-border-sm"></span>
+                    <x-action-message on="bank-update">
+                        Berhasil
+                    </x-action-message>
                 </div>
-
-                <div class="col-md text-end">
-                    <button type="submit" class="btn btn-primary">
-                        Submit
-                    </button>
-                </div>
-                <x-action-message wire:loading on="save">
-                    <span class="spinner-border spinner-border-sm"></span>
-                </x-action-message>
+                <button type="submit" class=" ms-3 btn btn-primary">
+                    Submit
+                </button>
             </div>
         </form>
 

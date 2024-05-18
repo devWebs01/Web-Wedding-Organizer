@@ -3,7 +3,7 @@
 use function Livewire\Volt\{state, usesPagination, with};
 use App\Models\Order;
 
-usesPagination();
+usesPagination(theme: 'bootstrap');
 
 state(['count' => 0]);
 
@@ -23,20 +23,24 @@ with(
 
 ?>
 <x-guest-layout>
+    <x-slot name="title">Daftar Pesanan</x-slot>
     @volt
         <div>
-            <style>
-                .nav-pills .nav-link {
-                    color: black;
-                }
-
-                .nav-pills .nav-link.active,
-                .nav-pills .show>.nav-link {
-                    color: white;
-                    background-color: black;
-                }
-            </style>
             <div class="container">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2 id="font-custom" class="display-4 fw-bold">
+                            Daftar Pesanan
+                        </h2>
+                    </div>
+                    <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
+                        <p>
+                            Di sini kamu dapat melihat daftar pesanan, status pengiriman, dan rincian transaksi kamu. Ini
+                            akan memudahkan kamu melacak pembelian kamu sebelumnya.
+                        </p>
+                    </div>
+                </div>
+
                 <div class="card rounded-5 px-3 mb-3">
                     <ul class="nav nav-pills m-3 align-self-center" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -97,10 +101,9 @@ with(
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        {{ $process_orders->links() }}
                                     </table>
+                                    {{ $process_orders->links() }}
                                 </div>
-
                             </div>
                         </div>
                     </div>
