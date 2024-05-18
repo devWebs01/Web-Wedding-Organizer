@@ -414,19 +414,11 @@
                 <div class="col-12 col-lg-6 navbar-expand text-center">
                     <ul class="list-unstyled d-block d-lg-flex justify-content-center mb-3 mb-lg-0">
                         <li class="nav-item">
-                            <a class="text-white text-decoration-none me-lg-3" href="">Home</a>
+                            <a class="text-white text-decoration-none me-lg-3" href="/">Beranda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="text-white text-decoration-none me-lg-3" href="">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text-white text-decoration-none me-lg-3" href="">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text-white text-decoration-none me-lg-3" href="">Gallery</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text-white text-decoration-none" href="">Contact</a>
+                            <a class="text-white text-decoration-none me-lg-3"
+                                href="{{ route('catalog-products') }}">Katalog</a>
                         </li>
                     </ul>
                 </div>
@@ -440,13 +432,6 @@
                     <a class="me-2 text-white" href="">
                         <i class="fa-brands fa-twitter"></i>
                     </a>
-                </div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-12 text-center small text-muted">
-                    © 2023 FreeFrontend.dev. All rights reserved. <a class="d-block d-lg-inline text-muted mx-1"
-                        href="">Privacy Policy</a> <a class="d-block d-lg-inline text-muted mx-1"
-                        href="">Terms of Service</a>
                 </div>
             </div>
         </div>
