@@ -2,6 +2,7 @@
 
 use App\Livewire\Actions\Logout;
 use App\Models\Cart;
+use App\Models\Address;
 use function Livewire\Volt\{state, computed, on};
 
 $logout = function (Logout $logout) {
@@ -17,6 +18,7 @@ state([
         ->sum(function ($item) {
             return $item->product->price * $item->qty;
         }),
+    'getAddressUser' => fn() => Address::where('user_id', auth()->id())->first() ?? null,
 ]);
 on([
     'cart-updated' => function () {
@@ -27,7 +29,11 @@ on([
                 return $item->product->price * $item->qty;
             });
     },
+    'address-update' => function () {
+        $this->getAddressUser = Address::where('user_id', auth()->id())->first();
+    },
 ]);
+
 ?>
 
 <div>
@@ -46,11 +52,7 @@ on([
             </a>
             <a href="/user/{{ auth()->id() }}" class="text-dark btn border position-relative">
                 <i class="fa-solid fa-user"></i>
-                @if (auth()->user()->telp == null)
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        !
-                    </span>
-                @elseif (!auth()->user()->address)
+                @if (!$getAddressUser)
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         !
                     </span>

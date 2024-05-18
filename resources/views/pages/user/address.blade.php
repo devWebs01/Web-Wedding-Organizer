@@ -45,7 +45,7 @@ $submit = function () {
 @volt
     <div>
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
-         
+
 
             <strong>Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
                 yang sesuai tujuanmu.</strong>
@@ -88,6 +88,11 @@ $submit = function () {
                     Detail Lengkap
                 </label>
                 <textarea class="form-control" wire:model='details' name="details" id="details" rows="3"></textarea>
+                @error('details')
+                    <p class="text-danger">
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
 

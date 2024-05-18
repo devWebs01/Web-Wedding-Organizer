@@ -50,7 +50,7 @@
                                 <a class="nav-link " href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img src="https://api.dicebear.com/7.x/notionists/svg?seed={{ auth()->user()->name }}"
-                                        alt="" width="35" height="35" class="rounded-circle">
+                                        alt="" width="50" height="50" class="rounded-circle border">
                                 </a>
                                 @livewire('layout.admin-header')
                             </li>

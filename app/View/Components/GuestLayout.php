@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Shop;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
@@ -12,6 +13,7 @@ class GuestLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.guest-layout');
+        $setting = Shop::first();
+        return view('layouts.guest-layout', compact('setting'));
     }
 }

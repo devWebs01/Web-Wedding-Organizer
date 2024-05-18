@@ -7,14 +7,19 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
-
-use function Livewire\Volt\state;
+use function Livewire\Volt\{state, on};
 
 state([
     'name' => fn() => auth()->user()->name,
     'email' => fn() => auth()->user()->email,
     'telp' => fn() => auth()->user()->telp,
-    'getAddressUser' => fn() => Address::where('user_id', auth()->id())->first(),
+    'getAddressUser' => fn() => Address::where('user_id', auth()->id())->first() ?? null,
+]);
+
+on([
+    'address-update' => function () {
+        $this->getAddressUser = Address::where('user_id', auth()->id())->first();
+    },
 ]);
 
 $updateProfileInformation = function () {
@@ -100,10 +105,13 @@ $sendVerification = function () {
                             data-bs-toggle="pill" data-bs-target="#v-pills-location" type="button" role="tab"
                             aria-controls="v-pills-location" aria-selected="false">
                             Alamat
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger {{ !$getAddressUser ? '' : 'd-none' }}">
-                                !
-                            </span>
+                            
+                            @if (!$getAddressUser)
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    !
+                                </span>
+                            @endif
 
 
                         </button>

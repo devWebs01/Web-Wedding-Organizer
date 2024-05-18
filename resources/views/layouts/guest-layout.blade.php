@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <title>{{ $title ?? '' }} | APOLA.CO.ID</title>
+    <title>{{ $title ?? '' }} | {{ $setting->name }}</title>
 
     @livewireStyles
 
@@ -376,9 +376,8 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a id="font-custom" class="navbar-brand fw-bold"
-                    href="https://themewagon.github.io/VillaAgency/index.html">
-                    APOLA.CO.ID
+                <a class="navbar-brand" href="/">
+                    <span id="font-custom" class=" fw-bold fs-2">{{ $setting->name }}</span>
                 </a>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -409,7 +408,7 @@
         <div class="container">
             <div class="row align-items-center py-4">
                 <div class="col-12 col-lg-3 text-center text-lg-start">
-                    <span id="font-custom" class="text-white fw-bold fs-2">APOLA.CO.ID</span>
+                    <span id="font-custom" class="text-white fw-bold fs-2">{{ $setting->name }}</span>
                 </div>
                 <div class="col-12 col-lg-6 navbar-expand text-center">
                     <ul class="list-unstyled d-block d-lg-flex justify-content-center mb-3 mb-lg-0">
