@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('/guest/css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('/guest/css/animate.css') }}">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
     @stack('css')
 
     <style>
