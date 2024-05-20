@@ -75,8 +75,7 @@ $products = computed(function () {
                         <div class="mb-4 row">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Kategori</label>
                             <div class="col-sm-10">
-                                <select wire:model.live="category_id" class="form-select" name="category_id"
-                                    id="">
+                                <select wire:model.live="category_id" class="form-select" name="category_id" id="">
                                     <option selected value="">Kategori Produk</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
@@ -93,11 +92,12 @@ $products = computed(function () {
                     <div class="row">
                         @foreach ($this->products as $product)
                             <div class="col-lg-4 col-md-6">
-                                <div class="item">
+                                <div class="item bg-body border rounded-top-circle">
                                     <a href="{{ route('product-detail', ['product' => $product->id]) }}"><img
                                             src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
-                                            class="object-fit-cover" style="width: 100%; height: 300px;"></a>
-                                    <span class="category">
+                                            class="object-fit-cover rounded-top-circle"
+                                            style="width: 100%; height: 300px;"></a>
+                                    <span class="category text-white" style="background-color: #9c9259;">
                                         {{ Str::limit($product->category->name, 13, '...') }}
                                     </span>
                                     <h6>
@@ -108,9 +108,6 @@ $products = computed(function () {
                                             {{ Str::limit($product->title, 50, '...') }}
                                         </a>
                                     </h4>
-                                    <div class="main-button">
-                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli Sekarang</a>
-                                    </div>
                                 </div>
                             </div>
                         @endforeach

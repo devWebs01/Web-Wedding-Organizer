@@ -48,14 +48,12 @@ state([
                         </div>
                         <div class="col-lg-4 mt-5 mt-lg-0">
                             <div class="banner-content ">
-                                <h6 class="sub-heading">Beauty products</h6>
+                                <h6 class="sub-heading">Produk Kecantikkan</h6>
                                 <h2 id="font-custom" class="display-3 fw-semibold my-2 my-lg-3">Perawatan kulit mudah &
                                     terjangkau.
                                 </h2>
-                                <p class="fs-5">Feugiat tellus metus lacus vulputate sed nec, feugiat at. Ac ultrices
-                                    facilisis suspendisse
-                                    nec sagittis, mauris quisque pellentesque tincidunt. </p>
-                                <a href="shop.html" class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">Shop Now</a>
+                                <p class="fs-5">Dapatkan perawatan kulit terbaik dengan produk-produk berkualitas tinggi
+                                    yang aman, alami, dan organik. Nikmati hasil yang maksimal dengan harga terjangkau. </p>
                             </div>
                         </div>
                     </div>
@@ -75,9 +73,9 @@ state([
                             <div class="banner-content ">
                                 <ul class="nav nav-tabs d-block border-0" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link border-0 text-start p-0" id="safe-tab" data-bs-toggle="tab"
-                                            data-bs-target="#safe-tab-pane" type="button" role="tab"
-                                            aria-controls="safe-tab-pane" aria-selected="true">
+                                        <button class="nav-link border-0 text-start p-0" id="safe-tab" disabled
+                                            data-bs-toggle="tab" data-bs-target="#safe-tab-pane" type="button"
+                                            role="tab" aria-controls="safe-tab-pane" aria-selected="true">
                                             <h6 class="sub-heading m-0">01</h6>
                                             <h2 id="font-custom" class="display-3 hover fw-semibold mb-5 ">100% Aman</h2>
                                         </button>
@@ -86,7 +84,7 @@ state([
                                         <button class="nav-link border-0 text-start p-0" id="natural-tab"
                                             data-bs-toggle="tab" data-bs-target="#natural-tab-pane" type="button"
                                             role="tab" aria-controls="natural-tab-pane" aria-selected="false"
-                                            tabindex="-1">
+                                            tabindex="-1" disabled>
                                             <h6 class="sub-heading m-0">02</h6>
                                             <h2 id="font-custom" class="display-3 hover fw-semibold mb-5">Natural</h2>
                                         </button>
@@ -95,7 +93,7 @@ state([
                                         <button class="nav-link border-0 text-start p-0 rounded" id="organic-tab"
                                             data-bs-toggle="tab" data-bs-target="#organic-tab-pane" type="button"
                                             role="tab" aria-controls="organic-tab-pane" aria-selected="false"
-                                            tabindex="-1">
+                                            tabindex="-1" disabled>
                                             <h6 class="sub-heading m-0">03</h6>
                                             <h2 id="font-custom" class="hover display-3 fw-semibold mb-5">Organik</h2>
                                         </button>
@@ -105,38 +103,39 @@ state([
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="safe-tab-pane" role="tabpanel"
                                         aria-labelledby="safe-tab" tabindex="0">
-                                        <p class="fs-5">Dolor sit amet consectetur adipisicing elit. Accusamus, deserunt
-                                            officiis? Adipisci
-                                            blanditiis pariatur necessitatibus cumque voluptas vitae non aspernatur,
-                                            delectus odio in illum
-                                            tenetur ut maxime et itaque dolore.</p>
+                                        <p class="fs-5">Dengan produk kami, Anda dapat merasakan manfaat perawatan kulit
+                                            yang aman, lembut, dan efektif. Kulit Anda akan terjaga dengan baik, terhidar
+                                            dari iritasi dan masalah kulit lainnya.</p>
                                     </div>
-                                    <div class="tab-pane fade" id="natural-tab-pane" role="tabpanel"
-                                        aria-labelledby="natural-tab" tabindex="0">
-                                        <p class="fs-3">Ipsum, dolor sit amet consectetur adipisicing elit. Velit repellat
-                                            nulla corrupti
-                                            asperiores earum, ipsum at maxime esse? In fugit, quis est at repudiandae
-                                            obcaecati eius magni
-                                            doloribus a aliquid?</p>
-                                    </div>
-                                    <div class="tab-pane fade" id="organic-tab-pane" role="tabpanel"
-                                        aria-labelledby="organic-tab" tabindex="0">
-                                        <p class="fs-3">Sit amet consectetur, adipisicing elit. Praesentium ipsum sint
-                                            necessitatibus odit
-                                            consequatur sunt deleniti asperiores? Beatae dolorem, aut doloribus magni autem
-                                            fugiat labore,
-                                            doloremque, facere consequuntur vitae ut?</p>
-                                    </div>
-
                                 </div>
-
-                                <a href="about.html" class="btn btn-outline-dark text-uppercase mt-5">Learn More</a>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <div class="container-lg py-5">
+                <div class="row flex-row-reverse align-items-center ">
+                    <div class="col-lg-8">
+                        <div class="image-holder text-end">
+                            <img src="https://demo.templatesjungle.com/serene/images/banner-image3.png" alt="banner"
+                                class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-lg-4  mt-5 mt-lg-0">
+                        <div class="banner-content ">
+                            <h6 class="sub-heading">Aran Terbatas? Tak Masalah!</h6>
+                            <h2 id="font-custom" class="display-3 fw-semibold my-2 my-lg-3">Dapatkan Kemudahan Berbelanja
+                            </h2>
+                            <p class="fs-5">Dapatkan produk berkualitas dengan proses
+                                pembelian yang mudah. Nikmati pengalaman belanja yang lancar, tanpa terkendala apa pun.
+                            </p>
+                            <a href="{{ route('catalog-products') }}"
+                                class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">Belanja Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="container pt-5">
                 <div class="row align-items-center my-lg-9">
@@ -149,10 +148,10 @@ state([
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <p class="fs-5">Feugiat tellus metus lacus vulputate sed nec, feugiat at. Ac ultrices facilisis
-                            suspendisse
-                            nec sagittis, mauris quisque pellentesque tincidunt. </p>
-                        <a href="shop.html" class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">View all Products</a>
+                        <p class="fs-5">Temukan produk perawatan kulit terpopuler kami yang dapat memenuhi kebutuhan Anda.
+                            Lihat rangkaian produk kami di bawah ini: </p>
+                        <a href="{{ route('catalog-products') }}"
+                            class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">Lihat Semua Produk</a>
                     </div>
                 </div>
                 <hr>
@@ -168,7 +167,7 @@ state([
                                             src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
                                             class="object-fit-cover rounded-top-circle"
                                             style="width: 100%; height: 300px;"></a>
-                                    <span class="category">
+                                    <span class="category text-white" style="background-color: #9c9259;">
                                         {{ Str::limit($product->category->name, 13, '...') }}
                                     </span>
                                     <h6>
@@ -179,10 +178,6 @@ state([
                                             {{ Str::limit($product->title, 50, '...') }}
                                         </a>
                                     </h4>
-                                    <div class="main-button">
-                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli
-                                            Sekarang</a>
-                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -190,156 +185,18 @@ state([
                 </div>
             </div>
 
-            <div class="section best-deal">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="section-heading">
-                                <h6>| Best Deal</h6>
-                                <h2>Find Your Best Deal Right Now!</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="tabs-content">
-                                <div class="row">
-                                    <div class="nav-wrapper ">
-                                        <ul class="nav nav-tabs" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#appartment" type="button" role="tab"
-                                                    aria-controls="appartment" aria-selected="true">Appartment</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="villa-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#villa" type="button" role="tab"
-                                                    aria-controls="villa" aria-selected="false" tabindex="-1">Villa
-                                                    House</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="penthouse-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#penthouse" type="button" role="tab"
-                                                    aria-controls="penthouse" aria-selected="false"
-                                                    tabindex="-1">Penthouse</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="appartment" role="tabpanel"
-                                            aria-labelledby="appartment-tab">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="info-table">
-                                                        <ul>
-                                                            <li>Total Flat Space <span>185 m2</span></li>
-                                                            <li>Floor number <span>26th</span></li>
-                                                            <li>Number of rooms <span>4</span></li>
-                                                            <li>Parking Available <span>Yes</span></li>
-                                                            <li>Payment Process <span>Bank</span></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <img src="/guest/images/deal-01.jpg" alt="">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <h4>Extra Info About Property</h4>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod
-                                                        tempor pack incididunt ut labore et dolore magna aliqua quised ipsum
-                                                        suspendisse.
-                                                        <br><br>When you need free CSS templates, you can simply type
-                                                        TemplateMo in any search engine website. In addition, you can type
-                                                        TemplateMo Portfolio, TemplateMo One Page Layouts, etc.
-                                                    </p>
-                                                    <div class="icon-button">
-                                                        <a href="property-details.html"><i class="fa fa-calendar"></i>
-                                                            Schedule a visit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="villa" role="tabpanel"
-                                            aria-labelledby="villa-tab">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="info-table">
-                                                        <ul>
-                                                            <li>Total Flat Space <span>250 m2</span></li>
-                                                            <li>Floor number <span>26th</span></li>
-                                                            <li>Number of rooms <span>5</span></li>
-                                                            <li>Parking Available <span>Yes</span></li>
-                                                            <li>Payment Process <span>Bank</span></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <img src="/guest/images/deal-02.jpg" alt="">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <h4>Detail Info About Villa</h4>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod
-                                                        tempor pack incididunt ut labore et dolore magna aliqua quised ipsum
-                                                        suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical
-                                                        copper mug, succulents typewriter shaman DIY kitsch twee taiyaki
-                                                        fixie hella venmo after messenger poutine next level humblebrag swag
-                                                        franzen.</p>
-                                                    <div class="icon-button">
-                                                        <a href="property-details.html"><i class="fa fa-calendar"></i>
-                                                            Schedule a visit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="penthouse" role="tabpanel"
-                                            aria-labelledby="penthouse-tab">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="info-table">
-                                                        <ul>
-                                                            <li>Total Flat Space <span>320 m2</span></li>
-                                                            <li>Floor number <span>34th</span></li>
-                                                            <li>Number of rooms <span>6</span></li>
-                                                            <li>Parking Available <span>Yes</span></li>
-                                                            <li>Payment Process <span>Bank</span></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <img src="/guest/images/deal-03.jpg" alt="">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <h4>Extra Info About Penthouse</h4>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod
-                                                        tempor pack incididunt ut labore et dolore magna aliqua quised ipsum
-                                                        suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical
-                                                        copper mug, succulents typewriter shaman DIY kitsch twee taiyaki
-                                                        fixie hella venmo after messenger poutine next level humblebrag swag
-                                                        franzen.</p>
-                                                    <div class="icon-button">
-                                                        <a href="property-details.html"><i class="fa fa-calendar"></i>
-                                                            Schedule a visit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="container">
-                <section class="py-5 my-md-5 border rounded-5">
+                <section class="py-5 my-md-5 border rounded-5" style="background-color: #9c9259;">
                     <div class="container">
                         <div class="row justify-content-center text-center text-white py-4">
                             <div class="col-lg-8">
-                                <span>Sign Up</span>
-                                <h2 class="display-5 fw-bold">Get Started Today</h2>
-                                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat erat
-                                    quis pulvinar semper. Cras commodo vitae libero ut consequat</p>
-                                <div class="d-grid col-3 mx-auto">
-                                    <a class="btn bg-white text-primary" type="submit">Sign up</a>
+                                <span>Daftar Sekarang</span>
+                                <h2 id="font-custom" class="display-5 fw-bold my-2">Mulai Hari Ini Juga!</h2>
+                                <p class="lead text-white">Bergabunglah dengan kami dan rasakan manfaat dari produk-produk
+                                    perawatan kulit berkualitas tinggi. </p>
+                                <div class=" mt-5 d-grid col-3 mx-auto">
+                                    <a class="btn btn-dark text-uppercase " href="{{ route('login') }}"
+                                        type="submit">Daftar</a>
                                 </div>
                             </div>
                         </div>

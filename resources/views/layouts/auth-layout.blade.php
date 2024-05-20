@@ -11,8 +11,19 @@
 
     <link rel="stylesheet" href="{{ asset('/admin/css/styles.min.css') }}" />
     <style>
-        .btn-danger {
-            --bs-btn-bg: #fc3a4e;
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+        * {
+            font-family: "Reddit Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+        }
+
+        #font-custom {
+            font-family: "DM Serif Display", serif;
+            font-weight: 400;
+            font-style: normal;
         }
     </style>
 

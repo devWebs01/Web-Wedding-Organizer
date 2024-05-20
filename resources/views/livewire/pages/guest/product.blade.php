@@ -113,7 +113,7 @@ $addToCart = function () {
                 </aside>
                 <main class="col-lg-6">
                     <div class="ps-lg-3">
-                        <small class="fw-bold" style="color: #f35525;">{{ $product->category->name }}</small>
+                        <small class="fw-bold" style="color: #9c9259;">{{ $product->category->name }}</small>
                         <h2 id="font-custom" class="title text-dark fw-bold">
                             {{ $product->title }}
                         </h2>

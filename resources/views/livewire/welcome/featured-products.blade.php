@@ -15,10 +15,10 @@ $randomProducts = computed(function () {
         <div class="row">
             @foreach ($this->randomProducts as $product)
                 <div class="col-lg-4 col-md-6">
-                    <div class="item">
+                    <div class="item bg-body border rounded-top-circle">
                         <a href="{{ route('product-detail', ['product' => $product->id]) }}"><img
-                                src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}" class="object-fit-cover"
-                                style="width: 100%; height: 300px;"></a>
+                                src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
+                                class="object-fit-cover rounded-top-circle" style="width: 100%; height: 300px;"></a>
                         <span class="category">
                             {{ Str::limit($product->category->name, 13, '...') }}
                         </span>
@@ -31,7 +31,7 @@ $randomProducts = computed(function () {
                             </a>
                         </h4>
                         <div class="main-button">
-                            <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli Sekarang</a>
+                            <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli</a>
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@ on([
 <div>
     @auth
         <div class="d-lg-flex gap-3">
-            <a href="{{ route('catalog-cart') }}" class="text-dark btn border position-relative">
+            <a href="{{ route('catalog-cart') }}" class="text-white btn border position-relative">
                 <i class="fa-solid fa-cart-shopping"></i>
                 @if ($cart->count() > 0)
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -47,10 +47,10 @@ on([
                     </span>
                 @endif
             </a>
-            <a href="/orders" class="text-dark btn border">
+            <a href="/orders" class="text-white btn border">
                 <i class="fa-solid fa-truck"></i>
             </a>
-            <a href="/user/{{ auth()->id() }}" class="text-dark btn border position-relative">
+            <a href="/user/{{ auth()->id() }}" class="text-white btn border position-relative">
                 <i class="fa-solid fa-user"></i>
                 @if (!$getAddressUser)
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -58,12 +58,12 @@ on([
                     </span>
                 @endif
             </a>
-            <a wire:click="logout" href="#" class="text-dark btn border">
+            <a wire:click="logout" href="#" class="text-white btn border">
                 <i class="fa-solid fa-right-from-bracket"></i>
             </a>
         </div>
     @else
-        <a class="btn btn-outline-dark btn-sm rounded" href="{{ route('login') }}" role="button">Masuk</a>
-        <a class="btn btn-outline-dark btn-sm rounded" href="{{ route('register') }}" role="button">Daftar</a>
+        <a class="btn btn-outline-light btn-sm rounded" href="{{ route('login') }}" role="button">Masuk</a>
+        <a class="btn btn-outline-light btn-sm rounded" href="{{ route('register') }}" role="button">Daftar</a>
     @endauth
 </div>

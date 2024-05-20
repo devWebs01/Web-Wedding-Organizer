@@ -136,7 +136,7 @@ on([
                             {{ $order->user->name . ', ' . $order->user->email . ', ' . $order->user->telp }}
                             <br>
 
-                            <span style="color: #f35525">
+                            <span style="color: #9c9259">
                                 {{ $order->user->address->province->name . ', ' . $order->user->address->city->name . ', ' . $order->user->address->details }}
                             </span>
                         </strong>
@@ -159,7 +159,7 @@ on([
                                         {{ $item->product->title }}
                                     </h5>
                                     <p>X {{ $item->qty }} item</p>
-                                    <h6 class="fw-bold" style="color: #f35525">
+                                    <h6 class="fw-bold" style="color: #9c9259">
                                         Rp.
                                         {{ Number::format($item->qty * $item->product->price, locale: 'id') }}
                                     </h6>
@@ -219,7 +219,7 @@ on([
                             <label class="form-check-label" for="protect_cost">
                                 <strong>Proteksi Pesanan</strong>
                                 <p>Lindungi pesananmu dari kemungkinan yang tidak diinginkan </p>
-                                <p class="fw-bold" style="color: #f35525">
+                                <p class="fw-bold" style="color: #9c9259">
                                     Rp. 3.000
                                 </p>
                             </label>
@@ -229,7 +229,7 @@ on([
                             <div class="col">
                                 Total Produk
                             </div>
-                            <div class="col text-end fw-bold" style="color: #f35525">
+                            <div class="col text-end fw-bold" style="color: #9c9259">
                                 {{ 'Rp. ' . Number::format($this->order->total_amount) }}
                             </div>
                         </div>
@@ -237,7 +237,7 @@ on([
                             <div class="col">
                                 Biaya Pengiriman
                             </div>
-                            <div class="col text-end fw-bold" style="color: #f35525">
+                            <div class="col text-end fw-bold" style="color: #9c9259">
                                 {{ 'Rp. ' . Number::format($shipping_cost, locale: 'id') }}
                             </div>
                         </div>
@@ -245,7 +245,7 @@ on([
                             <div class="col">
                                 Total Harga
                             </div>
-                            <div class="col text-end fw-bold" style="color: #f35525">
+                            <div class="col text-end fw-bold" style="color: #9c9259">
                                 {{ 'Rp. ' . Number::format($order->total_amount + $shipping_cost + $this->protect_cost_opsional(), locale: 'id') }}
                             </div>
                         </div>

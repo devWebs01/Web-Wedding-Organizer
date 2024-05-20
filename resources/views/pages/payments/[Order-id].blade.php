@@ -59,7 +59,7 @@ $submit = function () {
                                             </button>
                                         </div>
                                         <div class="col">
-                                            <h5 id="font-custom" style="color: #f35525">
+                                            <h5 id="font-custom" style="color: #9c9259">
                                                 {{ $item->account_number }}
                                             </h5>
                                             <h6 class="fw-bold">
