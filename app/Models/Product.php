@@ -28,7 +28,7 @@ class Product extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**
@@ -48,7 +48,7 @@ class Product extends Model
      */
     public function orders(): HasMany
     {
-        return $this->hasMany(order::class);
+        return $this->hasMany(Order::class);
     }
 
     /**
