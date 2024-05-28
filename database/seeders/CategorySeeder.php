@@ -15,42 +15,49 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Pewangi Laundry Cair',
+                'name' => 'Top Selling',
             ],
             [
-                'name' => 'Pewangi Laundry Bubuk',
+                'name' => 'Brightening Family',
             ],
             [
-                'name' => 'Pewangi Laundry Gel',
+                'name' => 'Mask Family',
             ],
             [
-                'name' => 'Pewangi Laundry Botol 500ml',
+                'name' => 'Serum Family',
             ],
             [
-                'name' => 'Pewangi Laundry Botol 1000ml',
+                'name' => 'Sunscreen Family',
             ],
             [
-                'name' => 'Pewangi Laundry Sachet',
+                'name' => 'Anti Acne Family',
             ],
             [
-                "name" => "Pewangi Laundry Softener",
+                'name' => '5X Ceramide Family',
             ],
             [
-                "name" => "Pewangi Laundry Anti Bakteri",
+                'name' => '2PCS Diskon Paket',
             ],
             [
-                "name" => "Pewangi Laundry Wangi Alami",
+                'name' => '3PCS Gift Value Sets',
             ],
             [
-                "name" => "Pewangi Laundry Wangi Bunga",
+                'name' => '5PCS Gift Value Sets',
             ],
             [
-                "name" => "Pewangi Laundry Wangi Buah",
+                'name' => 'Facial Wash',
             ],
             [
-                "name" => "Pewangi Laundry Wangi Unik",
+                'name' => 'Toner Family',
+            ],
+            [
+                'name' => 'Make Up',
+            ],
+            [
+                'name' => 'New Launch',
             ],
         ];
+
 
         foreach ($categories as $category) {
             Category::insert($category);
