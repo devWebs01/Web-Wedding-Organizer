@@ -55,8 +55,8 @@ $saveTrackingNumber = function () {
                                         @enderror"
                                             placeholder="Masukkan resi...">
 
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="ti ti-check fs-5"></i>
+                                        <button class="btn btn-primary  rounded-end-1" type="submit">
+                                            Submit
                                         </button>
                                         <x-action-message wire:loading on="saveTrackingNumber">
                                             <span class="spinner-border spinner-border-sm"></span>
@@ -65,8 +65,17 @@ $saveTrackingNumber = function () {
                                     @error('tracking_number')
                                         <small id="tracking_numberId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
+                                @else
+                                    <button type="button" class="btn btn-primary position-relative">
+                                        {{ $order->status }}
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                        </span>
+                                    </button>
                                 @endif
                             </form>
+
+
                         </div>
                         <div class="col-md">
                             <div class="text-end">
@@ -82,7 +91,7 @@ $saveTrackingNumber = function () {
                                 <button class="btn btn-primary print-page ms-6" onclick="window.print()" type="button">
                                     <span>
                                         <i class="ti ti-printer fs-3"></i>
-                                        Print
+                                        Cetak
                                     </span>
                                 </button>
                             </div>
@@ -135,10 +144,12 @@ $saveTrackingNumber = function () {
                                     @if ($order->payment_method == 'Transfer Bank')
                                         <div class="col-md text-end">
                                             <figure class="figure">
-                                                <img src="{{ Storage::url($order->proof_of_payment) }}"
-                                                    class="figure-img img-fluid rounded object-fit-cover
-                                            {{ !$order->proof_of_payment ? 'placeholder' : '' }}"
-                                                    width="100" alt="...">
+                                                <a href="{{ Storage::url($order->proof_of_payment) }}" data-fancybox>
+                                                    <img src="{{ Storage::url($order->proof_of_payment) }}"
+                                                        class="figure-img img-fluid rounded object-fit-cover
+                                                {{ !$order->proof_of_payment ? 'placeholder' : '' }}"
+                                                        width="100" alt="...">
+                                                </a>
                                                 <figcaption class="figure-caption text-center">
                                                     Bukti Pembayaran
                                                 </figcaption>
