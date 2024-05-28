@@ -1,7 +1,19 @@
+<?php
+
+use function Livewire\Volt\{computed};
+use App\Models\Shop;
+
+$profileShop = computed(function () {
+    return Shop::first();
+});
+
+?>
+
+
 <div>
     <div class="brand-logo d-flex align-items-center justify-content-between">
-        <a href="https://bootstrapdemos.adminmart.com/matdash/dist/main/index.html" class="text-nowrap logo-img">
-            <img src="/admin/images/logos/logo.svg" alt="" />
+        <a href="#" class="text-nowrap logo-img">
+            <h2 style="font-weight: 900" class="ms-lg-5 text-primary">{{ $this->profileShop->name }}</h2>
         </a>
         <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
@@ -110,9 +122,6 @@
             <li>
                 <span class="sidebar-divider lg"></span>
             </li>
-
-
-
     </nav>
     <!-- End Sidebar navigation -->
 </div>

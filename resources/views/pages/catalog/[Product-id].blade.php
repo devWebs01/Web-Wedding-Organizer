@@ -50,8 +50,8 @@ $addToCart = function (Product $product) {
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">
                             <p>
-                                Hadirkan gaya hidup urban dan trendi dengan <span
-                                    class="fw-bold">{{ $product->title }}</span> dari lini streetwear kami.
+                                Wajah terawat dengan <span class="fw-bold">{{ $product->title }}</span>
+                                dari toko kami.
                             </p>
                         </div>
                     </div>
@@ -61,52 +61,15 @@ $addToCart = function (Product $product) {
 
             <section class="pb-5">
                 <div class="container">
-                    <div class="row gx-5">
+                    <div class="row gx-2">
                         <aside class="col-lg-6">
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
                                 <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
                                     href="{{ Storage::url($product->image) }}">
-                                    <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                                    <img class="p-4 object-fit-cover rounded-5" style="width: 100%; height: 600px;"
                                         src="{{ Storage::url($product->image) }}" />
                                 </a>
                             </div>
-                            {{-- <div class="d-flex justify-content-center mb-3">
-                                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank"
-                                    data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big1.webp"
-                                    class="item-thumb">
-                                    <img width="60" height="60" class="rounded-2"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big1.webp" />
-                                </a>
-                                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank"
-                                    data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big2.webp"
-                                    class="item-thumb">
-                                    <img width="60" height="60" class="rounded-2"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big2.webp" />
-                                </a>
-                                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank"
-                                    data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big3.webp"
-                                    class="item-thumb">
-                                    <img width="60" height="60" class="rounded-2"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big3.webp" />
-                                </a>
-                                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank"
-                                    data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big4.webp"
-                                    class="item-thumb">
-                                    <img width="60" height="60" class="rounded-2"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big4.webp" />
-                                </a>
-                                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank"
-                                    data-type="image"
-                                    href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp"
-                                    class="item-thumb">
-                                    <img width="60" height="60" class="rounded-2"
-                                        src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
-                                </a>
-                            </div> --}}
                         </aside>
                         <main class="col-lg-6">
                             <div class="ps-lg-3">
@@ -155,8 +118,7 @@ $addToCart = function (Product $product) {
                                             Berhasil
                                         </x-action-message>
                                     @else
-                                        <aclass="btn btn-dark" href="{{ route('login') }}"
-                                        role="button">Beli Sekarang</aclass=>
+                                        <a class="btn btn-dark" href="{{ route('login') }}" role="button">Beli Sekarang</a>
                                     @endauth
                                 </div>
                             </div>

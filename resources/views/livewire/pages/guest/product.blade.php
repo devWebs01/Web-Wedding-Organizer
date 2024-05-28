@@ -51,8 +51,8 @@ $addToCart = function () {
                 </div>
                 <div class="col-lg-6 mt-lg-0 align-content-center">
                     <p>
-                        Hadirkan gaya hidup urban dan trendi dengan <span class="fw-bold">{{ $product->title }}</span>
-                        dari lini streetwear kami.
+                        Wajah terawat dengan <span class="fw-bold">{{ $product->title }}</span>
+                        dari toko kami.
                     </p>
                 </div>
             </div>

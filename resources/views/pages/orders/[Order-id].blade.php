@@ -212,8 +212,8 @@ on([
                             @enderror
                         </div>
 
-                        <div class="form-check mb-3 d-none">
-                            <input disabled wire:model.live='protect_cost' class="form-check-input" type="checkbox"
+                        <div class="form-check mb-3">
+                            <input wire:model.live='protect_cost' class="form-check-input" type="checkbox"
                                 value="" id="protect_cost" {{ $order->protect_cost == 0 ?: 'checked' }}
                                 {{ $order->protect_cost == null ?: 'disabled' }}>
                             <label class="form-check-label" for="protect_cost">

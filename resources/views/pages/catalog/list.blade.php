@@ -56,11 +56,7 @@ $products = computed(function () {
                         </div>
                         <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
                             <p>
-                                Jelajahi beragam pilihan gaya dan tren terbaru dalam mode pakaian kami. Dari koleksi santai
-                                yang
-                                nyaman hingga pakaian kasual yang stylish, kami memiliki segala yang Anda butuhkan untuk
-                                tampil
-                                percaya diri dan menarik setiap hari.
+                                Jelajahi beragam pilihan produk kecantikan kami yang terkini. Dari koleksi perawatan kulit yang menenangkan hingga kosmetik yang memperindah penampilan, kami menyediakan segala sesuatu yang Anda butuhkan untuk tampil cantik dan percaya diri setiap hari.
                             </p>
                         </div>
                     </div>
@@ -92,10 +88,10 @@ $products = computed(function () {
                     <div class="row">
                         @foreach ($this->products as $product)
                             <div class="col-lg-4 col-md-6">
-                                <div class="item bg-body border rounded-top-circle">
+                                <div class="item bg-body border ">
                                     <a href="{{ route('product-detail', ['product' => $product->id]) }}"><img
                                             src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
-                                            class="object-fit-cover rounded-top-circle"
+                                            class="object-fit-cover "
                                             style="width: 100%; height: 300px;"></a>
                                     <span class="category text-white" style="background-color: #9c9259;">
                                         {{ Str::limit($product->category->name, 13, '...') }}

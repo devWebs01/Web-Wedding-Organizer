@@ -23,7 +23,7 @@ $submit = function () {
         'status' => 'PENDING',
     ]);
 
-    $this->redirect('/orders', navigate: true);
+    $this->redirect('/orders');
 };
 
 ?>
@@ -49,20 +49,18 @@ $submit = function () {
                 <div class="row">
                     <div class="col-lg-5">
                         <h6 class="mb-3">Kirimkan ke salah satu rekening yang tertera di bawah ini:</h6>
-                        @foreach ($banks as $item)
+                        @foreach ($banks as $index => $item)
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="row gap-3">
-                                        <div class="col-2">
-                                            <button class="btn btn-white btn-lg" role="button">
-                                                <i class="fa-solid fa-money-bill fs-1"></i>
-                                            </button>
+                                        <div class="col-2 text-end align-content-center">
+                                            <h1 id="font-custom" class="display-1">{{ ++$index }}</h1>
                                         </div>
                                         <div class="col">
-                                            <h5 id="font-custom" style="color: #9c9259">
+                                            <h2 id="font-custom" style="color: #9c9259">
                                                 {{ $item->account_number }}
-                                            </h5>
-                                            <h6 class="fw-bold">
+                                            </h2>
+                                            <h6 class="fw-bold border-bottom pb-2 mb-2">
                                                 {{ $item->account_owner }}
                                             </h6>
                                             <h6 class="fw-bold">
@@ -86,8 +84,11 @@ $submit = function () {
                             <div class="col">
                                 @if ($proof_of_payment)
                                     <div class="card">
-                                        <img src="{{ $proof_of_payment->temporaryUrl() }}" class="img object-fit-cover"
-                                            style="height: 250px; width: 100%" alt="proof_of_payment" />
+                                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
+                                            href="{{ $proof_of_payment->temporaryUrl() }}">
+                                            <img src="{{ $proof_of_payment->temporaryUrl() }}" class="img object-fit-cover"
+                                                style="height: 250px; width: 100%" alt="proof_of_payment" />
+                                        </a>
                                     </div>
                                 @else
                                     <div class="card placeholder" style="height: 250px; width: 100%">
