@@ -145,6 +145,8 @@ $confirmCheckout = function () {
         $this->redirect('/orders/' . $order->id);
     } catch (\Throwable $th) {
         Order::find($order->id)->delete();
+
+        $this->dispatch('checkout-failed');
     }
 };
 
@@ -188,16 +190,14 @@ $confirmCheckout = function () {
                                             <td>{{ Str::limit($cart->product->title, 20, '...') }}</td>
                                             <td>
                                                 <div class="input-group input-group-sm justify-content-center">
-                                                    <button class="btn btn-body btn-sm border rounded-start-pill"
-                                                        wire:loading.attr='disabled'
+                                                    <button class="btn btn-body btn-sm border" wire:loading.attr='disabled'
                                                         wire:click="decreaseQty('{{ $cart->id }}')">
                                                         <i class="fa-solid fa-minus"></i>
                                                     </button>
                                                     <span class="input-group-text bg-body border">
                                                         {{ $cart->qty }}
                                                     </span>
-                                                    <button class="btn btn-body btn-sm border rounded-end-circle"
-                                                        wire:loading.attr='disabled'
+                                                    <button class="btn btn-body btn-sm border" wire:loading.attr='disabled'
                                                         wire:click="increaseQty('{{ $cart->id }}')">
                                                         <i class="fa-solid fa-plus"></i>
                                                     </button>
@@ -253,6 +253,10 @@ $confirmCheckout = function () {
                                             <div wire:loading class="spinner-border spinner-border-sm" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
+
+                                            <x-action-message on="checkout-failed">
+                                                Gagal
+                                            </x-action-message>
                                         </td>
                                     </tr>
                                 </tbody>
