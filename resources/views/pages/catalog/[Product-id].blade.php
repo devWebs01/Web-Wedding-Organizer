@@ -131,7 +131,7 @@ $addToCart = function (Product $product) {
                                     <dd class="col-9 mb-2">{{ $product->quantity }} Tersedia</dd>
 
                                     <dt class="col-3 mb-2">Berat:</dt>
-                                    <dd class="col-9 mb-2">{{ $product->weight }}</dd>
+                                    <dd class="col-9 mb-2">{{ $product->weight }} gram</dd>
                                 </div>
 
                                 <div class="d-grid my-4">
@@ -141,15 +141,22 @@ $addToCart = function (Product $product) {
                                             <button {{ $product->quantity == 0 ? 'disabled' : '' }}
                                                 wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
 
-                                                {{ $product->quantity == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}</button>
+                                                <span
+                                                    wire:loading.remove>{{ $product->quantity == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
+                                                </span>
+
+                                                <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
                                         </form>
 
-                                        <x-action-message class="me-3" on="cart-updated">
+                                        <x-action-message class="my-3 text-center" on="cart-updated">
                                             Berhasil
                                         </x-action-message>
                                     @else
-                                        <a name="" id="" class="btn btn-dark" href="{{ route('login') }}"
-                                            role="button">Beli Sekarang</a>
+                                        <aclass="btn btn-dark" href="{{ route('login') }}"
+                                        role="button">Beli Sekarang</aclass=>
                                     @endauth
                                 </div>
                             </div>
