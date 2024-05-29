@@ -1,11 +1,22 @@
 <?php
 
-use function Livewire\Volt\{computed};
+use function Livewire\Volt\{computed, state, on};
 use App\Models\Shop;
+use App\Models\Order;
+
+state([
+    'orders' => fn() => Order::whereStatus('PENDING')->count() ?? null,
+]);
 
 $profileShop = computed(function () {
     return Shop::first();
 });
+
+on([
+    'orders-alert' => function () {
+        $this->orders = Order::whereStatus('PENDING')->count();
+    },
+]);
 
 ?>
 
@@ -13,7 +24,9 @@ $profileShop = computed(function () {
 <div>
     <div class="brand-logo d-flex align-items-center justify-content-between">
         <a href="#" class="text-nowrap logo-img">
-            <h2 style="font-weight: 900" class="ms-lg-5 text-primary">{{ $this->profileShop->name }}</h2>
+            <h4 style="font-weight: 900" class="ms-lg-2 text-primary">
+                {{ $this->profileShop->name }}
+            </h4>
         </a>
         <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
@@ -26,7 +39,8 @@ $profileShop = computed(function () {
                 <a class="sidebar-link" href="{{ route('dashboard') }}" aria-expanded="false"
                     {{ request()->routeIs('dashboard') }}>
                     <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
-                    <span class="hide-menu">Beranda</span>
+                    <span class="hide-menu">Beranda
+                    </span>
                 </a>
             </li>
             <li>
@@ -82,12 +96,19 @@ $profileShop = computed(function () {
                 <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
                 <span class="hide-menu">Kelola Transaksi</span>
             </li>
-            <li class="sidebar-item">
+
+            <li class="sidebar-item position-relative">
                 <a class="sidebar-link" href="{{ route('transactions.index') }}" aria-expanded="false"
                     {{ request()->routeIs('transactions.index') }}>
                     <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
                     <span class="hide-menu">Transaksi</span>
                 </a>
+                @if ($orders > 0)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $orders }}
+                    </span>
+                @endif
+
             </li>
             <li>
                 <span class="sidebar-divider lg"></span>
