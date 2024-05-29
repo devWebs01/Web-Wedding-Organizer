@@ -13,6 +13,8 @@ state([
 
 ?>
 <x-admin-layout>
+    <x-slot name="title">Beranda</x-slot>
+
     @volt
         <div>
 

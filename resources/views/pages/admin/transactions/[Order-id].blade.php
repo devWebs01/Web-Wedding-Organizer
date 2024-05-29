@@ -21,6 +21,7 @@ rules([
 $confirm = function () {
     $this->order->update(['status' => 'PACKED']);
     $this->dispatch('order-update');
+    $this->dispatch('orders-alert');
 };
 
 $saveTrackingNumber = function () {
