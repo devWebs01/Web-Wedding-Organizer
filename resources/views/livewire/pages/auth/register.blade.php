@@ -54,19 +54,17 @@ $register = function () {
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="pe-lg-3">
-                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Mulailah menemukan produk skincare terbaik
-                        untuk kamu.
+                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Tampil Beda dengan Koleksi Streetwear Terbaru
                     </h1>
                     <p class="lead mb-4">
-                        Dengan jaminan ketersediaan 99,99%, kamu dapat yakin bahwa kebutuhan perawatan kulit kamu akan
-                        terpenuhi tanpa kendala.
+                        Kami menjamin ketersediaan produk hingga 99,99%, memastikan kamu dapat menemukan pilihan fashion streetwear idaman tanpa hambatan.
                     </p>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <div class="d-flex">
                             <div class="flex-shrink-0">
-                                <div style="color: #9c9259;">
+                                <div style="color: #f35525;">
                                     <svg class="bi bi-chat-right-fill" fill="currentColor" height="32"
                                         viewbox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -82,7 +80,7 @@ $register = function () {
                     </div>
                     <div class="col-sm-6">
                         <div class="d-flex">
-                            <div style="color: #9c9259;">
+                            <div style="color: #f35525;">
                                 <svg class="bi bi-shield-fill-check" fill="currentColor" height="32"
                                     viewbox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -100,7 +98,7 @@ $register = function () {
             <div class="col-lg-6">
                 <div class="ps-lg-5">
                     <div class="card shadow-lg text-white text-left h-100">
-                        <div class="card-body rounded p-4 p-xl-5" style="background-color: #9c9259;">
+                        <div class="card-body rounded p-4 p-xl-5" style="background-color: #f35525;">
                             <form wire:submit="register">
                                 <input type="hidden" wire:model="role" value="customer">
                                 <div class="mb-3">

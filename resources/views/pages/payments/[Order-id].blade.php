@@ -57,7 +57,7 @@ $submit = function () {
                                             <h1 id="font-custom" class="display-1">{{ ++$index }}</h1>
                                         </div>
                                         <div class="col">
-                                            <h2 id="font-custom" style="color: #9c9259">
+                                            <h2 id="font-custom" style="color: #f35525">
                                                 {{ $item->account_number }}
                                             </h2>
                                             <h6 class="fw-bold border-bottom pb-2 mb-2">

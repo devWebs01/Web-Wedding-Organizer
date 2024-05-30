@@ -29,7 +29,7 @@ on([
                 return $item->product->price * $item->qty;
             });
     },
-    
+
     'address-update' => function () {
         $this->getAddressUser = Address::where('user_id', auth()->id())->first();
     },
@@ -64,7 +64,7 @@ on([
             </a>
         </div>
     @else
-        <a class="btn btn-outline-light btn-sm rounded" href="{{ route('login') }}" role="button">Masuk</a>
-        <a class="btn btn-outline-light btn-sm rounded" href="{{ route('register') }}" role="button">Daftar</a>
+        <a class="btn btn-dark btn-sm rounded" href="{{ route('login') }}" role="button">Masuk</a>
+        <a class="btn btn-dark btn-sm rounded" href="{{ route('register') }}" role="button">Daftar</a>
     @endauth
 </div>

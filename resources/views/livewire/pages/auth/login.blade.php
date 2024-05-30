@@ -41,16 +41,16 @@ $login = function () {
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="pe-lg-3">
-                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Temukan Perawatan Kulit Terbaik untuk kamu
+                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Temukan Gaya Streetwear Ekslusif yang
+                        Membuatmu Beda
                     </h1>
-                    <p class="lead mb-4">Di sini, kamu dapat mengakses informasi lengkap tentang produk, melihat riwayat
-                        pemesanan, dan menikmati dukungan pelanggan kami 24/7.</p>
+                    <p class="lead mb-4">Dapatkan akses tak terbatas ke koleksi streetwear terkini yang dijamin selalu tersedia, membebaskan kamu berekspresi dengan fashion unik.</p>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <div class="d-flex">
                             <div class="flex-shrink-0">
-                                <div style="color: #9c9259;">
+                                <div style="color: #f35525;">
                                     <svg class="bi bi-chat-right-fill" fill="currentColor" height="32"
                                         viewbox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -66,7 +66,7 @@ $login = function () {
                     </div>
                     <div class="col-sm-6">
                         <div class="d-flex">
-                            <div style="color: #9c9259;">
+                            <div style="color: #f35525;">
                                 <svg class="bi bi-shield-fill-check" fill="currentColor" height="32"
                                     viewBox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -84,7 +84,7 @@ $login = function () {
             <div class="col-lg-6">
                 <div class="ps-lg-5">
                     <div class="card shadow-lg text-white text-left h-100">
-                        <div class="card-body rounded p-4 p-xl-5" style="background-color: #9c9259;">
+                        <div class="card-body rounded p-4 p-xl-5" style="background-color: #f35525;">
                             <h2 id="font-custom" class="pb-3 text-center text-white fw-bold">Masuk Ke Akun kamu</h2>
                             <form wire:submit="login">
                                 <div class="mb-3">

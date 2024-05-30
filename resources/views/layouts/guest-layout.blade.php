@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="{{ asset('/guest/css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('/guest/css/animate.css') }}">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-
     @stack('css')
 
     <style>
@@ -31,8 +30,8 @@
         * {
             font-family: "Reddit Sans", sans-serif;
             font-optical-sizing: auto;
-            font-weight: <weight>;
-            font-style: normal;
+            /* font-weight: <weight>;
+            font-style: normal; */
         }
 
         .pagination {
@@ -371,24 +370,24 @@
 
     <header>
         <nav class="navbar navbar-expand-lg bg-body mb-3">
-            <div class="container rounded-5 p-3" style="background-color: #9c9259;">
+            <div class="container border rounded-5 p-3">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <span id="font-custom" class="text-white fw-bold fs-2">{{ $setting->name }}</span>
+                    <span id="font-custom" class=" fw-bold fs-2">{{ $setting->name }}</span>
                 </a>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white" aria-current="page" href="/">
+                            <a class="nav-link active" aria-current="page" href="/">
                                 </i>Beranda
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" aria-current="page" href="{{ route('catalog-products') }}">
+                            <a class="nav-link active" aria-current="page" href="{{ route('catalog-products') }}">
                                 Katalog
                             </a>
                         </li>

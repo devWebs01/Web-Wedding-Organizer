@@ -88,7 +88,7 @@ with(
                                                     <td>{{ $item->invoice }}</td>
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
-                                                            style="background-color: #9c9259">
+                                                            style="background-color: #f35525">
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
@@ -129,7 +129,7 @@ with(
                                                     <td>{{ $item->invoice }}</td>
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
-                                                            style="background-color: #9c9259">
+                                                            style="background-color: #f35525">
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
@@ -171,7 +171,7 @@ with(
                                                     <td>{{ $item->invoice }}</td>
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
-                                                            style="background-color: #9c9259">
+                                                            style="background-color: #f35525">
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
@@ -213,7 +213,7 @@ with(
                                                     <td>{{ $item->invoice }}</td>
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
-                                                            style="background-color: #9c9259">
+                                                            style="background-color: #f35525">
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>

@@ -15,46 +15,13 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Top Selling',
+                'name' => 'OUTERWEAR',
             ],
             [
-                'name' => 'Brightening Family',
+                'name' => 'BOTTOMS',
             ],
             [
-                'name' => 'Mask Family',
-            ],
-            [
-                'name' => 'Serum Family',
-            ],
-            [
-                'name' => 'Sunscreen Family',
-            ],
-            [
-                'name' => 'Anti Acne Family',
-            ],
-            [
-                'name' => '5X Ceramide Family',
-            ],
-            [
-                'name' => '2PCS Diskon Paket',
-            ],
-            [
-                'name' => '3PCS Gift Value Sets',
-            ],
-            [
-                'name' => '5PCS Gift Value Sets',
-            ],
-            [
-                'name' => 'Facial Wash',
-            ],
-            [
-                'name' => 'Toner Family',
-            ],
-            [
-                'name' => 'Make Up',
-            ],
-            [
-                'name' => 'New Launch',
+                'name' => 'FOOTWEAR',
             ],
         ];
 

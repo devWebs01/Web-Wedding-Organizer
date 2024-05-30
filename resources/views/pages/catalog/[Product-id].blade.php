@@ -50,8 +50,8 @@ $addToCart = function (Product $product) {
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">
                             <p>
-                                Wajah terawat dengan <span class="fw-bold">{{ $product->title }}</span>
-                                dari toko kami.
+                                Hadirkan gaya hidup urban dan trendi dengan <span
+                                    class="fw-bold">{{ $product->title }}</span> dari lini streetwear kami.
                             </p>
                         </div>
                     </div>
@@ -73,13 +73,13 @@ $addToCart = function (Product $product) {
                         </aside>
                         <main class="col-lg-6">
                             <div class="ps-lg-3">
-                                <small class="fw-bold" style="color: #9c9259;">{{ $product->category->name }}</small>
+                                <small class="fw-bold" style="color: #f35525;">{{ $product->category->name }}</small>
                                 <h2 id="font-custom" class="title text-dark fw-bold">
                                     {{ $product->title }}
                                 </h2>
 
                                 <div class="my-3">
-                                    <span class="h5 fw-bold">
+                                    <span class="h5 fw-bold" style="color: #f35525;">
                                         {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
                                     </span>
                                 </div>
