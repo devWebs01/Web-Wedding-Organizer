@@ -8,7 +8,7 @@ use function Laravel\Folio\name;
 name('welcome');
 
 state([
-    'products' => fn() => Product::latest()->limit(6)->get(),
+    'products' => fn() => Product::inRandomOrder()->limit(6)->get(),
 ]);
 
 ?>
