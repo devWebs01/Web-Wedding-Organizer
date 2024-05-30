@@ -108,11 +108,17 @@ $save = function () {
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                            <x-action-message wire:loading on="save">
-                                <span class="spinner-border spinner-border-sm"></span>
-                            </x-action-message>
+                        <div class="row mb-3">
+                            <div class="col-md">
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+                            <div class="col-md align-self-center text-end">
+                                <span wire:loading class="spinner-border spinner-border-sm"></span>
+                                <x-action-message on="save">
+                                </x-action-message>
+                            </div>
                         </div>
                     </form>
                 </div>

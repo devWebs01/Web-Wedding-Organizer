@@ -21,7 +21,7 @@ $users = computed(fn() => User::where('role', 'customer')->latest()->get());
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table display table-sm">
+                        <table id="example" class="table display table-sm">
                             <thead>
                                 <tr>
                                     <th>No.</th>

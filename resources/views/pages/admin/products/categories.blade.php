@@ -29,11 +29,13 @@ $edit = function (Category $category) {
     $category = Category::find($category->id);
     $this->categoryId = $category->id;
     $this->name = $category->name;
+    $this->dispatch('save');
 };
 
 $destroy = function (Category $category) {
     $category->delete();
     $this->reset('name');
+    $this->dispatch('save');
 };
 ?>
 
@@ -62,14 +64,16 @@ $destroy = function (Category $category) {
                                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                                 <div class="row justift-content-between">
-                                    <x-action-message wire:loading>
-                                        <span class="spinner-border spinner-border-sm"></span>
-                                    </x-action-message>
                                     <div class="col-md mt-3">
                                         <button type="reset" class="btn btn-danger">
                                             Reset
                                         </button>
 
+                                    </div>
+                                    <div class="col align-self-center text-center">
+                                        <span wire:loading class="spinner-border spinner-border-sm"></span>
+                                        <x-action-message on="save">
+                                        </x-action-message>
                                     </div>
                                     <div class="col-md mt-3 text-end">
                                         <button type="submit" class="btn btn-primary">

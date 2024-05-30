@@ -50,7 +50,7 @@ $products = computed(fn() => Product::latest()->get());
                 </div>
             </div>
 
-          
+
         </div>
     @endvolt
 </x-admin-layout>

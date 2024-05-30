@@ -57,7 +57,9 @@ $updatePassword = function () {
 
         <div class="alert alert-primary" role="alert">
             <strong>Kata Sandi Akun</strong>
-            <p>Masukkan kata sandi saat ini, lalu masukkan kata sandi baru yang Anda inginkan. Ulangi kata sandi baru untuk memastikan tidak ada kesalahan pengetikan. Setelah itu, klik 'Perbarui Kata Sandi' untuk menyimpan perubahan. Pastikan informasi kata sandi Anda tetap aman dan rahasia.</p>
+            <p>Masukkan kata sandi saat ini, lalu masukkan kata sandi baru yang Anda inginkan. Ulangi kata sandi baru untuk
+                memastikan tidak ada kesalahan pengetikan. Setelah itu, klik 'Perbarui Kata Sandi' untuk menyimpan
+                perubahan. Pastikan informasi kata sandi Anda tetap aman dan rahasia.</p>
         </div>
 
         <form wire:submit="updatePassword">
@@ -88,13 +90,17 @@ $updatePassword = function () {
                     <small id="password_confirmationId" class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-                <x-action-message wire:loading on="password-updated">
-                    <span class="spinner-border spinner-border-sm"></span>
-                </x-action-message>
+            <div class="row mb-3">
+                <div class="col-md">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+                <div class="col-md align-self-center text-end">
+                    <span wire:loading class="spinner-border spinner-border-sm"></span>
+                    <x-action-message on="password-updated">
+                    </x-action-message>
+                </div>
             </div>
         </form>
     </div>

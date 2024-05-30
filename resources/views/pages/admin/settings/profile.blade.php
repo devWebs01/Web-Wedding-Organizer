@@ -38,7 +38,7 @@ $save = function () {
     } elseif (!$this->getShop) {
         Shop::create($validate);
     }
-    $this->dispatch('address-update');
+    $this->dispatch('save');
 };
 
 ?>
@@ -98,16 +98,17 @@ $save = function () {
                     <small id="detailsId" class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <span wire:loading class="spinner-border spinner-border-sm me-3"></span>
-
-                <x-action-message on="address-update">
-                    Berhasil
-                </x-action-message>
-
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
+            <div class="row mb-3">
+                <div class="col-md">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+                <div class="col-md align-self-center text-end">
+                    <span wire:loading class="spinner-border spinner-border-sm"></span>
+                    <x-action-message on="save">
+                    </x-action-message>
+                </div>
             </div>
         </form>
     </div>

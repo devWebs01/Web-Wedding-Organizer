@@ -80,14 +80,17 @@ $sendVerification = function () {
                 @enderror
             </div>
 
-            <div class="flex align-items-center mb-3">
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-
-                <x-action-message wire:loading on="profile-updated">
-                    <span class="spinner-border spinner-border-sm"></span>
-                </x-action-message>
+            <div class="row mb-3">
+                <div class="col-md">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+                <div class="col-md align-self-center text-end">
+                    <span wire:loading class="spinner-border spinner-border-sm"></span>
+                    <x-action-message on="profile-updated">
+                    </x-action-message>
+                </div>
             </div>
         </form>
     </div>

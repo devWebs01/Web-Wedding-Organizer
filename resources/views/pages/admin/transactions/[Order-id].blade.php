@@ -145,7 +145,7 @@ $saveTrackingNumber = function () {
                                     @if ($order->payment_method == 'Transfer Bank')
                                         <div class="col-md text-end">
                                             <figure class="figure">
-                                                <a href="{{ Storage::url($order->proof_of_payment) }}" data-fancybox>
+                                                <a href="{{ Storage::url($order->proof_of_payment) }}" data-fancybox target="_blank">
                                                     <img src="{{ Storage::url($order->proof_of_payment) }}"
                                                         class="figure-img img-fluid rounded object-fit-cover
                                                 {{ !$order->proof_of_payment ? 'placeholder' : '' }}"
