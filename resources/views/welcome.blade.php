@@ -88,7 +88,6 @@ state([
                                     src="{{ asset('/guest/apola_image/STG_pow.mp4') }}">
                                     <source type="video/mp4">
                                 </video>
-                                <h6>| Featured</h6>
                                 <h1>Dapatkan produk favorit kamu
                                     <span class="hover">diantar ke depan pintumu</span>
                                 </h1>
