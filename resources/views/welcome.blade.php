@@ -15,9 +15,29 @@ state([
 
 <x-guest-layout>
     <x-slot name="title">Selamat Datang</x-slot>
+
+    <style>
+        .hover {
+            --c: #ff8e56;
+            /* the color */
+
+            color: #0000;
+            background:
+                linear-gradient(90deg, #fff 50%, var(--c) 0) calc(100% - var(--_p, 0%))/200% 100%,
+                linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) 100% no-repeat;
+            -webkit-background-clip: text, padding-box;
+            background-clip: text, padding-box;
+            transition: 0.5s;
+            font-weight: bolder;
+        }
+
+        .hover:hover {
+            --_p: 100%
+        }
+    </style>
+
     @volt
         <div>
-
             <div class="container main-banner">
                 <div class="owl-carousel owl-banner">
                     <div class="item item-1 rounded rounded-5"
@@ -42,58 +62,6 @@ state([
                                 koleksi eksklusif kami.
                             </h2>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                .hover {
-                    --c: #ff8e56;
-                    /* the color */
-
-                    color: #0000;
-                    background:
-                        linear-gradient(90deg, #fff 50%, var(--c) 0) calc(100% - var(--_p, 0%))/200% 100%,
-                        linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) 100% no-repeat;
-                    -webkit-background-clip: text, padding-box;
-                    background-clip: text, padding-box;
-                    transition: 0.5s;
-                    font-weight: bolder;
-                }
-
-                .hover:hover {
-                    --_p: 100%
-                }
-            </style>
-            <div class="featured section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="row shadow text-center">
-                                <div class="col-12 my-3">
-                                    <img src="/guest/apola_image/LOGO-JNT.png" class="m-3" style="max-width: 190px;">
-                                </div>
-                                <div class="col-12 my-3">
-                                    <img src="/guest/apola_image/LOGO-TIKI.png" class="m-3" style="max-width: 190px;">
-                                </div>
-                                <div class="col-12 my-3">
-                                    <img src="/guest/apola_image/LOGO-POS-IND.png" class="m-3" style="max-width: 190px;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-9">
-                            <div class="section-heading text-end">
-                                <video class="rounded-5 border border-white border border-white object-fit-cover"
-                                    width="100%" height="190" muted loop autoplay
-                                    src="{{ asset('/guest/apola_image/STG_pow.mp4') }}">
-                                    <source type="video/mp4">
-                                </video>
-                                <h1>Dapatkan produk favorit kamu
-                                    <span class="hover">diantar ke depan pintumu</span>
-                                </h1>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -127,7 +95,8 @@ state([
                                         </a>
                                     </h4>
                                     <div class="main-button">
-                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli Sekarang</a>
+                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">Beli
+                                            Sekarang</a>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +104,65 @@ state([
                     </div>
                 </div>
             </div>
+
+            <section class="py-5">
+                <div class="container">
+                    <!--- Heading -->
+                    <div class="row text-center mb-0">
+                        <div class="col-12 col-lg-10 col-xl-8 mx-auto text-center section-heading">
+                            <h6>| Bersama APOLA</h6>
+                            <h2 class="fw-bold" id="font-custom">Dapatkan produk favorit kamu
+                                <span class="hover">diantar ke depan pintumu</span>
+                            </h2>
+                        </div>
+                    </div><!--- Steps Wrap -->
+                    <div class="row justify-content-center">
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <!-- Step -->
+                                <div class="col-lg-4">
+                                    <div class="text-center position-relative">
+                                        <!-- Step Icon -->
+                                        <div class="step-icon mx-auto border border-2 border rounded-circle d-flex align-items-center justify-content-center"
+                                            style="width:150px;height:150px">
+                                            <img src="/guest/apola_image/LOGO-JNT.png" class="m-3">
+
+                                        </div>
+                                        <h4 class="mt-3 fs-5">JNT</h4>
+                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
+                                            consectetur Lorem.</p>
+
+                                    </div>
+                                </div><!-- Step -->
+                                <div class="col-lg-4">
+                                    <div class="text-center position-relative">
+                                        <!-- Step Icon -->
+                                        <div class="step-icon mx-auto border border-2 border rounded-circle d-flex align-items-center justify-content-center"
+                                            style="width: 150px;height: 150px;">
+                                            <img src="/guest/apola_image/LOGO-TIKI.png" class="m-3">
+                                        </div>
+                                        <h4 class="mt-3 fs-5">TIKI</h4>
+                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
+                                            consectetur Lorem.</p>
+                                    </div>
+                                </div><!-- Step -->
+                                <div class="col-lg-4">
+                                    <div class="text-center position-relative">
+                                        <!--- Step Icon -->
+                                        <div class="step-icon mx-auto border border-2 border rounded-circle d-flex align-items-center justify-content-center"
+                                            style="width: 150px;height: 150px;">
+                                            <img src="/guest/apola_image/LOGO-POS-IND.png" class="m-3">
+                                        </div>
+                                        <h4 class="mt-3 fs-5">POS INDONESIA</h4>
+                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
+                                            consectetur Lorem.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
 
             <div class="video section" id="parallax" style="background-image: url('/guest/apola_image/thumbnail.jpg');">

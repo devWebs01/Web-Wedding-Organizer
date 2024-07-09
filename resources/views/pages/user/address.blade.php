@@ -45,10 +45,10 @@ $submit = function () {
 @volt
     <div>
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
-
-
-            <strong>Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
-                yang sesuai tujuanmu.</strong>
+            <strong>
+                Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
+                yang sesuai tujuanmu.
+            </strong>
         </div>
         <form wire:submit.prevent="submit">
             @csrf

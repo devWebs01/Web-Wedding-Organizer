@@ -44,24 +44,48 @@ with(
                 <div class="card rounded-5 px-3 mb-3">
                     <ul class="nav nav-pills m-3 align-self-center" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pills-process_orders-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-process_orders" type="button" role="tab"
-                                aria-controls="pills-process_orders" aria-selected="true">Masih Proses</button>
+                            <button class="nav-link active position-relative" id="pills-process_orders-tab"
+                                data-bs-toggle="pill" data-bs-target="#pills-process_orders" type="button" role="tab"
+                                aria-controls="pills-process_orders" aria-selected="true">Masih Proses
+
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ count($process_orders) }}
+                                </span>
+                            </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-shipped_orders-tab" data-bs-toggle="pill"
+                            <button class="nav-link position-relative" id="pills-shipped_orders-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-shipped_orders" type="button" role="tab"
-                                aria-controls="pills-shipped_orders" aria-selected="false">Dalam Pengiriman</button>
+                                aria-controls="pills-shipped_orders" aria-selected="false">
+                                Dalam Pengiriman
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ count($shipped_orders) }}
+                                </span>
+                            </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-completed_orders-tab" data-bs-toggle="pill"
+                            <button class="nav-link position-relative" id="pills-completed_orders-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-completed_orders" type="button" role="tab"
-                                aria-controls="pills-completed_orders" aria-selected="false">Pesanan Selesai</button>
+                                aria-controls="pills-completed_orders" aria-selected="false">
+                                Pesanan Selesai
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ count($completed_orders) }}
+                                </span>
+                            </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-cancelled_orders-tab" data-bs-toggle="pill"
+                            <button class="nav-link position-relative" id="pills-cancelled_orders-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-cancelled_orders" type="button" role="tab"
-                                aria-controls="pills-cancelled_orders" aria-selected="false">Pembatalan</button>
+                                aria-controls="pills-cancelled_orders" aria-selected="false">
+                                Pembatalan
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ count($cancelled_orders) }}
+                                </span>
+                            </button>
                         </li>
                     </ul>
                 </div>

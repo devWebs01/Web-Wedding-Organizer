@@ -66,7 +66,7 @@ $addToCart = function (Product $product) {
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
                                 <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
                                     href="{{ Storage::url($product->image) }}">
-                                    <img class="p-4 object-fit-cover rounded-5" style="width: 100%; height: 600px;"
+                                    <img class="p-4 object-fit-cover rounded-5" style="width: 100%;"
                                         src="{{ Storage::url($product->image) }}" />
                                 </a>
                             </div>
