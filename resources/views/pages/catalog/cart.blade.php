@@ -170,7 +170,7 @@ $confirmCheckout = function () {
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card rounded-5">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table rounded table-hover text-center">

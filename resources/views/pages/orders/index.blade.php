@@ -41,7 +41,7 @@ with(
                     </div>
                 </div>
 
-                <div class="card rounded-5 px-3 mb-3">
+                <div class="card rounded-top-5 px-3 mb-3">
                     <ul class="nav nav-pills m-3 align-self-center" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active position-relative" id="pills-process_orders-tab"
@@ -92,7 +92,7 @@ with(
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-process_orders" role="tabpanel"
                         aria-labelledby="pills-process_orders-tab" tabindex="0">
-                        <div class="card rounded-5">
+                        <div class="card rounded-bottom-5">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table text-center">

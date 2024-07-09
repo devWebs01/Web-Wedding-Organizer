@@ -65,144 +65,71 @@ $sendVerification = function () {
     @volt
         <div>
 
-            <section class="pt-5">
-                <div class="container mb-5">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h2 id="font-custom" class="display-2 fw-bold">
-                                Profil Akun
-                            </h2>
-                        </div>
-                        <div class="col-lg-6 mt-lg-0 align-content-center">
-                            <p>
-                                Selamat datang di halaman profil akunmu. Di sini, kamu dapat mengelola informasi pribadi
-                                dan lokasi pengiriman paketmu dengan mudah.
-                            </p>
-                        </div>
+            <div class="container mb-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2 id="font-custom" class="display-2 fw-bold">
+                            Profil Akun
+                        </h2>
+                    </div>
+                    <div class="col-lg-6 mt-lg-0 align-content-center">
+                        <p>
+                            Selamat datang di halaman profil akunmu. Di sini, kamu dapat mengelola informasi pribadi
+                            dan lokasi pengiriman paketmu dengan mudah.
+                        </p>
                     </div>
                 </div>
-            </section>
 
-            <div class="container">
-                <div class="card">
-
-                    <ul class="nav nav-pills mb-3 justify-content-center mt-3" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link position-relative active" id="pills-account-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account"
-                                aria-selected="true">
-
-                                Profil
-                                @if ($telp == null)
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        !
-                                    </span>
-                                @endif
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link position-relative" id="pills-location-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-location" type="button" role="tab"
-                                aria-controls="pills-location" aria-selected="false">
-                                Alamat
-
-                                @if (!$getAddressUser)
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        !
-                                    </span>
-                                @endif
-                            </button>
-                        </li>
-
-                    </ul>
-
+                <div class="card border-0">
                     <div class="card-body">
-                        <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade show active" id="v-pills-account" role="tabpanel"
-                                aria-labelledby="v-pills-account-tab" tabindex="0">
 
-                                <div class="alert alert-dark alert-dismissible fade show" role="alert">
+                        <section>
+                            <ul class="nav nav-pills justify-content-center p-2 border rounded-top-5" id="pills-tab"
+                                role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link position-relative active" id="pills-profile-tab"
+                                        data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
+                                        role="tab" aria-controls="pills-profile" aria-selected="false">
+                                        Profil
+                                        @if ($telp == null)
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                !
+                                            </span>
+                                        @endif
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link position-relative" id="pills-home-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-home" type="button" role="tab"
+                                        aria-controls="pills-home" aria-selected="true">
+                                        Alamat
+                                        @if (!$getAddressUser)
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                !
+                                            </span>
+                                        @endif
+                                    </button>
+                                </li>
+                            </ul>
+                        </section>
 
-
-                                    <strong>
-                                        Kamu dapat melihat dan memperbarui detail profil kamu, seperti nama,
-                                        alamat email, dan nomor telepon. Pastikan informasi ini selalu up-to-date agar
-                                        kami dapat memberikan pelayanan yang lebih baik.
-                                    </strong>
+                        <section class="p-2 border my-3 rounded-bottom-5">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+                                    aria-labelledby="pills-profile-tab" tabindex="0">
+                                    @include('pages.user.profile')
                                 </div>
-
-                                <form wire:submit="updateProfileInformation">
-
-
-                                    <div class="mb-3 row">
-                                        <label for="inputname" class="col-sm-2 col-form-label">Nama Lengkap</label>
-                                        <div class="col-sm-10">
-                                            <input wire:model="name" type="text" class="form-control" id="inputname">
-                                            @error('name')
-                                                <p class="text-danger">
-                                                    {{ $message }}
-                                                </p>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label for="inputemail" class="col-sm-2 col-form-label">Email Akun</label>
-                                        <div class="col-sm-10">
-                                            <input wire:model="email" type="email" class="form-control" id="inputemail">
-
-                                            @error('email')
-                                                <p class="text-danger">
-                                                    {{ $message }}
-                                                </p>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label for="inputtelp" class="col-sm-2 col-form-label">Telepon
-                                            Pengguna</label>
-                                        <div class="col-sm-10">
-                                            <input wire:model="telp" type="number" class="form-control" id="inputtelp">
-
-                                            @error('telp')
-                                                <p class="text-danger">
-                                                    {{ $message }}
-                                                </p>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 d-flex justify-content-end align-items-center">
-
-                                        {{-- Loading Spinner --}}
-                                        <div wire:loading class="spinner-border spinner-border-sm mx-5" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-
-                                        {{-- Success Notif --}}
-                                        <x-action-message class="me-3" on="profile-updated">
-                                            Berhasil
-                                        </x-action-message>
-
-                                        <button type="submit" class="btn btn-dark">
-                                            Submit
-                                        </button>
-
-                                    </div>
-                                </form>
+                                <div class="tab-pane fade" id="pills-home" role="tabpanel"
+                                    aria-labelledby="pills-home-tab" tabindex="0">
+                                    @include('pages.user.address')
+                                </div>
                             </div>
-
-                            <div class="tab-pane fade" id="v-pills-location" role="tabpanel"
-                                aria-labelledby="v-pills-location-tab" tabindex="0">
-
-                                @include('pages.user.address')
-                            </div>
-
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
-
         </div>
     @endvolt
 </x-guest-layout>

@@ -404,7 +404,7 @@
     @include('layouts.payment')
     {{ $slot }}
 
-    <footer class="py-0 sticky-bottom">
+    <footer class="py-0 sticky-md-bottom">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-lg-3 text-center text-lg-start">

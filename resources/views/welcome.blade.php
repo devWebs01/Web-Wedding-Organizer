@@ -128,10 +128,6 @@ state([
                                             <img src="/guest/apola_image/LOGO-JNT.png" class="m-3">
 
                                         </div>
-                                        <h4 class="mt-3 fs-5">JNT</h4>
-                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
-                                            consectetur Lorem.</p>
-
                                     </div>
                                 </div><!-- Step -->
                                 <div class="col-lg-4">
@@ -141,9 +137,7 @@ state([
                                             style="width: 150px;height: 150px;">
                                             <img src="/guest/apola_image/LOGO-TIKI.png" class="m-3">
                                         </div>
-                                        <h4 class="mt-3 fs-5">TIKI</h4>
-                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
-                                            consectetur Lorem.</p>
+
                                     </div>
                                 </div><!-- Step -->
                                 <div class="col-lg-4">
@@ -153,9 +147,7 @@ state([
                                             style="width: 150px;height: 150px;">
                                             <img src="/guest/apola_image/LOGO-POS-IND.png" class="m-3">
                                         </div>
-                                        <h4 class="mt-3 fs-5">POS INDONESIA</h4>
-                                        <p class="text-muted mt-4 fs-6 px-lg-3 mb-5 mb-lg-0">Lorem ipsum dolor sit amet
-                                            consectetur Lorem.</p>
+
                                     </div>
                                 </div>
                             </div>
