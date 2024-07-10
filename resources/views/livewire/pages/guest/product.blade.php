@@ -129,10 +129,6 @@ $addToCart = function () {
                         </p>
 
                         <div class="row">
-
-                            <dt class="col-3 mb-2">Stok:</dt>
-                            <dd class="col-9 mb-2">{{ $product->quantity }} Tersedia</dd>
-
                             <dt class="col-3 mb-2">Berat:</dt>
                             <dd class="col-9 mb-2">{{ $product->weight }}</dd>
                         </div>

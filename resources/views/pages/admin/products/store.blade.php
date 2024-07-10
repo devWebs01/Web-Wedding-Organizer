@@ -1,8 +1,9 @@
 <?php
 
-use function Livewire\Volt\{state, rules, usesFileUploads};
+use function Livewire\Volt\{state, rules, usesFileUploads, computed};
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Variant;
 use function Laravel\Folio\name;
 
 name('products.create');
@@ -10,10 +11,11 @@ usesFileUploads();
 
 state([
     'categories' => fn() => Category::get(),
+    'productId' => '',
     'category_id',
     'title',
     'price',
-    'quantity',
+    // 'quantity',
     'image',
     'weight',
     'description',
@@ -23,20 +25,27 @@ rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
     'price' => 'required|numeric',
-    'quantity' => 'required|numeric',
+    // 'quantity' => 'required|numeric',
     'image' => 'required',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
 ]);
 
-$save = function () {
+$redirectProductsPage = function () {
+    $this->redirectRoute('products.index');
+};
+
+$createdProduct = function () {
     $validate = $this->validate();
     $validate['image'] = $this->image->store('public/images');
 
-    Product::create($validate);
-    $this->reset('category_id', 'title', 'price', 'quantity', 'weight', 'description');
-
-    $this->redirectRoute('products.index', navigate: true);
+    if ($this->productId == null) {
+        $product = Product::create($validate);
+        $this->productId = $product->id;
+    } else {
+        $product = Product::find($this->productId);
+        $product->update($validate);
+    }
 };
 ?>
 
@@ -53,7 +62,7 @@ $save = function () {
         <div>
             <div class="card">
                 <div class="card-body">
-                    <form wire:submit="save" enctype="multipart/form-data">
+                    <form wire:submit="createdProduct" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md mb-3">
@@ -98,7 +107,7 @@ $save = function () {
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="quantity" class="form-label">Jumlah Produk</label>
                                     <input type="number" class="form-control @error('quantity') is-invalid @enderror"
                                         wire:model="quantity" id="quantity" aria-describedby="quantityId"
@@ -106,7 +115,7 @@ $save = function () {
                                     @error('quantity')
                                         <small id="quantityId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
@@ -145,22 +154,52 @@ $save = function () {
                             </div>
 
 
-                            <div class="row mb-3">
-                                <div class="col-md">
-                                    <button type="submit" class="btn btn-primary">
-                                        Submit
-                                    </button>
-                                </div>
-                                <div class="col-md align-self-center text-end">
-                                    <span wire:loading class="spinner-border spinner-border-sm"></span>
-                                    <x-action-message on="save">
-                                    </x-action-message>
-                                </div>
+                            <div class="text-end">
+                                <x-action-message wire:loading on="save">
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                </x-action-message>
+                                <button type="submit" class="btn btn-primary">
+                                    {{ $productId == null ? 'Submit' : 'Edit' }}
+                                </button>
                             </div>
                     </form>
                 </div>
+
+                <hr>
+
+                @if ($productId)
+                    @livewire('pages.products.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
+
+                    <button type="button"
+                        wire:confirm.prompt="Yakin Ingin Sudah Selesai Menambahkan Produk?\n\nTulis 'ya' untuk konfirmasi!|ya"
+                        wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
+                @endif
+
+
+
             </div>
         </div>
     @endvolt
+
+    <!-- JavaScript untuk beforeUnloadHandler -->
+    {{-- <script>
+        const beforeUnloadHandler = (event) => {
+            event.preventDefault();
+            event.returnValue = true; // Untuk dukungan legacy, mis. Chrome/Edge < 119
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const nameInput = document.querySelector("#title");
+
+            nameInput.addEventListener("input", (event) => {
+                if (event.target.value !== "") {
+                    window.addEventListener("beforeunload", beforeUnloadHandler);
+                } else {
+                    window.removeEventListener("beforeunload", beforeUnloadHandler);
+                }
+            });
+        });
+    </script> --}}
+
 
 </x-admin-layout>

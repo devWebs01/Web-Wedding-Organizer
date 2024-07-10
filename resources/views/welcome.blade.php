@@ -186,7 +186,6 @@ state([
                     </div>
                 </div>
             </div>
-
         </div>
     @endvolt
 </x-guest-layout>

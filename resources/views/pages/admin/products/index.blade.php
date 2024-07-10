@@ -51,7 +51,7 @@ $destroy = function (product $product) {
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-3">
                     <div class="table-responsive border rounded">
                         <table class="table text-center text-nowrap">
                             <thead>
@@ -59,7 +59,7 @@ $destroy = function (product $product) {
                                     <th>No.</th>
                                     <th>Nama Produk</th>
                                     <th>Harga</th>
-                                    <th>Stok</th>
+                                    {{-- <th>Stok</th> --}}
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -69,7 +69,7 @@ $destroy = function (product $product) {
                                         <th>{{ ++$no }}</th>
                                         <th>{{ $product->title }}</th>
                                         <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
-                                        <th>{{ $product->quantity }}</th>
+                                        {{-- <th>{{ $product->quantity }}</th> --}}
                                         <th>
                                             <div class="btn-group">
                                                 <a href="{{ route('products.edit', ['product' => $product->id]) }}"
@@ -91,7 +91,9 @@ $destroy = function (product $product) {
                             </tbody>
                         </table>
 
-                        {{ $this->products->links() }}
+                        <div class="p-3">
+                            {{ $this->products->links() }}
+                        </div>
                     </div>
 
                 </div>

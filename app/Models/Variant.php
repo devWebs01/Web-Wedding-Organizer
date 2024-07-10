@@ -7,31 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Product extends Model
+class Variant extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'category_id',
-        'title',
-        'price',
-        'image',
-        'weight',
-        'description',
+        'size', 'qty', 'product_id'
     ];
 
     /**
-     * Get the category that owns the Product
+     * Get the product that owns the Variant
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
-     * Get all of the carts for the User
+     * Get all of the carts for the Variant
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -41,7 +36,7 @@ class Product extends Model
     }
 
     /**
-     * Get all of the orders for the Order
+     * Get all of the Orders for the Variant
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -58,15 +53,5 @@ class Product extends Model
     public function Items(): HasMany
     {
         return $this->hasMany(Item::class);
-    }
-
-    /**
-     * Get all of the variants for the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function variants(): HasMany
-    {
-        return $this->hasMany(Variant::class);
     }
 }

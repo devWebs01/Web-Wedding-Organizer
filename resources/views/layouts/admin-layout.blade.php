@@ -98,7 +98,7 @@
 
     @stack('scripts')
 
-    @livewireChartsScripts
+    {{-- @livewireChartsScripts --}}
     @livewireScripts
 </body>
 

@@ -275,7 +275,7 @@ class ProductSeeder extends Seeder
                 'category_id' => $item['category_id'],
                 'title' => $item['title'],
                 'price' => $item['price'],
-                'quantity' => rand(10, 100), // Atur jumlah sesuai kebutuhan
+                'quantity' => 0,
                 'image' => $storagePath,
                 'weight' => $item['weight'],
                 'description' => $item['description'],
