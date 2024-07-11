@@ -15,6 +15,7 @@ state([
     'variant_id' => '',
     'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
     'qty' => 1,
+    'variant_type' => '',
     'variant' => '',
     'product',
 ]);
@@ -29,6 +30,7 @@ rules([
 $selectVariant = function (Variant $variant) {
     $this->variant = $variant->stock;
     $this->variant_id = $variant->id;
+    $this->variant_type = $variant->type;
 };
 
 $addToCart = function (Product $product) {
@@ -109,7 +111,7 @@ $addToCart = function (Product $product) {
 
                                     <dt class="col-3 mb-2">Stok:</dt>
                                     <dd class="col-9 mb-2">
-                                        {{ $variant }}</dd>
+                                        {{ $variant . ' - ' . $variant_type }}</dd>
 
                                     <dt class="col-3 mb-2">Varian</dt>
                                     <dd class="col-9 mb-2">
