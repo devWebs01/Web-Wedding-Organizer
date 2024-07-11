@@ -142,8 +142,20 @@ on([
                             </span>
                         </strong>
                     </div>
+                    @if ($order->status == 'CANCELLED')
+                        <div class="alert alert-danger rounded-5" role="alert">
+                            <strong>Pemberitahuan!</strong>
+                            <span>
+                                Pesanan dibatalkan.
+                                @if ($order->payment_method != 'COD (Cash On Delivery)')
+                                    Silahkan tunggu konfirmasi tentang pengambalian dana!
+                                @endif
+                            </span>
+                        </div>
+                    @endif
                 </div>
             </div>
+
 
             <div class="container">
                 <div class="row">
