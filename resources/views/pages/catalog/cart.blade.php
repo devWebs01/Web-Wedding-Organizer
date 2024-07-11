@@ -15,8 +15,6 @@ state([
     'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
     'destination' => fn() => Address::where('user_id', auth()->id())->first(),
     'origin' => fn() => Shop::first(),
-    'province_id' => fn() => $this->destination->province->id,
-    'city_id' => fn() => $this->destination->city->id,
     'order',
 ]);
 

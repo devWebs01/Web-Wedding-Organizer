@@ -145,7 +145,8 @@ $saveTrackingNumber = function () {
                                     @if ($order->payment_method == 'Transfer Bank')
                                         <div class="col-md text-end">
                                             <figure class="figure">
-                                                <a href="{{ Storage::url($order->proof_of_payment) }}" data-fancybox target="_blank">
+                                                <a href="{{ Storage::url($order->proof_of_payment) }}" data-fancybox
+                                                    target="_blank">
                                                     <img src="{{ Storage::url($order->proof_of_payment) }}"
                                                         class="figure-img img-fluid rounded object-fit-cover
                                                 {{ !$order->proof_of_payment ? 'placeholder' : '' }}"
@@ -167,11 +168,12 @@ $saveTrackingNumber = function () {
                                             <tr class="border">
                                                 <th class="text-center">#</th>
                                                 <th>Produk</th>
-                                                <th class="text-end">Kuantitas</th>
-                                                <th class="text-end">Harga Satuan</th>
+                                                <th class="text-center">Variant</th>
+                                                <th class="text-center">Kuantitas</th>
+                                                <th class="text-center">Harga Satuan</th>
                                                 <th class="text-end">Total</th>
                                             </tr>
-                                            <!-- end row -->
+                                            <!-- center row -->
                                         </thead>
                                         <tbody>
                                             @foreach ($orderItems as $no => $item)
@@ -179,8 +181,9 @@ $saveTrackingNumber = function () {
                                                 <tr class="border">
                                                     <td class="text-center">{{ ++$no }}</td>
                                                     <td>{{ Str::limit($item->product->title, 30, '...') }}</td>
-                                                    <td class="text-end">{{ $item->qty }}</td>
-                                                    <td class="text-end">
+                                                    <td class="text-center">{{ $item->variant->type }}</td>
+                                                    <td class="text-center">{{ $item->qty }} Item</td>
+                                                    <td class="text-center">
                                                         {{ 'Rp.' . Number::format($item->product->price, locale: 'id') }}
                                                     </td>
                                                     <td class="text-end">
@@ -191,7 +194,7 @@ $saveTrackingNumber = function () {
                                             @endforeach
 
                                             <tr class="text-end">
-                                                <td colspan="4"> Sub - Total:</td>
+                                                <td colspan="5"> Sub - Total:</td>
                                                 <td>
                                                     {{ 'Rp.' .
                                                         Number::format(
@@ -203,33 +206,31 @@ $saveTrackingNumber = function () {
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
-                                                <td colspan="4"> Berat Barang:</td>
+                                                <td colspan="5"> Berat Barang:</td>
                                                 <td>
                                                     {{ $order->total_weight }} gram
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
-                                                <td colspan="4"> Biaya Pengiriman:</td>
+                                                <td colspan="5"> Biaya Pengiriman:</td>
                                                 <td>
                                                     {{ 'Rp.' . Number::format($order->shipping_cost, locale: 'id') }}
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
-                                                <td colspan="4"> Biaya Tambahan:</td>
+                                                <td colspan="5"> Biaya Tambahan:</td>
                                                 <td>
                                                     {{ $order->protect_cost == true ? 'Rp.' . Number::format(3000, locale: 'id') : 'Rp. 0' }}
                                                 </td>
                                             </tr>
+                                            <tr class="text-end">
+                                                <td colspan="5" class="fw-bolder text-dark fs-6"> Total:</td>
+                                                <td class="fw-bolder text-dark fs-6">
+                                                    {{ 'Rp.' . Number::format($order->total_amount, locale: 'id') }}
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="pull-right text-end">
-                                    <h3>
-                                        <b>Total : {{ 'Rp.' . Number::format($order->total_amount, locale: 'id') }} </b>
-                                    </h3>
                                 </div>
                             </div>
                         </div>

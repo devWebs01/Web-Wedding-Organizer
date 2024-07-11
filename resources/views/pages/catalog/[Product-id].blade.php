@@ -146,8 +146,14 @@ $addToCart = function (Product $product) {
                                         </form>
 
                                         <x-action-message class="my-3 text-center" on="cart-updated">
-                                            Berhasil
+                                            Berhasil Memasukkan ke Keranjang
                                         </x-action-message>
+
+                                        @error('variant_id')
+                                            <small class="my-3 text-center text-danger">
+                                                Plih ukuran/variant yang diinginkan
+                                            </small>
+                                        @enderror
                                     @else
                                         <a class="btn btn-dark" href="{{ route('login') }}" role="button">Beli Sekarang</a>
                                     @endauth

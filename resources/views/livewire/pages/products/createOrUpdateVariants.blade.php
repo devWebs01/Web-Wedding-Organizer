@@ -75,13 +75,13 @@ $variants = computed(function () {
                             <td>{{ $item->type }}</td>
                             <td>{{ $item->stock }}</td>
                             <td>
-                                <div class="btn-group">
+                                <div class="d-flex justify-content-center gap-3">
                                     <a type="button" wire:click='editVariant({{ $item->id }})'
                                         class="btn btn-sm btn-warning">Edit</a>
                                     <button
                                         wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
                                         wire:loading.attr='disabled' wire:click='destroyVariant({{ $item->id }})'
-                                        class="btn btn-sm btn-danger">
+                                        class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
                                         Hapus
                                     </button>
                                 </div>
@@ -102,7 +102,7 @@ $variants = computed(function () {
 
             <input type="text" class="form-control
                             @error('type') is-invalid @enderror"
-                wire:model="type" id="type" aria-describedby="typeId" placeholder="Enter type product" />
+                wire:model="type" id="type" aria-describedby="typeId" placeholder="Enter type product" {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
 
 
             <input type="number" class="form-control

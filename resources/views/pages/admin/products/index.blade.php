@@ -69,9 +69,8 @@ $destroy = function (product $product) {
                                         <th>{{ ++$no }}</th>
                                         <th>{{ $product->title }}</th>
                                         <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
-                                        {{-- <th>{{ $product->quantity }}</th> --}}
                                         <th>
-                                            <div class="btn-group">
+                                            <div class="d-flex justify-content-center gap-3">
                                                 <a href="{{ route('products.edit', ['product' => $product->id]) }}"
                                                     class="btn btn-sm btn-warning">
                                                     Edit
@@ -80,7 +79,7 @@ $destroy = function (product $product) {
                                                 <button
                                                     wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
                                                     wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
-                                                    class="btn btn-sm btn-danger">
+                                                    class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
                                                     Hapus
                                                 </button>
                                             </div>
