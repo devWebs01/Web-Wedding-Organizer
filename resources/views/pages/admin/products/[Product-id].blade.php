@@ -14,9 +14,10 @@ state([
     'category_id' => fn() => $this->product->category_id,
     'title' => fn() => $this->product->title,
     'price' => fn() => $this->product->price,
-    'quantity' => fn() => $this->product->quantity,
+    // 'quantity' => fn() => $this->product->quantity,
     'weight' => fn() => $this->product->weight,
     'description' => fn() => $this->product->description,
+    'productId' => fn() => $this->product->id,
     'image',
     'product',
 ]);
@@ -25,7 +26,7 @@ rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
     'price' => 'required|numeric',
-    'quantity' => 'required|numeric',
+    // 'quantity' => 'required|numeric',
     'image' => 'nullable',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
@@ -43,6 +44,11 @@ $save = function () {
 
     $this->redirectRoute('products.index', navigate: true);
 };
+
+$redirectProductsPage = function () {
+    $this->redirectRoute('products.index');
+};
+
 ?>
 <x-admin-layout>
     <x-slot name="title">Produk</x-slot>
@@ -102,7 +108,7 @@ $save = function () {
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="quantity" class="form-label">Jumlah Produk</label>
                                     <input type="number" class="form-control @error('quantity') is-invalid @enderror"
                                         wire:model="quantity" id="quantity" aria-describedby="quantityId"
@@ -110,7 +116,7 @@ $save = function () {
                                     @error('quantity')
                                         <small id="quantityId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
@@ -154,13 +160,43 @@ $save = function () {
                                     <span class="spinner-border spinner-border-sm"></span>
                                 </x-action-message>
                                 <button type="submit" class="btn btn-primary">
-                                    Submit
+                                    {{ $productId == null ? 'Submit' : 'Edit' }}
                                 </button>
                             </div>
                     </form>
                 </div>
+
+                <hr>
+
+                @if ($productId)
+                    @livewire('pages.products.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
+
+                    <button type="button"
+                        wire:confirm.prompt="Yakin Ingin Sudah Selesai Menambahkan Produk?\n\nTulis 'ya' untuk konfirmasi!|ya"
+                        wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
+                @endif
             </div>
         </div>
     @endvolt
+
+    <!-- JavaScript untuk beforeUnloadHandler -->
+    <script>
+        const beforeUnloadHandler = (event) => {
+            event.preventDefault();
+            event.returnValue = true; // Untuk dukungan legacy, mis. Chrome/Edge < 119
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const nameInput = document.querySelector("#title");
+
+            nameInput.addEventListener("input", (event) => {
+                if (event.target.value !== "") {
+                    window.addEventListener("beforeunload", beforeUnloadHandler);
+                } else {
+                    window.removeEventListener("beforeunload", beforeUnloadHandler);
+                }
+            });
+        });
+    </script>
 
 </x-admin-layout>

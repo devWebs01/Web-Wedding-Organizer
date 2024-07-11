@@ -90,9 +90,6 @@ $addToCart = function (Product $product) {
 
                                 <div class="row">
 
-                                    <dt class="col-3 mb-2">Stok:</dt>
-                                    <dd class="col-9 mb-2">{{ $product->quantity }} Tersedia</dd>
-
                                     <dt class="col-3 mb-2">Berat:</dt>
                                     <dd class="col-9 mb-2">{{ $product->weight }} gram</dd>
                                 </div>
@@ -101,7 +98,7 @@ $addToCart = function (Product $product) {
                                     @auth
 
                                         <form wire:submit='addToCart'>
-                                            <button {{ $product->quantity == 0 ? 'disabled' : '' }}
+                                            <button 
                                                 wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
 
                                                 <span
