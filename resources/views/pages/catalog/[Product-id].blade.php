@@ -135,16 +135,19 @@ $addToCart = function (Product $product) {
                                 <div class="d-grid my-4">
                                     @auth
                                         <form wire:submit='addToCart'>
-                                            <button wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
+                                            @if ($variant)
+                                                <button wire:key="{{ $product->id }}" type="submit"
+                                                    class="btn btn-dark w-100">
 
-                                                <span
-                                                    wire:loading.remove>{{ $variant->stock == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
-                                                </span>
+                                                    <span
+                                                        wire:loading.remove>{{ $variant->stock == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
+                                                    </span>
 
-                                                <div wire:loading class="spinner-border spinner-border-sm" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
-                                            </button>
+                                                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </button>
+                                            @endif
                                         </form>
 
                                         <x-action-message class="my-3 text-center" on="cart-updated">
