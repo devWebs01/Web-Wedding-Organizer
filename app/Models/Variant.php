@@ -12,7 +12,7 @@ class Variant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'size', 'qty', 'product_id'
+        'type', 'stock', 'product_id'
     ];
 
     /**
@@ -40,18 +40,11 @@ class Variant extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
 
-    /**
-     * Get all of the Items for the Order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function Items(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class);
     }
+
+    
 }

@@ -1,25 +1,40 @@
 <?php
 
-use function Livewire\Volt\{state, rules};
+use function Livewire\Volt\{state, rules, computed};
 use App\Models\Product;
+use App\Models\Variant;
 use App\Models\Cart;
 use App\Models\User;
 use function Laravel\Folio\name;
 
 name('product-detail');
 
-state(['product', 'user_id' => fn() => Auth()->user()->id ?? '', 'product_id' => fn() => $this->product->id, 'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(), 'qty' => 1]);
+state([
+    'user_id' => fn() => Auth()->user()->id ?? '',
+    'product_id' => fn() => $this->product->id,
+    'variant_id' => '',
+    'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
+    'qty' => 1,
+    'variant' => '',
+    'product',
+]);
 
 rules([
     'user_id' => 'required|exists:users,id',
     'product_id' => 'required|exists:products,id',
+    'variant_id' => 'required|exists:variants,id',
     'qty' => 'required|numeric',
 ]);
+
+$selectVariant = function (Variant $variant) {
+    $this->variant = $variant->stock;
+    $this->variant_id = $variant->id;
+};
 
 $addToCart = function (Product $product) {
     if (Auth::check() && auth()->user()->role == 'customer') {
         $existingCart = Cart::where('user_id', $this->user_id)
-            ->where('product_id', $this->product_id)
+            ->where('variant_id', $this->variant_id)
             ->first();
 
         if ($existingCart) {
@@ -89,20 +104,39 @@ $addToCart = function (Product $product) {
                                 </p>
 
                                 <div class="row">
-
                                     <dt class="col-3 mb-2">Berat:</dt>
-                                    <dd class="col-9 mb-2">{{ $product->weight }} gram</dd>
+                                    <dd class="col-9 mb-2">{{ $product->weight }} Gram</dd>
+
+                                    <dt class="col-3 mb-2">Stok:</dt>
+                                    <dd class="col-9 mb-2">
+                                        {{ $variant }}</dd>
+
+                                    <dt class="col-3 mb-2">Varian</dt>
+                                    <dd class="col-9 mb-2">
+                                        <div class="row gap-3">
+
+                                            @foreach ($product->variants as $variant)
+                                                <div class="col-auto">
+                                                    <button wire:key='{{ $variant->id }}'
+                                                        wire:click='selectVariant({{ $variant->id }})' type="button"
+                                                        class="badge rounded-pill" style="color: #f35525;">
+                                                        {{ $variant->type }}
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </dd>
                                 </div>
+
+
 
                                 <div class="d-grid my-4">
                                     @auth
-
                                         <form wire:submit='addToCart'>
-                                            <button 
-                                                wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
+                                            <button wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
 
                                                 <span
-                                                    wire:loading.remove>{{ $product->quantity == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
+                                                    wire:loading.remove>{{ $variant->stock == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
                                                 </span>
 
                                                 <div wire:loading class="spinner-border spinner-border-sm" role="status">

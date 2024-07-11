@@ -158,7 +158,7 @@ on([
                                     <h5 id="font-custom">
                                         {{ $item->product->title }}
                                     </h5>
-                                    <p>X {{ $item->qty }} item</p>
+                                    <p>X {{ $item->qty }} item ({{ $item->qty * $item->product->weight }} gram)</p>
                                     <h6 class="fw-bold" style="color: #f35525">
                                         Rp.
                                         {{ Number::format($item->qty * $item->product->price, locale: 'id') }}

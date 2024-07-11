@@ -11,7 +11,7 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'product_id', 'qty'
+        'user_id', 'product_id', 'variant_id', 'qty'
     ];
 
     /**
@@ -32,5 +32,15 @@ class Cart extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Get the variant that owns the Cart
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function variant(): BelongsTo
+    {
+        return $this->belongsTo(Variant::class);
     }
 }
