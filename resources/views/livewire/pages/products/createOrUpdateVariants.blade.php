@@ -102,12 +102,15 @@ $variants = computed(function () {
 
             <input type="text" class="form-control
                             @error('type') is-invalid @enderror"
-                wire:model="type" id="type" aria-describedby="typeId" placeholder="Enter type product" {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                wire:model="type" id="type" aria-describedby="typeId" placeholder="Enter type product"
+                {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
 
 
             <input type="number" class="form-control
                             @error('stock') is-invalid @enderror"
-                wire:model="stock" id="stock" aria-describedby="stockId" placeholder="Enter stock product" />
+                wire:model="stock" id="stock" aria-describedby="stockId" placeholder="Enter stock product"
+                min="{{ auth()->user()->role == 'superadmin' ?: $stock }}" />
+
             <button type="submit" class="btn btn-primary">
                 Submit
             </button>

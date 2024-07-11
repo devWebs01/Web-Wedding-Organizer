@@ -3,6 +3,7 @@
 use function Livewire\Volt\{state, rules, computed, on};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
+use App\Models\Variant;
 use App\Models\Item;
 use App\Models\Courier;
 use App\Models\Product;
@@ -83,11 +84,11 @@ $cancelOrder = function ($orderId) {
 
     // Mengembalikan quantity pada tabel produk
     foreach ($orderItems as $orderItem) {
-        $product = Product::findOrFail($orderItem->product_id);
-        $newQuantity = $product->quantity + $orderItem->qty;
+        $variant = Variant::findOrFail($orderItem->variant_id);
+        $newQuantity = $variant->stock + $orderItem->qty;
 
         // Memperbarui quantity pada tabel produk
-        $product->update(['quantity' => $newQuantity]);
+        $variant->update(['stock' => $newQuantity]);
     }
 
     // Memperbarui status pesanan menjadi 'CANCELLED'
@@ -141,8 +142,20 @@ on([
                             </span>
                         </strong>
                     </div>
+                    @if ($order->status == 'CANCELLED')
+                        <div class="alert alert-danger rounded-5" role="alert">
+                            <strong>Pemberitahuan!</strong>
+                            <span>
+                                Pesanan dibatalkan.
+                                @if ($order->payment_method != 'COD (Cash On Delivery)')
+                                    Silahkan tunggu konfirmasi tentang pengambalian dana!
+                                @endif
+                            </span>
+                        </div>
+                    @endif
                 </div>
             </div>
+
 
             <div class="container">
                 <div class="row">
