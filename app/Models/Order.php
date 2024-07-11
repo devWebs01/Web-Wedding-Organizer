@@ -24,7 +24,10 @@ class Order extends Model
         'estimated_delivery_time',
         'courier',
         'proof_of_payment',
-        'protect_cost'
+        'protect_cost',
+        'province_id',
+        'city_id',
+        'details',
     ];
 
     /**

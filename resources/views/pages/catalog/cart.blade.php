@@ -15,6 +15,8 @@ state([
     'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
     'destination' => fn() => Address::where('user_id', auth()->id())->first(),
     'origin' => fn() => Shop::first(),
+    'province_id' => fn() => $this->destination->province->id,
+    'city_id' => fn() => $this->destination->city->id,
     'order',
 ]);
 
@@ -37,7 +39,7 @@ $calculateTotal = function () {
 
 $increaseQty = function ($cartId) {
     $cart = Cart::find($cartId);
-    if ($cart->qty < $cart->product->quantity) {
+    if ($cart->qty < $cart->variant->stock) {
         $cart->update(['qty' => $cart->qty + 1]);
         $this->dispatch('cart-updated');
     }
@@ -67,6 +69,9 @@ $confirmCheckout = function () {
         'invoice' => 'INV-' . time(),
         'total_amount' => 0,
         'shipping_cost' => 0,
+        'province_id' => $this->destination->province_id,
+        'city_id' => $this->destination->city_id,
+        'details' => $this->destination->details,
     ]);
 
     // Inisialisasi total harga pesanan
@@ -77,6 +82,7 @@ $confirmCheckout = function () {
     foreach ($cartItems as $cartItem) {
         $orderItem = new Item([
             'product_id' => $cartItem->product_id,
+            'variant_id' => $cartItem->variant_id,
             'qty' => $cartItem->qty,
         ]);
 
@@ -90,7 +96,7 @@ $confirmCheckout = function () {
         $totalWeight += $cartItem->product->weight * $cartItem->qty;
 
         // Kurangkan kuantitas produk dari stok
-        $cartItem->product->decrement('quantity', $cartItem->qty);
+        $cartItem->variant->decrement('stock', $cartItem->qty);
     }
 
     // Update total harga pesanan
@@ -177,7 +183,8 @@ $confirmCheckout = function () {
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Item</th>
+                                        <th>Produk</th>
+                                        <th>Varian</th>
                                         <th>Jumlah</th>
                                         <th>Total Harga</th>
                                         <th>#</th>
@@ -188,6 +195,9 @@ $confirmCheckout = function () {
                                         <tr class="align-items-center">
                                             <td>{{ ++$no }}.</td>
                                             <td>{{ Str::limit($cart->product->title, 20, '...') }}</td>
+                                            <td>
+                                                {{ $cart->variant->type }}
+                                            </td>
                                             <td>
                                                 <div class="input-group input-group-sm justify-content-center">
                                                     <button class="btn btn-body btn-sm border" wire:loading.attr='disabled'

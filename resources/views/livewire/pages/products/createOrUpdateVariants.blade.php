@@ -8,45 +8,45 @@ state([
     'productId' => '',
     'title' => '',
     'variantId' => '',
-    'size',
-    'qty',
+    'type',
+    'stock',
 ]);
 
 $createOrUpdateVariant = function (Variant $variant) {
     $validateData = $this->validate([
         'productId' => 'required|exists:products,id',
-        'size' => 'required',
-        'qty' => 'required|numeric',
+        'type' => 'required',
+        'stock' => 'required|numeric',
     ]);
 
     if ($this->variantId == null) {
         $variant->create([
             'product_id' => $this->productId,
-            'size' => $this->size,
-            'qty' => $this->qty,
+            'type' => $this->type,
+            'stock' => $this->stock,
         ]);
     } else {
         $variantUpdate = Variant::find($this->variantId);
         $variantUpdate->update($validateData);
     }
 
-    $this->reset('size', 'qty', 'variantId');
+    $this->reset('type', 'stock', 'variantId');
 };
 
 $editVariant = function (Variant $variant) {
     $variant = Variant::find($variant->id);
     $this->variantId = $variant->id;
-    $this->size = $variant->size;
-    $this->qty = $variant->qty;
+    $this->type = $variant->type;
+    $this->stock = $variant->stock;
 };
 
 $destroyVariant = function (Variant $variant) {
     $variant->delete();
-    $this->reset('size', 'qty', 'variantId');
+    $this->reset('type', 'stock', 'variantId');
 };
 
 $resetVariant = function () {
-    $this->reset('size', 'qty', 'variantId');
+    $this->reset('type', 'stock', 'variantId');
 };
 
 $variants = computed(function () {
@@ -64,7 +64,7 @@ $variants = computed(function () {
                     <tr>
                         <th>No.</th>
                         <th>Varian</th>
-                        <th>Qty</th>
+                        <th>stock</th>
                         <th>#</th>
                     </tr>
                 </thead>
@@ -72,8 +72,8 @@ $variants = computed(function () {
                     @foreach ($this->variants as $no => $item)
                         <tr>
                             <td>{{ ++$no }}</td>
-                            <td>{{ $item->size }}</td>
-                            <td>{{ $item->qty }}</td>
+                            <td>{{ $item->type }}</td>
+                            <td>{{ $item->stock }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a type="button" wire:click='editVariant({{ $item->id }})'
@@ -101,13 +101,13 @@ $variants = computed(function () {
         <div class="input-group mb-3">
 
             <input type="text" class="form-control
-                            @error('size') is-invalid @enderror"
-                wire:model="size" id="size" aria-describedby="sizeId" placeholder="Enter size product" />
+                            @error('type') is-invalid @enderror"
+                wire:model="type" id="type" aria-describedby="typeId" placeholder="Enter type product" />
 
 
             <input type="number" class="form-control
-                            @error('qty') is-invalid @enderror"
-                wire:model="qty" id="qty" aria-describedby="qtyId" placeholder="Enter qty product" />
+                            @error('stock') is-invalid @enderror"
+                wire:model="stock" id="stock" aria-describedby="stockId" placeholder="Enter stock product" />
             <button type="submit" class="btn btn-primary">
                 Submit
             </button>
@@ -119,11 +119,11 @@ $variants = computed(function () {
         </div>
 
         <p>
-            @error('size')
-                <small id="sizeId" class="form-text text-danger">{{ $message }}</small>,
+            @error('type')
+                <small id="typeId" class="form-text text-danger">{{ $message }}</small>,
             @enderror
-            @error('qty')
-                <small id="qtyId" class="form-text text-danger">{{ $message }}</small>
+            @error('stock')
+                <small id="stockId" class="form-text text-danger">{{ $message }}</small>
             @enderror
         </p>
     </form>

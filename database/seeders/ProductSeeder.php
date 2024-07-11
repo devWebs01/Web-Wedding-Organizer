@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Variant;
 use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
@@ -280,6 +281,15 @@ class ProductSeeder extends Seeder
                 'weight' => $item['weight'],
                 'description' => $item['description'],
             ]);
+
+            $type = ['XL', 'L', 'M', 'S'];
+            foreach ($type as $variant) {
+                Variant::create([
+                    'product_id' => $product->id,
+                    'type' => $variant,
+                    'stock' => rand(10, 100),
+                ]);
+            }
 
             $this->command->info('Tambah Produk ' . $product->title);
         }

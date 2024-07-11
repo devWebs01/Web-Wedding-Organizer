@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('proof_of_payment')->nullable();
             $table->string('protect_cost')->nullable();
+            // add field
+            $table->foreignId('province_id')->constrained('rajaongkir_provinces')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained('rajaongkir_cities')->onDelete('cascade');
+            $table->longText('details');
             $table->timestamps();
         });
     }
