@@ -42,7 +42,8 @@ $destroy = function (product $product) {
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <a href="{{ route('products.create') }}" class="btn btn-primary">Tambah
+                            <a href="{{ route('products.create') }}"
+                                class="btn btn-primary {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}"">Tambah
                                 Produk Toko</a>
                         </div>
                         <div class="col">
