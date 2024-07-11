@@ -3,6 +3,7 @@
 use function Livewire\Volt\{state, rules};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
+use App\Models\Variant;
 use App\Models\Item;
 use function Laravel\Folio\name;
 
@@ -30,6 +31,31 @@ $saveTrackingNumber = function () {
 
     $this->order->update($validate);
     $this->dispatch('order-update');
+};
+
+$cancelOrder = function ($orderId) {
+    $order = Order::findOrFail($orderId);
+
+    // Mengambil semua item yang terkait dengan pesanan yang dibatalkan
+    $orderItems = Item::where('order_id', $order->id)->get();
+
+    // Mengembalikan quantity pada tabel produk
+    foreach ($orderItems as $orderItem) {
+        $variant = Variant::findOrFail($orderItem->variant_id);
+        $newQuantity = $variant->stock + $orderItem->qty;
+
+        // Memperbarui quantity pada tabel produk
+        $variant->update(['stock' => $newQuantity]);
+    }
+
+    // Memperbarui status pesanan menjadi 'CANCELLED'
+    $order->update(['status' => 'CANCELLED']);
+
+    // Menghapus data kurir terkait
+    $this->dispatch('delete-couriers');
+
+    $this->dispatch('order-update');
+    $this->dispatch('orders-alert');
 };
 
 ?>
@@ -75,8 +101,6 @@ $saveTrackingNumber = function () {
                                     </button>
                                 @endif
                             </form>
-
-
                         </div>
                         <div class="col-md">
                             <div class="text-end">
@@ -88,8 +112,17 @@ $saveTrackingNumber = function () {
                                         <i class="ti ti-circle-check fs-3"></i>
                                         Proses Pesanan
                                     </button>
+
+                                    @if ($order->status == 'PENDING' && auth()->user()->role === 'superadmin')
+                                        <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
+                                            role="button"
+                                            wire:confirm.prompt="Yakin ingin membatalkan pesanan? \n\nKetikan 'ya' untuk mengkonfirmasi!|ya">
+                                            <i class="ti ti-x fs-3"></i>
+                                            Batalkan Pesanan
+                                        </button>
+                                    @endif
                                 @endif
-                                <button class="btn btn-primary print-page ms-6" onclick="window.print()" type="button">
+                                <button class="btn btn-dark print-page" onclick="window.print()" type="button">
                                     <span>
                                         <i class="ti ti-printer fs-3"></i>
                                         Cetak
@@ -100,6 +133,20 @@ $saveTrackingNumber = function () {
                     </div>
                 </div>
             </div>
+
+            @if ($order->status == 'CANCELLED')
+                <div class="alert alert-danger" role="alert">
+                    <strong>Pengingat!</strong>
+                    <span>
+                        Mohon hubungi mengkonfirmasi pembatalkan pesanan melalui no. telpon yang tertera...
+
+                        @if ($order->payment_method != 'COD (Cash On Delivery)')
+                            Dan lakukan pengembalian dana kepada customer
+                        @endif
+                    </span>
+                </div>
+            @endif
+
             <div class="card d-print-block">
                 <div class="card-body">
                     <div class="invoice-123" id="printableArea" style="display: block;">
