@@ -1,6 +1,7 @@
 <?php
 
 use function Livewire\Volt\{state, computed};
+use Illuminate\Validation\Rule;
 use App\Models\Product;
 use App\Models\Variant;
 
@@ -15,7 +16,14 @@ state([
 $createOrUpdateVariant = function (Variant $variant) {
     $validateData = $this->validate([
         'productId' => 'required|exists:products,id',
-        'type' => 'required',
+        'type' => [
+            'required',
+            Rule::unique('variants')
+                ->where(function ($query) {
+                    return $query->where('product_id', $this->productId);
+                })
+                ->ignore($this->variantId),
+        ],
         'stock' => 'required|numeric',
     ]);
 

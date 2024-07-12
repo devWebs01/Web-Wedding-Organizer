@@ -1,11 +1,13 @@
 <?php
 
-use function Livewire\Volt\{state, rules, usesFileUploads};
+use function Livewire\Volt\{state, rules, usesFileUploads, uses};
+use function Laravel\Folio\name;
 use App\Models\Category;
 use App\Models\Product;
-use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 name('products.edit');
+uses([LivewireAlert::class]);
 
 usesFileUploads();
 
@@ -13,8 +15,8 @@ state([
     'categories' => fn() => Category::get(),
     'category_id' => fn() => $this->product->category_id,
     'title' => fn() => $this->product->title,
+    'capital' => fn() => $this->product->capital,
     'price' => fn() => $this->product->price,
-    // 'quantity' => fn() => $this->product->quantity,
     'weight' => fn() => $this->product->weight,
     'description' => fn() => $this->product->description,
     'productId' => fn() => $this->product->id,
@@ -25,8 +27,12 @@ state([
 rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
-    'price' => 'required|numeric',
-    // 'quantity' => 'required|numeric',
+    'capital' => 'required|numeric',
+    'price' => [
+        'required',
+        'numeric',
+        'gte:capital', // Validasi bahwa harga jual tidak boleh kurang dari harga modal
+    ],
     'image' => 'nullable',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
@@ -42,7 +48,13 @@ $save = function () {
     }
     product::whereId($this->product->id)->update($validate);
 
-    $this->redirectRoute('products.index', navigate: true);
+    $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
+        'position' => 'center',
+        'width' => '500',
+        'timer' => 2000,
+        'toast' => true,
+        'timerProgressBar' => true,
+    ]);
 };
 
 $redirectProductsPage = function () {
@@ -89,6 +101,17 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="capital" class="form-label">Modal Produk</label>
+                                    <input type="number" class="form-control @error('capital') is-invalid @enderror"
+                                        wire:model="capital" id="capital" aria-describedby="capitalId"
+                                        placeholder="Enter product capital"
+                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                                    @error('capital')
+                                        <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="price" class="form-label">Harga Produk</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
                                         wire:model="price" id="price" aria-describedby="priceId"
@@ -128,10 +151,15 @@ $redirectProductsPage = function () {
 
                                 <div class="mb-3">
                                     <label for="weight" class="form-label">Berat Produk</label>
-                                    <input type="number" class="form-control @error('weight') is-invalid @enderror"
-                                        wire:model="weight" id="weight" aria-describedby="weightId"
-                                        placeholder="Enter product weight"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                                    <div class="input-group">
+                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
+                                            wire:model="weight" id="weight" aria-describedby="weightId"
+                                            placeholder="Enter product weight"
+                                            {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">gram</span>
+                                        </div>
+                                    </div>
                                     @error('weight')
                                         <small id="weightId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror

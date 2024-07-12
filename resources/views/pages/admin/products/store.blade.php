@@ -1,11 +1,13 @@
 <?php
 
-use function Livewire\Volt\{state, rules, usesFileUploads, computed};
+use function Livewire\Volt\{state, rules, usesFileUploads, computed, uses};
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Variant;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
+uses([LivewireAlert::class]);
 name('products.create');
 usesFileUploads();
 
@@ -14,8 +16,8 @@ state([
     'productId' => '',
     'category_id',
     'title',
+    'capital',
     'price',
-    // 'quantity',
     'image',
     'weight',
     'description',
@@ -24,8 +26,12 @@ state([
 rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
-    'price' => 'required|numeric',
-    // 'quantity' => 'required|numeric',
+    'capital' => 'required|numeric',
+    'price' => [
+        'required',
+        'numeric',
+        'gte:capital', // Validasi bahwa harga jual tidak boleh kurang dari harga modal
+    ],
     'image' => 'required',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
@@ -46,7 +52,16 @@ $createdProduct = function () {
         $product = Product::find($this->productId);
         $product->update($validate);
     }
+
+    $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
+        'position' => 'center',
+        'width' => '500',
+        'timer' => 2000,
+        'toast' => true,
+        'timerProgressBar' => true,
+    ]);
 };
+
 ?>
 
 
@@ -87,6 +102,16 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="capital" class="form-label">Modal Produk</label>
+                                    <input type="number" class="form-control @error('capital') is-invalid @enderror"
+                                        wire:model="capital" id="capital" aria-describedby="capitalId"
+                                        placeholder="Enter product capital" />
+                                    @error('capital')
+                                        <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="price" class="form-label">Harga Produk</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
                                         wire:model="price" id="price" aria-describedby="priceId"
@@ -107,16 +132,6 @@ $createdProduct = function () {
                                     @enderror
                                 </div>
 
-                                {{-- <div class="mb-3">
-                                    <label for="quantity" class="form-label">Jumlah Produk</label>
-                                    <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                        wire:model="quantity" id="quantity" aria-describedby="quantityId"
-                                        placeholder="Enter product quantity" />
-                                    @error('quantity')
-                                        <small id="quantityId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div> --}}
-
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
@@ -133,9 +148,14 @@ $createdProduct = function () {
 
                                 <div class="mb-3">
                                     <label for="weight" class="form-label">Berat Produk</label>
-                                    <input type="number" class="form-control @error('weight') is-invalid @enderror"
-                                        wire:model="weight" id="weight" aria-describedby="weightId"
-                                        placeholder="Enter product weight" />
+                                    <div class="input-group">
+                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
+                                            wire:model="weight" id="weight" aria-describedby="weightId"
+                                            placeholder="Enter product weight" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">gram</span>
+                                        </div>
+                                    </div>
                                     @error('weight')
                                         <small id="weightId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
