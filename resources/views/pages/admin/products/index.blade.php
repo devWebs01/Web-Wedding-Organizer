@@ -60,7 +60,6 @@ $destroy = function (product $product) {
                                     <th>No.</th>
                                     <th>Nama Produk</th>
                                     <th>Harga</th>
-                                    {{-- <th>Stok</th> --}}
                                     <th>#</th>
                                 </tr>
                             </thead>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('title');
+            $table->string('capital');
             $table->string('price');
             $table->string('quantity')->nullable()->default(1);
             $table->string('weight');

@@ -1,11 +1,13 @@
 <?php
 
-use function Livewire\Volt\{state, rules, usesFileUploads, computed};
+use function Livewire\Volt\{state, rules, usesFileUploads, computed, uses};
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Variant;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
+uses([LivewireAlert::class]);
 name('products.create');
 usesFileUploads();
 
@@ -14,8 +16,8 @@ state([
     'productId' => '',
     'category_id',
     'title',
+    'capital',
     'price',
-    // 'quantity',
     'image',
     'weight',
     'description',
@@ -24,12 +26,23 @@ state([
 rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
-    'price' => 'required|numeric',
-    // 'quantity' => 'required|numeric',
+    'capital' => 'required|numeric',
+    'price' => [
+        'required',
+        'numeric',
+        'gte:capital', // Validasi bahwa harga jual tidak boleh kurang dari harga modal
+    ],
     'image' => 'required',
     'weight' => 'required|numeric',
     'description' => 'required|min:10',
 ]);
+
+$profit = computed(function () {
+    $capital = is_numeric($this->capital) ? $this->capital : 0;
+    $price = is_numeric($this->price) ? $this->price : 0;
+    $gap = $price - $capital;
+    return Number::format($gap, locale: 'id');
+});
 
 $redirectProductsPage = function () {
     $this->redirectRoute('products.index');
@@ -46,7 +59,16 @@ $createdProduct = function () {
         $product = Product::find($this->productId);
         $product->update($validate);
     }
+
+    $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
+        'position' => 'center',
+        'width' => '500',
+        'timer' => 2000,
+        'toast' => true,
+        'timerProgressBar' => true,
+    ]);
 };
+
 ?>
 
 
@@ -68,10 +90,10 @@ $createdProduct = function () {
                             <div class="col-md mb-3">
                                 @if ($image)
                                     <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="525px" width="100%" />
+                                        alt="image" loading="lazy" height="625px" width="100%" />
                                 @else
                                     <img src="" class="img rounded object-fit-cover placeholder " alt="image"
-                                        loading="lazy" height="525px" width="100%" />
+                                        loading="lazy" height="625px" width="100%" />
                                 @endif
                             </div>
                             <div class="col-md">
@@ -87,15 +109,31 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="price" class="form-label">Harga Produk</label>
+                                    <label for="capital" class="form-label">Harga Modal</label>
+                                    <input type="number" class="form-control @error('capital') is-invalid @enderror"
+                                        wire:model.live="capital" min="0" id="capital" aria-describedby="capitalId"
+                                        placeholder="Enter product capital" />
+                                    @error('capital')
+                                        <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Harga Jual</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        wire:model="price" id="price" aria-describedby="priceId"
+                                        wire:model.live="price" min="0" id="price" aria-describedby="priceId"
                                         placeholder="Enter product price" />
                                     @error('price')
                                         <small id="priceId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="profit" class="form-label">Keuntungan Jual /
+                                        <small class="text-primary">Perproduk</small></label>
+                                    <input type="text" class="form-control" value="{{ $this->profit }}" name="profit"
+                                        id="profit" aria-describedby="helpId" placeholder="profit" disabled />
+                                </div>
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
@@ -106,16 +144,6 @@ $createdProduct = function () {
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-
-                                {{-- <div class="mb-3">
-                                    <label for="quantity" class="form-label">Jumlah Produk</label>
-                                    <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                        wire:model="quantity" id="quantity" aria-describedby="quantityId"
-                                        placeholder="Enter product quantity" />
-                                    @error('quantity')
-                                        <small id="quantityId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
@@ -133,9 +161,12 @@ $createdProduct = function () {
 
                                 <div class="mb-3">
                                     <label for="weight" class="form-label">Berat Produk</label>
-                                    <input type="number" class="form-control @error('weight') is-invalid @enderror"
-                                        wire:model="weight" id="weight" aria-describedby="weightId"
-                                        placeholder="Enter product weight" />
+                                    <div class="input-group">
+                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
+                                            wire:model="weight" id="weight" aria-describedby="weightId"
+                                            placeholder="Enter product weight" />
+                                        <span class="input-group-text rounded-end-1" id="basic-addon2">gram</span>
+                                    </div>
                                     @error('weight')
                                         <small id="weightId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
@@ -154,13 +185,13 @@ $createdProduct = function () {
                             </div>
 
 
-                            <div class="text-end">
-                                <x-action-message wire:loading on="save">
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                </x-action-message>
+                            <div class="text-start">
                                 <button type="submit" class="btn btn-primary">
                                     {{ $productId == null ? 'Submit' : 'Edit' }}
                                 </button>
+                                <x-action-message wire:loading on="save">
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                </x-action-message>
                             </div>
                     </form>
                 </div>
