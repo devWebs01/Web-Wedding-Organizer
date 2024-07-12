@@ -37,6 +37,13 @@ rules([
     'description' => 'required|min:10',
 ]);
 
+$profit = computed(function () {
+    $capital = is_numeric($this->capital) ? $this->capital : 0;
+    $price = is_numeric($this->price) ? $this->price : 0;
+    $gap = $price - $capital;
+    return Number::format($gap, locale: 'id');
+});
+
 $redirectProductsPage = function () {
     $this->redirectRoute('products.index');
 };
@@ -83,10 +90,10 @@ $createdProduct = function () {
                             <div class="col-md mb-3">
                                 @if ($image)
                                     <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="525px" width="100%" />
+                                        alt="image" loading="lazy" height="625px" width="100%" />
                                 @else
                                     <img src="" class="img rounded object-fit-cover placeholder " alt="image"
-                                        loading="lazy" height="525px" width="100%" />
+                                        loading="lazy" height="625px" width="100%" />
                                 @endif
                             </div>
                             <div class="col-md">
@@ -102,9 +109,9 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="capital" class="form-label">Modal Produk</label>
+                                    <label for="capital" class="form-label">Harga Modal</label>
                                     <input type="number" class="form-control @error('capital') is-invalid @enderror"
-                                        wire:model="capital" id="capital" aria-describedby="capitalId"
+                                        wire:model.live="capital" min="0" id="capital" aria-describedby="capitalId"
                                         placeholder="Enter product capital" />
                                     @error('capital')
                                         <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
@@ -112,15 +119,21 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="price" class="form-label">Harga Produk</label>
+                                    <label for="price" class="form-label">Harga Jual</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        wire:model="price" id="price" aria-describedby="priceId"
+                                        wire:model.live="price" min="0" id="price" aria-describedby="priceId"
                                         placeholder="Enter product price" />
                                     @error('price')
                                         <small id="priceId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="profit" class="form-label">Keuntungan Jual /
+                                        <small class="text-primary">Perproduk</small></label>
+                                    <input type="text" class="form-control" value="{{ $this->profit }}" name="profit"
+                                        id="profit" aria-describedby="helpId" placeholder="profit" disabled />
+                                </div>
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
@@ -152,9 +165,7 @@ $createdProduct = function () {
                                         <input type="number" class="form-control @error('weight') is-invalid @enderror"
                                             wire:model="weight" id="weight" aria-describedby="weightId"
                                             placeholder="Enter product weight" />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">gram</span>
-                                        </div>
+                                        <span class="input-group-text rounded-end-1" id="basic-addon2">gram</span>
                                     </div>
                                     @error('weight')
                                         <small id="weightId" class="form-text text-danger">{{ $message }}</small>
@@ -174,13 +185,13 @@ $createdProduct = function () {
                             </div>
 
 
-                            <div class="text-end">
-                                <x-action-message wire:loading on="save">
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                </x-action-message>
+                            <div class="text-start">
                                 <button type="submit" class="btn btn-primary">
                                     {{ $productId == null ? 'Submit' : 'Edit' }}
                                 </button>
+                                <x-action-message wire:loading on="save">
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                </x-action-message>
                             </div>
                     </form>
                 </div>
