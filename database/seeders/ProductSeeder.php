@@ -21,6 +21,69 @@ class ProductSeeder extends Seeder
         $data =
             [
                 [
+                    "image" => "https://iili.io/dBcuTRj.jpg",
+                    "title" => "black panther",
+                    "capital" => "100000",
+                    "price" => "130000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "In The Dark I'm King!"
+                ],
+                [
+                    "image" => "https://iili.io/dBcuxUu.jpg",
+                    "title" => "vpolv",
+                    "capital" => "100000",
+                    "price" => "130000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "PEOPLE SHOULDN'T BE AFRAID OF THEIR GOVERNMENT."
+                ],
+                [
+                    "image" => "https://iili.io/dBcuole.jpg",
+                    "title" => "moneyvest",
+                    "capital" => "120000",
+                    "price" => "155000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "When buying and selling are controlled by legislation the first things to be bought and sold are legislators."
+                ],
+                [
+                    "image" => "https://iili.io/dBcuIHb.jpg",
+                    "title" => "daftpunk",
+                    "capital" => "120000",
+                    "price" => "155000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "Something About Us."
+                ],
+                [
+                    "image" => "https://iili.io/dBcuADQ.jpg",
+                    "title" => "human error",
+                    "capital" => "100000",
+                    "price" => "130000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "MasterPiece"
+                ],
+                [
+                    "image" => "https://iili.io/dBcu5xV.jpg",
+                    "title" => "virusses",
+                    "capital" => "120000",
+                    "price" => "155000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "I know there are many of us looking for ways to help."
+                ],
+                [
+                    "image" => "https://iili.io/dBcu7WB.jpg",
+                    "title" => "Seventeen",
+                    "capital" => "100000",
+                    "price" => "130000",
+                    "category_id" => 1,
+                    "weight" => "500",
+                    "description" => "BALLIN, ONLY SEVENTEEN, MY SKIN IS GREEN."
+                ],
+                [
                     "image" => "https://www.wormholestore.com/wp-content/uploads/2022/11/MNK09138-600x750.jpg",
                     "title" => "W.Essentiéls x One Piece Trafalgar Law Oversize Cardigan Knitwear Black/Animal",
                     "capital" => "119667",
