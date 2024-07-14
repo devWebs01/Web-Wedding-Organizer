@@ -23,6 +23,20 @@ class Courier extends Model
 
     public function getFormattedDescriptionAttribute()
     {
-        return $this->description . ' ' . $this->etd . ' Hari - Rp. ' . Number::format($this->value, locale: 'id');
+        // Periksa apakah description, etd, dan value ada, jika tidak, kembalikan null atau ''
+        $description = $this->description ?? '';
+        $etd = $this->etd ?? null;
+        $value = $this->value ?? null;
+
+        // Jika etd atau value null, kembalikan ''
+        if (!$etd || !$value) {
+            return '';
+        }
+
+        // Format value menjadi Rupiah
+        $formattedValue = 'Rp. ' . number_format($value, 0, ',', '.');
+
+        // Gabungkan dan kembalikan string format akhir
+        return $description . ' ' . $etd . ' Hari - ' . $formattedValue;
     }
 }

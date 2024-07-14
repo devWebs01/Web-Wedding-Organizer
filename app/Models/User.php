@@ -52,11 +52,16 @@ class User extends Authenticatable
     // Get Attr Model
     public function getDetailsAttribute()
     {
-        return $this->name . '' . $this->email . ') ' . $this->telp;
+        return $this->name . ' ' . $this->email . ' ' . $this->telp;
     }
 
     public function getFullAddressAttribute()
     {
-        return $this->address->province->name . ', ' . $this->address->city->name . ', ' . $this->address->details;
+        $address = $this->address;
+
+        if ($address && $address->province && $address->city) {
+            return $address->province->name . ', ' . $address->city->name . ', ' . ($address->details ?? '');
+        }
+        return null;
     }
 }

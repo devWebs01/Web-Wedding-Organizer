@@ -1,11 +1,14 @@
 <?php
 
-use function Livewire\Volt\{state, rules};
+use function Livewire\Volt\{state, rules, uses};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
 use App\Models\Variant;
 use App\Models\Item;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 name('transactions.show');
 
@@ -20,8 +23,12 @@ rules([
 ]);
 
 $confirm = function () {
-    $this->order->update(['status' => 'PACKED']);
-    $this->dispatch('order-update');
+    if ($this->order->courier == 'Ambil Sendiri') {
+        $this->order->update(['status' => 'PICKUP']);
+    } else {
+        $this->order->update(['status' => 'PACKED']);
+    }
+
     $this->dispatch('orders-alert');
 };
 
@@ -30,16 +37,19 @@ $saveTrackingNumber = function () {
     $validate['status'] = 'SHIPPED';
 
     $this->order->update($validate);
-    $this->dispatch('order-update');
+    $this->alert('success', 'Pesanan telah di inputkan resi!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
+
+    $this->dispatch('orders-alert');
 };
 
 $cancelOrder = function ($orderId) {
-    $order = Order::findOrFail($orderId);
+    $order = $this->order;
 
-    // Mengambil semua item yang terkait dengan pesanan yang dibatalkan
     $orderItems = Item::where('order_id', $order->id)->get();
-
-    // Mengembalikan quantity pada tabel produk
     foreach ($orderItems as $orderItem) {
         $variant = Variant::findOrFail($orderItem->variant_id);
         $newQuantity = $variant->stock + $orderItem->qty;
@@ -47,16 +57,17 @@ $cancelOrder = function ($orderId) {
         // Memperbarui quantity pada tabel produk
         $variant->update(['stock' => $newQuantity]);
     }
-
-    // Memperbarui status pesanan menjadi 'CANCELLED'
     $order->update(['status' => 'CANCELLED']);
 
-    // Menghapus data kurir terkait
-    $this->dispatch('delete-couriers');
-
-    $this->dispatch('order-update');
     $this->dispatch('orders-alert');
+    $this->alert('success', 'Pesanan telah di batalkan!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
+
+$complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
 ?>
 <x-admin-layout>
@@ -72,7 +83,7 @@ $cancelOrder = function ($orderId) {
             <div class="card d-print-none">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md">
+                        <div class="col">
                             <form wire:submit="saveTrackingNumber">
                                 @if ($order->status == 'PACKED')
                                     <div class="input-group mb-3">
@@ -85,9 +96,6 @@ $cancelOrder = function ($orderId) {
                                         <button class="btn btn-primary  rounded-end-1" type="submit">
                                             Submit
                                         </button>
-                                        <x-action-message wire:loading on="saveTrackingNumber">
-                                            <span class="spinner-border spinner-border-sm"></span>
-                                        </x-action-message>
                                     </div>
                                     @error('tracking_number')
                                         <small id="tracking_numberId" class="form-text text-danger">{{ $message }}</small>
@@ -102,32 +110,36 @@ $cancelOrder = function ($orderId) {
                                 @endif
                             </form>
                         </div>
-                        <div class="col-md">
-                            <div class="text-end">
+                        <div class="col d-flex justify-content-end gap-2">
+                            <span wire:loading class="spinner-border spinner-border-sm align-self-center"></span>
+                            <div class="row">
                                 @if ($order->status == 'PENDING')
-                                    <x-action-message wire:loading on="password-updated">
-                                        <span class="spinner-border spinner-border-sm"></span>
-                                    </x-action-message>
-                                    <button wire:click='confirm' class="btn btn-primary" type="submit">
-                                        <i class="ti ti-circle-check fs-3"></i>
-                                        Proses Pesanan
-                                    </button>
-
-                                    @if ($order->status == 'PENDING' && auth()->user()->role === 'superadmin')
+                                    <div class="col-auto">
+                                        <button wire:click='confirm' class="btn btn-primary" type="submit">
+                                            <i class="ti ti-circle-check fs-3"></i>
+                                            Proses Pesanan
+                                        </button>
+                                    </div>
+                                @endif
+                                @if (
+                                    $order->status === 'PENDING' ||
+                                        $order->status === 'PICKUP' ||
+                                        ($order->status === 'PACKED' && auth()->user()->role === 'superadmin'))
+                                    <div class="col-auto">
                                         <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
-                                            role="button"
-                                            wire:confirm.prompt="Yakin ingin membatalkan pesanan? \n\nKetikan 'ya' untuk mengkonfirmasi!|ya">
+                                            role="button">
                                             <i class="ti ti-x fs-3"></i>
                                             Batalkan Pesanan
                                         </button>
-                                    @endif
+                                    </div>
                                 @endif
-                                <button class="btn btn-dark print-page" onclick="window.print()" type="button">
-                                    <span>
+
+                                <div class="col-auto">
+                                    <button class="btn btn-dark print-page" onclick="window.print()" type="button">
                                         <i class="ti ti-printer fs-3"></i>
                                         Cetak
-                                    </span>
-                                </button>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -140,9 +152,10 @@ $cancelOrder = function ($orderId) {
                     <span>
                         Mohon hubungi mengkonfirmasi pembatalkan pesanan melalui no. telpon yang tertera...
 
-                        @if ($order->payment_method != 'COD (Cash On Delivery)')
+                        @if ($order->payment_method != 'COD (Cash On Delivery)' && $order->status === 'PICKUP')
                             Dan lakukan pengembalian dana kepada customer
                         @endif
+                        
                     </span>
                 </div>
             @endif

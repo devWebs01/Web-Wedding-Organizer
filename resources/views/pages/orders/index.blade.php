@@ -11,7 +11,7 @@ $increment = fn() => $this->count++;
 
 with(
     fn() => [
-        'process_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PENDING')->latest()->paginate(5),
+        'process_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PICKUP')->orWhere('status', 'PENDING')->latest()->paginate(5),
 
         'shipped_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'SHIPPED')->orWhere('status', 'PACKED')->latest()->paginate(5),
 

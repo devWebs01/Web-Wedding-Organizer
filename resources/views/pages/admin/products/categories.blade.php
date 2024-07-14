@@ -1,11 +1,12 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed, usesPagination};
+use function Livewire\Volt\{state, rules, computed, usesPagination, uses};
 use App\Models\Category;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
+uses([LivewireAlert::class]);
 name('categories-product');
-
 state(['name', 'categoryId']);
 rules(['name' => 'required|min:6|string']);
 
@@ -29,13 +30,24 @@ $edit = function (Category $category) {
     $category = Category::find($category->id);
     $this->categoryId = $category->id;
     $this->name = $category->name;
-    $this->dispatch('save');
 };
 
 $destroy = function (Category $category) {
-    $category->delete();
-    $this->reset('name');
-    $this->dispatch('save');
+    try {
+        $category->delete();
+        $this->reset('name');
+        $this->alert('success', 'Data kategori berhasil di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    } catch (\Throwable $th) {
+        $this->alert('error', 'Data kategori gagal di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    }
 };
 ?>
 
@@ -87,7 +99,7 @@ $destroy = function (Category $category) {
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive border rounded">
+                        <div class="table-responsive border rounded px-3">
                             <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
@@ -102,17 +114,12 @@ $destroy = function (Category $category) {
                                             <td>{{ ++$no }}</td>
                                             <td>{{ $category->name }}</td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <a wire:click='edit({{ $category->id }})'
-                                                        class="btn btn-sm btn-warning">Edit</a>
-                                                    <button
-                                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                        wire:loading.attr='disabled'
-                                                        wire:click='destroy({{ $category->id }})'
-                                                        class="btn btn-sm btn-danger">
-                                                        Hapus
-                                                    </button>
-                                                </div>
+                                                <a wire:click='edit({{ $category->id }})'
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <button wire:loading.attr='disabled'
+                                                    wire:click='destroy({{ $category->id }})' class="btn btn-sm btn-danger">
+                                                    Hapus
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach

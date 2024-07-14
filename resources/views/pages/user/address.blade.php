@@ -41,6 +41,7 @@ $submit = function () {
         $validate['user_id'] = auth()->id();
         Address::create($validate);
     }
+    $this->dispatch('address-update');
     $this->alert('success', 'Alamat telah diperbaharui.', [
         'position' => 'top',
         'timer' => '2000',

@@ -3,7 +3,10 @@
 use Dipantry\Rajaongkir\Models\ROProvince;
 use Dipantry\Rajaongkir\Models\ROCity;
 use App\Models\Shop;
-use function Livewire\Volt\{state, computed, rules};
+use function Livewire\Volt\{state, computed, rules, uses};
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 state(['province_id'])->url();
 
@@ -35,10 +38,15 @@ $save = function () {
     if ($this->getShop) {
         $updateShop = Shop::first();
         $updateShop->update($validate);
+        $this->dispatch('profile-shop');
+        $this->alert('success', 'Data toko berhasil di perbaharui!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
     } elseif (!$this->getShop) {
         Shop::create($validate);
     }
-    $this->dispatch('save');
 };
 
 ?>
@@ -106,8 +114,6 @@ $save = function () {
                 </div>
                 <div class="col-md align-self-center text-end">
                     <span wire:loading class="spinner-border spinner-border-sm"></span>
-                    <x-action-message on="save">
-                    </x-action-message>
                 </div>
             </div>
         </form>

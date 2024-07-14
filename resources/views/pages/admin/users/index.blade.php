@@ -1,8 +1,11 @@
 <?php
 
 use App\Models\User;
-use function Livewire\Volt\{computed, state, usesPagination};
+use function Livewire\Volt\{computed, state, usesPagination, uses};
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 name('users.index');
 
@@ -27,7 +30,20 @@ $users = computed(function () {
 });
 
 $destroy = function (User $user) {
-    $user->delete();
+    try {
+        $user->delete();
+        $this->alert('success', 'Data user berhasil di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    } catch (\Throwable $th) {
+        $this->alert('error', 'Data user gagal di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    }
 };
 
 ?>
@@ -56,7 +72,7 @@ $destroy = function (User $user) {
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive border rounded">
+                        <div class="table-responsive border rounded px-3">
                             <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
@@ -75,12 +91,10 @@ $destroy = function (User $user) {
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->telp }}</td>
                                             <td>
-                                                <div class="btn-group">
+                                                <div class="">
                                                     <a href="{{ route('users.edit', ['user' => $user->id]) }}"
                                                         class="btn btn-sm btn-warning">Edit</a>
-                                                    <button
-                                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                        wire:loading.attr='disabled'
+                                                    <button wire:loading.attr='disabled'
                                                         wire:click='destroy({{ $user->id }})'
                                                         class="btn btn-sm btn-danger">
                                                         {{ __('Hapus') }}

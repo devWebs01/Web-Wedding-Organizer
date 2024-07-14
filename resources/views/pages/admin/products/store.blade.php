@@ -201,9 +201,7 @@ $createdProduct = function () {
                 @if ($productId)
                     @livewire('pages.products.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
 
-                    <button type="button"
-                        wire:confirm.prompt="Yakin Ingin Sudah Selesai Menambahkan Produk?\n\nTulis 'ya' untuk konfirmasi!|ya"
-                        wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
+                    <button type="button" wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
                 @endif
 
 
@@ -211,26 +209,6 @@ $createdProduct = function () {
             </div>
         </div>
     @endvolt
-
-    <!-- JavaScript untuk beforeUnloadHandler -->
-    {{-- <script>
-        const beforeUnloadHandler = (event) => {
-            event.preventDefault();
-            event.returnValue = true; // Untuk dukungan legacy, mis. Chrome/Edge < 119
-        };
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const nameInput = document.querySelector("#title");
-
-            nameInput.addEventListener("input", (event) => {
-                if (event.target.value !== "") {
-                    window.addEventListener("beforeunload", beforeUnloadHandler);
-                } else {
-                    window.removeEventListener("beforeunload", beforeUnloadHandler);
-                }
-            });
-        });
-    </script> --}}
 
 
 </x-admin-layout>
