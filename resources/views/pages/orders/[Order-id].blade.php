@@ -146,33 +146,31 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                         </div>
                     </div>
 
-
-
-                    @if ($order->status === 'PROGRESS' || $order === 'UNPAID')
-                    <div class="alert alert-white d-flex align-items-center rounded" role="alert">
-                        <span class="fs-1 me-4">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </span>
-                        <strong class="fs-5">
-                            {{ $order->user->details }}
-                            <br>
-
-                            <span style="color: #f35525">
-                                {{ $order->user->fulladdress }}
+                    @if ($order->status === 'PROGRESS' || $order->status === 'UNPAID')
+                        <div class="alert alert-white d-flex align-items-center rounded" role="alert">
+                            <span class="fs-1 me-4">
+                                <i class="fa-solid fa-location-dot"></i>
                             </span>
-                        </strong>
-                    </div>
-                    @if ($order->status == 'CANCELLED')
-                        <div class="alert alert-danger rounded-5" role="alert">
-                            <strong>Pemberitahuan!</strong>
-                            <span>
-                                Pesanan dibatalkan.
-                                @if ($order->payment_method != 'COD (Cash On Delivery)')
-                                    Silahkan tunggu konfirmasi tentang pengambalian dana!
-                                @endif
-                            </span>
+                            <strong class="fs-5">
+                                {{ $order->user->details }}
+                                <br>
+
+                                <span style="color: #f35525">
+                                    {{ $order->user->fulladdress }}
+                                </span>
+                            </strong>
                         </div>
-                    @endif
+                        @if ($order->status == 'CANCELLED')
+                            <div class="alert alert-danger rounded-5" role="alert">
+                                <strong>Pemberitahuan!</strong>
+                                <span>
+                                    Pesanan dibatalkan.
+                                    @if ($order->payment_method != 'COD (Cash On Delivery)')
+                                        Silahkan tunggu konfirmasi tentang pengambalian dana!
+                                    @endif
+                                </span>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-lg-7">
                                 @foreach ($orderItems as $item)
@@ -316,6 +314,11 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                         </div>
                     @else
                         @include('pages.transactions.invoice')
+                        @if ($order->status === 'SHIPPED')
+                            <button wire:click="complatedOrder" class="btn btn-dark" role="button">
+                                Pesanan diterima
+                            </button>
+                        @endif
                     @endif
                 </div>
             </div>
