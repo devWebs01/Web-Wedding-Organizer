@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,6 +14,7 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'slug',
         'invoice',
         'status',
         'total_amount',
@@ -29,6 +31,24 @@ class Order extends Model
         'city_id',
         'details',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->slug = static::generateSlug($order->invoice);
+        });
+
+        static::updating(function ($order) {
+            $order->slug = static::generateSlug($order->invoice);
+        });
+    }
+
+    public static function generateSlug($invoice)
+    {
+        return str::slug($invoice, '-');
+    }
 
     /**
      * Get all of the Items for the Order

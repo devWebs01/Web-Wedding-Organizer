@@ -6,15 +6,15 @@ use App\Models\Order;
 
 state([
     'orders' => fn() => Order::whereStatus('PENDING')->count() ?? null,
+    'profileShop' => fn() => Shop::first(),
 ]);
-
-$profileShop = computed(function () {
-    return Shop::first();
-});
 
 on([
     'orders-alert' => function () {
         $this->orders = Order::whereStatus('PENDING')->count();
+    },
+    'profile-shop' => function () {
+        $this->profileShop = Shop::first();
     },
 ]);
 

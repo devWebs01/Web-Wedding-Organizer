@@ -7,7 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
-use function Livewire\Volt\{state, on};
+use function Livewire\Volt\{state, on, uses};
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+use function Laravel\Folio\name;
+
+name('customer.account');
+
+uses([LivewireAlert::class]);
 
 state([
     'name' => fn() => auth()->user()->name,
@@ -39,7 +45,13 @@ $updateProfileInformation = function () {
 
     $user->save();
 
-    $this->dispatch('profile-updated', name: $user->name);
+    $this->alert('success', 'Profil telah diperbaharui.', [
+        'position' => 'top',
+        'timer' => '2000',
+        'toast' => true,
+        'timerProgressBar' => true,
+        'text' => '',
+    ]);
 };
 
 $sendVerification = function () {
@@ -88,10 +100,10 @@ $sendVerification = function () {
                                 role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link position-relative active" id="pills-profile-tab"
-                                        data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-                                        role="tab" aria-controls="pills-profile" aria-selected="false">
+                                        data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab"
+                                        aria-controls="pills-profile" aria-selected="false">
                                         Profil
-                                        @if ($telp == null)
+                                        @if (!$telp)
                                             <span
                                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                                 !
@@ -121,8 +133,8 @@ $sendVerification = function () {
                                     aria-labelledby="pills-profile-tab" tabindex="0">
                                     @include('pages.user.profile')
                                 </div>
-                                <div class="tab-pane fade" id="pills-home" role="tabpanel"
-                                    aria-labelledby="pills-home-tab" tabindex="0">
+                                <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+                                    tabindex="0">
                                     @include('pages.user.address')
                                 </div>
                             </div>

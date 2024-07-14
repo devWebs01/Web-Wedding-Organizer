@@ -86,9 +86,7 @@ $variants = computed(function () {
                                 <div class="d-flex justify-content-center gap-3">
                                     <a type="button" wire:click='editVariant({{ $item->id }})'
                                         class="btn btn-sm btn-warning">Edit</a>
-                                    <button
-                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                        wire:loading.attr='disabled' wire:click='destroyVariant({{ $item->id }})'
+                                    <button wire:loading.attr='disabled' wire:click='destroyVariant({{ $item->id }})'
                                         class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
                                         Hapus
                                     </button>

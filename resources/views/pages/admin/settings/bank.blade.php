@@ -1,18 +1,16 @@
 <?php
 
-use function Livewire\Volt\{state, computed, usesPagination, on, rules};
+use function Livewire\Volt\{state, computed, usesPagination, on, rules, uses};
 use App\Models\Bank;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 usesPagination();
 
 state(['swap' => false, 'account_owner', 'account_number', 'bank_name', 'bankId']);
 
 $banks = computed(fn() => Bank::latest()->paginate(5));
-
-$destroy = function (Bank $bank) {
-    $bank->delete();
-    $this->reset('account_owner', 'bank_name', 'account_number');
-};
 
 rules([
     'account_owner' => 'required|string|min:5',
@@ -22,16 +20,19 @@ rules([
 
 $save = function (Bank $bank) {
     $validate = $this->validate();
-
     if ($this->bankId == null) {
         $bank->create($validate);
     } else {
         $bankUpdate = Bank::find($this->bankId);
         $bankUpdate->update($validate);
     }
-
     $this->reset('account_owner', 'bank_name', 'account_number');
-    $this->dispatch('bank-update');
+
+    $this->alert('success', 'Data rekening berhasil di perbaharui!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
 
 $edit = function (Bank $bank) {
@@ -41,6 +42,11 @@ $edit = function (Bank $bank) {
     $this->account_owner = $bank->account_owner;
     $this->bank_name = $bank->bank_name;
     $this->account_number = $bank->account_number;
+};
+
+$destroy = function (Bank $bank) {
+    $bank->delete();
+    $this->reset('account_owner', 'bank_name', 'account_number');
 };
 
 ?>
@@ -89,9 +95,6 @@ $edit = function (Bank $bank) {
                 </button>
                 <div>
                     <span wire:loading class="spinner-border spinner-border-sm"></span>
-                    <x-action-message on="bank-update">
-                        Berhasil
-                    </x-action-message>
                 </div>
                 <button type="submit" class=" ms-3 btn btn-primary">
                     Submit
@@ -123,9 +126,7 @@ $edit = function (Bank $bank) {
                                         class="btn btn-warning btn-sm">
                                         Edit
                                     </button>
-                                    <button
-                                        wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                        wire:loading.attr='disabled' wire:click='destroy({{ $bank->id }})'
+                                    <button wire:loading.attr='disabled' wire:click='destroy({{ $bank->id }})'
                                         class="btn btn-danger btn-sm join-item">
                                         Hapus
                                     </button>

@@ -1,13 +1,15 @@
 <?php
 
-use function Livewire\Volt\{computed, usesPagination, state};
+use function Livewire\Volt\{computed, usesPagination, state, uses};
 use App\Models\Product;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 name('products.index');
-
-state(['search'])->url();
 usesPagination(theme: 'bootstrap');
+
+uses([LivewireAlert::class]);
+state(['search'])->url();
 
 $products = computed(function () {
     if ($this->search == null) {
@@ -23,8 +25,21 @@ $products = computed(function () {
 });
 
 $destroy = function (product $product) {
-    Storage::delete($product->image);
-    $product->delete();
+    try {
+        Storage::delete($product->image);
+        $product->delete();
+        $this->alert('success', 'Data produk berhasil di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    } catch (\Throwable $th) {
+        $this->alert('error', 'Data produk gagal di hapus!', [
+            'position' => 'top',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+    }
 };
 ?>
 
@@ -53,7 +68,7 @@ $destroy = function (product $product) {
                     </div>
                 </div>
                 <div class="card-body p-3">
-                    <div class="table-responsive border rounded">
+                    <div class="table-responsive border rounded px-3">
                         <table class="table text-center text-nowrap">
                             <thead>
                                 <tr>
@@ -70,19 +85,15 @@ $destroy = function (product $product) {
                                         <th>{{ $product->title }}</th>
                                         <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
                                         <th>
-                                            <div class="d-flex justify-content-center gap-3">
-                                                <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                                    class="btn btn-sm btn-warning">
-                                                    Edit
-                                                </a>
+                                            <a href="{{ route('products.edit', ['product' => $product->id]) }}"
+                                                class="btn btn-sm btn-warning">
+                                                Edit
+                                            </a>
 
-                                                <button
-                                                    wire:confirm.prompt="Yakin Ingin Menghapus?\n\nTulis 'hapus' untuk konfirmasi!|hapus"
-                                                    wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
-                                                    class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
-                                                    Hapus
-                                                </button>
-                                            </div>
+                                            <button wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
+                                                class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
+                                                Hapus
+                                            </button>
                                         </th>
                                     </tr>
                                 @endforeach
@@ -90,9 +101,7 @@ $destroy = function (product $product) {
                             </tbody>
                         </table>
 
-                        <div class="p-3">
-                            {{ $this->products->links() }}
-                        </div>
+                        {{ $this->products->links() }}
                     </div>
 
                 </div>

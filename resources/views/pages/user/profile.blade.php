@@ -1,6 +1,4 @@
 <div class="alert alert-dark alert-dismissible fade show" role="alert">
-
-
     <strong>
         Kamu dapat melihat dan memperbarui detail profil kamu, seperti nama,
         alamat email, dan nomor telepon. Pastikan informasi ini selalu up-to-date agar
@@ -23,8 +21,7 @@
     <div class="mb-3 row">
         <label for="inputemail" class="col-sm-2 col-form-label">Email Akun</label>
         <div class="col-sm-10">
-            <input wire:model="email" type="email" class="form-control"
-                id="inputemail">
+            <input wire:model="email" type="email" class="form-control" id="inputemail">
 
             @error('email')
                 <p class="text-danger">
@@ -47,16 +44,13 @@
         </div>
     </div>
     <div class="mb-3 d-flex justify-content-end align-items-center">
-        <div wire:loading class="spinner-border spinner-border-sm mx-5" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <x-action-message class="me-3" on="profile-updated">
-            Berhasil
-        </x-action-message>
-
         <button type="submit" class="btn btn-dark">
-            Submit
+            <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span wire:loading.class='d-none'>
+                {{ !$telp ? 'SUBMIT' : 'EDIT' }}
+            </span>
         </button>
-
     </div>
 </form>
