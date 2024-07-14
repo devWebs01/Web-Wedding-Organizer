@@ -19,6 +19,7 @@ state([
     'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
     'qty' => 1,
     'variant_type' => '',
+    'variant_stock' => '',
     'variant' => '',
     'product',
 ]);
@@ -34,6 +35,7 @@ $selectVariant = function (Variant $variant) {
     $this->variant = $variant->stock;
     $this->variant_id = $variant->id;
     $this->variant_type = $variant->type;
+    $this->variant_stock = $variant->stock;
 };
 
 $addToCart = function (Product $product) {
@@ -42,8 +44,36 @@ $addToCart = function (Product $product) {
             ->where('variant_id', $this->variant_id)
             ->first();
 
+        $stock = $this->variant_stock;
+
+        // Memeriksa apakah stok mencukupi
+        if ($stock < $this->qty) {
+            $this->alert('error', 'Stok tidak mencukupi untuk menambahkan item ke keranjang.', [
+                'position' => 'top',
+                'timer' => '2000',
+                'toast' => true,
+                'timerProgressBar' => true,
+                'text' => '',
+            ]);
+            return;
+        }
+
         if ($existingCart) {
-            $existingCart->update(['qty' => $existingCart->qty + $this->qty]);
+            $newQty = $existingCart->qty + $this->qty;
+
+            // Memeriksa apakah stok mencukupi untuk jumlah baru
+            if ($stock < $newQty) {
+                $this->alert('error', 'Stok tidak mencukupi untuk menambahkan item ke keranjang.', [
+                    'position' => 'top',
+                    'timer' => '2000',
+                    'toast' => true,
+                    'timerProgressBar' => true,
+                    'text' => '',
+                ]);
+                return;
+            }
+
+            $existingCart->update(['qty' => $newQty]);
         } else {
             Cart::create($this->validate());
         }
