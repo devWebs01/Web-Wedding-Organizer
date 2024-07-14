@@ -1,11 +1,14 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed};
+use function Livewire\Volt\{state, rules, computed, uses};
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Cart;
 use App\Models\User;
 use function Laravel\Folio\name;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 name('product-detail');
 
@@ -46,6 +49,14 @@ $addToCart = function (Product $product) {
         }
 
         $this->dispatch('cart-updated');
+
+        $this->alert('success', 'Item berhasil ditambahkan ke dalam keranjang belanja.', [
+            'position' => 'top',
+            'timer' => '2000',
+            'toast' => true,
+            'timerProgressBar' => true,
+            'text' => '',
+        ]);
     } else {
         $this->redirect('/login');
     }
@@ -149,11 +160,6 @@ $addToCart = function (Product $product) {
                                                 </button>
                                             @endif
                                         </form>
-
-                                        <x-action-message class="my-3 text-center" on="cart-updated">
-                                            Berhasil Memasukkan ke Keranjang
-                                        </x-action-message>
-
                                         @error('variant_id')
                                             <small class="my-3 text-center text-danger">
                                                 Plih ukuran/variant yang diinginkan

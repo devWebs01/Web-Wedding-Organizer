@@ -441,8 +441,14 @@
     <script src="{{ asset('/guest/js/owl-carousel.js') }}"></script>
     <script src="{{ asset('/guest/js/counter.js') }}"></script>
     <script src="{{ asset('/guest/js/custom.js') }}"></script>
+
     @stack('scripts')
+
     @livewireScripts
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <x-livewire-alert::scripts />
 </body>
 
 </html>

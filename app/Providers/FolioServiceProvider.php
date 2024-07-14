@@ -28,7 +28,7 @@ class FolioServiceProvider extends ServiceProvider
                 'orders/*' => [
                     'auth', 'checkRole:customer'
                 ],
-                'payments/*' => [
+                'transactions/*' => [
                     'auth', 'checkRole:customer'
                 ],
                 'user/*' => [

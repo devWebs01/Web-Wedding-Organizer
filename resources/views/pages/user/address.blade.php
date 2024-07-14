@@ -3,7 +3,10 @@
 use Dipantry\Rajaongkir\Models\ROProvince;
 use Dipantry\Rajaongkir\Models\ROCity;
 use App\Models\Address;
-use function Livewire\Volt\{state, computed, rules};
+use function Livewire\Volt\{state, computed, rules, uses};
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+uses([LivewireAlert::class]);
 
 state(['province_id'])->url();
 
@@ -38,7 +41,13 @@ $submit = function () {
         $validate['user_id'] = auth()->id();
         Address::create($validate);
     }
-    $this->dispatch('address-update');
+    $this->alert('success', 'Alamat telah diperbaharui.', [
+        'position' => 'top',
+        'timer' => '2000',
+        'toast' => true,
+        'timerProgressBar' => true,
+        'text' => '',
+    ]);
 };
 
 ?>
@@ -96,20 +105,14 @@ $submit = function () {
             </div>
 
 
-            <div class="mb-3 d-flex justify-content-end align-items-center">
-
-                {{-- Loading Spinner --}}
-                <div wire:loading class="spinner-border spinner-border-sm mx-5" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-
-                {{-- Success Notif --}}
-                <x-action-message class="me-3" on="address-update">
-                    Berhasil
-                </x-action-message>
-
+            <div class="text-end">
                 <button type="submit" class="btn btn-dark">
-                    Submit
+                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span wire:loading.class='d-none'>
+                        {{ !$this->getAddress ? 'SUBMIT' : 'EDIT' }}
+                    </span>
                 </button>
 
             </div>

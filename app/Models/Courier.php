@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Order;
+use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Courier extends Model
 {
@@ -14,13 +16,13 @@ class Courier extends Model
         'description', 'value', 'etd', 'order_id'
     ];
 
-    /**
-     * Get the order that owns the Courier
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function getFormattedDescriptionAttribute()
+    {
+        return $this->description . ' ' . $this->etd . ' Hari - Rp. ' . Number::format($this->value, locale: 'id');
     }
 }
