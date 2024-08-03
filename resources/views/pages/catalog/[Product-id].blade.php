@@ -181,7 +181,7 @@ $addToCart = function (Product $product) {
                                                     class="btn btn-dark w-100">
 
                                                     <span
-                                                        wire:loading.remove>{{ $variant->stock === 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
+                                                        wire:loading.remove>{{ $variant_stock == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
                                                     </span>
 
                                                     <div wire:loading class="spinner-border spinner-border-sm" role="status">
