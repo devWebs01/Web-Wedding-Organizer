@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('type');
-            $table->string('stock');
+            $table->string('price');
+            $table->longText('description');
             $table->timestamps();
         });
     }

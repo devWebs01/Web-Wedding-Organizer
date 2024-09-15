@@ -101,7 +101,7 @@ $products = computed(function () {
                                         {{ Str::limit($product->category->name, 13, '...') }}
                                     </span>
                                     <h6>
-                                        {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
+                                        {{ Str::limit($product->vendor, 13, '...') }}
                                     </h6>
                                     <h4>
                                         <a href="{{ route('product-detail', ['product' => $product->id]) }}">

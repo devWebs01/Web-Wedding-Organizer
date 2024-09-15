@@ -12,7 +12,7 @@ class Variant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type', 'stock', 'product_id'
+        'type', 'product_id', 'description', 'price'
     ];
 
     /**
@@ -46,5 +46,5 @@ class Variant extends Model
         return $this->hasMany(Item::class);
     }
 
-    
+
 }

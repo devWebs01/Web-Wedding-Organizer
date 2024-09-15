@@ -138,7 +138,7 @@ $addToCart = function (Product $product) {
 
                                 <div class="my-3">
                                     <span class="h5 fw-bold" style="color: #f35525;">
-                                        {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
+                                        {{ Str::limit($product->vendor, 13, '...') }}
                                     </span>
                                 </div>
 
@@ -158,7 +158,7 @@ $addToCart = function (Product $product) {
                                     <dd class="col-9 mb-2">
                                         <div class="row gap-3">
 
-                                            @foreach ($product->variants as $variant)
+                                            {{-- @foreach ($product->variants as $variant)
                                                 <div class="col-auto">
                                                     <button wire:key='{{ $variant->id }}'
                                                         wire:click='selectVariant({{ $variant->id }})' type="button"
@@ -166,7 +166,7 @@ $addToCart = function (Product $product) {
                                                         {{ $variant->type }}
                                                     </button>
                                                 </div>
-                                            @endforeach
+                                            @endforeach --}}
                                         </div>
                                     </dd>
                                 </div>
