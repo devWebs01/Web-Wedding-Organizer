@@ -11,38 +11,23 @@ uses([LivewireAlert::class]);
 name('products.edit');
 usesFileUploads();
 
+// product :  'category_id', 'vendor', 'title', 'image'
+// variant :  'type', 'product_id', 'description', 'price'
+
 state([
     'categories' => fn() => Category::get(),
     'category_id' => fn() => $this->product->category_id,
     'title' => fn() => $this->product->title,
-    'capital' => fn() => $this->product->capital,
-    'price' => fn() => $this->product->price,
-    'weight' => fn() => $this->product->weight,
-    'description' => fn() => $this->product->description,
     'productId' => fn() => $this->product->id,
     'image',
     'product',
 ]);
 
-$profit = computed(function () {
-    $capital = is_numeric($this->capital) ? $this->capital : 0;
-    $price = is_numeric($this->price) ? $this->price : 0;
-    $gap = $price - $capital;
-    return Number::format($gap, locale: 'id');
-});
-
 rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
-    'capital' => 'required|numeric|min:0',
-    'price' => [
-        'required',
-        'numeric',
-        'gte:capital', // Validasi bahwa harga jual tidak boleh kurang dari harga modal
-    ],
+    'vendor' => 'required|min:5',
     'image' => 'nullable',
-    'weight' => 'required|numeric',
-    'description' => 'required|min:10',
 ]);
 
 $save = function () {
@@ -77,6 +62,7 @@ $redirectProductsPage = function () {
                 href="{{ route('products.edit', ['product' => $product->id]) }}">{{ $product->title }}</a></li>
     </x-slot>
 
+
     @volt
         <div>
             <div class="card">
@@ -94,54 +80,23 @@ $redirectProductsPage = function () {
                                 @endif
                             </div>
                             <div class="col-md">
+                                <h2 class="fw-bolder mb-3">Detail Produk</h2>
 
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Nama Produk</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         wire:model="title" id="title" aria-describedby="titleId"
-                                        placeholder="Enter product title"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                                        placeholder="Enter product title" />
                                     @error('title')
                                         <small id="titleId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="capital" class="form-label">Harga Modal</label>
-                                    <input type="number" class="form-control @error('capital') is-invalid @enderror"
-                                        wire:model.live="capital" min="0" id="capital" aria-describedby="capitalId"
-                                        placeholder="Enter product capital"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
-                                    @error('capital')
-                                        <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">Harga Jual</label>
-                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        wire:model.live="price" min="0" id="price" aria-describedby="priceId"
-                                        placeholder="Enter product price"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
-                                    @error('price')
-                                        <small id="priceId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="profit" class="form-label">Keuntungan Jual /
-                                        <small class="text-primary">Perproduk</small></label>
-                                    <input type="text" class="form-control" value="{{ $this->profit }}" name="profit"
-                                        id="profit" aria-describedby="helpId" placeholder="profit" disabled />
-                                </div>
-
-
-                                <div class="mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
                                         wire:model="image" id="image" aria-describedby="imageId"
-                                        placeholder="Enter product image"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
+                                        placeholder="Enter product image" />
                                     @error('image')
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
@@ -150,7 +105,7 @@ $redirectProductsPage = function () {
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
                                     <select class="form-select" wire:model="category_id" id="category_id"
-                                        {{ auth()->user()->role == 'superadmin' ?: 'disabled' }}>
+                                        >
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)
                                             <option value="{{ $category->id }}">- {{ $category->name }}</option>
@@ -163,41 +118,15 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="weight" class="form-label">Berat Produk</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
-                                            wire:model="weight" id="weight" aria-describedby="weightId"
-                                            placeholder="Enter product weight"
-                                            {{ auth()->user()->role == 'superadmin' ?: 'disabled' }} />
-                                        <span class="input-group-text rounded-end-1" id="basic-addon2">gram</span>
-                                    </div>
-                                    @error('weight')
-                                        <small id="weightId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Penjelasan Produk</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description" id="description"
-                                    aria-describedby="descriptionId" placeholder="Enter product description" rows="8"
-                                    {{ auth()->user()->role == 'superadmin' ?: 'disabled' }}></textarea>
-
-                                @error('description')
-                                    <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-
-
-                            <div class="text-start">
-                                <button type="submit"
-                                    class="btn btn-primary {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
+                                    <button type="submit"
+                                    class="btn btn-primary">
                                     {{ $productId == null ? 'Submit' : 'Edit' }}
                                 </button>
                                 <x-action-message wire:loading on="save">
                                     <span class="spinner-border spinner-border-sm"></span>
                                 </x-action-message>
+                                </div>
+
                             </div>
                     </form>
                 </div>

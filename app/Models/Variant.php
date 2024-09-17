@@ -12,7 +12,7 @@ class Variant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type', 'product_id', 'description', 'price'
+        'name', 'product_id', 'description', 'price'
     ];
 
     /**
@@ -46,5 +46,9 @@ class Variant extends Model
         return $this->hasMany(Item::class);
     }
 
+    public function formatRupiah($amount)
+    {
+        return 'Rp ' . number_format($amount, 0, ',', '.');
+    }
 
 }

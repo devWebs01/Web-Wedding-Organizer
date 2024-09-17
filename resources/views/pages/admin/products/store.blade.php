@@ -11,38 +11,24 @@ uses([LivewireAlert::class]);
 name('products.create');
 usesFileUploads();
 
+// product :  'category_id', 'vendor', 'title', 'image'
+// variant :  'type', 'product_id', 'description', 'price'
+
 state([
     'categories' => fn() => Category::get(),
     'productId' => '',
     'category_id',
+    'vendor',
     'title',
-    'capital',
-    'price',
     'image',
-    'weight',
-    'description',
 ]);
 
 rules([
     'category_id' => 'required|exists:categories,id',
+    'vendor' => 'required|min:5',
     'title' => 'required|min:5',
-    'capital' => 'required|numeric',
-    'price' => [
-        'required',
-        'numeric',
-        'gte:capital', // Validasi bahwa harga jual tidak boleh kurang dari harga modal
-    ],
     'image' => 'required',
-    'weight' => 'required|numeric',
-    'description' => 'required|min:10',
 ]);
-
-$profit = computed(function () {
-    $capital = is_numeric($this->capital) ? $this->capital : 0;
-    $price = is_numeric($this->price) ? $this->price : 0;
-    $gap = $price - $capital;
-    return Number::format($gap, locale: 'id');
-});
 
 $redirectProductsPage = function () {
     $this->redirectRoute('products.index');
@@ -109,37 +95,20 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="capital" class="form-label">Harga Modal</label>
-                                    <input type="number" class="form-control @error('capital') is-invalid @enderror"
-                                        wire:model.live="capital" min="0" id="capital" aria-describedby="capitalId"
-                                        placeholder="Enter product capital" />
-                                    @error('capital')
-                                        <small id="capitalId" class="form-text text-danger">{{ $message }}</small>
+                                    <label for="vendor" class="form-label">Vendor Produk</label>
+                                    <input type="text" class="form-control @error('vendor') is-invalid @enderror"
+                                        wire:model="vendor" id="vendor" aria-describedby="vendorId"
+                                        placeholder="Enter product vendor" />
+                                    @error('vendor')
+                                        <small id="vendorId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">Harga Jual</label>
-                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        wire:model.live="price" min="0" id="price" aria-describedby="priceId"
-                                        placeholder="Enter product price" />
-                                    @error('price')
-                                        <small id="priceId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="profit" class="form-label">Keuntungan Jual /
-                                        <small class="text-primary">Perproduk</small></label>
-                                    <input type="text" class="form-control" value="{{ $this->profit }}" name="profit"
-                                        id="profit" aria-describedby="helpId" placeholder="profit" disabled />
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
                                         wire:model="image" id="image" aria-describedby="imageId"
-                                        placeholder="Enter product image" />
+                                        placeholder="Enter product image" accept="image/*" />
                                     @error('image')
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
@@ -160,38 +129,14 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="weight" class="form-label">Berat Produk</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
-                                            wire:model="weight" id="weight" aria-describedby="weightId"
-                                            placeholder="Enter product weight" />
-                                        <span class="input-group-text rounded-end-1" id="basic-addon2">gram</span>
-                                    </div>
-                                    @error('weight')
-                                        <small id="weightId" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ $productId == null ? 'Submit' : 'Edit' }}
+                                    </button>
+                                    <x-action-message wire:loading on="save">
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </x-action-message>
                                 </div>
 
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Penjelasan Produk</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description" id="description"
-                                    aria-describedby="descriptionId" placeholder="Enter product description" rows="8"></textarea>
-
-                                @error('description')
-                                    <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-
-
-                            <div class="text-start">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ $productId == null ? 'Submit' : 'Edit' }}
-                                </button>
-                                <x-action-message wire:loading on="save">
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                </x-action-message>
                             </div>
                     </form>
                 </div>

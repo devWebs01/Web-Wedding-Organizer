@@ -58,7 +58,7 @@ $destroy = function (product $product) {
                     <div class="row">
                         <div class="col">
                             <a href="{{ route('products.create') }}"
-                                class="btn btn-primary {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}"">Tambah
+                                class="btn btn-primary">Tambah
                                 Produk Toko</a>
                         </div>
                         <div class="col">
@@ -73,8 +73,8 @@ $destroy = function (product $product) {
                             <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th>Kategori Produk</th>
                                     <th>Nama Produk</th>
-                                    <th>Harga</th>
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -82,8 +82,8 @@ $destroy = function (product $product) {
                                 @foreach ($this->products as $no => $product)
                                     <tr>
                                         <th>{{ ++$no }}</th>
+                                        <th>{{ $product->category->name }}</th>
                                         <th>{{ $product->title }}</th>
-                                        <th>{{ 'Rp.' . Number::format($product->price, locale: 'id') }}</th>
                                         <th>
                                             <a href="{{ route('products.edit', ['product' => $product->id]) }}"
                                                 class="btn btn-sm btn-warning">
@@ -91,7 +91,7 @@ $destroy = function (product $product) {
                                             </a>
 
                                             <button wire:loading.attr='disabled' wire:click='destroy({{ $product->id }})'
-                                                class="btn btn-sm btn-danger {{ auth()->user()->role == 'superadmin' ?: 'd-none' }}">
+                                                class="btn btn-sm btn-danger ">
                                                 Hapus
                                             </button>
                                         </th>
