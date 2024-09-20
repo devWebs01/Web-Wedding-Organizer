@@ -18,23 +18,14 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'name' => 'admin',
-                'email' => 'admin@testing.com',
+                'name' => 'Test',
+                'email' => 'test@example.com',
                 'telp' => '08' . rand(1111111111, 9999999999),
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
                 'role' => 'admin',
-            ],
-            [
-                'name' => 'pemilik',
-                'email' => 'pemilik@testing.com',
-                'telp' => '08' . rand(1111111111, 9999999999),
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
-                'role' => 'superadmin',
-                
+
             ],
             [
                 'name' => 'pelanggan',

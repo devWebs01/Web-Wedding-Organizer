@@ -23,14 +23,7 @@ state([
 $savedVariant = function (Variant $variant) {
     $validateData = $this->validate([
         'productId' => 'required|exists:products,id',
-        'name' => [
-            'required',
-            Rule::unique('variants')
-                ->where(function ($query) {
-                    return $query->where('product_id', $this->productId);
-                })
-                ->ignore($this->variantId),
-        ],
+        'name' => 'required|min:10',
         'description' => 'required|min:10',
         'price' => 'required|numeric',
     ]);
@@ -82,7 +75,9 @@ $variants = computed(function () {
 ?>
 
 <div>
-    <p class="fw-bold mb-3">Tambahkan Varian Product {{ $title }}</p>
+    <h3 class="fw-bolder">Input Varian</h3>
+
+    <p class="fw-bold mb-3">Tambahkan/edit Varian Product {{ $title }}</p>
     <form wire:submit.prevent="savedVariant">
         @csrf
         @error('productId')
@@ -129,20 +124,13 @@ $variants = computed(function () {
             <button name="submit" class="btn btn-primary">
                 Submit
             </button>
-
         </div>
-
-        <p>
-            @error('name')
-            <small id="nameId" class="form-text text-danger">{{ $message }}</small>,
-            @enderror
-            @error('stock')
-            <small id="stockId" class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </p>
     </form>
 
     @if ($this->variants !== null)
+
+    <h3 class="fw-bolder border-top pt-6">Tabel Data Varian</h3>
+
     <div class="table-responsive border rounded mb-3">
         <table class="table text-center text-nowrap">
             <thead>

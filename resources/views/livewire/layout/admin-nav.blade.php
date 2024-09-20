@@ -47,8 +47,7 @@ on([
                 <span class="sidebar-divider lg"></span>
             </li>
 
-            @if (auth()->user()->role == 'superadmin')
-
+            @if (auth()->user()->role == 'admin')
 
                 <li class="nav-small-cap">
                     <iconify-icon icon="solar:shield-user-outline" class="nav-small-cap-icon fs-4"></iconify-icon>
@@ -145,53 +144,8 @@ on([
                 <li>
                     <span class="sidebar-divider lg"></span>
                 </li>
-            @elseif(auth()->user()->role == 'admin')
-                <li class="nav-small-cap">
-                    <iconify-icon icon="solar:shield-user-outline" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu">Menu Karyawan</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('customers') }}" aria-expanded="false"
-                        {{ request()->routeIs('customers') }}>
-                        <iconify-icon icon="solar:user-circle-bold"></iconify-icon>
-                        <span class="hide-menu">Pelanggan</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('products.index') }}" aria-expanded="false"
-                        {{ request()->routeIs('products.index') }}>
-                        <iconify-icon icon="solar:bacteria-bold"></iconify-icon>
-                        <span class="hide-menu">Produk Toko</span>
-                    </a>
-                    <a class="sidebar-link" href="{{ route('transactions.index') }}" aria-expanded="false"
-                        {{ request()->routeIs('transactions.index') }}>
-                        <iconify-icon icon="solar:round-transfer-diagonal-bold"></iconify-icon>
-                        <span class="hide-menu">Transaksi</span>
-                    </a>
-                    @if ($orders > 0)
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ $orders }}
-                        </span>
-                    @endif
-                </li>
-
-                <li>
-                    <span class="sidebar-divider lg"></span>
-                </li>
-
-                <li class="nav-small-cap">
-                    <iconify-icon icon="solar:add-folder-bold" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu">Kelola Laporan</span>
-                </li>
-
-                <li class="sidebar-item position-relative">
-                    <a class="sidebar-link" href="{{ route('report.transactions') }}" aria-expanded="false"
-                        {{ request()->routeIs('report.transactions') }}>
-                        <iconify-icon icon="solar:accumulator-line-duotone"></iconify-icon>
-                        <span class="hide-menu">Data Transaksi</span>
-                    </a>
-                </li>
             @endif
+        </ul>
     </nav>
     <!-- End Sidebar navigation -->
 </div>

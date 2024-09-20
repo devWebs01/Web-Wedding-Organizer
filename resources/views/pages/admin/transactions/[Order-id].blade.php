@@ -120,11 +120,6 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                             Proses Pesanan
                                         </button>
                                     </div>
-                                @endif
-                                @if (
-                                    $order->status === 'PENDING' ||
-                                        $order->status === 'PICKUP' ||
-                                        ($order->status === 'PACKED' && auth()->user()->role === 'superadmin'))
                                     <div class="col-auto">
                                         <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
                                             role="button">
@@ -133,7 +128,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                         </button>
                                     </div>
                                 @endif
-
+                                
                                 <div class="col-auto">
                                     <button class="btn btn-dark print-page" onclick="window.print()" type="button">
                                         <i class="ti ti-printer fs-3"></i>
@@ -155,7 +150,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                         @if ($order->payment_method != 'COD (Cash On Delivery)' && $order->status === 'PICKUP')
                             Dan lakukan pengembalian dana kepada customer
                         @endif
-                        
+
                     </span>
                 </div>
             @endif

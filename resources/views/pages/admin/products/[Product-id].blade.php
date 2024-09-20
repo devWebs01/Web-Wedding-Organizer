@@ -12,13 +12,14 @@ name('products.edit');
 usesFileUploads();
 
 // product :  'category_id', 'vendor', 'title', 'image'
-// variant :  'type', 'product_id', 'description', 'price'
+// variant :  'product_id', 'name', 'description', 'price'
 
 state([
     'categories' => fn() => Category::get(),
-    'category_id' => fn() => $this->product->category_id,
-    'title' => fn() => $this->product->title,
     'productId' => fn() => $this->product->id,
+    'category_id' => fn() => $this->product->category_id,
+    'vendor' => fn() => $this->product->vendor,
+    'title' => fn() => $this->product->title,
     'image',
     'product',
 ]);
@@ -41,8 +42,9 @@ $save = function () {
     product::whereId($this->product->id)->update($validate);
 
     $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
-        'position' => 'top',
+        'position' => 'center',
         'width' => '500',
+        'timer' => 2000,
         'toast' => true,
         'timerProgressBar' => true,
     ]);
@@ -89,6 +91,16 @@ $redirectProductsPage = function () {
                                         placeholder="Enter product title" />
                                     @error('title')
                                         <small id="titleId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="vendor" class="form-label">Vendor Produk</label>
+                                    <input type="text" class="form-control @error('vendor') is-invalid @enderror"
+                                        wire:model="vendor" id="vendor" aria-describedby="vendorId"
+                                        placeholder="Enter product vendor" />
+                                    @error('vendor')
+                                        <small id="vendorId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
