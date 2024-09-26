@@ -14,36 +14,15 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Semua Kategori'],
-            ['name' => 'Aksesori Pernikahan'],
-            ['name' => 'Boutonnieres & Corsages'],
-            ['name' => 'Bridal'],
-            ['name' => 'Bulan madu'],
-            ['name' => 'Bunga'],
-            ['name' => 'Busana Pria'],
             ['name' => 'Dekorasi & Pencahayaan'],
-            ['name' => 'Entertainment (DJ)'],
-            ['name' => 'Entertainment (MC)'],
             ['name' => 'Entertainment (Musik)'],
-            ['name' => 'Fotografi'],
+            ['name' => 'Fotografi & Videografi'],
             ['name' => 'Gaun & Busana Pengantin'],
             ['name' => 'Hair & Makeup'],
             ['name' => 'Katering'],
-            ['name' => 'Kesehatan & Kecantikan'],
-            ['name' => 'Kue Pengantin'],
-            ['name' => 'Layanan Unik'],
-            ['name' => 'Officiant'],
-            ['name' => 'Perhiasan'],
             ['name' => 'Photo booth'],
             ['name' => 'Rental'],
-            ['name' => 'Sepatu Pengantin'],
-            ['name' => 'Suvenir & Hadiah'],
-            ['name' => 'Sweet Corner'],
             ['name' => 'Tari & Koreografi'],
-            ['name' => 'Undangan'],
-            ['name' => 'Venue'],
-            ['name' => 'Videografi'],
-            ['name' => 'Wedding Planner'],
         ];
 
         foreach ($categories as $category) {

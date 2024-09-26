@@ -96,7 +96,7 @@ $sendVerification = function () {
                     <div class="card-body">
 
                         <section>
-                            <ul class="nav nav-pills justify-content-center p-2 border rounded-top-5" id="pills-tab"
+                            <ul class="nav nav-pills justify-content-center p-2 border rounded-top-5 gap-5" id="pills-tab"
                                 role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link position-relative active" id="pills-profile-tab"

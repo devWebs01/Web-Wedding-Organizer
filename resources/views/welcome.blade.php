@@ -118,8 +118,8 @@ state([
                                         </h4>
                                     </div>
 
-                                    <div class="d-grid card-footer bg-none border-0">
-                                        <a class="btn btn-dark rounded"
+                                    <div class="d-grid bg-none border-0">
+                                        <a class="btn btn-dark rounded-5"
                                             href="{{ route('product-detail', ['product' => $product->id]) }}">Lihat</a>
                                     </div>
                                 </div>

@@ -21,7 +21,7 @@ $getAddress = computed(function () {
 });
 
 state([
-    'province_id' => fn() => $this->getAddress->province_id ?? '',
+    'province_id' => fn() => $this->getAddress->province_id ?? 8 ,
     'city_id' => fn() => $this->getAddress->city_id ?? '',
     'details' => fn() => $this->getAddress->details ?? '',
     'provinces' => fn() => ROProvince::all(),
@@ -41,7 +41,9 @@ $submit = function () {
         $validate['user_id'] = auth()->id();
         Address::create($validate);
     }
+
     $this->dispatch('address-update');
+    
     $this->alert('success', 'Alamat telah diperbaharui.', [
         'position' => 'top',
         'timer' => '2000',
@@ -62,47 +64,55 @@ $submit = function () {
         </div>
         <form wire:submit.prevent="submit">
             @csrf
-            <div class="mb-3">
-                <label for="province_id" class="form-label">Pilih Provinsi</label>
-                <select wire:model.live="province_id" wire:loading.attr="disabled" class="form-select" name="province_id"
-                    id="province_id">
-                    <option>Pick one</option>
-                    @foreach ($provinces as $province)
-                        <option value="{{ $province->id }}">
-                            {{ $province->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('province_id')
-                    <p class="text-danger">
-                        {{ $message }}
-                    </p>
-                @enderror
+            <div class="row mb-3">
+                <label for="province_id" class="col-sm-2 col-form-label">Pilih Provinsi</label>
+
+                <div class="col-sm-10">
+                    <select wire:model.live="province_id" wire:loading.attr="disabled" class="form-select" name="province_id"
+                        id="province_id">
+                        <option>Pick one</option>
+                        @foreach ($provinces as $province)
+                            <option value="{{ $province->id }}">
+                                {{ $province->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('province_id')
+                        <p class="text-danger">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="city_id" class="form-label">Pilih Kota</label>
-                <select wire:model="city_id" wire:loading.attr="disabled" class="form-select" name="city_id" id="city_id">
-                    <option selected>Pick one</option>
-                    @foreach ($this->cities as $city)
-                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                    @endforeach
-                </select>
-                @error('province_id')
-                    <p class="text-danger">
-                        {{ $message }}
-                    </p>
-                @enderror
+            <div class="row mb-3">
+                <label for="city_id" class="col-sm-2 col-form-label">Pilih Kota</label>
+
+                <div class="col-sm-10">
+                    <select wire:model="city_id" wire:loading.attr="disabled" class="form-select" name="city_id" id="city_id">
+                        <option selected>Pick one</option>
+                        @foreach ($this->cities as $city)
+                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('city_id')
+                        <p class="text-danger">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="details" class="form-label">
+            <div class="row mb-3">
+                <label for="details" class="col-sm-2 col-form-label">
                     Detail Lengkap
                 </label>
-                <textarea class="form-control" wire:model='details' name="details" id="details" rows="3"></textarea>
-                @error('details')
+                <div class="col-sm-10">
+                    <textarea class="form-control" wire:model='details' name="details" id="details" rows="3"></textarea>
+                    @error('details')
                     <p class="text-danger">
                         {{ $message }}
                     </p>
-                @enderror
+                    @enderror
+                </div>
             </div>
 
 

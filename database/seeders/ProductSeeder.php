@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
     {
         $data = [
             [
-                "category_id" => "9",
+                "category_id" => "2",
                 "vendor" => "Abieb & Friends",
                 "product" => "Music Package",
                 "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/_ard6391-small-rJ-B2E0fO/abieb-friends.webp",
@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
                 ]
             ],
             [
-                "category_id" => "13",
+                "category_id" => "3",
                 "vendor" => "Aldea Photography",
                 "product" => "Photography Package",
                 "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/file_fd30ke/aldea-photography.webp",
@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
                 ]
             ],
             [
-                "category_id" => "11",
+                "category_id" => "3",
                 "vendor" => "Doctor Photography Videography",
                 "product" => "Wedding Photography Package",
                 "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/img_9829-ByVeImreE/doctor-photography-videography.webp",

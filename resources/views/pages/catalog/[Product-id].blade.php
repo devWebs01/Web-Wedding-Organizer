@@ -18,8 +18,6 @@ state([
     'variant_id' => '',
     'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
     'qty' => 1,
-    'variant_type' => '',
-    'variant_price' => '',
     'variant' => '',
     'product',
 ]);
@@ -32,10 +30,8 @@ rules([
 ]);
 
 $selectVariant = function (Variant $variant) {
-    $this->variant = $variant->price;
+    $this->variant = $variant;
     $this->variant_id = $variant->id;
-    $this->variant_type = $variant->type;
-    $this->variant_price = $variant->price;
 };
 
 $addToCart = function (Product $product) {
@@ -44,51 +40,28 @@ $addToCart = function (Product $product) {
             ->where('variant_id', $this->variant_id)
             ->first();
 
-        $price = $this->variant_price;
-
-        // // Memeriksa apakah stok mencukupi
-        // if ($price < $this->qty) {
-        //     $this->alert('error', 'Stok tidak mencukupi untuk menambahkan item ke keranjang.', [
-        //         'position' => 'top',
-        //         'timer' => '2000',
-        //         'toast' => true,
-        //         'timerProgressBar' => true,
-        //         'text' => '',
-        //     ]);
-        //     return;
-        // }
-
-        // if ($existingCart) {
-        //     $newQty = $existingCart->qty + $this->qty;
-
-        //     // Memeriksa apakah stok mencukupi untuk jumlah baru
-        //     if ($price < $newQty) {
-        //         $this->alert('error', 'Stok tidak mencukupi untuk menambahkan item ke keranjang.', [
-        //             'position' => 'top',
-        //             'timer' => '2000',
-        //             'toast' => true,
-        //             'timerProgressBar' => true,
-        //             'text' => '',
-        //         ]);
-        //         return;
-        //     }
-
-        //     $existingCart->update(['qty' => $newQty]);
-        // } else {
-        //     Cart::create($this->validate());
-        // }
-
-        Cart::create($this->validate());
-
-        $this->dispatch('cart-updated');
-
-        $this->alert('success', 'Item berhasil ditambahkan ke dalam keranjang belanja.', [
+        if ($existingCart) {
+        $this->alert('warning', 'Item sudah ada di keranjang belanja.', [
             'position' => 'top',
             'timer' => '2000',
             'toast' => true,
             'timerProgressBar' => true,
             'text' => '',
         ]);
+
+        } else {
+            Cart::create($this->validate());
+            $this->dispatch('cart-updated');
+
+            $this->alert('success', 'Item berhasil ditambahkan ke dalam keranjang belanja.', [
+                'position' => 'top',
+                'timer' => '2000',
+                'toast' => true,
+                'timerProgressBar' => true,
+                'text' => '',
+            ]);
+        }
+
     } else {
         $this->redirect('/login');
     }
@@ -110,8 +83,7 @@ $addToCart = function (Product $product) {
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">
                             <p>
-                                Hadirkan gaya hidup urban dan trendi dengan <span
-                                    class="fw-bold">{{ $product->title }}</span> dari lini streetwear kami.
+                                Rayakan hari istimewa Anda dengan Paket <strong>{{ $product->title }}</strong> dari <strong>{{ $product->vendor }}</strong>. Dirancang untuk memenuhi semua kebutuhan pernikahan Anda.
                             </p>
                         </div>
                     </div>
@@ -124,11 +96,8 @@ $addToCart = function (Product $product) {
                     <div class="row gx-2">
                         <aside class="col-lg-6">
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                                <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
-                                    href="{{ Storage::url($product->image) }}">
-                                    <img class="p-4 object-fit-cover rounded-5" style="width: 100%;"
-                                        src="{{ Storage::url($product->image) }}" />
-                                </a>
+                                <img class="p-4 object-fit-cover rounded-5" style="width: 100%;"
+                                src="{{ Storage::url($product->image) }}" />
                             </div>
                         </aside>
                         <main class="col-lg-6">
@@ -140,7 +109,7 @@ $addToCart = function (Product $product) {
 
                                 <div class="my-3">
                                     <span class="h5 fw-bold" style="color: #f35525;">
-                                        {{ Str::limit($product->vendor, 13, '...') }}
+                                        {{ $variant->name ?? '' }}
                                     </span>
                                 </div>
 
@@ -149,43 +118,46 @@ $addToCart = function (Product $product) {
                                 </p>
 
                                 <div class="row">
-                                    <dt class="col-3 mb-2">Berat:</dt>
-                                    <dd class="col-9 mb-2">{{ $product->weight }} Gram</dd>
 
-                                    <dt class="col-3 mb-2">Stok:</dt>
+                                    <dt class="col-3 mb-2 text-capitalize">Nama</dt>
                                     <dd class="col-9 mb-2">
-                                        {{ $variant . ' - ' . $variant_type }}</dd>
+                                        {{ $variant->name ?? ''  }}</dd>
 
-                                    <dt class="col-3 mb-2">Varian</dt>
+                                    <dt class="col-3 mb-2 text-capitalize">Harga</dt>
+                                    <dd class="col-9 mb-2">
+                                        {{ $variant ? 'Rp. ' . Number::format($variant->price, locale: 'id') : '' }}
+
+                                    <dt class="col-3 mb-2 text-capitalize">Deksripsi</dt>
+                                    <dd class="col-9 mb-2">
+                                        {{ $variant->description ?? ''  }}</dd>
+
+
+                                    <dt class="col-3 mb-2">Pilihan</dt>
                                     <dd class="col-9 mb-2">
                                         <div class="row gap-3">
 
-                                            @if ($product->variants)
                                             @foreach ($product->variants as $variant)
                                                 <div class="col-auto">
                                                     <button wire:key='{{ $variant->id }}'
                                                         wire:click='selectVariant({{ $variant->id }})' type="button"
                                                         class="badge rounded-pill" style="color: #f35525;">
-                                                        {{ $variant->type }}
+                                                        {{ $variant->name }}
                                                     </button>
                                                 </div>
                                             @endforeach
-                                            @endif
                                         </div>
                                     </dd>
                                 </div>
-
-
 
                                 <div class="d-grid my-4">
                                     @auth
                                         <form wire:submit='addToCart'>
                                             @if ($variant)
                                                 <button wire:key="{{ $product->id }}" type="submit"
-                                                    class="btn btn-dark w-100">
+                                                    class="btn btn-dark w-100 rounded-5">
 
                                                     <span
-                                                        wire:loading.remove>{{ $variant_price == 0 ? 'Tidak Tersedia' : 'Masukkan Keranjang' }}
+                                                        wire:loading.remove>Masukkan Keranjang
                                                     </span>
 
                                                     <div wire:loading class="spinner-border spinner-border-sm" role="status">
@@ -200,7 +172,7 @@ $addToCart = function (Product $product) {
                                             </small>
                                         @enderror
                                     @else
-                                        <a class="btn btn-dark" href="{{ route('login') }}" role="button">Beli Sekarang</a>
+                                        <a class="btn btn-dark w-100 rounded-5" href="{{ route('login') }}" role="button">Pesan Sekarang</a>
                                     @endauth
                                 </div>
                             </div>

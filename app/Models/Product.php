@@ -57,4 +57,14 @@ class Product extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    /**
+     * Get all of the variants for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function variants(): HasMany
+    {
+        return $this->hasMany(Variant::class);
+    }
 }
