@@ -57,11 +57,36 @@ state([
             </div>
 
             <div class="container my-5 ratio ratio-16x9 border rounded">
-                <iframe width="560" height="315"
-                    src="https://www.youtube.com/embed/079v_9FSf8M?si=8kS51H73iAnFDeHr&amp;start=8"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <a data-bs-toggle="modal" data-bs-target="#modalId">
+                    <img src="./hero/modal-image.png" alt="">
+                </a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content" style="
+                        background: transparent;">
+                            <div class="modal-body p-0">
+                                <i id="close" class="fa-solid fa-x text-white fs-5" data-bs-dismiss="modal"
+                                aria-label="Close"></i>
+                                <video class="w-100 rounded" muted loop autoplay>
+                                    <source src="{{ asset('./hero/modal-video.mp4') }}" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    #close {
+                        position: absolute;
+                        right: -30px;
+                        top: 0;
+                        z-index: 999;
+                        --bs-btn-close-color: white;
+                    }
+                </style>
             </div>
 
             <section class="py-5">

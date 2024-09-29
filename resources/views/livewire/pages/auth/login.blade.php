@@ -21,9 +21,7 @@ $login = function () {
 
     Session::regenerate();
 
-    if (auth()->user()->role == 'admin') {
-        $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
-    } elseif (auth()->user()->role == 'superadmin') {
+    if (auth()->user()->role == 'admin' || auth()->user()->role == 'superadmin') {
         $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
     } else {
         $this->redirect('/');
@@ -41,10 +39,8 @@ $login = function () {
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="pe-lg-3">
-                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Temukan Gaya Streetwear Ekslusif yang
-                        Membuatmu Beda
-                    </h1>
-                    <p class="lead mb-4">Dapatkan akses tak terbatas ke koleksi streetwear terkini yang dijamin selalu tersedia, membebaskan kamu berekspresi dengan fashion unik.</p>
+                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Wujudkan Momen Pernikahan Impianmu!</h1>
+                    <p class="lead mb-4">Tawarkan layanan lengkap mulai dari konsep hingga eksekusi, memastikan hari istimewa ini berjalan sempurna.</p>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0">

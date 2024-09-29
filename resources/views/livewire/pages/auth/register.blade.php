@@ -54,10 +54,11 @@ $register = function () {
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="pe-lg-3">
-                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Tampil Beda dengan Koleksi Streetwear Terbaru
+                    <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">
+                        Ciptakan Kenangan Abadi di Hari Bahagiamu!
                     </h1>
                     <p class="lead mb-4">
-                        Kami menjamin ketersediaan produk hingga 99,99%, memastikan kamu dapat menemukan pilihan fashion streetwear idaman tanpa hambatan.
+                        Hadir untuk membantu mewujudkan impian pernikahanmu dengan layanan yang personal dan profesional.
                     </p>
                 </div>
                 <div class="row">

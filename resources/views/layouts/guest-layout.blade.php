@@ -146,31 +146,10 @@
     @include('layouts.payment')
     {{ $slot }}
 
-    <footer class="py-0 sticky-md-bottom">
+    <footer class="sticky-md-bottom">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-lg-3 text-center text-lg-start">
-                    <span id="font-custom" class="text-white fw-bold fs-2">{{ $setting->name }}</span>
-                </div>
-                <div class="col-12 col-lg-6 navbar-expand text-center">
-                    <p class="fw-bold">
-                        {{ $setting->province->name }},
-                        {{ $setting->city->name }},
-                        {{ $setting->city->postal_code }},
-                        Indonesia
-                    </p>
-                </div>
-                <div class="col-12 col-lg-3 text-center text-lg-end text-white">
-                    <a class="me-2 text-white" href="">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a class="me-2 text-white" href="">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a class="me-2 text-white" href="">
-                        <i class="fa-brands fa-twitter"></i>
-                    </a>
-                </div>
+            <div class="d-lg-flex justify-content-center text-center align-items-center">
+                <span id="font-custom" class="text-white fw-bold pt-5 pb-0">{{ $setting->details }}</span>
             </div>
         </div>
     </footer>

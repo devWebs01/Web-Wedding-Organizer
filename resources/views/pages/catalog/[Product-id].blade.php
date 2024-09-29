@@ -109,7 +109,7 @@ $addToCart = function (Product $product) {
 
                                 <div class="my-3">
                                     <span class="h5 fw-bold" style="color: #f35525;">
-                                        {{ $variant->name ?? '' }}
+                                        {{ $variant->name ?? '...' }}
                                     </span>
                                 </div>
 

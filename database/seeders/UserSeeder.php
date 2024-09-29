@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'name' => 'Test',
-                'email' => 'test@example.com',
+                'email' => 'admin@testing.com',
                 'telp' => '08' . rand(1111111111, 9999999999),
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),

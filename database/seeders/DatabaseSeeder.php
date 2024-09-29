@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
         Artisan::call('rajaongkir:seed');
 
         \App\Models\Shop::create([
-            'name' => 'APOLA CO ID',
+            'name' => 'Adinda Putri',
             'province_id' => 8,
             'city_id' => 156,
-            'details' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit vehicula rutrum inceptos, euismod augue nisl penatibus cursus metus accumsan rhoncus vel risus leo, torquent praesent est malesuada litora primis eros eu nam.',
+            'details' => 'Jl. Arif Rahman Hakim No.111, Simpang IV Sipin, Kec. Telanaipura, Kota Jambi, Jambi 36361',
 
         ]);
     }
