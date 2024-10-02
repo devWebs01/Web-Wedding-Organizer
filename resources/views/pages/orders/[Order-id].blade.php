@@ -91,7 +91,7 @@ $confirmOrder = function () {
 
     // Redirect ke halaman pembayaran atau daftar pesanan
     if ($this->payment_method == 'Transfer Bank') {
-        $this->alert('success', 'Anda telah memilih opsi pengiriman. Lanjut melakukan pembayaran.', [
+        $this->alert('success', 'kamu telah memilih opsi pengiriman. Lanjut melakukan pembayaran.', [
             'position' => 'top',
             'timer' => 3000,
             'toast' => true,

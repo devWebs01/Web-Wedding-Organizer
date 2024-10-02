@@ -39,7 +39,7 @@ $save = function () {
                 <div class="card-header">
                     <div class="alert alert-primary" role="alert">
                         <strong>Tambah Admin</strong>
-                        <p>Pada halaman tambah pengguna, Anda dapat memasukkan informasi pengguna baru, seperti nama, alamat
+                        <p>Pada halaman tambah pengguna, kamu dapat memasukkan informasi pengguna baru, seperti nama, alamat
                             email,
                             kata sandi, dan peran pengguna (admin)
                         </p>

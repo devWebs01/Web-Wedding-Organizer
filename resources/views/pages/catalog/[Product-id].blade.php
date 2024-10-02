@@ -17,7 +17,6 @@ state([
     'product_id' => fn() => $this->product->id,
     'variant_id' => '',
     'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
-    'qty' => 1,
     'variant' => '',
     'product',
 ]);
@@ -26,7 +25,6 @@ rules([
     'user_id' => 'required|exists:users,id',
     'product_id' => 'required|exists:products,id',
     'variant_id' => 'required|exists:variants,id',
-    'qty' => 'required|numeric',
 ]);
 
 $selectVariant = function (Variant $variant) {
@@ -83,7 +81,7 @@ $addToCart = function (Product $product) {
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">
                             <p>
-                                Rayakan hari istimewa Anda dengan Paket <strong>{{ $product->title }}</strong> dari <strong>{{ $product->vendor }}</strong>. Dirancang untuk memenuhi semua kebutuhan pernikahan Anda.
+                                Rayakan hari istimewa kamu dengan Paket <strong>{{ $product->title }}</strong> dari <strong>{{ $product->vendor }}</strong>. Dirancang untuk memenuhi semua kebutuhan pernikahan kamu.
                             </p>
                         </div>
                     </div>

@@ -54,7 +54,7 @@ $save = function () {
     <div>
         <div class="alert alert-primary" role="alert">
             <strong>Profile Toko</strong>
-            <p>bagian di mana informasi penting tentang toko Anda disimpan. Ini mencakup nama toko, alamat lengkap beserta
+            <p>bagian di mana informasi penting tentang toko kamu disimpan. Ini mencakup nama toko, alamat lengkap beserta
                 provinsi dan kota, yang memengaruhi pengiriman barang. Pastikan informasi ini diperbarui dengan benar untuk
                 memastikan kelancaran proses pengiriman.</p>
         </div>

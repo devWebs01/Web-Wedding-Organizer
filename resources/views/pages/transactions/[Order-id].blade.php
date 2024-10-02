@@ -25,7 +25,7 @@ $submit = function () {
         'status' => 'PENDING',
     ]);
 
-    $this->alert('success', 'Pembayaran selesai. Silahkan tunggu update pesanan anda selanjutnya! Terima kasih', [
+    $this->alert('success', 'Pembayaran selesai. Silahkan tunggu update pesanan kamu selanjutnya! Terima kasih', [
         'position' => 'top',
         'timer' => 3000,
         'toast' => true,

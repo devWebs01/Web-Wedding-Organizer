@@ -53,9 +53,9 @@ $sendVerification = function () {
     <div>
         <div class="alert alert-primary" role="alert">
             <strong>Akun Profile</strong>
-            <p>Berisi informasi penting tentang akun Anda sebagai pengguna. Di sini tersimpan data seperti nama, alamat
-                email. Pastikan Anda selalu memperbarui informasi ini dengan benar agar kami dapat
-                memberikan layanan yang optimal, termasuk dalam proses pengiriman pesanan Anda.</p>
+            <p>Berisi informasi penting tentang akun kamu sebagai pengguna. Di sini tersimpan data seperti nama, alamat
+                email. Pastikan kamu selalu memperbarui informasi ini dengan benar agar kami dapat
+                memberikan layanan yang optimal, termasuk dalam proses pengiriman pesanan kamu.</p>
         </div>
 
         <form wire:submit="updateProfileInformation">

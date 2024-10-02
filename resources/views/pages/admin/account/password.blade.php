@@ -57,9 +57,9 @@ $updatePassword = function () {
 
         <div class="alert alert-primary" role="alert">
             <strong>Kata Sandi Akun</strong>
-            <p>Masukkan kata sandi saat ini, lalu masukkan kata sandi baru yang Anda inginkan. Ulangi kata sandi baru untuk
+            <p>Masukkan kata sandi saat ini, lalu masukkan kata sandi baru yang kamu inginkan. Ulangi kata sandi baru untuk
                 memastikan tidak ada kesalahan pengetikan. Setelah itu, klik 'Perbarui Kata Sandi' untuk menyimpan
-                perubahan. Pastikan informasi kata sandi Anda tetap aman dan rahasia.</p>
+                perubahan. Pastikan informasi kata sandi kamu tetap aman dan rahasia.</p>
         </div>
 
         <form wire:submit="updatePassword">

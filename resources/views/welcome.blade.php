@@ -96,7 +96,7 @@ state([
                         <h2 class="display-5 fw-bold">Tentang Kita</h2>
                         <div class="col-md-5">
                             <p class="lead">
-                                Kami adalah tim wedding organizer yang berkomitmen untuk membuat hari istimewa Anda menjadi
+                                Kami adalah tim wedding organizer yang berkomitmen untuk membuat hari istimewa kamu menjadi
                                 tak terlupakan. Dengan pengalaman bertahun-tahun, kami memahami setiap detail yang
                                 diperlukan untuk pernikahan yang sempurna.
                             </p>
@@ -105,7 +105,7 @@ state([
 
                             <p class="lead mb-0">
                                 Kami percaya bahwa setiap pasangan memiliki cerita unik. Tugas kami adalah
-                                mewujudkan visi Anda menjadi kenyataan, sambil mengurangi stres dan memberikan pengalaman
+                                mewujudkan visi kamu menjadi kenyataan, sambil mengurangi stres dan memberikan pengalaman
                                 yang menyenangkan.
                             </p>
                         </div>
@@ -161,7 +161,7 @@ state([
                             <div class="col-lg-8">
                                 <span>Daftar Sekarang</span>
                                 <h2 id="font-custom" class="display-5 fw-bold my-2">Mulai Hari Ini Juga!</h2>
-                                <p class="lead text-white">Ceritakan sedikit tentang Anda dan rencana pernikahan Anda agar
+                                <p class="lead text-white">Ceritakan sedikit tentang kamu dan rencana pernikahan kamu agar
                                     kami dapat memberikan rekomendasi vendor dan konten yang lebih baik.</p>
                                 <div class=" mt-5 d-grid col-3 mx-auto">
                                     <a class="btn btn-dark text-uppercase " href="{{ route('login') }}"

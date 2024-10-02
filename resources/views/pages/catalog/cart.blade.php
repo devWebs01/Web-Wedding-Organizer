@@ -25,7 +25,7 @@ on([
     'cart-updated' => function () {
         $this->cart = $this->carts;
         $this->subTotal = $this->carts->sum(function ($item) {
-            return $item->product->price * $item->qty;
+            return $item->variant->price;
         });
     },
 ]);
@@ -33,25 +33,9 @@ on([
 $calculateTotal = function () {
     $total = 0;
     foreach ($this->carts as $cart) {
-        $total += $cart->product->price * $cart->qty;
+        $total += $cart->variant->price;
     }
     return $total;
-};
-
-$increaseQty = function ($cartId) {
-    $cart = Cart::find($cartId);
-    if ($cart->qty < $cart->variant->stock) {
-        $cart->update(['qty' => $cart->qty + 1]);
-        $this->dispatch('cart-updated');
-    }
-};
-
-$decreaseQty = function ($cartId) {
-    $cart = Cart::find($cartId);
-    if ($cart->qty > 1) {
-        $cart->update(['qty' => $cart->qty - 1]);
-        $this->dispatch('cart-updated');
-    }
 };
 
 $deleteProduct = function ($cartId) {
@@ -91,10 +75,10 @@ $confirmCheckout = function () {
         $order->items()->save($orderItem);
 
         // Hitung total harga pesanan
-        $totalPrice += $cartItem->product->price * $cartItem->qty;
+        $totalPrice += $cartItem->product->price;
 
         // Hitung total berat pesanan
-        $totalWeight += $cartItem->product->weight * $cartItem->qty;
+        $totalWeight += $cartItem->product->weight;
 
         // Kurangkan kuantitas produk dari stok
         $cartItem->variant->decrement('stock', $cartItem->qty);
@@ -173,22 +157,23 @@ $confirmCheckout = function () {
 ?>
 
 <x-guest-layout>
-    <x-slot name="title">Keranjang Belanja</x-slot>
+    <x-slot name="title">Wedding Checklist</x-slot>
 
     @volt
         <div>
             @include('pages.catalog.modal')
+            @include('layouts.datepicker')
 
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-lg-6">
                         <h2 id="font-custom" class="display-4 fw-bold">
-                            Keranjang Belanja
+                            Wedding Checklist
                         </h2>
                     </div>
                     <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
                         <p>
-                            Terima kasih telah memilih produk-produk kami. Sekarang saatnya untuk menyelesaikan pembelianmu.
+                            Kami bekerja sama dengan berbagai vendor terkemuka, termasuk katering, dekorator, fotografer, dan penyedia hiburan, untuk memastikan kamu mendapatkan layanan terbaik di hari bahagia kamu.
                         </p>
                     </div>
                 </div>
@@ -202,7 +187,6 @@ $confirmCheckout = function () {
                                         <th>No.</th>
                                         <th>Produk</th>
                                         <th>Varian</th>
-                                        <th>Jumlah</th>
                                         <th>Total Harga</th>
                                         <th>#</th>
                                     </tr>
@@ -213,26 +197,10 @@ $confirmCheckout = function () {
                                             <td>{{ ++$no }}.</td>
                                             <td>{{ Str::limit($cart->product->title, 20, '...') }}</td>
                                             <td>
-                                                {{ $cart->variant->type }}
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm justify-content-center">
-                                                    <button class="btn btn-body btn-sm border" wire:loading.attr='disabled'
-                                                        wire:click="decreaseQty('{{ $cart->id }}')">
-                                                        <i class="fa-solid fa-minus"></i>
-                                                    </button>
-                                                    <span class="input-group-text bg-body border">
-                                                        {{ $cart->qty }}
-                                                    </span>
-                                                    <button class="btn btn-body btn-sm border" wire:loading.attr='disabled'
-                                                        wire:click="increaseQty('{{ $cart->id }}')">
-                                                        <i class="fa-solid fa-plus"></i>
-                                                    </button>
-
-                                                </div>
+                                                {{ $cart->variant->name }}
                                             </td>
                                             <td class="w-1/6">
-                                                {{ 'Rp.' . Number::format($cart->qty * $cart->product->price, locale: 'id') }}
+                                                {{ $cart->variant->formatRupiah($cart->variant->price) }}
                                             </td>
                                             <td>
                                                 <button wire:click="deleteProduct('{{ $cart->id }}')" type="button"
@@ -246,7 +214,7 @@ $confirmCheckout = function () {
                                         <td colspan="3"></td>
                                         <td>Total:</td>
                                         <td>
-                                            {{ 'Rp.' . Number::format($this->calculateTotal(), locale: 'id') }}
+                                            {{ $cart->variant->formatRupiah($this->calculateTotal()) }}
                                         </td>
                                         <td></td>
                                     </tr>
@@ -255,7 +223,7 @@ $confirmCheckout = function () {
                                         <td>
                                             <a class="btn btn-outline-dark btn-sm" href="{{ route('catalog-products') }}"
                                                 role="button">
-                                                Lanjut Belanja
+                                                Lihat Produk Lain
                                             </a>
                                         </td>
                                         <td>
@@ -264,7 +232,7 @@ $confirmCheckout = function () {
                                                     <a class="btn btn-outline-dark btn-sm"
                                                         href="{{ route('customer.account', ['user' => auth()->id()]) }}"
                                                         role="button">
-                                                        Atur Alamat
+                                                        Atur Data Diri
                                                     </a>
                                                 @else
                                                     <button type="button" class="btn btn-outline-dark btn-sm"

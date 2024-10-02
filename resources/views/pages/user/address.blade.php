@@ -43,7 +43,7 @@ $submit = function () {
     }
 
     $this->dispatch('address-update');
-    
+
     $this->alert('success', 'Alamat telah diperbaharui.', [
         'position' => 'top',
         'timer' => '2000',
@@ -59,7 +59,7 @@ $submit = function () {
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
             <strong>
                 Kamu dapat melihat dan memperbarui detail alamat kamu, seperti nama provinsi, kota dan detail lengkap
-                yang sesuai tujuanmu.
+                yang sesuai lokasimu.
             </strong>
         </div>
         <form wire:submit.prevent="submit">

@@ -56,7 +56,7 @@ $products = computed(function () {
                         </div>
                         <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
                             <p>
-                                Jelajahi katalog kami dan temukan produk yang tepat untuk pernikahan Anda. Jika Anda memiliki pertanyaan, jangan ragu untuk menghubungi tim kami.
+                                Jelajahi katalog kami dan temukan produk yang tepat untuk pernikahan kamu. Jika kamu memiliki pertanyaan, jangan ragu untuk menghubungi tim kami.
                             </p>
                         </div>
                     </div>

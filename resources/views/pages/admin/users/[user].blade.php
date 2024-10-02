@@ -50,8 +50,8 @@ $save = function () {
                 <div class="card-header">
                     <div class="alert alert-primary" role="alert">
                         <strong>Edit Admin</strong>
-                        <p>Pada halaman edit pengguna, Anda dapat mengubah informasi pengguna yang sudah ada, termasuk peran
-                            pengguna. Ini memungkinkan Anda untuk memperbarui akses dan izin pengguna sesuai kebutuhan.
+                        <p>Pada halaman edit pengguna, kamu dapat mengubah informasi pengguna yang sudah ada, termasuk peran
+                            pengguna. Ini memungkinkan kamu untuk memperbarui akses dan izin pengguna sesuai kebutuhan.
                         </p>
                     </div>
                 </div>
