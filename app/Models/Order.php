@@ -14,22 +14,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'slug',
         'invoice',
+        'slug',
         'status',
         'total_amount',
-        'total_weight',
-        'tracking_number',
-        'shipping_cost',
         'payment_method',
         'note',
-        'estimated_delivery_time',
-        'courier',
-        'proof_of_payment',
-        'protect_cost',
-        'province_id',
-        'city_id',
-        'details',
+        'wedding_date'
     ];
 
     public static function boot()

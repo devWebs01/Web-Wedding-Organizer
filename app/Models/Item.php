@@ -11,7 +11,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'product_id', 'variant_id', 'qty'
+        'order_id', 'product_id', 'variant_id', 
     ];
 
     /**

@@ -144,7 +144,7 @@ state([
                                     </div>
 
                                     <div class="d-grid bg-none border-0">
-                                        <a class="btn btn-dark rounded-5"
+                                        <a class="btn btn-dark"
                                             href="{{ route('product-detail', ['product' => $product->id]) }}">Lihat</a>
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@ state([
             </div>
 
             <div class="container">
-                <section class="py-5 my-md-5 border rounded-5" style="background-color: #9c9259;">
+                <section class="py-5 my-md-5 border" style="background-color: #9c9259;">
                     <div class="container">
                         <div class="row justify-content-center text-center text-white py-4">
                             <div class="col-lg-8">

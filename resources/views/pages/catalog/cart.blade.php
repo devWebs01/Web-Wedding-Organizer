@@ -9,7 +9,10 @@ use App\Models\Address;
 use App\Models\Shop;
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use function Laravel\Folio\{middleware};
 
+
+middleware(['auth', 'verified']);
 uses([LivewireAlert::class]);
 
 name('catalog-cart');
@@ -18,6 +21,7 @@ state([
     'carts' => fn() => Cart::where('user_id', auth()->id())->get(),
     'destination' => fn() => Address::where('user_id', auth()->id())->first(),
     'origin' => fn() => Shop::first(),
+    'wedding_date',
     'order',
 ]);
 
@@ -53,81 +57,81 @@ $confirmCheckout = function () {
         'status' => 'PROGRESS',
         'invoice' => 'INV-' . time(),
         'total_amount' => 0,
-        'shipping_cost' => 0,
-        'province_id' => $this->destination->province_id,
-        'city_id' => $this->destination->city_id,
-        'details' => $this->destination->details,
+        // 'shipping_cost' => 0,
+        // 'province_id' => $this->destination->province_id,
+        // 'city_id' => $this->destination->city_id,
+        // 'details' => $this->destination->details,
     ]);
 
     // Inisialisasi total harga pesanan
     $totalPrice = 0;
-    $totalWeight = 0;
+    // $totalWeight = 0;
 
     // Salin item dari keranjang ke tabel order_items
     foreach ($cartItems as $cartItem) {
         $orderItem = new Item([
             'product_id' => $cartItem->product_id,
             'variant_id' => $cartItem->variant_id,
-            'qty' => $cartItem->qty,
+            // 'qty' => $cartItem->qty,
         ]);
 
         // Tambahkan item ke pesanan
         $order->items()->save($orderItem);
 
         // Hitung total harga pesanan
-        $totalPrice += $cartItem->product->price;
+        $totalPrice += $cartItem->variant->price;
 
         // Hitung total berat pesanan
-        $totalWeight += $cartItem->product->weight;
+        // $totalWeight += $cartItem->product->weight;
 
         // Kurangkan kuantitas produk dari stok
-        $cartItem->variant->decrement('stock', $cartItem->qty);
+        // $cartItem->variant->decrement('stock', $cartItem->qty);
     }
 
     // Update total harga pesanan
     $order->update([
         'total_amount' => $totalPrice, // Total harga pesanan ditambah ongkir
-        'total_weight' => $totalWeight, // Total berat pesanan
+        // 'total_weight' => $totalWeight, // Total berat pesanan
     ]);
 
     try {
-        $jneShippingData = [
-            'origin' => $this->origin->city_id,
-            'destination' => $this->destination->city_id,
-            'weight' => 123,
-            'courier' => RajaongkirCourier::JNE,
-        ];
-        $tikiShippingData = [
-            'origin' => $this->origin->city_id,
-            'destination' => $this->destination->city_id,
-            'weight' => 123,
-            'courier' => RajaongkirCourier::TIKI,
-        ];
+        // $jneShippingData = [
+        //     'origin' => $this->origin->city_id,
+        //     'destination' => $this->destination->city_id,
+        //     'weight' => 123,
+        //     'courier' => RajaongkirCourier::JNE,
+        // ];
+        // $tikiShippingData = [
+        //     'origin' => $this->origin->city_id,
+        //     'destination' => $this->destination->city_id,
+        //     'weight' => 123,
+        //     'courier' => RajaongkirCourier::TIKI,
+        // ];
 
-        $jneOngkirCost = \Rajaongkir::getOngkirCost($jneShippingData['origin'], $jneShippingData['destination'], $jneShippingData['weight'], $jneShippingData['courier']);
+        // $jneOngkirCost = \Rajaongkir::getOngkirCost($jneShippingData['origin'], $jneShippingData['destination'], $jneShippingData['weight'], $jneShippingData['courier']);
 
-        $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
+        // $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
 
-        $jneShippingCost = $jneOngkirCost[0]['costs'];
-        $tikiShippingCost = $tikiOngkirCost[0]['costs'];
+        // $jneShippingCost = $jneOngkirCost[0]['costs'];
+        // $tikiShippingCost = $tikiOngkirCost[0]['costs'];
 
-        foreach ($jneShippingCost as $shippingCost) {
-            \App\Models\Courier::create([
-                'order_id' => $order->id,
-                'description' => $shippingCost['description'] . ' (JNE)',
-                'value' => $shippingCost['cost'][0]['value'],
-                'etd' => $shippingCost['cost'][0]['etd'],
-            ]);
-        }
+        // foreach ($jneShippingCost as $shippingCost) {
+        //     \App\Models\Courier::create([
+        //         'order_id' => $order->id,
+        //         'description' => $shippingCost['description'] . ' (JNE)',
+        //         'value' => $shippingCost['cost'][0]['value'],
+        //         'etd' => $shippingCost['cost'][0]['etd'],
+        //     ]);
+        // }
 
-        foreach ($tikiShippingCost as $shippingCost) {
-            \App\Models\Courier::create([
-                'order_id' => $order->id,
-                'description' => $shippingCost['description'] . ' (TIKI)',
-                'value' => $shippingCost['cost'][0]['value'],
-                'etd' => $shippingCost['cost'][0]['etd'],
-            ]);
-        }
+        // foreach ($tikiShippingCost as $shippingCost) {
+        //     \App\Models\Courier::create([
+        //         'order_id' => $order->id,
+        //         'description' => $shippingCost['description'] . ' (TIKI)',
+        //         'value' => $shippingCost['cost'][0]['value'],
+        //         'etd' => $shippingCost['cost'][0]['etd'],
+        //     ]);
+        // }
 
         Cart::where('user_id', auth()->id())->delete();
 
@@ -162,7 +166,7 @@ $confirmCheckout = function () {
     @volt
         <div>
             @include('pages.catalog.modal')
-            @include('layouts.datepicker')
+            {{-- @include('layouts.datepicker') --}}
 
             <div class="container">
                 <div class="row mb-4">
@@ -211,7 +215,7 @@ $confirmCheckout = function () {
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="3"></td>
+                                        <td colspan="2"></td>
                                         <td>Total:</td>
                                         <td>
                                             {{ $cart->variant->formatRupiah($this->calculateTotal()) }}
@@ -219,20 +223,20 @@ $confirmCheckout = function () {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3"></td>
                                         <td>
                                             <a class="btn btn-outline-dark btn-sm" href="{{ route('catalog-products') }}"
                                                 role="button">
                                                 Lihat Produk Lain
                                             </a>
                                         </td>
+                                        <td colspan="2"></td>
                                         <td>
                                             @if ($carts->count() > 0)
                                                 @if (!$this->destination)
                                                     <a class="btn btn-outline-dark btn-sm"
                                                         href="{{ route('customer.account', ['user' => auth()->id()]) }}"
                                                         role="button">
-                                                        Atur Data Diri
+                                                        Lengkapi Data Diri
                                                     </a>
                                                 @else
                                                     <button type="button" class="btn btn-outline-dark btn-sm"

@@ -14,68 +14,21 @@ uses([LivewireAlert::class]);
 state(['courier'])->url();
 
 state([
-    'orderItems' => fn() => $this->order->items,
-    'shipping_cost' => fn() => $this->selectCourier()->value ?? $this->order->shipping_cost,
-    'couriers' => fn() => $this->order->couriers,
-    'note' => fn() => $this->order->note ?? null,
-    'payment_method' => fn() => 'Transfer Bank',
     'orderId' => fn() => $this->order->id,
-    'protect_cost' => 0,
+    'orderItems' => fn() => $this->order->items,
+    'note' => fn() => $this->order->note ?? null,
+    'payment_method',
     'order',
     // 'payment_method' => fn() => $this->order->payment_method ?? null,
 ]);
 
-rules(['courier' => 'required', 'payment_method' => 'required']);
-
-on([
-    'update-selectCourier' => function () {
-        $this->shipping_cost = $this->selectCourier()->value ?? 0;
-    },
-]);
-
-on([
-    'delete-couriers' => function () {
-        Courier::where('order_id', $this->order->id)->delete();
-    },
-]);
-
-$protect_cost_opsional = computed(function () {
-    return $this->protect_cost ? 3000 : 0;
-});
-
-$selectCourier = computed(function () {
-    $confirmCourier = Courier::find($this->courier);
-
-    if (!$confirmCourier) {
-        return 0;
-    } else {
-        $this->dispatch('update-selectCourier');
-        return $confirmCourier;
-    }
-});
-
 $confirmOrder = function () {
     $this->validate();
 
-    $bubble_wrap = $this->protect_cost == 0 ? '' : ' + Bubble Wrap';
     $status_payment = $this->payment_method == 'Transfer Bank' ? 'UNPAID' : 'PENDING';
     $order = $this->order;
 
-    if ($this->courier === 'Ambil Sendiri') {
-        // Update detail pesanan untuk pengambilan sendiri
-        $order->update([
-            'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
-            'shipping_cost' => $this->shipping_cost,
-            'payment_method' => $this->payment_method,
-            'status' => $status_payment,
-            'note' => $this->note,
-            'estimated_delivery_time' => 'Ditunggu 2x24 Jam',
-            'courier' => 'Ambil Sendiri',
-            'protect_cost' => $this->protect_cost,
-        ]);
-    } else {
-        // Update detail pesanan untuk pengiriman kurir
-        $order->update([
+    $order->update([
             'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
             'shipping_cost' => $this->shipping_cost,
             'payment_method' => $this->payment_method,
@@ -85,9 +38,6 @@ $confirmOrder = function () {
             'courier' => $this->selectCourier()->description,
             'protect_cost' => $this->protect_cost,
         ]);
-    }
-
-    $this->dispatch('delete-couriers', 'courier');
 
     // Redirect ke halaman pembayaran atau daftar pesanan
     if ($this->payment_method == 'Transfer Bank') {
@@ -105,20 +55,8 @@ $confirmOrder = function () {
 $cancelOrder = function ($orderId) {
     $order = Order::findOrFail($orderId);
 
-    // Mengambil semua item yang terkait dengan pesanan yang dibatalkan
-    $orderItems = Item::where('order_id', $order->id)->get();
-
-    // Mengembalikan quantity pada tabel produk
-    foreach ($orderItems as $orderItem) {
-        $variant = Variant::findOrFail($orderItem->variant_id);
-        $variant->increment('stock', $orderItem->qty);
-    }
-
     // Memperbarui status pesanan menjadi 'CANCELLED'
     $order->update(['status' => 'CANCELLED']);
-
-    // Menghapus data kurir terkait
-    $this->dispatch('delete-couriers');
 
     // Redirect ke halaman pesanan setelah pembatalan
     $this->redirect('/orders');
@@ -132,7 +70,6 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
     @volt
         <div>
-            <p class="d-none">@json($this->selectCourier())</p>
             <div class="container">
                 <div class="row my-4">
                     <div class="col-lg-6">
@@ -147,19 +84,6 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                     </div>
 
                     @if ($order->status === 'PROGRESS' || $order->status === 'UNPAID')
-                        <div class="alert alert-white d-flex align-items-center rounded" role="alert">
-                            <span class="fs-1 me-4">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </span>
-                            <strong class="fs-5">
-                                {{ $order->user->details }}
-                                <br>
-
-                                <span style="color: #f35525">
-                                    {{ $order->user->fulladdress }}
-                                </span>
-                            </strong>
-                        </div>
                         @if ($order->status == 'CANCELLED')
                             <div class="alert alert-danger rounded-5" role="alert">
                                 <strong>Pemberitahuan!</strong>
@@ -171,7 +95,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 </span>
                             </div>
                         @endif
-                        <div class="row">
+                        <div class="row my-5">
                             <div class="col-lg-7">
                                 @foreach ($orderItems as $item)
                                     <div class="row mb-3">
@@ -184,48 +108,28 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                             <h5 id="font-custom">
                                                 {{ $item->product->title }}
                                                 -
-                                                {{ $item->variant->type }}
+                                                {{ $item->variant->name }}
                                             </h5>
                                             <p>
-                                                X {{ $item->qty }} item ({{ $item->qty * $item->product->weight }} gram)
+                                                X {{ $item->qty }} item ({{ $item->product->weight }} gram)
                                             </p>
                                             <h6 class="fw-bold" style="color: #f35525">
                                                 Rp.
-                                                {{ Number::format($item->qty * $item->product->price, locale: 'id') }}
+                                                {{ Number::format ($item->variant->price, locale: 'id') }}
                                             </h6>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                             <div class="col-lg-5">
-                                <div class="mb-3">
-                                    <label for="courier" class="form-label">Pilih Pengiriman</label>
-                                    <select wire:model.live='courier' class="form-select" name="courier" id="courier"
-                                        {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
-
-                                        <option>{{ $order->courier ? $order->courier : 'Pilih satu' }}</option>
-
-                                        <option value="Ambil Sendiri">Ambil Sendiri - Ditunggu 2x24 Jam - Rp. 0</option>
-
-                                        @foreach ($couriers as $courier)
-                                            <option value="{{ $courier->id }}"
-                                                {{ $order->courier === $courier->description ? 'elected' : '' }}>
-                                                {{ $courier->formattedDescription }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('courier')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
 
                                 <div class="mb-3">
                                     <label for="payment_method" class="form-label">Metode Pembayaran</label>
                                     <select wire:model.live='payment_method' class="form-select" name="payment_method"
-                                        id="payment_method" disabled>
+                                        id="payment_method">
                                         <option>Pilih satu</option>
-                                        <option value="COD (Cash On Delivery)">COD (Cash On Delivery)</option>
-                                        <option value="Transfer Bank">Transfer Bank</option>
+                                        <option value="Lunas">Lunas</option>
+                                        <option value="Cicilan">Cicilan</option>
                                     </select>
                                     @error('courier')
                                         <p class="text-danger">{{ $message }}</p>
@@ -242,19 +146,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                     @enderror
                                 </div>
 
-                                <div class="form-check mb-3">
-                                    <input wire:model.live='protect_cost' class="form-check-input" type="checkbox"
-                                        value="" id="protect_cost" {{ $order->protect_cost == 0 ?: 'checked' }}
-                                        {{ $order->protect_cost == null ?: 'disabled' }}>
-                                    <label class="form-check-label" for="protect_cost">
-                                        <strong>Proteksi Pesanan</strong>
-                                        <p>Lindungi pesananmu dari kemungkinan yang tidak diinginkan </p>
-                                        <p class="fw-bold" style="color: #f35525">
-                                            Rp. 3.000
-                                        </p>
-                                    </label>
-                                </div>
-                                <hr>
+
                                 <div class="row">
                                     <div class="col">
                                         Total Produk
@@ -263,22 +155,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                         {{ 'Rp. ' . Number::format($this->order->total_amount) }}
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        Biaya Pengiriman
-                                    </div>
-                                    <div class="col text-end fw-bold" style="color: #f35525">
-                                        {{ 'Rp. ' . Number::format($shipping_cost, locale: 'id') }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        Total Harga
-                                    </div>
-                                    <div class="col text-end fw-bold" style="color: #f35525">
-                                        {{ 'Rp. ' . Number::format($order->total_amount + $shipping_cost + $this->protect_cost_opsional(), locale: 'id') }}
-                                    </div>
-                                </div>
+
                                 <hr>
                                 <div class="row">
 

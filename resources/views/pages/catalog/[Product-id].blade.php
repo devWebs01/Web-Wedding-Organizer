@@ -39,7 +39,7 @@ $addToCart = function (Product $product) {
             ->first();
 
         if ($existingCart) {
-        $this->alert('warning', 'Item sudah ada di keranjang belanja.', [
+        $this->alert('warning', 'Item sudah ada di daftar.', [
             'position' => 'top',
             'timer' => '2000',
             'toast' => true,
@@ -51,7 +51,7 @@ $addToCart = function (Product $product) {
             Cart::create($this->validate());
             $this->dispatch('cart-updated');
 
-            $this->alert('success', 'Item berhasil ditambahkan ke dalam keranjang belanja.', [
+            $this->alert('success', 'Item berhasil ditambahkan ke dalam daftar.', [
                 'position' => 'top',
                 'timer' => '2000',
                 'toast' => true,
@@ -94,7 +94,7 @@ $addToCart = function (Product $product) {
                     <div class="row gx-2">
                         <aside class="col-lg-6">
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                                <img class="p-4 object-fit-cover rounded-5" style="width: 100%;"
+                                <img class="p-4 object-fit-cover" style="width: 100%;"
                                 src="{{ Storage::url($product->image) }}" />
                             </div>
                         </aside>
@@ -152,10 +152,10 @@ $addToCart = function (Product $product) {
                                         <form wire:submit='addToCart'>
                                             @if ($variant)
                                                 <button wire:key="{{ $product->id }}" type="submit"
-                                                    class="btn btn-dark w-100 rounded-5">
+                                                    class="btn btn-dark w-100">
 
                                                     <span
-                                                        wire:loading.remove>Masukkan Keranjang
+                                                        wire:loading.remove>Masukkan List
                                                     </span>
 
                                                     <div wire:loading class="spinner-border spinner-border-sm" role="status">
@@ -166,11 +166,11 @@ $addToCart = function (Product $product) {
                                         </form>
                                         @error('variant_id')
                                             <small class="my-3 text-center text-danger">
-                                                Plih ukuran/variant yang diinginkan
+                                                Plih paket/variant yang diinginkan
                                             </small>
                                         @enderror
                                     @else
-                                        <a class="btn btn-dark w-100 rounded-5" href="{{ route('login') }}" role="button">Pesan Sekarang</a>
+                                        <a class="btn btn-dark w-100" href="{{ route('login') }}" role="button">Pesan Sekarang</a>
                                     @endauth
                                 </div>
                             </div>

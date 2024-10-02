@@ -1,34 +1,19 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">
-                    Tentukan Tanggal Acaramu
-                </h5>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="daterange" class="form-label">Pilih Tanggal</label>
-                    <input type="text" class="form-control" name="daterange" id="daterange" aria-describedby="helpId"
-                        placeholder="XX/XX/XXX" />
-                    @error('daterange')
-                        <small class="text-danger-fw-bold">{{ $message }}</small>
-                    @enderror
-                </div>
-
+            <div class="modal-body text-center">
+                <i class="fa-solid fa-circle-exclamation fs-1 my-4"></i>
+                <h6>
+                    Apakah Anda yakin ingin melanjutkan dengan checkout? Pastikan semua item dalam wedding checklist Anda sudah sesuai dan lengkap
+                </h6>
             </div>
             <div class="modal-footer d-flex justify-content-around">
-                <a class="btn btn-dark btn-sm" href="{{ route('customer.account', ['user' => auth()->id()]) }}"
+                <button class="btn btn-danger btn-sm" class="btn btn-secondary"
+                    data-bs-dismiss="modal"
                     role="button">
-                    Tidak, Atur Alamat
-                </a>
+                    Kembali
+                </button>
 
                 <form wire:submit="confirmCheckout">
                     <button wire:loading.attr='disable' type="submit" class="btn btn-sm btn-dark">

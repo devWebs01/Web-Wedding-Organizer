@@ -10,7 +10,7 @@
         $(function() {
             var today = moment().format('MM/DD/YYYY'); // Mendapatkan tanggal hari ini
 
-            $('input[name="daterange"]').daterangepicker({
+            $('input[name="wedding_date"]').daterangepicker({
                 opens: 'center',
                 "minDate": today // Mengatur minDate dengan tanggal hari ini
             }, function(start, end, label) {

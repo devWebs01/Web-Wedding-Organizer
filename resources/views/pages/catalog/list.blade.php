@@ -113,7 +113,7 @@ $products = computed(function () {
                                     </div>
 
                                     <div class="d-grid bg-none border-0">
-                                        <a class="btn btn-dark rounded-5"
+                                        <a class="btn btn-dark"
                                             href="{{ route('product-detail', ['product' => $product->id]) }}">Lihat</a>
                                     </div>
                                 </div>
