@@ -123,7 +123,7 @@ $addToCart = function (Product $product) {
 
                                     <dt class="col-3 mb-2 text-capitalize">Harga</dt>
                                     <dd class="col-9 mb-2">
-                                        {{ $variant ? 'Rp. ' . Number::format($variant->price, locale: 'id') : '' }}
+                                        {{ $variant ? formatRupiah($variant->price) : '' }}
 
                                     <dt class="col-3 mb-2 text-capitalize">Deksripsi</dt>
                                     <dd class="col-9 mb-2">

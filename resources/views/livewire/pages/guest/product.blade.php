@@ -120,7 +120,7 @@ $addToCart = function () {
 
                         <div class="my-3">
                             <span class="h5 fw-bold">
-                                {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
+                                {{ formatRupiah($product->price) }}
                             </span>
                         </div>
 

@@ -2,31 +2,32 @@
 
 use function Livewire\Volt\{state, rules, on, uses};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\Order;
 use App\Models\Variant;
 use App\Models\Item;
 use App\Models\Courier;
 use App\Models\Product;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Carbon\Carbon;
+
 
 uses([LivewireAlert::class]);
-
-state(['courier'])->url();
 
 state([
     'orderId' => fn() => $this->order->id,
     'orderItems' => fn() => $this->order->items,
     'note' => fn() => $this->order->note ?? null,
-    'min_down_payment' => fn () => $this->order->total_amount/2,
-    'max_down_payment' => fn () => $this->order->total_amount,
-    'total_down_payment' => fn () => $this->order->total_amount/2,
-    'payment_date_down_payment',
+    'min_down_payment' => fn() => $this->order->total_amount / 2,
+    'max_down_payment' => fn() => $this->order->total_amount,
+    'total_down_payment' => fn() => $this->order->total_amount / 2,
+    'full_payment' => fn () => Carbon::parse($this->wedding_date)->addMonth()->format('d/m/Y') ?? '',
     'payment_method',
+    'wedding_date',
     'order',
 ]);
 
 $gap_down_payment = function () {
-    return $this->order->total_amount - $this->total_down_payment ;
+    return $this->order->total_amount - $this->total_down_payment;
 };
 
 $confirm_order = function () {
@@ -65,16 +66,16 @@ $cancel_order = function ($orderId) {
     $this->redirect('/orders');
 };
 
-
 $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
 ?>
 <x-guest-layout>
     <x-slot name="title">Pesanan {{ $order->invoice }}</x-slot>
 
-    @include('layouts.datepicker')
     @volt
         <div>
+            @include('layouts.datepicker')
+
             <div class="container">
                 <div class="row my-4">
                     <div class="col-lg-6">
@@ -115,7 +116,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                                 {{ $item->variant->name }}
                                             </h5>
                                             <h6 class="fw-bold" style="color: #f35525">
-                                                {{ $item->variant->formatRupiah($item->variant->price) }}                                            </h6>
+                                                {{ formatRupiah($item->variant->price) }} </h6>
                                         </div>
                                     </div>
                                 @endforeach
@@ -124,7 +125,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
                                 <div class="mb-3">
                                     <label for="wedding_date" class="form-label">Tanggal Acara</label>
-                                    <input type="text" wire:model='wedding_date' class="form-control" name="datepicker"
+                                    <input type="text" wire:model.live='wedding_date' class="form-control" name="datepicker"
                                         id="wedding_date" aria-describedby="wedding_date" placeholder="wedding_date" />
                                     @error('wedding_date')
                                         <small class="fw-bold text-danger">{{ $message }}</small>
@@ -132,7 +133,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="payment_method" class="form-label">Metode Pembayaran</label>
+                                    <label for="payment_method" class="form-label">Opsi Pembayaran</label>
                                     <select wire:model.live='payment_method' class="form-select" name="payment_method"
                                         id="payment_method">
                                         <option>Pilih satu</option>
@@ -145,22 +146,27 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 </div>
 
 
-                                <div class="mb-3 {{ $payment_method == 'Cicilan' ? :'d-none' }}">
+                                <div class="mb-3 {{ $payment_method == 'Cicilan' ?: 'd-none' }}">
                                     <label for="total_down_payment" class="form-label">Down Payment (DP)</label>
-                                    <input type="number" wire:model.live='total_down_payment' class="form-control" name="total_down_payment"
-                                        id="total_down_payment" min="{{ $min_down_payment }}" max="{{ $order->total_amount }}" value="{{ $min_down_payment }}" />
+                                    <input type="number" wire:model.live='total_down_payment' class="form-control"
+                                        name="total_down_payment" id="total_down_payment" min="{{ $min_down_payment }}"
+                                        max="{{ $order->total_amount }}" value="{{ $min_down_payment }}" />
                                     @error('total_down_payment')
-                                        <small class="fw-bold text-danger">{{ $message }}</small>
+                                        <small class="fw-bold text-danger">{{ $message }}</small> <br>
                                     @enderror
+                                    <small
+                                        class="fw-bold text-danger {{ $total_down_payment == $order->total_amount ?: 'd-none' }}">DP
+                                        yang kamu masukkan sama dengan total harga yang harus di bayar, pembayaran akan di
+                                        anggap sebagai Lunas</small>
                                 </div>
 
-                                <div class="mb-3 {{ $payment_method == 'Cicilan' ? :'d-none' }}">
-                                    <label for="wedding_date" class="form-label">Tanggal Acara</label>
-                                    <input type="text" wire:model='wedding_date' class="form-control" name="datepicker"
-                                        id="wedding_date" aria-describedby="wedding_date" placeholder="wedding_date" />
-                                    @error('wedding_date')
-                                        <small class="fw-bold text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="mb-3 {{ $payment_method == 'Cicilan' ?: 'd-none' }}">
+                                    <label for="full_payment" class="form-label">Tanggal Pelunasan</label>
+                                    <input type="text" wire:model='full_payment' class="form-control"
+                                         id="full_payment"
+                                        aria-describedby="full_payment"
+                                        placeholder="full_payment" disabled />
+                                    <small class="fw-bold text-danger">Tanggal pelunasan paling lambat adalah 1 bulan dari tanggal acara</small>
                                 </div>
 
                                 <div class="mb-3">
@@ -176,19 +182,27 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
                                 <div class="row">
                                     <div class="col">
-                                        Total Produk
+                                        Total Harga
                                     </div>
                                     <div class="col text-end fw-bold" style="color: #f35525">
-                                        {{ 'Rp. ' . Number::format($order->total_amount) }}
+                                        {{ formatRupiah($order->total_amount) }}
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row {{ $payment_method == 'Cicilan' ?: 'd-none' }}">
                                     <div class="col">
                                         Down Payment (DP)
                                     </div>
                                     <div class="col text-end fw-bold" style="color: #f35525">
-                                        {{ 'Rp. ' . Number::format($order->total_amount) }}
+                                        {{ formatRupiah($total_down_payment) }}
+                                    </div>
+                                </div>
+                                <div class="row {{ $payment_method == 'Cicilan' ?: 'd-none' }}">
+                                    <div class="col">
+                                        Sisa Pembayaran
+                                    </div>
+                                    <div class="col text-end fw-bold" style="color: #f35525">
+                                        {{ formatRupiah($this->gap_down_payment()) }}
                                     </div>
                                 </div>
 

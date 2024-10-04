@@ -23,7 +23,7 @@ $randomProducts = computed(function () {
                             {{ Str::limit($product->category->name, 13, '...') }}
                         </span>
                         <h6>
-                            {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
+                            {{ formatRupiah($product->price) }}
                         </h6>
                         <h4>
                             <a href="{{ route('product-detail', ['product' => $product->id]) }}">

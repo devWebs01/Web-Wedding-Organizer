@@ -128,7 +128,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                         </button>
                                     </div>
                                 @endif
-                                
+
                                 <div class="col-auto">
                                     <button class="btn btn-dark print-page" onclick="window.print()" type="button">
                                         <i class="ti ti-printer fs-3"></i>
@@ -239,10 +239,10 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                                     <td class="text-center">{{ $item->variant->type }}</td>
                                                     <td class="text-center">{{ $item->qty }} Item</td>
                                                     <td class="text-center">
-                                                        {{ 'Rp.' . Number::format($item->product->price, locale: 'id') }}
+                                                        {{ 'Rp.' . Number::format($item->product->price) }}
                                                     </td>
                                                     <td class="text-end">
-                                                        {{ 'Rp.' . Number::format($item->product->price * $item->qty, locale: 'id') }}
+                                                        {{ 'Rp.' . Number::format($item->product->price * $item->qty) }}
                                                     </td>
                                                 </tr>
                                                 <!-- end row -->
@@ -269,19 +269,19 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                             <tr class="text-end">
                                                 <td colspan="5"> Biaya Pengiriman:</td>
                                                 <td>
-                                                    {{ 'Rp.' . Number::format($order->shipping_cost, locale: 'id') }}
+                                                    {{ 'Rp.' . Number::format($order->shipping_cost) }}
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
                                                 <td colspan="5"> Biaya Tambahan:</td>
                                                 <td>
-                                                    {{ $order->protect_cost == true ? 'Rp.' . Number::format(3000, locale: 'id') : 'Rp. 0' }}
+                                                    {{ $order->protect_cost == true ? 'Rp.' . Number::format(3000) : 'Rp. 0' }}
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
                                                 <td colspan="5" class="fw-bolder text-dark fs-6"> Total:</td>
                                                 <td class="fw-bolder text-dark fs-6">
-                                                    {{ 'Rp.' . Number::format($order->total_amount, locale: 'id') }}
+                                                    {{ 'Rp.' . Number::format($order->total_amount) }}
                                                 </td>
                                             </tr>
                                         </tbody>

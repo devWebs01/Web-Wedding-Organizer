@@ -116,7 +116,7 @@ with(
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
-                                                    <td>{{ 'Rp. ' . Number::format($item->total_amount, locale: 'id') }}
+                                                    <td>{{ formatRupiah($item->total_amount) }}
                                                     </td>
                                                     <td>
                                                         <a wire:navigate href="/orders/{{ $item->id }}"
@@ -159,7 +159,7 @@ with(
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
-                                                    <td>{{ 'Rp. ' . Number::format($item->total_amount, locale: 'id') }}
+                                                    <td>{{ formatRupiah($item->total_amount) }}
                                                     </td>
                                                     <td>
                                                         <a wire:navigate href="/orders/{{ $item->id }}"
@@ -201,7 +201,7 @@ with(
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
-                                                    <td>{{ 'Rp. ' . Number::format($item->total_amount, locale: 'id') }}
+                                                    <td>{{ formatRupiah($item->total_amount) }}
                                                     </td>
                                                     <td>
                                                         <a wire:navigate href="/orders/{{ $item->id }}"
@@ -243,7 +243,7 @@ with(
                                                             {{ $item->status }}
                                                         </span>
                                                     </td>
-                                                    <td>{{ 'Rp. ' . Number::format($item->total_amount, locale: 'id') }}
+                                                    <td>{{ formatRupiah($item->total_amount) }}
                                                     </td>
                                                     <td>
                                                         <a wire:navigate href="/orders/{{ $item->id }}"
