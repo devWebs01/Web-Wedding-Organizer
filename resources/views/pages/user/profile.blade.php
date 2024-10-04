@@ -12,9 +12,9 @@
         <div class="col-sm-10">
             <input wire:model="name" type="text" class="form-control" id="inputname">
             @error('name')
-                <p class="text-danger">
+                <small class="fw-bold text-danger">
                     {{ $message }}
-                </p>
+                </small>
             @enderror
         </div>
     </div>
@@ -24,9 +24,9 @@
             <input wire:model="email" type="email" class="form-control" id="inputemail">
 
             @error('email')
-                <p class="text-danger">
+                <small class="fw-bold text-danger">
                     {{ $message }}
-                </p>
+                </small>
             @enderror
         </div>
     </div>
@@ -37,9 +37,9 @@
             <input wire:model="telp" type="number" class="form-control" id="inputtelp">
 
             @error('telp')
-                <p class="text-danger">
+                <small class="fw-bold text-danger">
                     {{ $message }}
-                </p>
+                </small>
             @enderror
         </div>
     </div>

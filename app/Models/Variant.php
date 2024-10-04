@@ -12,13 +12,11 @@ class Variant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'product_id', 'description', 'price'
+        'name', 'product_id', 'description', 'price',
     ];
 
     /**
      * Get the product that owns the Variant
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product(): BelongsTo
     {
@@ -27,8 +25,6 @@ class Variant extends Model
 
     /**
      * Get all of the carts for the Variant
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function carts(): HasMany
     {
@@ -37,10 +33,7 @@ class Variant extends Model
 
     /**
      * Get all of the Orders for the Variant
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
@@ -48,7 +41,6 @@ class Variant extends Model
 
     public function formatRupiah($amount)
     {
-        return 'Rp ' . number_format($amount, 0, ',', '.');
+        return 'Rp '.number_format($amount, 0, ',', '.');
     }
-
 }

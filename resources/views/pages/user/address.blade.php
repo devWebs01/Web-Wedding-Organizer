@@ -78,9 +78,9 @@ $submit = function () {
                         @endforeach
                     </select>
                     @error('province_id')
-                        <p class="text-danger">
+                        <small class="fw-bold text-danger">
                             {{ $message }}
-                        </p>
+                        </small>
                     @enderror
                 </div>
             </div>
@@ -95,9 +95,9 @@ $submit = function () {
                         @endforeach
                     </select>
                     @error('city_id')
-                        <p class="text-danger">
+                        <small class="fw-bold text-danger">
                             {{ $message }}
-                        </p>
+                        </small>
                     @enderror
                 </div>
             </div>
@@ -108,9 +108,9 @@ $submit = function () {
                 <div class="col-sm-10">
                     <textarea class="form-control" wire:model='details' name="details" id="details" rows="3"></textarea>
                     @error('details')
-                    <p class="text-danger">
+                    <small class="fw-bold text-danger">
                         {{ $message }}
-                    </p>
+                    </small>
                     @enderror
                 </div>
             </div>

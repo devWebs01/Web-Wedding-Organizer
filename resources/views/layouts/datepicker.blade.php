@@ -8,14 +8,17 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         $(function() {
-            var today = moment().format('MM/DD/YYYY'); // Mendapatkan tanggal hari ini
+            var today = moment().format('DD/MM/YYYY'); // Mendapatkan tanggal hari ini dengan format "DD/MM/YYYY"
 
-            $('input[name="wedding_date"]').daterangepicker({
+            $('input[name="datepicker"]').daterangepicker({
                 opens: 'center',
-                "minDate": today // Mengatur minDate dengan tanggal hari ini
-            }, function(start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end
-                    .format('YYYY-MM-DD'));
+                minDate: today,
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY' // Set format tampilan penanggalan di input
+                },
+                // maxDate: parseInt(moment().format('MM/DD/YYYY'), 10)
             });
         });
     </script>

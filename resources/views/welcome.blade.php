@@ -1,6 +1,6 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed};
+use function Livewire\Volt\{state, computed};
 use App\Models\Category;
 use App\Models\Product;
 use function Laravel\Folio\name;
@@ -71,7 +71,7 @@ state([
                             <div class="modal-body p-0">
                                 <i id="close" class="fa-solid fa-x text-white fs-5" data-bs-dismiss="modal"
                                 aria-label="Close"></i>
-                                <video class="w-100 rounded" muted loop autoplay>
+                                <video class="w-100 rounded" loop autoplay>
                                     <source src="{{ asset('./hero/modal-video.mp4') }}" type="video/mp4">
                                 </video>
                             </div>

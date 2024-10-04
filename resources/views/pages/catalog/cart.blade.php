@@ -10,7 +10,7 @@ use App\Models\Shop;
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use function Laravel\Folio\{middleware};
-
+use Illuminate\Support\Facades\DB;
 
 middleware(['auth', 'verified']);
 uses([LivewireAlert::class]);
@@ -49,112 +49,75 @@ $deleteProduct = function ($cartId) {
 };
 
 $confirmCheckout = function () {
-    // Buat record pesanan
-    $cartItems = Cart::where('user_id', auth()->id())->get();
-
-    $order = Order::create([
-        'user_id' => auth()->id(),
-        'status' => 'PROGRESS',
-        'invoice' => 'INV-' . time(),
-        'total_amount' => 0,
-        // 'shipping_cost' => 0,
-        // 'province_id' => $this->destination->province_id,
-        // 'city_id' => $this->destination->city_id,
-        // 'details' => $this->destination->details,
-    ]);
-
-    // Inisialisasi total harga pesanan
-    $totalPrice = 0;
-    // $totalWeight = 0;
-
-    // Salin item dari keranjang ke tabel order_items
-    foreach ($cartItems as $cartItem) {
-        $orderItem = new Item([
-            'product_id' => $cartItem->product_id,
-            'variant_id' => $cartItem->variant_id,
-            // 'qty' => $cartItem->qty,
-        ]);
-
-        // Tambahkan item ke pesanan
-        $order->items()->save($orderItem);
-
-        // Hitung total harga pesanan
-        $totalPrice += $cartItem->variant->price;
-
-        // Hitung total berat pesanan
-        // $totalWeight += $cartItem->product->weight;
-
-        // Kurangkan kuantitas produk dari stok
-        // $cartItem->variant->decrement('stock', $cartItem->qty);
-    }
-
-    // Update total harga pesanan
-    $order->update([
-        'total_amount' => $totalPrice, // Total harga pesanan ditambah ongkir
-        // 'total_weight' => $totalWeight, // Total berat pesanan
-    ]);
-
     try {
-        // $jneShippingData = [
-        //     'origin' => $this->origin->city_id,
-        //     'destination' => $this->destination->city_id,
-        //     'weight' => 123,
-        //     'courier' => RajaongkirCourier::JNE,
-        // ];
-        // $tikiShippingData = [
-        //     'origin' => $this->origin->city_id,
-        //     'destination' => $this->destination->city_id,
-        //     'weight' => 123,
-        //     'courier' => RajaongkirCourier::TIKI,
-        // ];
+        // Gunakan transaksi dengan retry sebanyak 5 kali
+        DB::transaction(function () {
+            $userId = auth()->id();
 
-        // $jneOngkirCost = \Rajaongkir::getOngkirCost($jneShippingData['origin'], $jneShippingData['destination'], $jneShippingData['weight'], $jneShippingData['courier']);
+            // Ambil item keranjang pengguna
+            $cartItems = Cart::with('variant')->where('user_id', $userId)->get();
 
-        // $tikiOngkirCost = \Rajaongkir::getOngkirCost($tikiShippingData['origin'], $tikiShippingData['destination'], $tikiShippingData['weight'], $tikiShippingData['courier']);
+            if ($cartItems->isEmpty()) {
+                throw new \Exception('Keranjang kosong. Tidak ada item untuk diproses.');
+            }
 
-        // $jneShippingCost = $jneOngkirCost[0]['costs'];
-        // $tikiShippingCost = $tikiOngkirCost[0]['costs'];
+            // Buat pesanan baru
+            $order = Order::create([
+                'user_id' => $userId,
+                'status' => 'PROGRESS',
+                'invoice' => 'INV-' . time(),
+                'total_amount' => 0,
+            ]);
 
-        // foreach ($jneShippingCost as $shippingCost) {
-        //     \App\Models\Courier::create([
-        //         'order_id' => $order->id,
-        //         'description' => $shippingCost['description'] . ' (JNE)',
-        //         'value' => $shippingCost['cost'][0]['value'],
-        //         'etd' => $shippingCost['cost'][0]['etd'],
-        //     ]);
-        // }
+            // Hitung total harga pesanan
+            $totalPrice = $cartItems->sum(function ($cartItem) {
+                return $cartItem->variant->price;
+            });
 
-        // foreach ($tikiShippingCost as $shippingCost) {
-        //     \App\Models\Courier::create([
-        //         'order_id' => $order->id,
-        //         'description' => $shippingCost['description'] . ' (TIKI)',
-        //         'value' => $shippingCost['cost'][0]['value'],
-        //         'etd' => $shippingCost['cost'][0]['etd'],
-        //     ]);
-        // }
+            // Siapkan item pesanan untuk batch insert
+            $orderItems = $cartItems
+                ->map(function ($cartItem) {
+                    return [
+                        'product_id' => $cartItem->product_id,
+                        'variant_id' => $cartItem->variant_id,
+                    ];
+                })
+                ->toArray();
 
-        Cart::where('user_id', auth()->id())->delete();
+            // Simpan semua item pesanan sekaligus
+            $order->items()->createMany($orderItems);
 
-        $this->dispatch('cart-updated');
+            // Perbarui total harga pesanan
+            $order->update(['total_amount' => $totalPrice]);
 
-        $this->alert('success', 'Pesanan telah berhasil diproses. Menuju detail pesanan.', [
+            // Dispatch event untuk memperbarui keranjang
+            $this->dispatch('cart-updated');
+
+            // Tampilkan notifikasi sukses
+            $this->alert('success', 'Pesanan telah berhasil diproses. Menuju detail pesanan.', [
+                'position' => 'top',
+                'timer' => 1500,
+                'toast' => true,
+            ]);
+
+            // Redirect ke halaman detail pesanan
+            $this->redirect('/orders/' . $order->id);
+
+             // Hapus keranjang pengguna setelah berhasil menambahkan pesanan
+             Cart::where('user_id', $userId)->delete();
+
+        }, 5); // Retry 5 kali jika terjadi deadlock atau kegagalan transaksi
+    } catch (\Throwable $e) {
+        // Tampilkan notifikasi error jika transaksi gagal setelah retry 5 kali
+        $this->alert('error', 'Maaf, terjadi kesalahan sistem. Silakan coba lagi nanti.', [
             'position' => 'top',
-            'timer' => '2000',
-            'toast' => true,
-            'text' => '',
-        ]);
-
-        $this->redirect('/orders/' . $order->id);
-    } catch (\Throwable $th) {
-        Order::find($order->id)->delete();
-
-        $this->alert('error', 'Maaf, terjadi kesalahan saat checkout. Silakan coba lagi!', [
-            'position' => 'top',
-            'timer' => '2000',
+            'timer' => 2000,
             'toast' => true,
             'timerProgressBar' => true,
-            'text' => '',
         ]);
+
+        // Log error untuk debugging jika diperlukan
+        \Log::error('Checkout gagal: ' . $e->getMessage());
     }
 };
 
@@ -177,7 +140,8 @@ $confirmCheckout = function () {
                     </div>
                     <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
                         <p>
-                            Kami bekerja sama dengan berbagai vendor terkemuka, termasuk katering, dekorator, fotografer, dan penyedia hiburan, untuk memastikan kamu mendapatkan layanan terbaik di hari bahagia kamu.
+                            Kami bekerja sama dengan berbagai vendor terkemuka, termasuk katering, dekorator, fotografer,
+                            dan penyedia hiburan, untuk memastikan kamu mendapatkan layanan terbaik di hari bahagia kamu.
                         </p>
                     </div>
                 </div>

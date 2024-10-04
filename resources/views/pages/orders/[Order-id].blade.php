@@ -1,6 +1,6 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed, on, uses};
+use function Livewire\Volt\{state, rules, on, uses};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
 use App\Models\Variant;
@@ -17,42 +17,45 @@ state([
     'orderId' => fn() => $this->order->id,
     'orderItems' => fn() => $this->order->items,
     'note' => fn() => $this->order->note ?? null,
+    'min_down_payment' => fn () => $this->order->total_amount/2,
+    'max_down_payment' => fn () => $this->order->total_amount,
+    'total_down_payment' => fn () => $this->order->total_amount/2,
+    'payment_date_down_payment',
     'payment_method',
     'order',
-    // 'payment_method' => fn() => $this->order->payment_method ?? null,
 ]);
 
-$confirmOrder = function () {
-    $this->validate();
-
-    $status_payment = $this->payment_method == 'Transfer Bank' ? 'UNPAID' : 'PENDING';
-    $order = $this->order;
-
-    $order->update([
-            'total_amount' => $order->total_amount + $this->shipping_cost + $this->protect_cost_opsional,
-            'shipping_cost' => $this->shipping_cost,
-            'payment_method' => $this->payment_method,
-            'status' => $status_payment,
-            'note' => $this->note,
-            'estimated_delivery_time' => $this->selectCourier()->etd,
-            'courier' => $this->selectCourier()->description,
-            'protect_cost' => $this->protect_cost,
-        ]);
-
-    // Redirect ke halaman pembayaran atau daftar pesanan
-    if ($this->payment_method == 'Transfer Bank') {
-        $this->alert('success', 'kamu telah memilih opsi pengiriman. Lanjut melakukan pembayaran.', [
-            'position' => 'top',
-            'timer' => 3000,
-            'toast' => true,
-        ]);
-        $this->redirectRoute('customer.payment', ['order' => $order->id]);
-    } else {
-        $this->redirect('/orders');
-    }
+$gap_down_payment = function () {
+    return $this->order->total_amount - $this->total_down_payment ;
 };
 
-$cancelOrder = function ($orderId) {
+$confirm_order = function () {
+    // return dd($this->total_down_payment);
+    // $this->validate();
+
+    // $order = $this->order;
+
+    // $order->update([
+    //     'total_amount' => $order->total_amount,
+    //     'payment_method' => $this->payment_method,
+    //     'status' => 'UNPAID',
+    //     'note' => $this->note,
+    // ]);
+
+    // // Redirect ke halaman pembayaran atau daftar pesanan
+    // if ($this->payment_method == 'Transfer Bank') {
+    //     $this->alert('success', 'kamu telah memilih opsi pengiriman. Lanjut melakukan pembayaran.', [
+    //         'position' => 'top',
+    //         'timer' => 3000,
+    //         'toast' => true,
+    //     ]);
+    //     $this->redirectRoute('customer.payment', ['order' => $order->id]);
+    // } else {
+    //     $this->redirect('/orders');
+    // }
+};
+
+$cancel_order = function ($orderId) {
     $order = Order::findOrFail($orderId);
 
     // Memperbarui status pesanan menjadi 'CANCELLED'
@@ -62,12 +65,14 @@ $cancelOrder = function ($orderId) {
     $this->redirect('/orders');
 };
 
+
 $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
 ?>
 <x-guest-layout>
     <x-slot name="title">Pesanan {{ $order->invoice }}</x-slot>
 
+    @include('layouts.datepicker')
     @volt
         <div>
             <div class="container">
@@ -82,16 +87,15 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                             <span id="font-custom" class="fs-4 fw-bold">{{ $order->status }}</span>
                         </div>
                     </div>
+                    <h5>{{ $min_down_payment }}</h5>
+                    <h5>{{ $this->gap_down_payment() }}</h5>
 
                     @if ($order->status === 'PROGRESS' || $order->status === 'UNPAID')
                         @if ($order->status == 'CANCELLED')
                             <div class="alert alert-danger rounded-5" role="alert">
                                 <strong>Pemberitahuan!</strong>
                                 <span>
-                                    Pesanan dibatalkan.
-                                    @if ($order->payment_method != 'COD (Cash On Delivery)')
-                                        Silahkan tunggu konfirmasi tentang pengambalian dana!
-                                    @endif
+                                    Pesanan dibatalkan. Silahkan tunggu konfirmasi tentang pengambalian dana!
                                 </span>
                             </div>
                         @endif
@@ -110,18 +114,22 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                                 -
                                                 {{ $item->variant->name }}
                                             </h5>
-                                            <p>
-                                                X {{ $item->qty }} item ({{ $item->product->weight }} gram)
-                                            </p>
                                             <h6 class="fw-bold" style="color: #f35525">
-                                                Rp.
-                                                {{ Number::format ($item->variant->price, locale: 'id') }}
-                                            </h6>
+                                                {{ $item->variant->formatRupiah($item->variant->price) }}                                            </h6>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                             <div class="col-lg-5">
+
+                                <div class="mb-3">
+                                    <label for="wedding_date" class="form-label">Tanggal Acara</label>
+                                    <input type="text" wire:model='wedding_date' class="form-control" name="datepicker"
+                                        id="wedding_date" aria-describedby="wedding_date" placeholder="wedding_date" />
+                                    @error('wedding_date')
+                                        <small class="fw-bold text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
 
                                 <div class="mb-3">
                                     <label for="payment_method" class="form-label">Metode Pembayaran</label>
@@ -131,8 +139,27 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                         <option value="Lunas">Lunas</option>
                                         <option value="Cicilan">Cicilan</option>
                                     </select>
-                                    @error('courier')
-                                        <p class="text-danger">{{ $message }}</p>
+                                    @error('payment_method')
+                                        <small class="fw-bold text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+                                <div class="mb-3 {{ $payment_method == 'Cicilan' ? :'d-none' }}">
+                                    <label for="total_down_payment" class="form-label">Down Payment (DP)</label>
+                                    <input type="number" wire:model.live='total_down_payment' class="form-control" name="total_down_payment"
+                                        id="total_down_payment" min="{{ $min_down_payment }}" max="{{ $order->total_amount }}" value="{{ $min_down_payment }}" />
+                                    @error('total_down_payment')
+                                        <small class="fw-bold text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3 {{ $payment_method == 'Cicilan' ? :'d-none' }}">
+                                    <label for="wedding_date" class="form-label">Tanggal Acara</label>
+                                    <input type="text" wire:model='wedding_date' class="form-control" name="datepicker"
+                                        id="wedding_date" aria-describedby="wedding_date" placeholder="wedding_date" />
+                                    @error('wedding_date')
+                                        <small class="fw-bold text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
@@ -140,9 +167,9 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                     <label for="note" class="form-label">Pesan Tambahan</label>
                                     <textarea wire:model='note' class="form-control" name="note" id="note" rows="3"
                                         {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
-                            </textarea>
+                                    </textarea>
                                     @error('note')
-                                        <p class="text-danger">{{ $message }}</p>
+                                        <small class="fw-bold text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
@@ -152,7 +179,16 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                         Total Produk
                                     </div>
                                     <div class="col text-end fw-bold" style="color: #f35525">
-                                        {{ 'Rp. ' . Number::format($this->order->total_amount) }}
+                                        {{ 'Rp. ' . Number::format($order->total_amount) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        Down Payment (DP)
+                                    </div>
+                                    <div class="col text-end fw-bold" style="color: #f35525">
+                                        {{ 'Rp. ' . Number::format($order->total_amount) }}
                                     </div>
                                 </div>
 
@@ -161,7 +197,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
                                     <div class="col-md">
                                         @if ($order->status === 'PROGRESS' || $order->status === 'UNPAID')
-                                            <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
+                                            <button class="btn btn-danger" wire:click="cancel_order('{{ $order->id }}')"
                                                 role="button">
                                                 Batalkan
                                             </button>
@@ -170,7 +206,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
                                     <div class="col-md text-end">
                                         @if ($order->status === 'PROGRESS')
-                                            <button wire:click="confirmOrder('{{ $order->id }}')" class="btn btn-dark">
+                                            <button wire:click="confirm_order('{{ $order->id }}')" class="btn btn-dark">
                                                 Lanjut
                                             </button>
                                         @elseif ($order->status === 'UNPAID')

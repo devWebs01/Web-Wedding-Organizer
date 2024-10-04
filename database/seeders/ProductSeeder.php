@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Variant;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Variant;
-use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -20,63 +19,63 @@ class ProductSeeder extends Seeder
     {
         $data = [
             [
-                "category_id" => "2",
-                "vendor" => "Abieb & Friends",
-                "product" => "Music Package",
-                "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/_ard6391-small-rJ-B2E0fO/abieb-friends.webp",
-                "variants" => [
+                'category_id' => '2',
+                'vendor' => 'Abieb & Friends',
+                'product' => 'Music Package',
+                'image' => 'https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/_ard6391-small-rJ-B2E0fO/abieb-friends.webp',
+                'variants' => [
                     [
-                        "name" => "Silver Package",
-                        "price" => "7000000",
-                        "description" => "Dimulai dari IDR 7.000.000 / 5-6 jam, Termasuk: Full Band (2 Penyanyi, Saxophone, Gitar, Bass, Drum & Keyboard), Soundsystem & Crew"
+                        'name' => 'Silver Package',
+                        'price' => '7000000',
+                        'description' => 'Dimulai dari IDR 7.000.000 / 5-6 jam, Termasuk: Full Band (2 Penyanyi, Saxophone, Gitar, Bass, Drum & Keyboard), Soundsystem & Crew',
                     ],
                     [
-                        "name" => "Gold Package",
-                        "price" => "10000000",
-                        "description" => "Dimulai dari IDR 10.000.000 / 5-6 jam, Termasuk: Lite Orchestra (Violins, Violas, Violoncellos), Full Band, Soundsystem & Crew"
+                        'name' => 'Gold Package',
+                        'price' => '10000000',
+                        'description' => 'Dimulai dari IDR 10.000.000 / 5-6 jam, Termasuk: Lite Orchestra (Violins, Violas, Violoncellos), Full Band, Soundsystem & Crew',
                     ],
-                ]
+                ],
             ],
             [
-                "category_id" => "3",
-                "vendor" => "Aldea Photography",
-                "product" => "Photography Package",
-                "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/file_fd30ke/aldea-photography.webp",
-                "variants" => [
+                'category_id' => '3',
+                'vendor' => 'Aldea Photography',
+                'product' => 'Photography Package',
+                'image' => 'https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/file_fd30ke/aldea-photography.webp',
+                'variants' => [
                     [
-                        "name" => "Prewedding Package",
-                        "price" => "9090000",
-                        "description" => "1 Hari Photoshoot, 1 Magazine Photobook 20x30 (50 halaman), 1 Frame Canvas Photo 50x75 (Premium), 1 Frame Crystal Photo 50x75 (Premium), 60 Edited Photo High Resolution, CD semua file"
+                        'name' => 'Prewedding Package',
+                        'price' => '9090000',
+                        'description' => '1 Hari Photoshoot, 1 Magazine Photobook 20x30 (50 halaman), 1 Frame Canvas Photo 50x75 (Premium), 1 Frame Crystal Photo 50x75 (Premium), 60 Edited Photo High Resolution, CD semua file',
                     ],
                     [
-                        "name" => "Wedding Day Package",
-                        "price" => "9090000",
-                        "description" => "2 Fotografer, 1 Magazine Photobook 30x30 Premium, 2 Frame Canvas Photo 50x75, CD semua file"
+                        'name' => 'Wedding Day Package',
+                        'price' => '9090000',
+                        'description' => '2 Fotografer, 1 Magazine Photobook 30x30 Premium, 2 Frame Canvas Photo 50x75, CD semua file',
                     ],
-                ]
+                ],
             ],
             [
-                "category_id" => "3",
-                "vendor" => "Doctor Photography Videography",
-                "product" => "Wedding Photography Package",
-                "image" => "https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/img_9829-ByVeImreE/doctor-photography-videography.webp",
-                "variants" => [
+                'category_id' => '3',
+                'vendor' => 'Doctor Photography Videography',
+                'product' => 'Wedding Photography Package',
+                'image' => 'https://london.bridestory.com/images/c_fill,dpr_1.0,f_auto,fl_progressive,h_160,pg_1,q_80,w_160/v1/assets/img_9829-ByVeImreE/doctor-photography-videography.webp',
+                'variants' => [
                     [
-                        "name" => "Wedding Package",
-                        "price" => "5800000",
-                        "description" => "Dimulai dari IDR 5.800.000 / Paket, Liputan Akad + Resepsi, 1 fotografer Utama, 1 Fotografer Candid, 1 Videografer, 1 Crew"
+                        'name' => 'Wedding Package',
+                        'price' => '5800000',
+                        'description' => 'Dimulai dari IDR 5.800.000 / Paket, Liputan Akad + Resepsi, 1 fotografer Utama, 1 Fotografer Candid, 1 Videografer, 1 Crew',
                     ],
                     [
-                        "name" => "Prewedding Package (Outdoor)",
-                        "price" => "1500000",
-                        "description" => "Dimulai dari IDR 1.500.000 / Paket, 1 Day Photoshoot Max 1 Location Photo (Indoor / Outdoor)"
+                        'name' => 'Prewedding Package (Outdoor)',
+                        'price' => '1500000',
+                        'description' => 'Dimulai dari IDR 1.500.000 / Paket, 1 Day Photoshoot Max 1 Location Photo (Indoor / Outdoor)',
                     ],
                     [
-                        "name" => "Prewedding Package (Indoor)",
-                        "price" => "800000",
-                        "description" => "Di antara IDR 800.000 hingga 1.200.000 / PAKET, 1 Session Photoshoot Max 2 Hours"
+                        'name' => 'Prewedding Package (Indoor)',
+                        'price' => '800000',
+                        'description' => 'Di antara IDR 800.000 hingga 1.200.000 / PAKET, 1 Session Photoshoot Max 2 Hours',
                     ],
-                ]
+                ],
             ],
             // Add other products similarly...
         ];
@@ -85,7 +84,7 @@ class ProductSeeder extends Seeder
             // Cek apakah produk sudah ada berdasarkan vendor dan category_id
             $imageContents = file_get_contents(filename: $productData['image']);
             $imageName = basename(path: $productData['image']);
-            $storagePath = 'images/' . $imageName;
+            $storagePath = 'images/'.$imageName;
             Storage::disk('public')->put($storagePath, $imageContents);
 
             // Simpan produk utama
@@ -106,7 +105,7 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            $this->command->info(string: 'Tambah Produk ' . $product->title);
+            $this->command->info(string: 'Tambah Produk '.$product->title);
         }
     }
 }
