@@ -107,7 +107,7 @@ $register = function () {
                                     <input type="text" wire:model="name" class="form-control text-white"
                                         id="name" aria-describedby="nameHelp">
                                     @error('name')
-                                        <small id="nameHelp" class="form-text text-dark">{{ $message }}</small>
+                                        <small id="nameHelp" class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
@@ -115,7 +115,7 @@ $register = function () {
                                     <input type="email" wire:model="email" class="form-control text-white"
                                         id="email" aria-describedby="emailHelp">
                                     @error('email')
-                                        <small id="emailHelp" class="form-text text-dark">{{ $message }}</small>
+                                        <small id="emailHelp" class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
@@ -123,7 +123,7 @@ $register = function () {
                                     <input type="password" wire:model="password" class="form-control text-white"
                                         id="password">
                                     @error('password')
-                                        <small id="password" class="form-text text-dark">{{ $message }}</small>
+                                        <small id="password" class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
@@ -133,7 +133,7 @@ $register = function () {
                                         class="form-control text-white" id="password_confirmation">
                                     @error('password_confirmation')
                                         <small id="password_confirmation"
-                                            class="form-text text-dark">{{ $message }}</small>
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
 
