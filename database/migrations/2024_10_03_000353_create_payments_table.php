@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Relasi dengan tabel orders
-            $table->string('payment_type'); // Jenis pembayaran (DP atau Lunas)
+            $table->string('payment_type'); // Jenis pembayaran (DP atau Tunai)
             $table->string('amount'); // Jumlah uang yang dibayarkan
-            $table->dateTime('payment_date'); // Tanggal pembayaran
+            $table->date('payment_date'); // Tanggal pembayaran
             $table->string('payment_status'); // Status pembayaran
+            $table->string('proof_of_payment')->nullable(); // Status pembayaran
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ class Payment extends Model
         'amount',
         'payment_date',
         'payment_status',
+        'proof_of_payment',
     ];
 
     // Relasi dengan tabel Order

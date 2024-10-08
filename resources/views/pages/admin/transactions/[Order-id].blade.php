@@ -28,7 +28,6 @@ $confirm = function () {
     } else {
         $this->order->update(['status' => 'PACKED']);
     }
-
     $this->dispatch('orders-alert');
 };
 
@@ -239,10 +238,10 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                                     <td class="text-center">{{ $item->variant->type }}</td>
                                                     <td class="text-center">{{ $item->qty }} Item</td>
                                                     <td class="text-center">
-                                                        {{ 'Rp.' . Number::format($item->product->price) }}
+                                                        {{ formatRupiah($item->product->price) }}
                                                     </td>
                                                     <td class="text-end">
-                                                        {{ 'Rp.' . Number::format($item->product->price * $item->qty) }}
+                                                        {{ formatRupiah($item->product->price * $item->qty) }}
                                                     </td>
                                                 </tr>
                                                 <!-- end row -->
@@ -269,19 +268,19 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                             <tr class="text-end">
                                                 <td colspan="5"> Biaya Pengiriman:</td>
                                                 <td>
-                                                    {{ 'Rp.' . Number::format($order->shipping_cost) }}
+                                                    {{ formatRupiah($order->shipping_cost) }}
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
                                                 <td colspan="5"> Biaya Tambahan:</td>
                                                 <td>
-                                                    {{ $order->protect_cost == true ? 'Rp.' . Number::format(3000) : 'Rp. 0' }}
+                                                    {{ $order->protect_cost == true ? formatRupiah(3000) : 'Rp. 0' }}
                                                 </td>
                                             </tr>
                                             <tr class="text-end">
                                                 <td colspan="5" class="fw-bolder text-dark fs-6"> Total:</td>
                                                 <td class="fw-bolder text-dark fs-6">
-                                                    {{ 'Rp.' . Number::format($order->total_amount) }}
+                                                    {{ formatRupiah($order->total_amount) }}
                                                 </td>
                                             </tr>
                                         </tbody>
