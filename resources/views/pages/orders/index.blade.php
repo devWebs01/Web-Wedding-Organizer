@@ -17,7 +17,7 @@ with(
 
         'completed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'COMPLETED')->latest()->paginate(5),
 
-        'cancelled_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CANCELLED')->latest()->paginate(5),
+        'canceled_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CANCELED')->latest()->paginate(5),
     ],
 );
 
@@ -77,13 +77,13 @@ with(
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link position-relative" id="pills-cancelled_orders-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-cancelled_orders" type="button" role="tab"
-                                aria-controls="pills-cancelled_orders" aria-selected="false">
+                            <button class="nav-link position-relative" id="pills-canceled_orders-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-canceled_orders" type="button" role="tab"
+                                aria-controls="pills-canceled_orders" aria-selected="false">
                                 Pembatalan
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ count($cancelled_orders) }}
+                                    {{ count($canceled_orders) }}
                                 </span>
                             </button>
                         </li>
@@ -113,7 +113,7 @@ with(
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
                                                             style="background-color: #f35525">
-                                                            {{ $item->status }}
+                                                            {{ __('status.' . $item->status) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ formatRupiah($item->total_amount) }}
@@ -217,8 +217,8 @@ with(
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-cancelled_orders" role="tabpanel"
-                        aria-labelledby="pills-cancelled_orders-tab" tabindex="0">
+                    <div class="tab-pane fade" id="pills-canceled_orders" role="tabpanel"
+                        aria-labelledby="pills-canceled_orders-tab" tabindex="0">
                         <div class="card rounded-5">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -233,7 +233,7 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($cancelled_orders as $no => $item)
+                                            @foreach ($canceled_orders as $no => $item)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
                                                     <td>{{ $item->invoice }}</td>

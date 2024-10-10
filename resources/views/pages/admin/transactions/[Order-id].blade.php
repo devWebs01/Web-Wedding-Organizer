@@ -56,7 +56,7 @@ $cancelOrder = function ($orderId) {
         // Memperbarui quantity pada tabel produk
         $variant->update(['stock' => $newQuantity]);
     }
-    $order->update(['status' => 'CANCELLED']);
+    $order->update(['status' => 'CANCELED']);
 
     $this->dispatch('orders-alert');
     $this->alert('success', 'Pesanan telah di batalkan!', [
@@ -140,7 +140,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                 </div>
             </div>
 
-            @if ($order->status == 'CANCELLED')
+            @if ($order->status == 'CANCELED')
                 <div class="alert alert-danger" role="alert">
                     <strong>Pengingat!</strong>
                     <span>

@@ -34,6 +34,12 @@ state([
     'payment_date',
     'payment_status',
     'amount',
+
+    // Status Pembayaran
+    'is_dp' => fn() => $this->order->payments->contains('payment_type', 'DP'), // Mengecek apakah ada DP
+    'is_installment' => fn() => $this->order->payment_method === 'Cicilan', // Cek apakah metode cicilan
+    'dp_confirmed' => fn() => $this->order->payments->where('payment_type', 'DP')->first()?->payment_status === 'CONFIRMED', // Cek apakah DP sudah dikonfirmasi
+    'payment_type' => fn() => $this->is_dp ? 'Pelunasan' : 'DP', // Tentukan jenis pembayaran berikutnya (DP atau Pelunasan)
 ]);
 
 mount(function () {
@@ -146,8 +152,8 @@ $confirm_order = function () {
 $cancel_order = function ($orderId) {
     $order = Order::findOrFail($orderId);
 
-    // Memperbarui status pesanan menjadi 'CANCELLED'
-    $order->update(['status' => 'CANCELLED']);
+    // Memperbarui status pesanan menjadi 'CANCELED'
+    $order->update(['status' => 'CANCELED']);
 
     // Redirect ke halaman pesanan setelah pembatalan
     $this->redirect('/orders');
@@ -171,12 +177,14 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                     </div>
                     <div class="col-lg-6 mt-4 mt-lg-0 align-content-center fun-facts mb-3">
                         <div class="counter float-start float-lg-end">
-                            <span id="font-custom" class="fs-4 fw-bold">{{ $order->status }}</span>
+                            <span id="font-custom" class="fs-4 fw-bold">
+                                {{ __('status.' . $order->status) }}
+                            </span>
                         </div>
                     </div>
 
                     @if ($order->status === 'PROGRESS')
-                        @if ($order->status == 'CANCELLED')
+                        @if ($order->status == 'CANCELED')
                             <div class="alert alert-danger rounded-5" role="alert">
                                 <strong>Pemberitahuan!</strong>
                                 <span>

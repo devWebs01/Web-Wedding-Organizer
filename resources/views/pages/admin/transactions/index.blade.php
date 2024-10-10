@@ -17,7 +17,7 @@ state([
         'COMPLETED' => Order::where('status', 'COMPLETED')->count(),
         'SHIPPED' => Order::where('status', 'SHIPPED')->count(),
         'PENDING' => Order::where('status', 'PENDING')->count(),
-        'CANCELLED' => Order::where('status', 'CANCELLED')->count(),
+        'CANCELED' => Order::where('status', 'CANCELED')->count(),
     ],
 ]);
 
@@ -102,7 +102,7 @@ $orders = computed(function () {
                         <div class="card-body p-4">
                             <span class="text-dark fs-6 fw-bold">Pesanan Dibatalkan</span>
                             <div class="hstack gap-6 align-items-end mt-1">
-                                <h5 class="card-title fw-semibold mb-0 fs-7 mt-1">{{ $countOrders['CANCELLED'] }}</h5>
+                                <h5 class="card-title fw-semibold mb-0 fs-7 mt-1">{{ $countOrders['CANCELED'] }}</h5>
                             </div>
                         </div>
                     </div>

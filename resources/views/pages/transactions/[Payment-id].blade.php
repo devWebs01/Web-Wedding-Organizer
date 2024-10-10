@@ -37,7 +37,7 @@ $submit = function () {
     $payment = Payment::findOrFail($this->payment->id);
     $payment->update([
         'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
-        'payment_status' => 'PAID', // Ubah status pembayaran menjadi PAID
+        'payment_status' => 'PENDING', // Ubah status pembayaran menjadi PENDING
     ]);
 
     // Set alert untuk notifikasi
