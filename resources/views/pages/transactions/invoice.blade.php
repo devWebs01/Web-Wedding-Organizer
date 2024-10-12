@@ -4,7 +4,7 @@
             <h4>Pesanan</h4>
             <p>Waktu Acara : <strong>{{ \carbon\Carbon::parse($order->wedding_date)->format('d M Y') }}</strong></p>
             <p>Metode Pembayaran : <strong>{{ $order->payment_method }}</strong></p>
-            <p>Note : <strong>{{ $order->note }}</strong></p>
+
         </div>
         <div class="col-md text-lg-end">
             <h4>Pelanggan</h4>
@@ -38,7 +38,7 @@
 
                 <tr class="text-end">
                     <td colspan="2"></td>
-                    <td class="text-center fw-bolder"> Sub - Total:</td>
+                    <td class="text-center fw-bolder"> Sub Total:</td>
                     <td class="fw-bolder text-dark">
                         {{ 'Rp.' . Number::format($order->items->sum(fn($item) => $item->variant->price), locale: 'id') }}
                     </td>
@@ -69,15 +69,12 @@
 
         @foreach ($order->payments as $item)
             <div class="col-md border p-3 rounded">
-                <div class="row">
-                    <h4 class="text-center fw-bold">{{ $item->payment_type }}</h4>
-                    <div class="col-md">
-                        <h6 class="text-center my-2">{{ formatRupiah($item->amount) }}</h6>
-                    </div>
-                    <div class="col-md">
-                        <h6
-                            class="text-center my-2">{{ __('status.' . $item->payment_status) }}</h6>
-                    </div>
+                <h4 class="text-center fw-bold">{{ $item->payment_type }}</h4>
+
+                <div class="d-flex justify-content-around gap-3">
+                    <h6 class="text-center my-2">{{ formatRupiah($item->amount) }}</h6>
+
+                    <h6 class="text-center my-2">{{ __('status.' . $item->payment_status) }}</h6>
                 </div>
 
                 @if ($item->proof_of_payment)
@@ -88,6 +85,20 @@
                                 style="height: 550px; width: 100%" alt="proof_of_payment1" />
                         </a>
                     </div>
+
+                    {{-- 'UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED' --}}
+
+                    @if ($item->note)
+                        <p class="my-3 text-dark">Note :
+                            <strong>{{ $item->note }}</strong>
+                        </p>
+                    @endif
+                    @if ($item->payment_status == 'REJECTED')
+                        <a href="{{ route('order.payment', ['payment' => $item->id]) }}"
+                            class="btn btn-dark mt-3 d-grid">
+                            Lakukan Pembayaran {{ $item->payment_type }}
+                        </a>
+                    @endif
                 @else
                     <div class="card placeholder" style="height: 550px; width: 100%"></div>
 

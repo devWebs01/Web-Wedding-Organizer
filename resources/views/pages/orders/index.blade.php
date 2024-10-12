@@ -9,11 +9,13 @@ state(['count' => 0]);
 
 $increment = fn() => $this->count++;
 
+// 'UNPAID', 'PROGRESS', 'COMPLETED', 'PENDING', 'CANCELED', 'CONFIRMED'
+
 with(
     fn() => [
-        'process_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PICKUP')->orWhere('status', 'PENDING')->latest()->paginate(5),
+        'progress_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PENDING')->latest()->paginate(5),
 
-        'shipped_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'SHIPPED')->orWhere('status', 'PACKED')->latest()->paginate(5),
+        'confirmed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CONFIRMED')->latest()->paginate(5),
 
         'completed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'COMPLETED')->latest()->paginate(5),
 
@@ -42,26 +44,26 @@ with(
                 </div>
 
                 <div class="card rounded-top-5 px-3 mb-3">
-                    <ul class="nav nav-pills m-3 align-self-center" id="pills-tab" role="tablist">
+                    <ul class="nav nav-pills m-3 align-self-center gap-4" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active position-relative" id="pills-process_orders-tab"
-                                data-bs-toggle="pill" data-bs-target="#pills-process_orders" type="button" role="tab"
-                                aria-controls="pills-process_orders" aria-selected="true">Masih Proses
+                            <button class="nav-link active position-relative" id="pills-progress_orders-tab"
+                                data-bs-toggle="pill" data-bs-target="#pills-progress_orders" type="button" role="tab"
+                                aria-controls="pills-progress_orders" aria-selected="true">Masih Proses
 
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ count($process_orders) }}
+                                    {{ count($progress_orders) }}
                                 </span>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link position-relative" id="pills-shipped_orders-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-shipped_orders" type="button" role="tab"
-                                aria-controls="pills-shipped_orders" aria-selected="false">
-                                Dalam Pengiriman
+                            <button class="nav-link position-relative" id="pills-confirmed_orders-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-confirmed_orders" type="button" role="tab"
+                                aria-controls="pills-confirmed_orders" aria-selected="false">
+                                Pengerjaan
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ count($shipped_orders) }}
+                                    {{ count($confirmed_orders) }}
                                 </span>
                             </button>
                         </li>
@@ -90,8 +92,8 @@ with(
                     </ul>
                 </div>
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-process_orders" role="tabpanel"
-                        aria-labelledby="pills-process_orders-tab" tabindex="0">
+                    <div class="tab-pane fade show active" id="pills-progress_orders" role="tabpanel"
+                        aria-labelledby="pills-progress_orders-tab" tabindex="0">
                         <div class="card rounded-bottom-5">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -106,7 +108,7 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($process_orders as $no => $item)
+                                            @foreach ($progress_orders as $no => $item)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
                                                     <td>{{ $item->invoice }}</td>
@@ -126,13 +128,13 @@ with(
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    {{ $process_orders->links() }}
+                                    {{ $progress_orders->links() }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-shipped_orders" role="tabpanel"
-                        aria-labelledby="pills-shipped_orders-tab" tabindex="0">
+                    <div class="tab-pane fade" id="pills-confirmed_orders" role="tabpanel"
+                        aria-labelledby="pills-confirmed_orders-tab" tabindex="0">
                         <div class="card rounded-5">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -148,7 +150,7 @@ with(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($shipped_orders as $no => $item)
+                                            @foreach ($confirmed_orders as $no => $item)
                                                 <tr>
                                                     <th>{{ ++$no }}</th>
                                                     <td>{{ $item->invoice }}</td>
@@ -168,7 +170,7 @@ with(
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        {{ $process_orders->links() }}
+                                        {{ $progress_orders->links() }}
                                     </table>
                                 </div>
 
@@ -210,7 +212,7 @@ with(
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        {{ $process_orders->links() }}
+                                        {{ $progress_orders->links() }}
                                     </table>
                                 </div>
 
@@ -252,7 +254,7 @@ with(
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        {{ $process_orders->links() }}
+                                        {{ $progress_orders->links() }}
                                     </table>
                                 </div>
 

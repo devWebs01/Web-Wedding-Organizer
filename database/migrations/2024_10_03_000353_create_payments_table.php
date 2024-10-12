@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Relasi dengan tabel orders
-            $table->string('payment_type'); // Jenis pembayaran (DP atau Tunai)
-            $table->string('amount'); // Jumlah uang yang dibayarkan
-            $table->date('payment_date'); // Tanggal pembayaran
-            $table->enum('payment_status', ['UNPAID', 'PENDING', 'CONFIRMED']); // Status pembayaran
-            $table->string('proof_of_payment')->nullable(); // Status pembayaran
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->string('payment_type');
+            $table->string('amount');
+            $table->date('payment_date');
+            $table->enum('payment_status', ['UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED']);
+            $table->string('proof_of_payment')->nullable();
+            $table->longText('note');
             $table->timestamps();
         });
     }

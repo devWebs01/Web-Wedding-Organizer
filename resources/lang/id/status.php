@@ -7,4 +7,5 @@ return [
     'PENDING' => 'Menunggu Konfirmasi',
     'CANCELED' => 'Dibatalkan',
     'CONFIRMED' => 'Terkonfirmasi',
+    'REJECTED' => 'Di Tolak',
 ];
