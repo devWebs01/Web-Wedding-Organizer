@@ -1,6 +1,6 @@
 <?php
 
-use function Livewire\Volt\{state, rules, uses};
+use function Livewire\Volt\{state, rules, uses, computed};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
 use App\Models\Variant;
@@ -42,18 +42,38 @@ $cancelOrder = function () {
     ]);
 };
 
-$completeOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
+$completeOrder = function () {
+    $this->order->update(['status' => 'COMPLETED']);
+};
 
 // Status Payment : 'UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED'
 
 // Function payment
 $confirmPayment = function (Payment $payment) {
-    $payment->update(['payment_status' => 'COMPLETED']);
+    $payment->update(['payment_status' => 'CONFIRMED']);
 };
 
 $rejectPayment = function (Payment $payment) {
     $payment->update(['payment_status' => 'REJECTED']);
 };
+
+$statusPayments = computed(function () {
+    $order = $this->order;
+
+    if ($order->payment_method == 'Tunai') {
+        $status = Payment::where('order_id', $order->id)
+            ->where('payment_type', 'Tunai')
+            ->first();
+
+        return $status->payment_status == 'CONFIRMED' ? 'PAID' : 'UNPAID';
+    } else {
+        $status = Payment::where('order_id', $order->id)
+            ->where('payment_type', 'Pelunasan')
+            ->first();
+
+        return $status->payment_status == 'CONFIRMED' ? 'PAID' : 'UNPAID';
+    }
+});
 
 $saveNote = function ($paymentId) {
     // Validasi input
@@ -87,6 +107,8 @@ $saveNote = function ($paymentId) {
     </x-slot>
     @volt
         <div>
+
+            {{ $this->statusPayments() }}
             <div class="alert alert-primary" role="alert">
                 <h4 class="alert-heading">Halo! 😊</h4>
                 <p> Kami ingin mengingatkan Anda untuk memeriksa status pembayaran pesanan yang belum diselesaikan.
@@ -123,7 +145,16 @@ $saveNote = function ($paymentId) {
                         @endif
 
                         <div class="col-auto">
-                            <button class="btn btn-dark print-page" onclick="window.print()" type="button">
+                            <button
+                                class="btn btn-success {{ $this->statusPayments() == 'PAID' ? ($order->status !== 'COMPLETED' ? '' : 'd-none') : 'disabled' }}"
+                                wire:click="completeOrder('{{ $order->id }}')" role="button">
+                                <i class="ti ti-circle-check fs-3"></i>
+                                Selesai
+                            </button>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn btn-outline-primary print-page" onclick="window.print()" type="button">
                                 <i class="ti ti-printer fs-3"></i>
                                 Cetak
                             </button>
@@ -150,7 +181,8 @@ $saveNote = function ($paymentId) {
                 <div class="card-header py-4 row">
                     <div class="col-md">
                         <h4 class="fw-bolder">Pesanan</h4>
-                        <p>Waktu Acara : <strong>{{ \carbon\Carbon::parse($order->wedding_date)->format('d M Y') }}</strong>
+                        <p>Waktu Acara :
+                            <strong>{{ \carbon\Carbon::parse($order->wedding_date)->format('d M Y') }}</strong>
                         </p>
                         <p>Metode Pembayaran : <strong>{{ $order->payment_method }}</strong></p>
                     </div>

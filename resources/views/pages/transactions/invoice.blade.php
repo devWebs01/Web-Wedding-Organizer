@@ -88,16 +88,16 @@
 
                     {{-- 'UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED' --}}
 
-                    @if ($item->note)
-                        <p class="my-3 text-dark">Note :
-                            <strong>{{ $item->note }}</strong>
-                        </p>
-                    @endif
                     @if ($item->payment_status == 'REJECTED')
                         <a href="{{ route('order.payment', ['payment' => $item->id]) }}"
                             class="btn btn-dark mt-3 d-grid">
                             Lakukan Pembayaran {{ $item->payment_type }}
                         </a>
+                    @endif
+                    @if ($item->note)
+                        <p class="my-3 text-dark">Note :
+                            <strong>{{ $item->note }}</strong>
+                        </p>
                     @endif
                 @else
                     <div class="card placeholder" style="height: 550px; width: 100%"></div>

@@ -158,7 +158,7 @@ with(
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
                                                             style="background-color: #f35525">
-                                                            {{ $item->status }}
+                                                            {{ __('status.' . $item->status) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ formatRupiah($item->total_amount) }}
@@ -200,7 +200,7 @@ with(
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
                                                             style="background-color: #f35525">
-                                                            {{ $item->status }}
+                                                            {{ __('status.' . $item->status) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ formatRupiah($item->total_amount) }}
@@ -242,7 +242,7 @@ with(
                                                     <td>
                                                         <span class="badge rounded-pill p-2"
                                                             style="background-color: #f35525">
-                                                            {{ $item->status }}
+                                                            {{ __('status.' . $item->status) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ formatRupiah($item->total_amount) }}

@@ -27,12 +27,6 @@ $submit = function () {
         'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg',
     ]);
 
-    $order = $this->order;
-
-    $order->update([
-        'status' => 'PENDING',
-    ]);
-
     // Update payment
     $payment = Payment::findOrFail($this->payment->id);
     $payment->update([
