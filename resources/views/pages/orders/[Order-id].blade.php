@@ -24,13 +24,11 @@ state([
     'min_dp' => fn() => $this->order->total_amount / 2,
     'max_dp' => fn() => $this->order->total_amount,
     'total_dp' => fn() => $this->min_dp,
-    'full_payment',
+    'full_payment_date',
 
     // Payment Model
     'payment_method' => fn() => $this->order->payment_method ?? '',
-    'wedding_date' => fn() => Carbon::parse($this->wedding_date)
-        ->addMonth()
-        ->format('Y-m-d') ?? '',
+    'wedding_date' => fn() => Carbon::parse($this->wedding_date)->format('Y-m-d') ?? '',
     'payment_date',
     'payment_status',
     'amount',
@@ -43,28 +41,26 @@ state([
 ]);
 
 mount(function () {
-    $this->full_payment = $this->calculateFullPayment();
+    $this->full_payment_date = $this->calculateFullPayment();
 });
 
 $updatedWeddingDate = function ($value) {
-    // Panggil metode untuk menghitung full_payment
-    $this->full_payment = $this->calculateFullPayment();
+    // Panggil metode untuk menghitung full_payment_date
+    $this->full_payment_date = $this->calculateFullPayment();
 };
 
 $calculateFullPayment = function () {
-    // Logika untuk menghitung full_payment berdasarkan wedding_date
+    // Logika untuk menghitung full_payment_date berdasarkan wedding_date
     return Carbon::parse($this->wedding_date)
-        ->addWeek()
+        ->addDays(14)
         ->format('Y-m-d');
 };
 
 $gap_dp = fn() => $this->order->total_amount - $this->total_dp;
 
-$start_date = fn() => Carbon::parse(now())->format('Y-m-d');
+$start_date = fn() => Carbon::parse(today())->format('Y-m-d');
 
-$end_date = fn() => Carbon::parse($this->wedding_date)
-    ->addMonth()
-    ->format('Y-m-d');
+$end_date = fn() => Carbon::parse($this->full_payment_date)->format('Y-m-d');
 
 rules([
     'payment_method' => 'required|string|max:255',
@@ -79,7 +75,7 @@ $confirm_order = function () {
         // Validasi input
         $this->validate();
 
-        $payment_date = $this->full_payment;
+        $payment_date = $this->full_payment_date;
         $order = $this->order;
 
         // Pastikan order ada sebelum melanjutkan
@@ -167,7 +163,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
     @volt
         <div>
-
+            
             <div class="container">
                 <div class="row my-4">
                     <div class="col-lg-6">
@@ -263,10 +259,10 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 {{ $payment_method == 'Cicilan' ?: 'd-none' }}
                                 {{ $order->status == 'PROGRESS' ?: 'd-none' }}
                                 ">
-                                    <label for="full_payment" class="form-label">Tanggal Pelunasan</label>
-                                    <input type="date" wire:model.live='full_payment' class="form-control"
-                                        min="{{ $this->start_date() }}" max="{{ $this->end_date() }}" />
-                                    @error('full_payment')
+                                    <label for="full_payment_date" class="form-label">Tanggal Pelunasan</label>
+                                    <input type="date" wire:model.live='full_payment_date' class="form-control"
+                                        min="{{ $wedding_date }}" max="{{ $this->end_date() }}" disabled />
+                                    @error('full_payment_date')
                                         <small class="fw-bold text-danger">{{ $message }}</small> <br>
                                     @enderror
                                 </div>
