@@ -135,8 +135,8 @@ on([
                         <iconify-icon icon="solar:add-folder-broken"></iconify-icon>
                         <span class="hide-menu">Data Pelanggan</span>
                     </a>
-                    <a class="sidebar-link" href="{{ route('report.transactions') }}" aria-expanded="false"
-                        {{ request()->routeIs('report.transactions') }}>
+                    <a class="sidebar-link" href="{{ route('report.orders') }}" aria-expanded="false"
+                        {{ request()->routeIs('report.orders') }}>
                         <iconify-icon icon="solar:accumulator-line-duotone"></iconify-icon>
                         <span class="hide-menu">Data Transaksi</span>
                     </a>

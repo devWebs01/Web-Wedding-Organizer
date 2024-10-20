@@ -2,7 +2,7 @@
 
 return [
     'UNPAID' => 'Belum Dibayar',
-    'PROGRESS' => 'Dalam Proses',
+    'PROGRESS' => 'Draft',
     'COMPLETED' => 'Selesai',
     'PENDING' => 'Menunggu Konfirmasi',
     'CANCELED' => 'Dibatalkan',

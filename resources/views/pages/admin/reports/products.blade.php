@@ -29,9 +29,8 @@ $products = computed(fn() => Product::latest()->get());
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Produk</th>
-                                    <th>Harga</th>
-                                    <th>Jumlah / Stok</th>
-                                    <th>Berat Produk</th>
+                                    <th>Vendor</th>
+                                    <th>Vendor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,9 +38,15 @@ $products = computed(fn() => Product::latest()->get());
                                     <tr>
                                         <td>{{ ++$no }}</td>
                                         <td>{{ Str::limit($product->title, 40, '...') }}</td>
-                                        <td>{{ formatRupiah($product->price) }}</td>
-                                        <td>Tersedia</td>
-                                        <td>{{ $product->weight }} gram</td>
+                                        <td>{{ $product->vendor }}</td>
+                                        <td>
+                                            <ul>
+                                                @foreach ($product->items as $item)
+                                                    <li>{{ $item->variant->name . ' : ' . formatRupiah($item->variant->price) }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

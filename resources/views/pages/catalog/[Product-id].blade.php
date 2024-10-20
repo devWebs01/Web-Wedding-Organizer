@@ -39,14 +39,13 @@ $addToCart = function (Product $product) {
             ->first();
 
         if ($existingCart) {
-        $this->alert('warning', 'Item sudah ada di daftar.', [
-            'position' => 'top',
-            'timer' => '2000',
-            'toast' => true,
-            'timerProgressBar' => true,
-            'text' => '',
-        ]);
-
+            $this->alert('warning', 'Item sudah ada di daftar.', [
+                'position' => 'top',
+                'timer' => '2000',
+                'toast' => true,
+                'timerProgressBar' => true,
+                'text' => '',
+            ]);
         } else {
             Cart::create($this->validate());
             $this->dispatch('cart-updated');
@@ -59,7 +58,6 @@ $addToCart = function (Product $product) {
                 'text' => '',
             ]);
         }
-
     } else {
         $this->redirect('/login');
     }
@@ -81,7 +79,9 @@ $addToCart = function (Product $product) {
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">
                             <p>
-                                Rayakan hari istimewa kamu dengan Paket <strong>{{ $product->title }}</strong> dari <strong>{{ $product->vendor }}</strong>. Dirancang untuk memenuhi semua kebutuhan pernikahan kamu.
+                                Rayakan hari istimewa kamu dengan Paket <strong>{{ $product->title }}</strong> dari
+                                <strong>{{ $product->vendor }}</strong>. Dirancang untuk memenuhi semua kebutuhan pernikahan
+                                kamu.
                             </p>
                         </div>
                     </div>
@@ -95,18 +95,18 @@ $addToCart = function (Product $product) {
                         <aside class="col-lg-6">
                             <div class="border rounded-4 mb-3 d-flex justify-content-center">
                                 <img class="p-4 object-fit-cover" style="width: 100%;"
-                                src="{{ Storage::url($product->image) }}" />
+                                    src="{{ Storage::url($product->image) }}" />
                             </div>
                         </aside>
                         <main class="col-lg-6">
                             <div class="ps-lg-3">
-                                <small class="fw-bold" style="color: #f35525;">{{ $product->category->name }}</small>
+                                <small class="fw-bold text-custom">{{ $product->category->name }}</small>
                                 <h2 id="font-custom" class="title text-dark fw-bold">
                                     {{ $product->title }}
                                 </h2>
 
                                 <div class="my-3">
-                                    <span class="h5 fw-bold" style="color: #f35525;">
+                                    <span class="h5 fw-bold text-custom">
                                         {{ $variant->name ?? '...' }}
                                     </span>
                                 </div>
@@ -119,7 +119,7 @@ $addToCart = function (Product $product) {
 
                                     <dt class="col-3 mb-2 text-capitalize">Nama</dt>
                                     <dd class="col-9 mb-2">
-                                        {{ $variant->name ?? ''  }}</dd>
+                                        {{ $variant->name ?? '' }}</dd>
 
                                     <dt class="col-3 mb-2 text-capitalize">Harga</dt>
                                     <dd class="col-9 mb-2">
@@ -127,7 +127,7 @@ $addToCart = function (Product $product) {
 
                                     <dt class="col-3 mb-2 text-capitalize">Deksripsi</dt>
                                     <dd class="col-9 mb-2">
-                                        {{ $variant->description ?? ''  }}</dd>
+                                        {{ $variant->description ?? '' }}</dd>
 
 
                                     <dt class="col-3 mb-2">Pilihan</dt>
@@ -138,7 +138,7 @@ $addToCart = function (Product $product) {
                                                 <div class="col-auto">
                                                     <button wire:key='{{ $variant->id }}'
                                                         wire:click='selectVariant({{ $variant->id }})' type="button"
-                                                        class="badge rounded-pill" style="color: #f35525;">
+                                                        class="badge rounded-pill text-custom">
                                                         {{ $variant->name }}
                                                     </button>
                                                 </div>
@@ -154,8 +154,7 @@ $addToCart = function (Product $product) {
                                                 <button wire:key="{{ $product->id }}" type="submit"
                                                     class="btn btn-dark w-100">
 
-                                                    <span
-                                                        wire:loading.remove>Masukkan List
+                                                    <span wire:loading.remove>Masukkan List
                                                     </span>
 
                                                     <div wire:loading class="spinner-border spinner-border-sm" role="status">
@@ -170,7 +169,8 @@ $addToCart = function (Product $product) {
                                             </small>
                                         @enderror
                                     @else
-                                        <a class="btn btn-dark w-100" href="{{ route('login') }}" role="button">Pesan Sekarang</a>
+                                        <a class="btn btn-dark w-100" href="{{ route('login') }}" role="button">Pesan
+                                            Sekarang</a>
                                     @endauth
                                 </div>
                             </div>

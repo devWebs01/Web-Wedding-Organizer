@@ -55,21 +55,15 @@
     <div class="card-footer row">
         <div class="col-12">
             <span class="fw-medium text-heading">Note:</span>
-            <span>{{ $order->note }}</span>
+            <span>{{ $order->note ?? '-' }}</span>
         </div>
     </div>
 
     <div class="card-body row px-0 gap-4">
-
-        <div class="alert alert-primary" role="alert">
-            <h4 class="alert-heading">Halo! 😊</h4>
-            <p> Kami ingin mengingatkan kamu untuk menyelesaikan pembayaran agar pesanan kamu dapat segera diproses.
-                Kami sangat menghargai perhatian kamu dan ingin memastikan semuanya berjalan lancar.</p>
-        </div>
-
         @foreach ($order->payments as $item)
             <div class="col-md border p-3 rounded">
-                <h4 class="text-center fw-bold">{{ $item->payment_type }}</h4>
+                <h4 class="text-center fw-bold">{{ $item->payment_type }} -
+                    {{ Carbon\Carbon::parse($item->payment_date)->format('d M Y') }}</h4>
 
                 <div class="d-flex justify-content-around gap-3">
                     <h6 class="text-center my-2">{{ formatRupiah($item->amount) }}</h6>

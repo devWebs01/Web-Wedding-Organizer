@@ -4,7 +4,7 @@ use App\Models\Order;
 use function Livewire\Volt\{computed};
 use function Laravel\Folio\name;
 
-name('report.transactions');
+name('report.orders');
 
 $orders = computed(fn() => Order::query()->get());
 
@@ -14,7 +14,7 @@ $orders = computed(fn() => Order::query()->get());
     <x-slot name="title">Transaksi Toko</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('report.transactions') }}">Transaksi Toko</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.orders') }}">Transaksi Toko</a></li>
     </x-slot>
 
 
@@ -42,12 +42,14 @@ $orders = computed(fn() => Order::query()->get());
                                         <td>{{ ++$no }}.</td>
                                         <td>{{ $order->invoice }}</td>
                                         <td>{{ $order->user->name }}</td>
-                                        <td>{{ $order->status }}</td>
+                                        <td>
+                                            {{ __('status.' . $order->status) }}
+                                        </td>
                                         <td>{{ formatRupiah($order->total_amount) }}
                                         </td>
                                         <td>{{ $order->payment_method }}</td>
                                         <td>{{ $order->protect_cost == 1 ? 'Bubble Wrap' : '-' }}</td>
-                                        <td>{{ $order->items->count() }} Barang</td>
+                                        <td>{{ $order->items->count() }} Item</td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -96,40 +96,7 @@ with(
                         aria-labelledby="pills-progress_orders-tab" tabindex="0">
                         <div class="card rounded-bottom-5">
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Invoice</th>
-                                                <th>Status</th>
-                                                <th>Total Pesanan</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($progress_orders as $no => $item)
-                                                <tr>
-                                                    <th>{{ ++$no }}</th>
-                                                    <td>{{ $item->invoice }}</td>
-                                                    <td>
-                                                        <span class="badge rounded-pill p-2"
-                                                            style="background-color: #f35525">
-                                                            {{ __('status.' . $item->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ formatRupiah($item->total_amount) }}
-                                                    </td>
-                                                    <td>
-                                                        <a wire:navigate href="/orders/{{ $item->id }}"
-                                                            class="btn btn-sm btn-outline-dark">Lihat</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{ $progress_orders->links() }}
-                                </div>
+                                @include('pages.orders.table_progress_orders')
                             </div>
                         </div>
                     </div>
@@ -137,42 +104,7 @@ with(
                         aria-labelledby="pills-confirmed_orders-tab" tabindex="0">
                         <div class="card rounded-5">
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Invoice</th>
-                                                <th>Resi</th>
-                                                <th>Status</th>
-                                                <th>Total Pesanan</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($confirmed_orders as $no => $item)
-                                                <tr>
-                                                    <th>{{ ++$no }}</th>
-                                                    <td>{{ $item->invoice }}</td>
-                                                    <td>{{ $item->tracking_number }}</td>
-                                                    <td>
-                                                        <span class="badge rounded-pill p-2"
-                                                            style="background-color: #f35525">
-                                                            {{ __('status.' . $item->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ formatRupiah($item->total_amount) }}
-                                                    </td>
-                                                    <td>
-                                                        <a wire:navigate href="/orders/{{ $item->id }}"
-                                                            class="btn btn-sm btn-outline-dark">Lihat</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        {{ $progress_orders->links() }}
-                                    </table>
-                                </div>
+                                @include('pages.orders.table_confirmed_orders')
 
                             </div>
                         </div>
@@ -181,40 +113,7 @@ with(
                         aria-labelledby="pills-completed_orders-tab" tabindex="0">
                         <div class="card rounded-5">
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Invoice</th>
-                                                <th>Status</th>
-                                                <th>Total Pesanan</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($completed_orders as $no => $item)
-                                                <tr>
-                                                    <th>{{ ++$no }}</th>
-                                                    <td>{{ $item->invoice }}</td>
-                                                    <td>
-                                                        <span class="badge rounded-pill p-2"
-                                                            style="background-color: #f35525">
-                                                            {{ __('status.' . $item->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ formatRupiah($item->total_amount) }}
-                                                    </td>
-                                                    <td>
-                                                        <a wire:navigate href="/orders/{{ $item->id }}"
-                                                            class="btn btn-sm btn-outline-dark">Lihat</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        {{ $progress_orders->links() }}
-                                    </table>
-                                </div>
+                                @include('pages.orders.table_completed_orders')
 
                             </div>
                         </div>
@@ -223,41 +122,8 @@ with(
                         aria-labelledby="pills-canceled_orders-tab" tabindex="0">
                         <div class="card rounded-5">
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Invoice</th>
-                                                <th>Status</th>
-                                                <th>Total Pesanan</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($canceled_orders as $no => $item)
-                                                <tr>
-                                                    <th>{{ ++$no }}</th>
-                                                    <td>{{ $item->invoice }}</td>
-                                                    <td>
-                                                        <span class="badge rounded-pill p-2"
-                                                            style="background-color: #f35525">
-                                                            {{ __('status.' . $item->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ formatRupiah($item->total_amount) }}
-                                                    </td>
-                                                    <td>
-                                                        <a wire:navigate href="/orders/{{ $item->id }}"
-                                                            class="btn btn-sm btn-outline-dark">Lihat</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        {{ $progress_orders->links() }}
-                                    </table>
-                                </div>
-
+                                @include('pages.orders.table_canceled_orders')
+                              
                             </div>
                         </div>
                     </div>
