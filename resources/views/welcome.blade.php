@@ -15,25 +15,6 @@ state([
 
 <x-guest-layout>
     <x-slot name="title">Selamat Datang</x-slot>
-    <style>
-        .hover {
-            --c: #9c9259;
-            /* the color */
-
-            color: #0000;
-            background:
-                linear-gradient(90deg, #fff 50%, var(--c) 0) calc(100% - var(--_p, 0%))/200% 100%,
-                linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) 100% no-repeat;
-            -webkit-background-clip: text, padding-box;
-            background-clip: text, padding-box;
-            transition: 0.5s;
-            border-radius: 10px;
-        }
-
-        .hover:hover {
-            --_p: 100%
-        }
-    </style>
     @volt
         <div>
 
@@ -56,37 +37,8 @@ state([
                 </div>
             </div>
 
-            <div class="container my-5 ratio ratio-16x9 border rounded">
-
-                <a data-bs-toggle="modal" data-bs-target="#modalId">
-                    <img src="./hero/modal-image.png" alt="">
-                </a>
-
-                <!-- Modal -->
-                <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content" style="
-                        background: transparent;">
-                            <div class="modal-body p-0">
-                                <i id="close" class="fa-solid fa-x text-white fs-5" data-bs-dismiss="modal"
-                                aria-label="Close"></i>
-                                <video class="w-100 rounded" loop autoplay>
-                                    <source src="{{ asset('./hero/modal-video.mp4') }}" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <style>
-                    #close {
-                        position: absolute;
-                        right: -30px;
-                        top: 0;
-                        z-index: 999;
-                        --bs-btn-close-color: white;
-                    }
-                </style>
+            <div class="container my-5">
+                <img src="./hero/modal-image.png" class="img-fluid rounded" alt="hero page" />
             </div>
 
             <section class="py-5">
@@ -154,24 +106,19 @@ state([
                 </div>
             </div>
 
-            <div class="container">
-                <section class="py-5 my-md-5 border" style="background-color: #9c9259;">
-                    <div class="container">
-                        <div class="row justify-content-center text-center text-white py-4">
-                            <div class="col-lg-8">
-                                <span>Daftar Sekarang</span>
-                                <h2 id="font-custom" class="display-5 fw-bold my-2">Mulai Hari Ini Juga!</h2>
-                                <p class="lead text-white">Ceritakan sedikit tentang kamu dan rencana pernikahan kamu agar
-                                    kami dapat memberikan rekomendasi vendor dan konten yang lebih baik.</p>
-                                <div class=" mt-5 d-grid col-3 mx-auto">
-                                    <a class="btn btn-dark text-uppercase " href="{{ route('login') }}"
-                                        type="submit">Daftar</a>
-                                </div>
-                            </div>
+            <section class="container py-5 my-md-5 bg-custom-secondary rounded">
+                <div class="row justify-content-center text-center text-white py-4">
+                    <div class="col-lg-8">
+                        <span>Daftar Sekarang</span>
+                        <h2 id="font-custom" class="display-5 fw-bold my-2">Mulai Hari Ini Juga!</h2>
+                        <p class="lead text-white">Ceritakan sedikit tentang kamu dan rencana pernikahan kamu agar
+                            kami dapat memberikan rekomendasi vendor dan konten yang lebih baik.</p>
+                        <div class=" mt-5 d-grid col-3 mx-auto">
+                            <a class="btn btn-dark text-uppercase " href="{{ route('login') }}" type="submit">Daftar</a>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
 
         </div>
     @endvolt

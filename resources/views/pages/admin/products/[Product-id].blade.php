@@ -116,8 +116,7 @@ $redirectProductsPage = function () {
 
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label">Kategori Produk</label>
-                                    <select class="form-select" wire:model="category_id" id="category_id"
-                                        >
+                                    <select class="form-select" wire:model="category_id" id="category_id">
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)
                                             <option value="{{ $category->id }}">- {{ $category->name }}</option>
@@ -130,13 +129,12 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <button type="submit"
-                                    class="btn btn-primary">
-                                    {{ $productId == null ? 'Submit' : 'Edit' }}
-                                </button>
-                                <x-action-message wire:loading on="save">
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                </x-action-message>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ $productId == null ? 'Submit' : 'Edit' }}
+                                    </button>
+                                    <x-action-message wire:loading on="save">
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </x-action-message>
                                 </div>
 
                             </div>
@@ -146,7 +144,7 @@ $redirectProductsPage = function () {
                 <hr>
 
                 @if ($productId)
-                    @livewire('pages.products.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
+                    @livewire('pages.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
 
                     <button type="button" wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
                 @endif

@@ -144,7 +144,7 @@ $createdProduct = function () {
                 <hr>
 
                 @if ($productId)
-                    @livewire('pages.products.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
+                    @livewire('pages.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
 
                     <button type="button" wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
                 @endif

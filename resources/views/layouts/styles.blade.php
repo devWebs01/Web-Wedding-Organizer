@@ -108,4 +108,34 @@
         /* font-family: Arial; */
         text-align: center;
     }
+
+    .hover {
+        --c: #9c9259;
+        /* the color */
+
+        color: #0000;
+        background:
+            linear-gradient(90deg, #fff 50%, var(--c) 0) calc(100% - var(--_p, 0%))/200% 100%,
+            linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) 100% no-repeat;
+        -webkit-background-clip: text, padding-box;
+        background-clip: text, padding-box;
+        transition: 0.5s;
+        border-radius: 10px;
+    }
+
+    .hover:hover {
+        --_p: 100%
+    }
+
+    #close {
+        position: absolute;
+        right: -30px;
+        top: 0;
+        z-index: 999;
+        --bs-btn-close-color: white;
+    }
+
+    .bg-custom-secondary {
+        background-color: #f35525;
+    }
 </style>
