@@ -8,7 +8,7 @@ use function Laravel\Folio\name;
 name('welcome');
 
 state([
-    'products' => fn() => Product::latest()->limit(3)->get(),
+    'products' => fn() => Product::latest()->limit(6)->get(),
 ]);
 
 ?>
@@ -49,16 +49,13 @@ state([
                         <div class="col-md-5">
                             <p class="lead">
                                 Kami adalah tim wedding organizer yang berkomitmen untuk membuat hari istimewa kamu menjadi
-                                tak terlupakan. Dengan pengalaman bertahun-tahun, kami memahami setiap detail yang
-                                diperlukan untuk pernikahan yang sempurna.
+                                tak terlupakan. 
                             </p>
                         </div>
                         <div class="col-md-6 offset-md-1">
 
                             <p class="lead mb-0">
-                                Kami percaya bahwa setiap pasangan memiliki cerita unik. Tugas kami adalah
-                                mewujudkan visi kamu menjadi kenyataan, sambil mengurangi stres dan memberikan pengalaman
-                                yang menyenangkan.
+                                Dengan pengalaman bertahun-tahun, kami mewujudkan visi unik setiap pasangan sambil mengurangi stres dan memberikan pengalaman menyenangkan.
                             </p>
                         </div>
                     </div>
