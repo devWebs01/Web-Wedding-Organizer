@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         Artisan::call('rajaongkir:seed');
 
         \App\Models\Shop::create([
-            'name' => 'Adinda Putri',
+            'name' => 'Ranni Gallery',
             'province_id' => 8,
             'city_id' => 156,
             'details' => 'Jl. Arif Rahman Hakim No.111, Simpang IV Sipin, Kec. Telanaipura, Kota Jambi, Jambi 36361',
