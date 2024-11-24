@@ -42,7 +42,7 @@ $products = computed(function () {
 
 ?>
 <x-guest-layout>
-    <x-slot name="title">Katalog Produk</x-slot>
+    <x-slot name="title">Katalog Layanan</x-slot>
     @volt
         <div>
             <!-- Category Top Banner -->
@@ -51,12 +51,13 @@ $products = computed(function () {
                     <div class="row">
                         <div class="col-lg-6">
                             <h2 id="font-custom" class="display-2 fw-bold">
-                                Katalog Produk
+                                Katalog Layanan
                             </h2>
                         </div>
                         <div class="col-lg-6 mt-4 mt-lg-0 align-content-center">
                             <p>
-                                Jelajahi katalog kami dan temukan produk yang tepat untuk pernikahan kamu. Jika kamu memiliki pertanyaan, jangan ragu untuk menghubungi tim kami.
+                                Jelajahi katalog kami dan temukan layanan yang tepat untuk pernikahan kamu. Jika kamu
+                                memiliki pertanyaan, jangan ragu untuk menghubungi tim kami.
                             </p>
                         </div>
                     </div>
@@ -71,9 +72,8 @@ $products = computed(function () {
                         <div class="mb-4 row">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Kategori</label>
                             <div class="col-sm-10">
-                                <select wire:model.live="category_id" class="form-select" name="category_id"
-                                    id="">
-                                    <option selected value="">Kategori Produk</option>
+                                <select wire:model.live="category_id" class="form-select" name="category_id" id="">
+                                    <option selected value="">Kategori Layanan</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ Str::limit($category->name, 35, '...') }}
                                     @endforeach

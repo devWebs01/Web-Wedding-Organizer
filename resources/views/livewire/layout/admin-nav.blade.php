@@ -77,12 +77,12 @@ on([
                     <a class="sidebar-link" href="{{ route('categories-product') }}" aria-expanded="false"
                         {{ request()->routeIs('categories-product') }}>
                         <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
-                        <span class="hide-menu">Kategori Produk</span>
+                        <span class="hide-menu">Kategori Layanan</span>
                     </a>
                     <a class="sidebar-link" href="{{ route('products.index') }}" aria-expanded="false"
                         {{ request()->routeIs('products.index') }}>
                         <iconify-icon icon="solar:bacteria-bold"></iconify-icon>
-                        <span class="hide-menu">Produk Toko</span>
+                        <span class="hide-menu">Layanan</span>
                     </a>
                     <a class="sidebar-link" href="{{ route('setting-store') }}" aria-expanded="false"
                         {{ request()->routeIs('setting-store') }}>
