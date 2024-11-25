@@ -9,17 +9,17 @@ state(['count' => 0]);
 
 $increment = fn() => $this->count++;
 
-// 'UNPAID', 'PROGRESS', 'COMPLETED', 'PENDING', 'CANCELED', 'CONFIRMED'
+// 'UNPAID_ORDER', 'DRAF_ORDER', 'FINISH_ORDER', 'PENDING_ORDER', 'CANCEL_ORDER', 'CONFIRMED'
 
 with(
     fn() => [
-        'progress_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID')->orWhere('status', 'PROGRESS')->orWhere('status', 'PENDING')->latest()->paginate(5),
+        'progress_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'UNPAID_ORDER')->orWhere('status', 'DRAF_ORDER')->orWhere('status', 'PENDING_ORDER')->latest()->paginate(5),
 
-        'confirmed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CONFIRMED')->latest()->paginate(5),
+        'confirmed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'ACCEPT_ORDER')->latest()->paginate(5),
 
-        'completed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'COMPLETED')->latest()->paginate(5),
+        'completed_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'FINISH_ORDER')->latest()->paginate(5),
 
-        'canceled_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CANCELED')->latest()->paginate(5),
+        'canceled_orders' => fn() => Order::where('user_id', auth()->id())->where('status', 'CANCEL_ORDER')->latest()->paginate(5),
     ],
 );
 
@@ -123,7 +123,7 @@ with(
                         <div class="card rounded-5">
                             <div class="card-body">
                                 @include('pages.orders.table_canceled_orders')
-                              
+
                             </div>
                         </div>
                     </div>

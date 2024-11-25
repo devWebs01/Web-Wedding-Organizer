@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('invoice')->nullable();
             $table->string('slug')->nullable();
-            $table->enum('status', ['UNPAID', 'PROGRESS', 'COMPLETED', 'PENDING', 'CANCELED', 'CONFIRMED']);
+            $table->enum('status', ['UNPAID_ORDER', 'DRAF_ORDER', 'FINISH_ORDER', 'PENDING_ORDER', 'CANCEL_ORDER', 'PARTIAL', 'ACCEPT_ORDER']);
             $table->unsignedBigInteger('total_amount')->nullable();
             $table->string('payment_method')->nullable();
             $table->longText('note')->nullable();

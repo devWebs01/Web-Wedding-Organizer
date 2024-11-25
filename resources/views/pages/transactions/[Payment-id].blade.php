@@ -22,6 +22,7 @@ state([
 ]);
 
 $submit = function () {
+    $order = $this->order;
     // Validasi input
     $this->validate([
         'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg',
@@ -31,8 +32,10 @@ $submit = function () {
     $payment = Payment::findOrFail($this->payment->id);
     $payment->update([
         'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
-        'payment_status' => 'PENDING', // Ubah status pembayaran menjadi PENDING
+        'payment_status' => 'WAITING_CONFIRM_PAYMENT', // Ubah status pembayaran menjadi WAITING_CONFIRM_PAYMENT
     ]);
+
+    $order->update(['status' => 'PENDING_ORDER']);
 
     // Set alert untuk notifikasi
     $this->alert('success', 'Bukti pembayaran berhasil diunggah!', [
@@ -51,7 +54,6 @@ $submit = function () {
     <x-slot name="title">Lanjut Pembayaran</x-slot>
     @volt
         <div>
-            {{ $payment->order->id }}
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-lg-6">
@@ -117,7 +119,8 @@ $submit = function () {
                                                     <span class="visually-hidden">Loading...</span>
                                                 </div>
                                             </label>
-                                            <input type="file" class="form-control" wire:model='proof_of_payment'>
+                                            <input type="file" class="form-control" accept="image/*"
+                                                wire:model='proof_of_payment'>
                                             @error('proof_of_payment')
                                                 <p id="proof_of_payment" class="text-danger">{{ $message }}</p>
                                             @enderror

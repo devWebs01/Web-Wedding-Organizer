@@ -64,7 +64,7 @@ $confirmCheckout = function () {
             // Buat pesanan baru
             $order = Order::create([
                 'user_id' => $userId,
-                'status' => 'PROGRESS',
+                'status' => 'DRAF_ORDER',
                 'invoice' => 'INV-' . time(),
                 'total_amount' => 0,
             ]);
@@ -103,9 +103,8 @@ $confirmCheckout = function () {
             // Redirect ke halaman detail pesanan
             $this->redirect('/orders/' . $order->id);
 
-             // Hapus keranjang pengguna setelah berhasil menambahkan pesanan
-             Cart::where('user_id', $userId)->delete();
-
+            // Hapus keranjang pengguna setelah berhasil menambahkan pesanan
+            Cart::where('user_id', $userId)->delete();
         }, 5); // Retry 5 kali jika terjadi deadlock atau kegagalan transaksi
     } catch (\Throwable $e) {
         // Tampilkan notifikasi error jika transaksi gagal setelah retry 5 kali

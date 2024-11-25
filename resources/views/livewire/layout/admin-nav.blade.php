@@ -5,13 +5,13 @@ use App\Models\Shop;
 use App\Models\Order;
 
 state([
-    'orders' => fn() => Order::whereStatus('PENDING')->count() ?? null,
+    'orders' => fn() => Order::whereStatus('PENDING_ORDER')->count() ?? null,
     'profileShop' => fn() => Shop::first(),
 ]);
 
 on([
     'orders-alert' => function () {
-        $this->orders = Order::whereStatus('PENDING')->count();
+        $this->orders = Order::whereStatus('PENDING_ORDER')->count();
     },
     'profile-shop' => function () {
         $this->profileShop = Shop::first();

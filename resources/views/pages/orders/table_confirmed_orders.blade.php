@@ -4,7 +4,6 @@
             <tr>
                 <th>No.</th>
                 <th>Invoice</th>
-                <th>Resi</th>
                 <th>Status</th>
                 <th>Total Pesanan</th>
                 <th>#</th>
@@ -15,7 +14,6 @@
                 <tr>
                     <th>{{ ++$no }}</th>
                     <td>{{ $item->invoice }}</td>
-                    <td>{{ $item->tracking_number }}</td>
                     <td>
                         <span class="badge rounded-pill p-2 text-custom border">
                             {{ __('status.' . $item->status) }}

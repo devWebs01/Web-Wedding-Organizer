@@ -3,15 +3,20 @@
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
-use function Livewire\Volt\{state};
+use function Livewire\Volt\{state, mount};
 
 state([
     'customers' => fn() => User::whereRole('customer')->count(),
-    'ordersCount' => fn() => Order::whereIn('status', ['COMPLETED', 'SHIPPED', 'PACKED'])->count(),
-    'totalAmount' => Order::whereIn('status', ['COMPLETED', 'SHIPPED', 'PACKED'])->sum('total_amount'),
-    'ordersPendingCount' => fn() => Order::whereIn('status', ['PENDING', 'SHIPPED'])->get(),
-    'ordersCustPickup' => fn() => Order::whereIn('status', ['PENDING', 'SHIPPED'])->get(),
+    'ordersCount' => fn() => Order::whereIn('status', ['FINISH_ORDER', 'SHIPPED', 'PACKED'])->count(),
+    'totalAmount' => Order::whereIn('status', ['FINISH_ORDER', 'SHIPPED', 'PACKED'])->sum('total_amount'),
+    'ordersPendingCount' => fn() => Order::whereIn('status', ['PENDING_ORDER', 'CONFIRMED'])->get(),
 ]);
+
+// mount([
+//     $this->ordersPendingCount = Order::with(['payments'
+//     => fn ($query)
+//     => $query->where('payment_status', 'PENDING_ORDER')])->get(),
+// ]);
 
 ?>
 <x-admin-layout>
@@ -110,7 +115,9 @@ state([
                                     @foreach ($ordersPendingCount as $no => $order)
                                         <tr>
                                             <td>{{ ++$no }}.</td>
-                                            <td>{{ $order->status }}</td>
+                                            <td>
+                                                {{ __('status.' . $order->status) }}
+                                            </td>
                                             <td>
                                                 {{ formatRupiah($order->total_amount) }}
                                             </td>

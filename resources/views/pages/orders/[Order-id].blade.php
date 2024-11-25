@@ -36,7 +36,7 @@ state([
     // Status Pembayaran
     'is_dp' => fn() => $this->order->payments->contains('payment_type', 'DP'), // Mengecek apakah ada DP
     'is_installment' => fn() => $this->order->payment_method === 'Cicilan', // Cek apakah metode cicilan
-    'dp_confirmed' => fn() => $this->order->payments->where('payment_type', 'DP')->first()?->payment_status === 'CONFIRMED', // Cek apakah DP sudah dikonfirmasi
+    'dp_confirmed' => fn() => $this->order->payments->where('payment_type', 'DP')->first()?->payment_status === 'CONFIRM_PAYMENT', // Cek apakah DP sudah dikonfirmasi
     'payment_type' => fn() => $this->is_dp ? 'Pelunasan' : 'DP', // Tentukan jenis pembayaran berikutnya (DP atau Pelunasan)
 ]);
 
@@ -87,7 +87,7 @@ $confirm_order = function () {
         $order->update([
             'payment_method' => $this->payment_method,
             'wedding_date' => $this->wedding_date,
-            'status' => 'UNPAID',
+            'status' => 'UNPAID_ORDER',
             'note' => $this->note,
         ]);
 
@@ -99,7 +99,7 @@ $confirm_order = function () {
                 'payment_type' => 'Tunai',
                 'amount' => $this->order->total_amount,
                 'payment_date' => now(),
-                'payment_status' => 'UNPAID',
+                'payment_status' => 'UNPAID_PAYMENT',
             ]);
 
             // dd($this->all());
@@ -110,7 +110,7 @@ $confirm_order = function () {
                 'payment_type' => 'DP',
                 'amount' => $this->total_dp,
                 'payment_date' => now(),
-                'payment_status' => 'UNPAID',
+                'payment_status' => 'UNPAID_PAYMENT',
             ]);
 
             Payment::create([
@@ -118,7 +118,7 @@ $confirm_order = function () {
                 'payment_type' => 'Pelunasan',
                 'amount' => $order->total_amount - $this->total_dp,
                 'payment_date' => $payment_date,
-                'payment_status' => 'UNPAID',
+                'payment_status' => 'UNPAID_PAYMENT',
             ]);
         }
 
@@ -150,14 +150,14 @@ $confirm_order = function () {
 $cancel_order = function ($orderId) {
     $order = Order::findOrFail($orderId);
 
-    // Memperbarui status pesanan menjadi 'CANCELED'
-    $order->update(['status' => 'CANCELED']);
+    // Memperbarui status pesanan menjadi 'CANCEL_ORDER'
+    $order->update(['status' => 'CANCEL_ORDER']);
 
     // Redirect ke halaman pesanan setelah pembatalan
     $this->redirect('/orders');
 };
 
-$complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
+$complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
 
 ?>
 <x-guest-layout>
@@ -181,8 +181,8 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                         </div>
                     </div>
 
-                    @if ($order->status === 'PROGRESS')
-                        @if ($order->status == 'CANCELED')
+                    @if ($order->status === 'DRAF_ORDER')
+                        @if ($order->status == 'CANCEL_ORDER')
                             <div class="alert alert-danger rounded-5" role="alert">
                                 <strong>Pemberitahuan!</strong>
                                 <span>
@@ -249,7 +249,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 <div
                                     class="mb-3
                                     {{ $payment_method == 'Cicilan' ?: 'd-none' }}
-                                    {{ $order->status == 'PROGRESS' ?: 'd-none' }}
+                                    {{ $order->status == 'DRAF_ORDER' ?: 'd-none' }}
                                     ">
                                     <label for="total_dp" class="form-label hover-text">
                                         Down Payment (DP)
@@ -274,7 +274,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 <div
                                     class="mb-3
                                 {{ $payment_method == 'Cicilan' ?: 'd-none' }}
-                                {{ $order->status == 'PROGRESS' ?: 'd-none' }}
+                                {{ $order->status == 'DRAF_ORDER' ?: 'd-none' }}
                                 ">
                                     <label for="full_payment_date" class="form-label hover-text">
                                         Tanggal Pelunasan
@@ -295,7 +295,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                             khusus.</span>
                                     </label>
                                     <textarea wire:model='note' class="form-control" name="note" id="note" rows="3"
-                                        {{ $order->status !== 'PROGRESS' ? 'disabled' : '' }}>
+                                        {{ $order->status !== 'DRAF_ORDER' ? 'disabled' : '' }}>
                                     </textarea>
                                     @error('note')
                                         <small class="fw-bold text-danger">{{ $message }}</small>
@@ -315,7 +315,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 <div
                                     class="row
                                 {{ $payment_method == 'Cicilan' ?: 'd-none' }}
-                                {{ $order->status == 'PROGRESS' ?: 'd-none' }}
+                                {{ $order->status == 'DRAF_ORDER' ?: 'd-none' }}
                                 ">
                                     <div class="col">
                                         Down Payment (DP)
@@ -327,7 +327,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 <div
                                     class="row
                                 {{ $payment_method == 'Cicilan' ?: 'd-none' }}
-                                {{ $order->status == 'PROGRESS' ?: 'd-none' }}
+                                {{ $order->status == 'DRAF_ORDER' ?: 'd-none' }}
                                  ">
                                     <div class="col">
                                         Sisa Pembayaran
@@ -341,7 +341,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                 <div class="row">
 
                                     <div class="col-md">
-                                        @if ($order->status === 'PROGRESS')
+                                        @if ($order->status === 'DRAF_ORDER')
                                             <button class="btn btn-danger" wire:click="cancel_order('{{ $order->id }}')"
                                                 role="button">
                                                 Batalkan
@@ -350,7 +350,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
                                     </div>
 
                                     <div class="col-md text-end">
-                                        @if ($order->status === 'PROGRESS')
+                                        @if ($order->status === 'DRAF_ORDER')
                                             <button wire:click="confirm_order('{{ $order->id }}')"
                                                 class="btn btn-dark
                                                 {{ ($payment_method == 'Cicilan' && $total_dp < $min_dp) || $total_dp > $order->total_amount ? 'disabled' : '' }}">

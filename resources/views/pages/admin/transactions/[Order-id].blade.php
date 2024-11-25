@@ -20,18 +20,18 @@ state([
     'paymentId',
 ]);
 
-// Status Order : 'UNPAID', 'PROGRESS', 'COMPLETED', 'PENDING', 'CANCELED', 'CONFIRMED'
+// Status Order : 'UNPAID_ORDER', 'DRAF_ORDER', 'FINISH_ORDER', 'PENDING_ORDER', 'CANCEL_ORDER', 'ACCEPT_ORDER'
 
 // Function order
 $confirmOrder = function () {
-    $this->order->update(['status' => 'CONFIRMED']);
+    $this->order->update(['status' => 'ACCEPT_ORDER']);
     $this->dispatch('orders-alert');
 };
 
 $cancelOrder = function () {
     $order = $this->order;
 
-    $order->update(['status' => 'CANCELED']);
+    $order->update(['status' => 'CANCEL_ORDER']);
 
     $this->dispatch('orders-alert');
 
@@ -43,20 +43,20 @@ $cancelOrder = function () {
 };
 
 $completeOrder = function () {
-    $this->order->update(['status' => 'COMPLETED']);
+    $this->order->update(['status' => 'FINISH_ORDER']);
 };
 
-// Status Payment : 'UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED'
+// Status Payment : 'UNPAID_ORDER', 'PENDING_ORDER', 'CONFIRM_PAYMENT', 'REJECT_PAYMENT'
 
 // Function payment
 $confirmPayment = function (Payment $payment) {
-    $payment->update(['payment_status' => 'CONFIRMED']);
-    $this->order->update(['status' => 'CONFIRMED']);
+    $payment->update(['payment_status' => 'CONFIRM_PAYMENT']);
+    $this->order->update(['status' => 'CONFIRM_ORDER']);
     $this->dispatch('orders-alert');
 };
 
 $rejectPayment = function (Payment $payment) {
-    $payment->update(['payment_status' => 'REJECTED']);
+    $payment->update(['payment_status' => 'REJECT_PAYMENT']);
 };
 
 $statusPayments = computed(function () {
@@ -67,36 +67,15 @@ $statusPayments = computed(function () {
             ->where('payment_type', 'Tunai')
             ->first();
 
-        return $status->payment_status == 'CONFIRMED' ? 'PAID' : 'UNPAID';
+        return $status->payment_status == 'CONFIRM_PAYMENT' ? 'PAID' : 'UNPAID_PAYMENT';
     } else {
         $status = Payment::where('order_id', $order->id)
             ->where('payment_type', 'Pelunasan')
             ->first();
 
-        return $status->payment_status == 'CONFIRMED' ? 'PAID' : 'UNPAID';
+        return $status->payment_status == 'CONFIRM_PAYMENT' ? 'PAID' : 'UNPAID_PAYMENT';
     }
 });
-
-$saveNote = function ($paymentId) {
-    // Validasi input
-    $this->validate([
-        'notes.' . $paymentId => 'required|string|max:255',
-    ]);
-
-    // Temukan pembayaran berdasarkan ID
-    $payment = Payment::findOrFail($paymentId);
-
-    // Simpan catatan
-    $payment->update([
-        'note' => $this->notes[$paymentId],
-    ]);
-
-    $this->alert('success', 'Note telah di inputkan!', [
-        'position' => 'top',
-        'timer' => 3000,
-        'toast' => true,
-    ]);
-};
 
 ?>
 <x-admin-layout>
@@ -107,10 +86,20 @@ $saveNote = function ($paymentId) {
         <li class="breadcrumb-item"><a
                 href="{{ route('transactions.show', ['order' => $order->id]) }}">{{ $order->invoice }}</a></li>
     </x-slot>
+
+    @push('scripts')
+        <script>
+            // Inisialisasi semua tooltip
+            document.addEventListener('DOMContentLoaded', function() {
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(
+                    tooltipTriggerEl));
+            });
+        </script>
+    @endpush
+
     @volt
         <div>
-
-            {{ $this->statusPayments() }}
             <div class="alert alert-primary" role="alert">
                 <h4 class="alert-heading">Halo! 😊</h4>
                 <p> Kami ingin mengingatkan Anda untuk memeriksa status pembayaran pesanan yang belum diselesaikan.
@@ -130,14 +119,18 @@ $saveNote = function ($paymentId) {
                 <div class="card-body">
                     <div class="row justify-content-between">
 
-                        @if ($order->status == 'PENDING')
-                            <div class="col-auto">
-                                <button wire:click='confirmOrder' class="btn btn-primary" type="submit">
+                        @if ($order->status == 'PENDING_ORDER')
+                            <div class="col-6 mb-3">
+                                <button wire:click='confirmOrder' class="btn btn-primary" type="submit"
+                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                    data-bs-title="Jangan lupa konfirmasi pembayaran">
                                     <i class="ti ti-circle-check fs-3"></i>
-                                    Konfirmasi Pesanan
+                                    Terima Pesanan
                                 </button>
                             </div>
-                            <div class="col-auto">
+
+
+                            <div class="col-6 mb-3 text-end">
                                 <button class="btn btn-danger" wire:click="cancelOrder('{{ $order->id }}')"
                                     role="button">
                                     <i class="ti ti-x fs-3"></i>
@@ -146,16 +139,16 @@ $saveNote = function ($paymentId) {
                             </div>
                         @endif
 
-                        <div class="col-auto">
+                        <div class="col-6 mb-3">
                             <button
-                                class="btn btn-success {{ $this->statusPayments() == 'PAID' ? ($order->status !== 'COMPLETED' ? '' : 'd-none') : 'disabled' }}"
+                                class="btn btn-success {{ $this->statusPayments() == 'PAID' ? ($order->status !== 'FINISH_ORDER' ? '' : 'd-none') : 'disabled' }}"
                                 wire:click="completeOrder('{{ $order->id }}')" role="button">
                                 <i class="ti ti-circle-check fs-3"></i>
                                 Selesai
                             </button>
                         </div>
 
-                        <div class="col-auto">
+                        <div class="col-6 mb-3 text-end">
                             <button class="btn btn-outline-primary print-page" onclick="window.print()" type="button">
                                 <i class="ti ti-printer fs-3"></i>
                                 Cetak
@@ -165,7 +158,7 @@ $saveNote = function ($paymentId) {
                 </div>
             </div>
 
-            @if ($order->status == 'CANCELED')
+            @if ($order->status == 'CANCEL_ORDER')
                 <div class="alert alert-danger" role="alert">
                     <strong>Pengingat!</strong>
                     <span>
@@ -265,9 +258,7 @@ $saveNote = function ($paymentId) {
                                     </div>
 
 
-                                    {{-- // Status Payment : 'UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED' --}}
-
-                                    @if ($item->payment_status === 'PENDING' || $item->payment_status === 'UNPAID')
+                                    @if ($item->payment_status === 'WAITING_CONFIRM_PAYMENT' || $item->payment_status === 'UNPAID_PAYMENT')
                                         <div class="d-flex justify-content-between gap-3">
                                             <button wire:click="confirmPayment('{{ $item->id }}')"
                                                 class="btn btn-success mt-3">
@@ -282,22 +273,6 @@ $saveNote = function ($paymentId) {
                                         <p class="my-3 text-dark">Note :
                                             <strong>{{ $item->note }}</strong>
                                         </p>
-                                    @else
-                                        <form wire:submit.prevent="saveNote('{{ $item->id }}')">
-                                            <div class="my-3">
-                                                <label for="note-{{ $item->id }}" class="form-label">
-                                                    Note {{ __('status.' . $item->payment_status) }}
-                                                </label>
-                                                <textarea class="form-control mb-3" wire:model.defer="notes.{{ $item->id }}" name="note-{{ $item->id }}"
-                                                    rows="3"></textarea>
-                                                @error('notes.' . $item->id)
-                                                    <small class="fw-bold text-danger mb-3">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">
-                                                Submit
-                                            </button>
-                                        </form>
                                     @endif
                                 @else
                                     <div class="card placeholder" style="height: 550px; width: 100%"></div>

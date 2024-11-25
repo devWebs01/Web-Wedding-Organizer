@@ -9,9 +9,7 @@ name('transactions.index');
 state(['search'])->url();
 usesPagination();
 
-state([
-
-]);
+state([]);
 
 $orders = computed(function () {
     if ($this->search == null) {
@@ -38,7 +36,7 @@ $orders = computed(function () {
 
     @volt
         <div>
-        
+
             <div class="card">
                 <div class="card-header">
                     <input wire:model.live="search" type="search" class="form-control" name="search" id="search"
@@ -65,7 +63,7 @@ $orders = computed(function () {
                                         <th>{{ $order->invoice }}</th>
                                         <th>
                                             <span class="badge bg-primary uppercase">
-                                                {{ $order->status }}
+                                                {{ __('status.' . $order->status) }}
                                             </span>
                                         </th>
                                         <th>
