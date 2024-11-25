@@ -8,6 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
      */
     public function up(): void
     {
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->date('payment_date');
             $table->enum('payment_status', ['UNPAID', 'PENDING', 'CONFIRMED', 'REJECTED']);
             $table->string('proof_of_payment')->nullable();
-            $table->longText('note');
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
     }

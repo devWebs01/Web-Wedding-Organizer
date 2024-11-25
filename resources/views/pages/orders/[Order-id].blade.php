@@ -69,15 +69,15 @@ rules([
 ]);
 
 $confirm_order = function () {
+    $payment_date = $this->full_payment_date;
+    $order = $this->order;
+
+    // Validasi input
+    $this->validate();
+
+    DB::beginTransaction(); // Mulai transaksi
+
     try {
-        DB::beginTransaction(); // Mulai transaksi
-
-        // Validasi input
-        $this->validate();
-
-        $payment_date = $this->full_payment_date;
-        $order = $this->order;
-
         // Pastikan order ada sebelum melanjutkan
         if (!$order) {
             throw new \Exception('Order tidak ditemukan.');
@@ -101,6 +101,8 @@ $confirm_order = function () {
                 'payment_date' => now(),
                 'payment_status' => 'UNPAID',
             ]);
+
+            // dd($this->all());
         } else {
             // Jika ada selisih, simpan sebagai dua pembayaran
             Payment::create([
@@ -340,8 +342,8 @@ $complatedOrder = fn() => $this->order->update(['status' => 'COMPLETED']);
 
                                     <div class="col-md">
                                         @if ($order->status === 'PROGRESS')
-                                            <button class="btn btn-danger"
-                                                wire:click="cancel_order('{{ $order->id }}')" role="button">
+                                            <button class="btn btn-danger" wire:click="cancel_order('{{ $order->id }}')"
+                                                role="button">
                                                 Batalkan
                                             </button>
                                         @endif
