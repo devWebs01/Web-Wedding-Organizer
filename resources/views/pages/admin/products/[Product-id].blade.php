@@ -41,7 +41,7 @@ $save = function () {
     }
     product::whereId($this->product->id)->update($validate);
 
-    $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
+    $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
         'position' => 'center',
         'width' => '500',
         'timer' => 2000,
@@ -56,10 +56,10 @@ $redirectProductsPage = function () {
 
 ?>
 <x-admin-layout>
-    <x-slot name="title">Produk</x-slot>
+    <x-slot name="title">Layanan</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk Toko</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan Gallery</a></li>
         <li class="breadcrumb-item"><a
                 href="{{ route('products.edit', ['product' => $product->id]) }}">{{ $product->title }}</a></li>
     </x-slot>
@@ -82,10 +82,10 @@ $redirectProductsPage = function () {
                                 @endif
                             </div>
                             <div class="col-md">
-                                <h2 class="fw-bolder mb-3">Detail Produk</h2>
+                                <h2 class="fw-bolder mb-3">Detail Layanan</h2>
 
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">Nama Produk</label>
+                                    <label for="title" class="form-label">Nama Layanan</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         wire:model="title" id="title" aria-describedby="titleId"
                                         placeholder="Enter product title" />
@@ -95,7 +95,7 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="vendor" class="form-label">Vendor Produk</label>
+                                    <label for="vendor" class="form-label">Vendor Layanan</label>
                                     <input type="text" class="form-control @error('vendor') is-invalid @enderror"
                                         wire:model="vendor" id="vendor" aria-describedby="vendorId"
                                         placeholder="Enter product vendor" />
@@ -105,7 +105,7 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Gambar Produk</label>
+                                    <label for="image" class="form-label">Gambar Layanan</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
                                         wire:model="image" id="image" aria-describedby="imageId"
                                         placeholder="Enter product image" />
@@ -115,7 +115,7 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="category_id" class="form-label">Kategori Produk</label>
+                                    <label for="category_id" class="form-label">Kategori Layanan</label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)

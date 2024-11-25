@@ -196,7 +196,7 @@ $statusPayments = computed(function () {
                         <thead>
                             <tr class="border">
                                 <th class="text-center">#</th>
-                                <th>Produk</th>
+                                <th>Layanan</th>
                                 <th class="text-center">Variant</th>
                                 <th class="text-end">Harga Satuan</th>
                             </tr>

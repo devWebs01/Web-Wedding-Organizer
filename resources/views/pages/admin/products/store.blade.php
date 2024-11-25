@@ -46,7 +46,7 @@ $createdProduct = function () {
         $product->update($validate);
     }
 
-    $this->alert('success', 'Penginputan produk toko telah selesai dan lengkapi dengan menambahkan varian produk!', [
+    $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
         'position' => 'center',
         'width' => '500',
         'timer' => 2000,
@@ -59,11 +59,11 @@ $createdProduct = function () {
 
 
 <x-admin-layout>
-    <x-slot name="title">Produk</x-slot>
+    <x-slot name="title">Layanan</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('products.create') }}">Produk Baru</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.create') }}">Layanan Baru</a></li>
     </x-slot>
 
     @volt
@@ -85,7 +85,7 @@ $createdProduct = function () {
                             <div class="col-md">
 
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">Nama Produk</label>
+                                    <label for="title" class="form-label">Nama Layanan</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         wire:model="title" id="title" aria-describedby="titleId"
                                         placeholder="Enter product title" />
@@ -95,7 +95,7 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="vendor" class="form-label">Vendor Produk</label>
+                                    <label for="vendor" class="form-label">Vendor Layanan</label>
                                     <input type="text" class="form-control @error('vendor') is-invalid @enderror"
                                         wire:model="vendor" id="vendor" aria-describedby="vendorId"
                                         placeholder="Enter product vendor" />
@@ -105,7 +105,7 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Gambar Produk</label>
+                                    <label for="image" class="form-label">Gambar Layanan</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
                                         wire:model="image" id="image" aria-describedby="imageId"
                                         placeholder="Enter product image" accept="image/*" />
@@ -115,7 +115,7 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="category_id" class="form-label">Kategori Produk</label>
+                                    <label for="category_id" class="form-label">Kategori Layanan</label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)

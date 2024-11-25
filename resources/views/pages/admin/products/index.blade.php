@@ -28,13 +28,13 @@ $destroy = function (product $product) {
     try {
         Storage::delete($product->image);
         $product->delete();
-        $this->alert('success', 'Data produk berhasil di hapus!', [
+        $this->alert('success', 'Data layanan berhasil di hapus!', [
             'position' => 'top',
             'timer' => 3000,
             'toast' => true,
         ]);
     } catch (\Throwable $th) {
-        $this->alert('error', 'Data produk gagal di hapus!', [
+        $this->alert('error', 'Data layanan gagal di hapus!', [
             'position' => 'top',
             'timer' => 3000,
             'toast' => true,
@@ -45,10 +45,10 @@ $destroy = function (product $product) {
 
 
 <x-admin-layout>
-    <x-slot name="title">Produk Toko</x-slot>
+    <x-slot name="title">Layanan Gallery</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Produk Toko</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan Gallery</a></li>
     </x-slot>
 
     @volt
@@ -57,13 +57,12 @@ $destroy = function (product $product) {
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <a href="{{ route('products.create') }}"
-                                class="btn btn-primary">Tambah
-                                Produk Toko</a>
+                            <a href="{{ route('products.create') }}" class="btn btn-primary">Tambah
+                                Layanan Gallery</a>
                         </div>
                         <div class="col">
                             <input wire:model.live="search" type="search" class="form-control" name="search"
-                                id="search" aria-describedby="helpId" placeholder="Masukkan nama produk toko" />
+                                id="search" aria-describedby="helpId" placeholder="Masukkan nama layanan gallery" />
                         </div>
                     </div>
                 </div>
@@ -73,8 +72,8 @@ $destroy = function (product $product) {
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Kategori Produk</th>
-                                    <th>Nama Produk</th>
+                                    <th>Kategori Layanan</th>
+                                    <th>Nama Layanan</th>
                                     <th>#</th>
                                 </tr>
                             </thead>

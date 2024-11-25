@@ -74,7 +74,7 @@ $addToCart = function (Product $product) {
                     <div class="row">
                         <div class="col-lg-6">
                             <h2 id="font-custom" class="display-2 fw-bold">
-                                Detail Produk
+                                Detail Layanan
                             </h2>
                         </div>
                         <div class="col-lg-6 mt-lg-0 align-content-center">

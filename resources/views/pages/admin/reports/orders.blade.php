@@ -11,10 +11,10 @@ $orders = computed(fn() => Order::query()->get());
 ?>
 <x-admin-layout>
     @include('layouts.print')
-    <x-slot name="title">Transaksi Toko</x-slot>
+    <x-slot name="title">Transaksi Gallery</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('report.orders') }}">Transaksi Toko</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.orders') }}">Transaksi Gallery</a></li>
     </x-slot>
 
 

@@ -81,13 +81,13 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($data as $productData) {
-            // Cek apakah produk sudah ada berdasarkan vendor dan category_id
+            // Cek apakah layanan sudah ada berdasarkan vendor dan category_id
             $imageContents = file_get_contents(filename: $productData['image']);
             $imageName = basename(path: $productData['image']);
-            $storagePath = 'images/'.$imageName;
+            $storagePath = 'images/' . $imageName;
             Storage::disk('public')->put($storagePath, $imageContents);
 
-            // Simpan produk utama
+            // Simpan layanan utama
             $product = Product::create([
                 'category_id' => $productData['category_id'],
                 'vendor' => $productData['vendor'],
@@ -95,7 +95,7 @@ class ProductSeeder extends Seeder
                 'image' => $storagePath,
             ]);
 
-            // Simpan varian produk
+            // Simpan varian layanan
             foreach ($productData['variants'] as $variantData) {
                 Variant::create([
                     'product_id' => $product->id,
@@ -105,7 +105,7 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            $this->command->info(string: 'Tambah Produk '.$product->title);
+            $this->command->info(string: 'Tambah Layanan ' . $product->title);
         }
     }
 }

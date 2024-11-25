@@ -81,7 +81,7 @@ $variants = computed(function () {
     <form wire:submit.prevent="savedVariant">
         @csrf
         @error('productId')
-            <p class="text-danger fw-bold">Tetapkan data produk dahulu!</p>
+            <p class="text-danger fw-bold">Tetapkan data layanan dahulu!</p>
         @enderror
 
         <div class="row">

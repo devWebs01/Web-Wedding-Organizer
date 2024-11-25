@@ -39,7 +39,7 @@ $save = function () {
         $updateShop = Shop::first();
         $updateShop->update($validate);
         $this->dispatch('profile-shop');
-        $this->alert('success', 'Data toko berhasil di perbaharui!', [
+        $this->alert('success', 'Data gallery berhasil di perbaharui!', [
             'position' => 'top',
             'timer' => 3000,
             'toast' => true,
@@ -53,8 +53,9 @@ $save = function () {
 @volt
     <div>
         <div class="alert alert-primary" role="alert">
-            <strong>Profile Toko</strong>
-            <p>bagian di mana informasi penting tentang toko kamu disimpan. Ini mencakup nama toko, alamat lengkap beserta
+            <strong>Profile Gallery</strong>
+            <p>bagian di mana informasi penting tentang gallery kamu disimpan. Ini mencakup nama gallery, alamat lengkap
+                beserta
                 provinsi dan kota, yang memengaruhi pengiriman barang. Pastikan informasi ini diperbarui dengan benar untuk
                 memastikan kelancaran proses pengiriman.</p>
         </div>
@@ -62,7 +63,7 @@ $save = function () {
         <form wire:submit="save">
             @csrf
             <div class="mb-3">
-                <label for="name" class="form-label">Nama Toko</label>
+                <label for="name" class="form-label">Nama Gallery</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" wire:model="name" id="name"
                     aria-describedby="nameId" placeholder="Enter name store" />
                 @error('name')

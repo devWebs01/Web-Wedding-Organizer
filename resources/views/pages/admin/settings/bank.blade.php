@@ -54,7 +54,7 @@ $destroy = function (Bank $bank) {
     <div>
         <div class="alert alert-primary" role="alert">
             <strong>Rekening Pembayaran</strong>
-            <p>tempat kamu dapat menyimpan informasi penting tentang rekening bank toko kamu. Pastikan untuk
+            <p>tempat kamu dapat menyimpan informasi penting tentang rekening bank gallery kamu. Pastikan untuk
                 memasukkan informasi dengan benar untuk memastikan kelancaran proses pembayaran dan transaksi keuangan.</p>
         </div>
         <form wire:submit="save">

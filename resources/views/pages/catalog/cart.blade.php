@@ -152,7 +152,7 @@ $confirmCheckout = function () {
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Produk</th>
+                                        <th>Layanan</th>
                                         <th>Varian</th>
                                         <th>Total Harga</th>
                                         <th>#</th>
@@ -189,7 +189,7 @@ $confirmCheckout = function () {
                                         <td>
                                             <a class="btn btn-outline-dark btn-sm" href="{{ route('catalog-products') }}"
                                                 role="button">
-                                                Lihat Produk Lain
+                                                Lihat Layanan Lain
                                             </a>
                                         </td>
                                         <td colspan="2"></td>

@@ -13,10 +13,10 @@ $categories = computed(fn() => Category::latest()->get());
 <x-admin-layout>
     @include('layouts.print')
 
-    <x-slot name="title">Laporan Kategori Produk</x-slot>
+    <x-slot name="title">Laporan Kategori Layanan</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('report.categories-product') }}">Laporan Kategori Produk</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.categories-product') }}">Laporan Kategori Layanan</a></li>
     </x-slot>
 
     @volt
@@ -30,7 +30,7 @@ $categories = computed(fn() => Category::latest()->get());
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
-                                    <th>Jumlah Produk</th>
+                                    <th>Jumlah Layanan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +38,7 @@ $categories = computed(fn() => Category::latest()->get());
                                     <tr>
                                         <td>{{ ++$no }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td>{{ $category->products->count() }} Produk Toko</td>
+                                        <td>{{ $category->products->count() }} Layanan Gallery</td>
                                     </tr>
                                 @endforeach
                             </tbody>

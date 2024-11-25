@@ -32,7 +32,7 @@ state([
                         <p class="fs-5">Pencarian mudah untuk vendor dengan portofolio, harga, dan ulasan dikumpulkan di
                             satu tempat.</p>
                         <a href="{{ route('catalog-products') }}"
-                            class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">Lihat Produk</a>
+                            class="btn btn-outline-dark text-uppercase mt-4 mt-lg-5">Lihat Layanan</a>
                     </div>
                 </div>
             </div>
@@ -49,13 +49,14 @@ state([
                         <div class="col-md-5">
                             <p class="lead">
                                 Kami adalah tim wedding organizer yang berkomitmen untuk membuat hari istimewa kamu menjadi
-                                tak terlupakan. 
+                                tak terlupakan.
                             </p>
                         </div>
                         <div class="col-md-6 offset-md-1">
 
                             <p class="lead mb-0">
-                                Dengan pengalaman bertahun-tahun, kami mewujudkan visi unik setiap pasangan sambil mengurangi stres dan memberikan pengalaman menyenangkan.
+                                Dengan pengalaman bertahun-tahun, kami mewujudkan visi unik setiap pasangan sambil
+                                mengurangi stres dan memberikan pengalaman menyenangkan.
                             </p>
                         </div>
                     </div>

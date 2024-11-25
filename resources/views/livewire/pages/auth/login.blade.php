@@ -40,7 +40,8 @@ $login = function () {
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="pe-lg-3">
                     <h1 id="font-custom" class="display-3 fw-bold mb-2 mb-md-3">Wujudkan Momen Pernikahan Impianmu!</h1>
-                    <p class="lead mb-4">Tawarkan layanan lengkap mulai dari konsep hingga eksekusi, memastikan hari istimewa ini berjalan sempurna.</p>
+                    <p class="lead mb-4">Tawarkan layanan lengkap mulai dari konsep hingga eksekusi, memastikan hari
+                        istimewa ini berjalan sempurna.</p>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -71,7 +72,7 @@ $login = function () {
                                 </svg>
                             </div>
                             <div class="ms-3">
-                                <p>Produk <br> Berkualitas</p>
+                                <p>Layanan <br> Berkualitas</p>
                             </div>
                         </div>
                     </div>
@@ -88,7 +89,8 @@ $login = function () {
                                     <input type="email" wire:model="form.email" class="form-control text-white"
                                         id="email" aria-describedby="emailHelp">
                                     @error('email')
-                                        <small id="emailHelp" class="form-text fw-bold text-white">{{ $message }}</small>
+                                        <small id="emailHelp"
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
@@ -96,7 +98,8 @@ $login = function () {
                                     <input type="password" wire:model="form.password" class="form-control text-white"
                                         id="password">
                                     @error('password')
-                                        <small id="password" class="form-text fw-bold text-white">{{ $message }}</small>
+                                        <small id="password"
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">

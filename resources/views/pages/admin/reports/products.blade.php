@@ -13,10 +13,10 @@ $products = computed(fn() => Product::latest()->get());
 <x-admin-layout>
     @include('layouts.print')
 
-    <x-slot name="title">Laporan Produk</x-slot>
+    <x-slot name="title">Laporan Layanan</x-slot>
     <x-slot name="header">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('report.products') }}">Laporan Produk</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('report.products') }}">Laporan Layanan</a></li>
     </x-slot>
     @volt
         <div>
@@ -28,7 +28,7 @@ $products = computed(fn() => Product::latest()->get());
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nama Produk</th>
+                                    <th>Nama Layanan</th>
                                     <th>Vendor</th>
                                     <th>Vendor</th>
                                 </tr>

@@ -71,7 +71,7 @@ on([
 
                 <li class="nav-small-cap">
                     <iconify-icon icon="solar:shop-2-bold" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu">Toko</span>
+                    <span class="hide-menu">Gallery</span>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('categories-product') }}" aria-expanded="false"
@@ -128,7 +128,7 @@ on([
                     <a class="sidebar-link" href="{{ route('report.products') }}" aria-expanded="false"
                         {{ request()->routeIs('report.products') }}>
                         <iconify-icon icon="solar:add-folder-bold-duotone"></iconify-icon>
-                        <span class="hide-menu">Data Produk</span>
+                        <span class="hide-menu">Data Layanan</span>
                     </a>
                     <a class="sidebar-link" href="{{ route('report.customers') }}" aria-expanded="false"
                         {{ request()->routeIs('report.customers') }}>

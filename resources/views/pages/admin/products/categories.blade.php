@@ -54,10 +54,10 @@ $destroy = function (Category $category) {
 
 <x-admin-layout>
     <div>
-        <x-slot name="title">Kategori Produk</x-slot>
+        <x-slot name="title">Kategori Layanan</x-slot>
         <x-slot name="header">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('categories-product') }}">Kategori Produk</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('categories-product') }}">Kategori Layanan</a></li>
         </x-slot>
 
         @volt
@@ -68,7 +68,7 @@ $destroy = function (Category $category) {
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Kategori
-                                    Produk</label>
+                                    Layanan</label>
                                 <input type="text" class="form-control" wire:model="name" id="name"
                                     aria-describedby="helpId" placeholder="Masukkan kategori baru / edit" />
 

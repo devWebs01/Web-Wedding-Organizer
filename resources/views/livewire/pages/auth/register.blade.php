@@ -58,7 +58,8 @@ $register = function () {
                         Ciptakan Kenangan Abadi di Hari Bahagiamu!
                     </h1>
                     <p class="lead mb-4">
-                        Hadir untuk membantu mewujudkan impian pernikahanmu dengan layanan yang personal dan profesional.
+                        Hadir untuk membantu mewujudkan impian pernikahanmu dengan layanan yang personal dan
+                        profesional.
                     </p>
                 </div>
                 <div class="row">
@@ -90,7 +91,7 @@ $register = function () {
                                 </svg>
                             </div>
                             <div class="ms-3">
-                                <p>Produk <br> Berkualitas</p>
+                                <p>Layanan <br> Berkualitas</p>
                             </div>
                         </div>
                     </div>
@@ -107,7 +108,8 @@ $register = function () {
                                     <input type="text" wire:model="name" class="form-control text-white"
                                         id="name" aria-describedby="nameHelp">
                                     @error('name')
-                                        <small id="nameHelp" class="form-text fw-bold text-white">{{ $message }}</small>
+                                        <small id="nameHelp"
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
@@ -115,7 +117,8 @@ $register = function () {
                                     <input type="email" wire:model="email" class="form-control text-white"
                                         id="email" aria-describedby="emailHelp">
                                     @error('email')
-                                        <small id="emailHelp" class="form-text fw-bold text-white">{{ $message }}</small>
+                                        <small id="emailHelp"
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
@@ -123,7 +126,8 @@ $register = function () {
                                     <input type="password" wire:model="password" class="form-control text-white"
                                         id="password">
                                     @error('password')
-                                        <small id="password" class="form-text fw-bold text-white">{{ $message }}</small>
+                                        <small id="password"
+                                            class="form-text fw-bold text-white">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
