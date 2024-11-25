@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('payment_type');
             $table->string('amount');
             $table->date('payment_date');
-            $table->enum('payment_status', ['UNPAID_PAYMENT', 'WAITING_CONFIRM_PAYMENT', 'CONFIRM_PAYMENT', 'REJECT_PAYMENT']);
+            $table->enum('payment_status', ['UNPAID_PAYMENT', 'WAITING_CONFIRM_PAYMENT', 'CONFIRM_PAYMENT', 'REJECT_PAYMENT', 'PARTIAL_PAYMENT']);
             $table->string('proof_of_payment')->nullable();
             $table->longText('note')->nullable();
             $table->timestamps();

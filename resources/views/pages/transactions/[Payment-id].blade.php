@@ -108,7 +108,7 @@ $submit = function () {
                                         @csrf
                                         <div class="mb-3">
                                             <p class="form-label fw-semibold">Status:
-                                                {{ $payment->payment_status }}</p>
+                                                {{ __('status.' . $payment->payment_status) }}</p>
                                             <p class="form-label fw-semibold">Tanggal Pembayaran:
                                                 {{ \Carbon\Carbon::parse($payment->payment_date)->format('d F Y') }}</p>
 

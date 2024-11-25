@@ -51,7 +51,7 @@ $completeOrder = function () {
 // Function payment
 $confirmPayment = function (Payment $payment) {
     $payment->update(['payment_status' => 'CONFIRM_PAYMENT']);
-    $this->order->update(['status' => 'CONFIRM_ORDER']);
+    $this->order->update(['status' => 'ACCEPT_ORDER']);
     $this->dispatch('orders-alert');
 };
 

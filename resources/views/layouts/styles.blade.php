@@ -81,10 +81,10 @@
 
     .tooltip-text {
         position: absolute;
-        top: -40px;
-        left: -50%;
+        top: -110px;
+        left: -100%;
         */ z-index: 3;
-        width: 100px;
+        width: 150px;
         color: white;
         font-size: 12px;
         background-color: #192733;

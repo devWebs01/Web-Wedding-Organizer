@@ -98,7 +98,8 @@
 
                     <a href="{{ route('order.payment', ['payment' => $item->id]) }}"
                         class="btn btn-dark mt-3 d-grid
-                        {{ ($item->payment_type === 'Tunai' && $item->payment_status === 'UNPAID_PAYMENT') ||
+                        {{
+                        ($item->payment_type === 'Tunai' && $item->payment_status === 'UNPAID_PAYMENT') ||
                         ($item->payment_type === 'DP' && $item->payment_status === 'UNPAID_PAYMENT') ||
                         ($item->payment_type === 'Pelunasan' && $dp_confirmed)
                             ? ''

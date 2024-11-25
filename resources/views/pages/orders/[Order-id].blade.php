@@ -277,7 +277,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
                                 {{ $order->status == 'DRAF_ORDER' ?: 'd-none' }}
                                 ">
                                     <label for="full_payment_date" class="form-label hover-text">
-                                        Tanggal Pelunasan
+                                        Tanggal Akhir Pelunasan
                                         <span class="tooltip-text" id="fade">Tanggal batas akhir untuk pelunasan
                                             cicilan maksimal adalah 2 minggu/14 hari setelah acara.</span>
                                     </label>
@@ -290,9 +290,9 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
 
                                 <div class="mb-3">
                                     <label for="note" class="form-label hover-text">
-                                        Pesan Tambahan
+                                        Pesan Tambahan (Opsional)
                                         <span class="tooltip-text" id="fade">Tambahkan pesan tambahan atau permintaan
-                                            khusus.</span>
+                                            khusus (Opsional).</span>
                                     </label>
                                     <textarea wire:model='note' class="form-control" name="note" id="note" rows="3"
                                         {{ $order->status !== 'DRAF_ORDER' ? 'disabled' : '' }}>
@@ -365,11 +365,6 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
                         </div>
                     @else
                         @include('pages.transactions.invoice')
-                        @if ($order->status === 'SHIPPED')
-                            <button wire:click="complatedOrder" class="btn btn-dark" role="button">
-                                Pesanan diterima
-                            </button>
-                        @endif
                     @endif
                 </div>
             </div>
