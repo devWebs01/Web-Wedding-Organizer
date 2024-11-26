@@ -72,6 +72,7 @@ $destroy = function (product $product) {
                             <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th>Thumbnail</th>
                                     <th>Kategori Layanan</th>
                                     <th>Nama Layanan</th>
                                     <th>#</th>
@@ -81,6 +82,10 @@ $destroy = function (product $product) {
                                 @foreach ($this->products as $no => $product)
                                     <tr>
                                         <th>{{ ++$no }}</th>
+                                        <th>
+                                            <img src="{{ Storage::url($product->image) }}" alt="" width="50"
+                                                height="50" class="rounded-circle border">
+                                        </th>
                                         <th>{{ $product->category->name }}</th>
                                         <th>{{ $product->title }}</th>
                                         <th>

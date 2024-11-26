@@ -1,10 +1,13 @@
 <?php
 
 use function Livewire\Volt\{state, rules, usesFileUploads, uses, computed};
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Storage; // Untuk menghapus file lama
 use function Laravel\Folio\name;
 use App\Models\Category;
 use App\Models\Product;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+use App\Models\Variant;
+use App\Models\Image;
 
 uses([LivewireAlert::class]);
 
@@ -20,6 +23,7 @@ state([
     'category_id' => fn() => $this->product->category_id,
     'vendor' => fn() => $this->product->vendor,
     'title' => fn() => $this->product->title,
+    'image_other' => [],
     'image',
     'product',
 ]);
@@ -31,15 +35,53 @@ rules([
     'image' => 'nullable',
 ]);
 
-$save = function () {
+$edit = function () {
     $validate = $this->validate();
+    $image_other = $this->image_other;
+    $product = $this->product;
+
     if ($this->image) {
         $validate['image'] = $this->image->store('public/images');
         Storage::delete($this->product->image);
     } else {
         $validate['image'] = $this->product->image;
     }
-    product::whereId($this->product->id)->update($validate);
+
+    Product::whereId($this->product->id)->update($validate);
+
+    // Perbarui atau buat produk baru
+    if ($this->productId) {
+        $product = Product::find($this->productId);
+        $product->update($validate);
+    } else {
+        $product = Product::create($validate);
+        $this->productId = $product->id;
+    }
+
+    // Tangani gambar tambahan (image_other) jika ada
+    if (!empty($image_other)) {
+        $this->validate([
+            'image_other' => 'nullable', // Gambar tambahan bersifat opsional
+            'image_other.*' => 'image|max:2048', // Validasi setiap elemen gambar
+        ]);
+
+        $findImages = Image::where('product_id', $product->id)->get();
+
+        if ($findImages->isNotEmpty()) {
+            foreach ($findImages as $image) {
+                Storage::delete($image->image_path);
+                $image->delete();
+            }
+        }
+
+        foreach ($image_other as $item) {
+            $imagePath = $item->store('public/image_other');
+            Image::create([
+                'product_id' => $product->id,
+                'image_path' => $imagePath,
+            ]);
+        }
+    }
 
     $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
         'position' => 'center',
@@ -69,7 +111,7 @@ $redirectProductsPage = function () {
         <div>
             <div class="card">
                 <div class="card-body">
-                    <form wire:submit="save" enctype="multipart/form-data">
+                    <form wire:submit="edit" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md mb-3">
@@ -129,10 +171,26 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="image_other" class="form-label">
+                                        Gambar Lainnya
+                                        <br>
+                                        <small class="text-danger fw-bold">
+                                            (Tidak perlu menginputkan gambar lagi jika tidak ingin mengubah gambar lainnya)
+                                        </small>
+                                    </label>
+                                    <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
+                                        wire:model="image_other" id="image_other" aria-describedby="image_otherId"
+                                        placeholder="Enter product image_other" accept="image/*" multiple />
+                                    @error('image_other.*')
+                                        <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $productId == null ? 'Submit' : 'Edit' }}
                                     </button>
-                                    <x-action-message wire:loading on="save">
+                                    <x-action-message wire:loading on="edit">
                                         <span class="spinner-border spinner-border-sm"></span>
                                     </x-action-message>
                                 </div>

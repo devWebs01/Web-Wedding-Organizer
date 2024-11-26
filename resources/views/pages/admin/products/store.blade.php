@@ -4,6 +4,7 @@ use function Livewire\Volt\{state, rules, usesFileUploads, computed, uses};
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Variant;
+use App\Models\Image;
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -11,12 +12,11 @@ uses([LivewireAlert::class]);
 name('products.create');
 usesFileUploads();
 
-// product :  'category_id', 'vendor', 'title', 'image'
-// variant :  'type', 'product_id', 'description', 'price'
 
 state([
     'categories' => fn() => Category::get(),
     'productId' => '',
+    'image_other' => [],
     'category_id',
     'vendor',
     'title',
@@ -27,16 +27,20 @@ rules([
     'category_id' => 'required|exists:categories,id',
     'vendor' => 'required|min:5',
     'title' => 'required|min:5',
-    'image' => 'required',
+    'image' => 'required|image',
+    'image_other' => 'nullable',
+    'image_other.*' => 'image',
 ]);
 
 $redirectProductsPage = function () {
     $this->redirectRoute('products.index');
 };
 
-$createdProduct = function () {
+$create = function () {
     $validate = $this->validate();
     $validate['image'] = $this->image->store('public/images');
+
+    $image_other = $this->image_other;
 
     if ($this->productId == null) {
         $product = Product::create($validate);
@@ -44,6 +48,15 @@ $createdProduct = function () {
     } else {
         $product = Product::find($this->productId);
         $product->update($validate);
+    }
+
+    foreach ($image_other as $item) {
+        $imagePath = $item->store('public/image_other');
+
+        Image::create([
+            'product_id' => $product->id,
+            'image_path' => $imagePath, // Memperbaiki untuk menyimpan path gambar
+        ]);
     }
 
     $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
@@ -70,7 +83,7 @@ $createdProduct = function () {
         <div>
             <div class="card">
                 <div class="card-body">
-                    <form wire:submit="createdProduct" enctype="multipart/form-data">
+                    <form wire:submit="create" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md mb-3">
@@ -129,10 +142,20 @@ $createdProduct = function () {
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="image_other" class="form-label">Gambar Lainnya</label>
+                                    <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
+                                        wire:model="image_other" id="image_other" aria-describedby="image_otherId"
+                                        placeholder="Enter product image_other" accept="image/*" multiple />
+                                    @error('image_other.*')
+                                        <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $productId == null ? 'Submit' : 'Edit' }}
                                     </button>
-                                    <x-action-message wire:loading on="save">
+                                    <x-action-message wire:loading on="create">
                                         <span class="spinner-border spinner-border-sm"></span>
                                     </x-action-message>
                                 </div>

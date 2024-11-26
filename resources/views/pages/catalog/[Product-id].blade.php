@@ -67,6 +67,10 @@ $addToCart = function (Product $product) {
 <x-guest-layout>
     <x-slot name="title">Product {{ $product->title }}</x-slot>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"
+        integrity="sha512-NeIRO2UIUAi8hOoecRAxOR7bKLarifYdzZ9e8XZ5RtCRhty4MflgqkdPTq3oP4FC17GpBRVkUdy/Goe4rjNudw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @volt
         <div>
             <section class="pt-5">
@@ -93,9 +97,27 @@ $addToCart = function (Product $product) {
                 <div class="container">
                     <div class="row gx-2">
                         <aside class="col-lg-6">
-                            <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                                <img class="p-4 object-fit-cover" style="width: 100%;"
-                                    src="{{ Storage::url($product->image) }}" />
+                            <div class="card rounded-4 mb-3" style="width: 100%; height: 550px">
+                                <a href="{{ Storage::url($product->image) }}" data-fancybox
+                                    data-src="{{ Storage::url($product->image) }}">
+                                    <img class="card-img-top" src="{{ Storage::url($product->image) }}" width=100%;
+                                        height=550px; style="object-fit: cover;" alt="card-img-top">
+                                </a>
+                            </div>
+
+                            <div class="d-flex flex-row gap-1 overflow-auto">
+                                @foreach ($product->images as $imageItem)
+                                    <div class="col">
+                                        <div class="card rounded-4 mb-3" style="width: 100px; height: 100px">
+                                            <a href="{{ Storage::url($imageItem->image_path) }}" data-fancybox="gallery"
+                                                data-caption="Caption #1">
+                                                <img class="card-img-top" src="{{ Storage::url($imageItem->image_path) }}"
+                                                    width=100px; height=100px; style="object-fit: cover;"
+                                                    alt="other images">
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </aside>
                         <main class="col-lg-6">
