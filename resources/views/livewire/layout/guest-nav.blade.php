@@ -49,7 +49,7 @@ on([
                 @endif
             </a>
             <a href="/orders" class="text-dark btn border">
-                <i class="fa-solid fa-truck"></i>
+                <i class="fa-solid fa-gift"></i>
             </a>
             <a href="/user/{{ auth()->id() }}" class="text-dark btn border position-relative">
                 <i class="fa-solid fa-user"></i>

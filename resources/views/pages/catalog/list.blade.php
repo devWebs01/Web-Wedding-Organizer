@@ -107,7 +107,7 @@ $products = computed(function () {
 
                                         <h4 class="my-0">
                                             <a href="{{ route('product-detail', ['product' => $product->id]) }}">
-                                                {{ Str::limit($product->title, 30, '...') }}
+                                                {{ Str::limit($product->title, 40, '...') }}
                                             </a>
                                         </h4>
                                     </div>

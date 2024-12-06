@@ -26,6 +26,12 @@ state([
 $confirmOrder = function () {
     $this->order->update(['status' => 'ACCEPT_ORDER']);
     $this->dispatch('orders-alert');
+
+    $this->alert('success', 'Pesanan telah diterima!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
 
 $cancelOrder = function () {
@@ -35,7 +41,7 @@ $cancelOrder = function () {
 
     $this->dispatch('orders-alert');
 
-    $this->alert('success', 'Pesanan telah di batalkan!', [
+    $this->alert('warning', 'Pesanan telah dibatalkan!', [
         'position' => 'top',
         'timer' => 3000,
         'toast' => true,
@@ -44,6 +50,11 @@ $cancelOrder = function () {
 
 $completeOrder = function () {
     $this->order->update(['status' => 'FINISH_ORDER']);
+    $this->alert('success', 'Pesanan telah diselesai!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
 
 // Status Payment : 'UNPAID_ORDER', 'PENDING_ORDER', 'CONFIRM_PAYMENT', 'REJECT_PAYMENT'
@@ -53,10 +64,23 @@ $confirmPayment = function (Payment $payment) {
     $payment->update(['payment_status' => 'CONFIRM_PAYMENT']);
     $this->order->update(['status' => 'ACCEPT_ORDER']);
     $this->dispatch('orders-alert');
+
+    $this->confirmOrder();
+
+    $this->alert('success', 'Pembayaran telah dikonfimasi dan pesanan diterima!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
 
 $rejectPayment = function (Payment $payment) {
     $payment->update(['payment_status' => 'REJECT_PAYMENT']);
+    $this->alert('warning', 'Pembayaran telah ditolak!', [
+        'position' => 'top',
+        'timer' => 3000,
+        'toast' => true,
+    ]);
 };
 
 $statusPayments = computed(function () {
@@ -119,7 +143,7 @@ $statusPayments = computed(function () {
                 <div class="card-body">
                     <div class="row justify-content-between">
 
-                        @if ($order->status == 'PENDING_ORDER' )
+                        @if ($order->status == 'PENDING_ORDER')
                             <div class="col-6 mb-3">
                                 <button wire:click='confirmOrder' class="btn btn-primary" type="submit"
                                     data-bs-toggle="tooltip" data-bs-placement="right"

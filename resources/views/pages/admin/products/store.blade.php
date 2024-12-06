@@ -3,7 +3,6 @@
 use function Livewire\Volt\{state, rules, usesFileUploads, computed, uses};
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Variant;
 use App\Models\Image;
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -12,22 +11,23 @@ uses([LivewireAlert::class]);
 name('products.create');
 usesFileUploads();
 
-
 state([
     'categories' => fn() => Category::get(),
     'productId' => '',
     'image_other' => [],
     'category_id',
-    'vendor',
     'title',
     'image',
+    'price',
+    'description',
 ]);
 
 rules([
     'category_id' => 'required|exists:categories,id',
-    'vendor' => 'required|min:5',
     'title' => 'required|min:5',
     'image' => 'required|image',
+    'price' => 'required|numeric',
+    'description' => 'required|min:5',
     'image_other' => 'nullable',
     'image_other.*' => 'image',
 ]);
@@ -59,13 +59,15 @@ $create = function () {
         ]);
     }
 
-    $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
+    $this->alert('success', 'Penginputan layanan gallery telah selesai ', [
         'position' => 'center',
         'width' => '500',
         'timer' => 2000,
         'toast' => true,
         'timerProgressBar' => true,
     ]);
+
+    $this->redirectRoute('products.index', navigate: true);
 };
 
 ?>
@@ -98,37 +100,37 @@ $create = function () {
                             <div class="col-md">
 
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">Nama Layanan</label>
+                                    <label for="title" class="form-label">Nama </label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         wire:model="title" id="title" aria-describedby="titleId"
-                                        placeholder="Enter product title" />
+                                        placeholder="Enter..." />
                                     @error('title')
                                         <small id="titleId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="vendor" class="form-label">Vendor Layanan</label>
-                                    <input type="text" class="form-control @error('vendor') is-invalid @enderror"
-                                        wire:model="vendor" id="vendor" aria-describedby="vendorId"
-                                        placeholder="Enter product vendor" />
-                                    @error('vendor')
-                                        <small id="vendorId" class="form-text text-danger">{{ $message }}</small>
+                                    <label for="price" class="form-label">Harga</label>
+                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                        wire:model="price" id="price" aria-describedby="priceId"
+                                        placeholder="Enter..." />
+                                    @error('price')
+                                        <small id="priceId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Gambar Layanan</label>
+                                    <label for="image" class="form-label">Thumbnail</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                        wire:model="image" id="image" aria-describedby="imageId"
-                                        placeholder="Enter product image" accept="image/*" />
+                                        wire:model="image" id="image" aria-describedby="imageId" placeholder="Enter..."
+                                        accept="image/*" />
                                     @error('image')
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="category_id" class="form-label">Kategori Layanan</label>
+                                    <label for="category_id" class="form-label">Kategori </label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)
@@ -145,11 +147,21 @@ $create = function () {
                                     <label for="image_other" class="form-label">Gambar Lainnya</label>
                                     <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
                                         wire:model="image_other" id="image_other" aria-describedby="image_otherId"
-                                        placeholder="Enter product image_other" accept="image/*" multiple />
+                                        placeholder="Enter image_other" accept="image/*" multiple />
                                     @error('image_other.*')
                                         <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Deskripsi</label>
+                                    <textarea wire:model='description' class="form-control @error('description') is-invalid @enderror" name="description"
+                                        id="description" rows="3"></textarea>
+                                    @error('description')
+                                        <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
 
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">
@@ -163,16 +175,6 @@ $create = function () {
                             </div>
                     </form>
                 </div>
-
-                <hr>
-
-                @if ($productId)
-                    @livewire('pages.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
-
-                    <button type="button" wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
-                @endif
-
-
 
             </div>
         </div>

@@ -137,11 +137,6 @@ $addToCart = function (Product $product) {
                                                 </div>
                                             </button>
                                         </form>
-                                        @error('variant_id')
-                                            <small class="my-3 text-center text-danger">
-                                                Plih paket/variant yang diinginkan
-                                            </small>
-                                        @enderror
                                     @else
                                         <a class="btn btn-dark w-100" href="{{ route('login') }}" role="button">Pesan
                                             Sekarang</a>
@@ -153,6 +148,48 @@ $addToCart = function (Product $product) {
                 </div>
             </section>
             <!-- content -->
+
+            <div class="properties section mt-5">
+                <div class="container">
+                    <h3 class="fw-bolder mb-3" id="font-custom">Produk Lainnya</h3>
+                    <h5>Lihat Rekomendasi dengan semua budget</h5>
+                    <div class="row">
+                        @foreach ($randomProduct as $product)
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card item text-center border-0 p-4" style="height: 610px">
+
+                                    <div class="card-header border-0 m-0 p-0">
+                                        <a href="{{ route('product-detail', ['product' => $product->id]) }}">
+                                            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
+                                                class="object-fit-cover" style="width: 100%; height: 300px;">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="category">
+                                            {{ Str::limit($product->category->name, 25, '...') }}
+                                        </span>
+
+                                        <p class="mt-3 mb-0 text-custom fw-bolder">
+                                            {{ Str::limit($product->vendor, 30, '...') }}
+                                        </p>
+
+                                        <h4 class="my-0">
+                                            <a href="{{ route('product-detail', ['product' => $product->id]) }}">
+                                                {{ Str::limit($product->title, 30, '...') }}
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    <div class="d-grid bg-none border-0">
+                                        <a class="btn btn-dark"
+                                            href="{{ route('product-detail', ['product' => $product->id]) }}">Lihat</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     @endvolt
 </x-guest-layout>

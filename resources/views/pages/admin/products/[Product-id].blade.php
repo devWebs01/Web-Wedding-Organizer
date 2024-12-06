@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Storage; // Untuk menghapus file lama
 use function Laravel\Folio\name;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Variant;
 use App\Models\Image;
 
 uses([LivewireAlert::class]);
@@ -14,15 +13,13 @@ uses([LivewireAlert::class]);
 name('products.edit');
 usesFileUploads();
 
-// product :  'category_id', 'vendor', 'title', 'image'
-// variant :  'product_id', 'name', 'description', 'price'
-
 state([
     'categories' => fn() => Category::get(),
     'productId' => fn() => $this->product->id,
     'category_id' => fn() => $this->product->category_id,
-    'vendor' => fn() => $this->product->vendor,
+    'price' => fn() => $this->product->price,
     'title' => fn() => $this->product->title,
+    'description' => fn() => $this->product->description,
     'image_other' => [],
     'image',
     'product',
@@ -31,7 +28,8 @@ state([
 rules([
     'category_id' => 'required|exists:categories,id',
     'title' => 'required|min:5',
-    'vendor' => 'required|min:5',
+    'price' => 'required|numeric',
+    'description' => 'required|min:5',
     'image' => 'nullable',
 ]);
 
@@ -83,16 +81,13 @@ $edit = function () {
         }
     }
 
-    $this->alert('success', 'Penginputan layanan gallery telah selesai dan lengkapi dengan menambahkan varian layanan!', [
+    $this->alert('success', 'Penginputan layanan gallery telah selesai', [
         'position' => 'center',
         'width' => '500',
         'timer' => 2000,
         'toast' => true,
         'timerProgressBar' => true,
     ]);
-};
-
-$redirectProductsPage = function () {
     $this->redirectRoute('products.index');
 };
 
@@ -110,6 +105,16 @@ $redirectProductsPage = function () {
     @volt
         <div>
             <div class="card">
+                <div class="card-header">
+                    <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center fw-bolder"
+                        role="alert">
+                        <span class="display-6 mx-3">
+                            <iconify-icon icon="solar:shield-warning-linear"></iconify-icon>
+                        </span>
+                        <small class="fs-3">(Tidak perlu menginputkan gambar lagi jika tidak ingin
+                            mengubah gambar lainnya)</small>
+                    </div>
+                </div>
                 <div class="card-body">
                     <form wire:submit="edit" enctype="multipart/form-data">
                         @csrf
@@ -124,40 +129,39 @@ $redirectProductsPage = function () {
                                 @endif
                             </div>
                             <div class="col-md">
-                                <h2 class="fw-bolder mb-3">Detail Layanan</h2>
 
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">Nama Layanan</label>
+                                    <label for="title" class="form-label">Nama </label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         wire:model="title" id="title" aria-describedby="titleId"
-                                        placeholder="Enter product title" />
+                                        placeholder="Enter..." />
                                     @error('title')
                                         <small id="titleId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="vendor" class="form-label">Vendor Layanan</label>
-                                    <input type="text" class="form-control @error('vendor') is-invalid @enderror"
-                                        wire:model="vendor" id="vendor" aria-describedby="vendorId"
-                                        placeholder="Enter product vendor" />
-                                    @error('vendor')
-                                        <small id="vendorId" class="form-text text-danger">{{ $message }}</small>
+                                    <label for="price" class="form-label">Harga</label>
+                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                        wire:model="price" id="price" aria-describedby="priceId"
+                                        placeholder="Enter..." />
+                                    @error('price')
+                                        <small id="priceId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Gambar Layanan</label>
+                                    <label for="image" class="form-label">Thumbnail</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                        wire:model="image" id="image" aria-describedby="imageId"
-                                        placeholder="Enter product image" />
+                                        wire:model="image" id="image" aria-describedby="imageId" placeholder="Enter..."
+                                        accept="image/*" />
                                     @error('image')
                                         <small id="imageId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="category_id" class="form-label">Kategori Layanan</label>
+                                    <label for="category_id" class="form-label">Kategori </label>
                                     <select class="form-select" wire:model="category_id" id="category_id">
                                         <option>Pilih salah satu</option>
                                         @foreach ($this->categories as $category)
@@ -171,26 +175,30 @@ $redirectProductsPage = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image_other" class="form-label">
-                                        Gambar Lainnya
-                                        <br>
-                                        <small class="text-danger fw-bold">
-                                            (Tidak perlu menginputkan gambar lagi jika tidak ingin mengubah gambar lainnya)
-                                        </small>
-                                    </label>
+                                    <label for="image_other" class="form-label">Gambar Lainnya</label>
                                     <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
                                         wire:model="image_other" id="image_other" aria-describedby="image_otherId"
-                                        placeholder="Enter product image_other" accept="image/*" multiple />
+                                        placeholder="Enter image_other" accept="image/*" multiple />
                                     @error('image_other.*')
                                         <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="description" class="form-label">Deskripsi</label>
+                                    <textarea wire:model='description' class="form-control @error('description') is-invalid @enderror" name="description"
+                                        id="description" rows="3"></textarea>
+                                    @error('description')
+                                        <small id="descriptionId" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+                                <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $productId == null ? 'Submit' : 'Edit' }}
                                     </button>
-                                    <x-action-message wire:loading on="edit">
+                                    <x-action-message wire:loading on="create">
                                         <span class="spinner-border spinner-border-sm"></span>
                                     </x-action-message>
                                 </div>
@@ -201,11 +209,7 @@ $redirectProductsPage = function () {
 
                 <hr>
 
-                @if ($productId)
-                    @livewire('pages.createOrUpdateVariants', ['productId' => $productId, 'title' => $title])
 
-                    <button type="button" wire:click='redirectProductsPage' class="btn btn-primary">Selesai</button>
-                @endif
             </div>
         </div>
     @endvolt
