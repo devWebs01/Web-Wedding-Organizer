@@ -29,7 +29,7 @@ on([
     'cart-updated' => function () {
         $this->cart = $this->carts;
         $this->subTotal = $this->carts->sum(function ($item) {
-            return $item->variant->price;
+            return $item->product->price * $item->qty;
         });
     },
 ]);
@@ -37,7 +37,7 @@ on([
 $calculateTotal = function () {
     $total = 0;
     foreach ($this->carts as $cart) {
-        $total += $cart->variant->price;
+        $total += $cart->product->price;
     }
     return $total;
 };
@@ -55,7 +55,7 @@ $confirmCheckout = function () {
             $userId = auth()->id();
 
             // Ambil item keranjang pengguna
-            $cartItems = Cart::with('variant')->where('user_id', $userId)->get();
+            $cartItems = Cart::where('user_id', $userId)->get();
 
             if ($cartItems->isEmpty()) {
                 throw new \Exception('Keranjang kosong. Tidak ada item untuk diproses.');
@@ -71,7 +71,7 @@ $confirmCheckout = function () {
 
             // Hitung total harga pesanan
             $totalPrice = $cartItems->sum(function ($cartItem) {
-                return $cartItem->variant->price;
+                return $cartItem->product->price;
             });
 
             // Siapkan item pesanan untuk batch insert
@@ -79,7 +79,6 @@ $confirmCheckout = function () {
                 ->map(function ($cartItem) {
                     return [
                         'product_id' => $cartItem->product_id,
-                        'variant_id' => $cartItem->variant_id,
                     ];
                 })
                 ->toArray();
@@ -153,8 +152,7 @@ $confirmCheckout = function () {
                                     <tr>
                                         <th>No.</th>
                                         <th>Layanan</th>
-                                        <th>Varian</th>
-                                        <th>Total Harga</th>
+                                        <th>Harga</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -163,11 +161,8 @@ $confirmCheckout = function () {
                                         <tr class="align-items-center">
                                             <td>{{ ++$no }}.</td>
                                             <td>{{ Str::limit($cart->product->title, 20, '...') }}</td>
-                                            <td>
-                                                {{ $cart->variant->name }}
-                                            </td>
                                             <td class="w-1/6">
-                                                {{ formatRupiah($cart->variant->price) }}
+                                                {{ formatRupiah($cart->product->price) }}
                                             </td>
                                             <td>
                                                 <button wire:click="deleteProduct('{{ $cart->id }}')" type="button"

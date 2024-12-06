@@ -1,11 +1,10 @@
 <?php
 
-use function Livewire\Volt\{state, rules, computed, uses};
 use App\Models\Product;
-use App\Models\Variant;
 use App\Models\Cart;
 use App\Models\User;
 use function Laravel\Folio\name;
+use function Livewire\Volt\{state, rules, uses};
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 uses([LivewireAlert::class]);
@@ -13,33 +12,25 @@ uses([LivewireAlert::class]);
 name('product-detail');
 
 state([
+    'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
     'user_id' => fn() => Auth()->user()->id ?? '',
     'product_id' => fn() => $this->product->id,
-    'variant_id' => '',
-    'randomProduct' => fn() => Product::inRandomOrder()->limit(6)->get(),
-    'variant' => '',
     'product',
 ]);
 
 rules([
     'user_id' => 'required|exists:users,id',
     'product_id' => 'required|exists:products,id',
-    'variant_id' => 'required|exists:variants,id',
 ]);
-
-$selectVariant = function (Variant $variant) {
-    $this->variant = $variant;
-    $this->variant_id = $variant->id;
-};
 
 $addToCart = function (Product $product) {
     if (Auth::check() && auth()->user()->role == 'customer') {
         $existingCart = Cart::where('user_id', $this->user_id)
-            ->where('variant_id', $this->variant_id)
+            ->where('product_id', $this->product_id)
             ->first();
 
         if ($existingCart) {
-            $this->alert('warning', 'Item sudah ada di daftar.', [
+            $this->alert('warning', 'Layanan sudah ada di daftar.', [
                 'position' => 'top',
                 'timer' => '2000',
                 'toast' => true,
@@ -48,9 +39,8 @@ $addToCart = function (Product $product) {
             ]);
         } else {
             Cart::create($this->validate());
-            $this->dispatch('cart-updated');
 
-            $this->alert('success', 'Item berhasil ditambahkan ke dalam daftar.', [
+            $this->alert('success', 'Layanan berhasil ditambahkan ke dalam daftar.', [
                 'position' => 'top',
                 'timer' => '2000',
                 'toast' => true,
@@ -58,6 +48,8 @@ $addToCart = function (Product $product) {
                 'text' => '',
             ]);
         }
+
+        $this->dispatch('cart-updated');
     } else {
         $this->redirect('/login');
     }
@@ -66,10 +58,6 @@ $addToCart = function (Product $product) {
 ?>
 <x-guest-layout>
     <x-slot name="title">Product {{ $product->title }}</x-slot>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"
-        integrity="sha512-NeIRO2UIUAi8hOoecRAxOR7bKLarifYdzZ9e8XZ5RtCRhty4MflgqkdPTq3oP4FC17GpBRVkUdy/Goe4rjNudw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @volt
         <div>
@@ -122,68 +110,32 @@ $addToCart = function (Product $product) {
                         </aside>
                         <main class="col-lg-6">
                             <div class="ps-lg-3">
-                                <small class="fw-bold text-custom">{{ $product->category->name }}</small>
+                                <small class="fw-bold" style="color: #9c9259;">{{ $product->category->name }}</small>
                                 <h2 id="font-custom" class="title text-dark fw-bold">
                                     {{ $product->title }}
                                 </h2>
 
                                 <div class="my-3">
-                                    <span class="h5 fw-bold text-custom">
-                                        {{ $variant->name ?? '...' }}
+                                    <span class="fs-4 fw-bold">
+                                        {{ 'Rp. ' . Number::format($product->price, locale: 'id') }}
                                     </span>
                                 </div>
 
-                                <p class="mb-3">
+                                <p class="mb-3 fs-5">
                                     {{ $product->description }}
                                 </p>
-
-                                <div class="row">
-
-                                    <dt class="col-3 mb-2 text-capitalize">Nama</dt>
-                                    <dd class="col-9 mb-2">
-                                        {{ $variant->name ?? '' }}</dd>
-
-                                    <dt class="col-3 mb-2 text-capitalize">Harga</dt>
-                                    <dd class="col-9 mb-2">
-                                        {{ $variant ? formatRupiah($variant->price) : '' }}
-
-                                    <dt class="col-3 mb-2 text-capitalize">Deksripsi</dt>
-                                    <dd class="col-9 mb-2">
-                                        {{ $variant->description ?? '' }}</dd>
-
-
-                                    <dt class="col-3 mb-2">Pilihan</dt>
-                                    <dd class="col-9 mb-2">
-                                        <div class="row gap-3">
-
-                                            @foreach ($product->variants as $variant)
-                                                <div class="col-auto">
-                                                    <button wire:key='{{ $variant->id }}'
-                                                        wire:click='selectVariant({{ $variant->id }})' type="button"
-                                                        class="badge rounded-pill text-custom">
-                                                        {{ $variant->name }}
-                                                    </button>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </dd>
-                                </div>
-
                                 <div class="d-grid my-4">
                                     @auth
                                         <form wire:submit='addToCart'>
-                                            @if ($variant)
-                                                <button wire:key="{{ $product->id }}" type="submit"
-                                                    class="btn btn-dark w-100">
+                                            <button wire:key="{{ $product->id }}" type="submit" class="btn btn-dark w-100">
 
-                                                    <span wire:loading.remove>Masukkan List
-                                                    </span>
+                                                <span wire:loading.remove>Masukkan List
+                                                </span>
 
-                                                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                </button>
-                                            @endif
+                                                <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
                                         </form>
                                         @error('variant_id')
                                             <small class="my-3 text-center text-danger">

@@ -34,8 +34,9 @@ $submit = function () {
         'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
         'payment_status' => 'WAITING_CONFIRM_PAYMENT', // Ubah status pembayaran menjadi WAITING_CONFIRM_PAYMENT
     ]);
-
-    $order->update(['status' => 'PENDING_ORDER']);
+    if ($order->status !== 'ACCEPT_ORDER') {
+        $order->update(['status' => 'PENDING_ORDER']);
+    }
 
     // Set alert untuk notifikasi
     $this->alert('success', 'Bukti pembayaran berhasil diunggah!', [

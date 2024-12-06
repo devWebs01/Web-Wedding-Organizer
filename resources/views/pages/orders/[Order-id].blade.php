@@ -4,7 +4,6 @@ use function Livewire\Volt\{state, rules, on, uses, mount};
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\Payment;
-use App\Models\Variant;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Item;
@@ -203,10 +202,10 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
                                             <h5 id="font-custom">
                                                 {{ $item->product->title }}
                                                 -
-                                                {{ $item->variant->name }}
+                                                {{ $item->product->name }}
                                             </h5>
                                             <h6 class="fw-bold text-custom">
-                                                {{ formatRupiah($item->variant->price ?? 0) }} </h6>
+                                                {{ formatRupiah($item->product->price ?? 0) }} </h6>
                                         </div>
                                     </div>
                                 @endforeach

@@ -30,11 +30,4 @@ class Item extends Model
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * Get the variant that owns the Cart
-     */
-    public function variant(): BelongsTo
-    {
-        return $this->belongsTo(Variant::class);
-    }
 }

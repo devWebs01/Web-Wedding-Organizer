@@ -72,7 +72,7 @@ $orders = computed(function () {
                                         <th>
                                             <a href="/admin/transactions/{{ $order->id }}"
                                                 class="btn btn-primary btn-sm">
-                                                Detail Order
+                                                Detail
                                             </a>
                                         </th>
                                     </tr>

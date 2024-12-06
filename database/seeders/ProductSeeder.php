@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
@@ -62,7 +63,21 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($data as $productData) {
-            Product::create($productData);
+            // Cek apakah layanan sudah ada berdasarkan vendor dan category_id
+            $imageContents = file_get_contents(filename: $productData['image']);
+            $imageName = basename(path: $productData['image']);
+            $storagePath = 'images/'.$imageName;
+            Storage::disk('public')->put($storagePath, $imageContents);
+
+            // Simpan layanan utama
+            $product = Product::create([
+                'category_id' => $productData['category_id'],
+                'title' => $productData['title'],
+                'image' => $storagePath,
+                'price' => $productData['price'],
+                'description' => $productData['description'],
+            ]);
+            $this->command->info(string: 'Tambah Layanan '.$product->title);
         }
     }
 }

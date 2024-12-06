@@ -3,7 +3,7 @@
 use function Livewire\Volt\{state, rules, uses, computed};
 use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
 use App\Models\Order;
-use App\Models\Variant;
+use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Item;
 use function Laravel\Folio\name;
@@ -119,7 +119,7 @@ $statusPayments = computed(function () {
                 <div class="card-body">
                     <div class="row justify-content-between">
 
-                        @if ($order->status == 'PENDING_ORDER')
+                        @if ($order->status == 'PENDING_ORDER' )
                             <div class="col-6 mb-3">
                                 <button wire:click='confirmOrder' class="btn btn-primary" type="submit"
                                     data-bs-toggle="tooltip" data-bs-placement="right"
@@ -197,7 +197,7 @@ $statusPayments = computed(function () {
                             <tr class="border">
                                 <th class="text-center">#</th>
                                 <th>Layanan</th>
-                                <th class="text-center">Variant</th>
+                                <th class="text-center">product</th>
                                 <th class="text-end">Harga Satuan</th>
                             </tr>
                         </thead>
@@ -206,8 +206,8 @@ $statusPayments = computed(function () {
                                 <tr class="border">
                                     <td class="text-center">{{ ++$no }}</td>
                                     <td>{{ Str::limit($item->product->title, 30, '...') }}</td>
-                                    <td class="text-center">{{ $item->variant->name }}</td>
-                                    <td class="text-end">{{ formatRupiah($item->variant->price) }}</td>
+                                    <td class="text-center">{{ $item->product->name }}</td>
+                                    <td class="text-end">{{ formatRupiah($item->product->price) }}</td>
                                 </tr>
                             @endforeach
 
@@ -215,7 +215,7 @@ $statusPayments = computed(function () {
                                 <td colspan="2"></td>
                                 <td class="text-center fw-bolder"> Sub Total:</td>
                                 <td class="fw-bolder text-dark">
-                                    {{ 'Rp.' . Number::format($order->items->sum(fn($item) => $item->variant->price), locale: 'id') }}
+                                    {{ 'Rp.' . Number::format($order->items->sum(fn($item) => $item->product->price), locale: 'id') }}
                                 </td>
                             </tr>
                             <tr class="text-end">

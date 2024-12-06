@@ -22,7 +22,6 @@
                 <tr class="border">
                     <th class="text-center">#</th>
                     <th>Layanan</th>
-                    <th class="text-center">Variant</th>
                     <th class="text-end">Harga Satuan</th>
                 </tr>
             </thead>
@@ -31,20 +30,19 @@
                     <tr class="border">
                         <td class="text-center">{{ ++$no }}</td>
                         <td>{{ Str::limit($item->product->title, 30, '...') }}</td>
-                        <td class="text-center">{{ $item->variant->name }}</td>
-                        <td class="text-end">{{ formatRupiah($item->variant->price) }}</td>
+                        <td class="text-end">{{ formatRupiah($item->product->price) }}</td>
                     </tr>
                 @endforeach
 
                 <tr class="text-end">
-                    <td colspan="2"></td>
+                    <td></td>
                     <td class="text-center fw-bolder"> Sub Total:</td>
                     <td class="fw-bolder text-dark">
-                        {{ 'Rp.' . Number::format($order->items->sum(fn($item) => $item->variant->price), locale: 'id') }}
+                        {{ 'Rp.' . Number::format($order->items->sum(fn($item) => $item->product->price), locale: 'id') }}
                     </td>
                 </tr>
                 <tr class="text-end">
-                    <td colspan="2"></td>
+                    <td></td>
                     <td class="text-center fw-bolder"> Total:</td>
                     <td class="fw-bolder text-dark">{{ formatRupiah($order->total_amount) }}</td>
                 </tr>
