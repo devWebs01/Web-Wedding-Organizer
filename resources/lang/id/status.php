@@ -16,7 +16,6 @@ return [
     'PARTIAL_PAYMENT' => 'Sebagian Bayar',
     'UNPAID_PAYMENT' => 'Belum Bayar',
 
-
     // cicilan
     'PAID_INSTALLMENT' => 'Cicilan Telah Dibayar',
     'UNPAID_INSTALLMENT' => 'Cicilan Belum Dibayar',

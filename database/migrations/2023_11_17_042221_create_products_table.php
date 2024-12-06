@@ -8,15 +8,17 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * 'category_id', 'title', 'price', 'quantity', 'image', 'description',
      */
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->string('vendor');
             $table->string('title');
+            $table->string('price');
             $table->string('image');
+            $table->longText('description');
             $table->timestamps();
         });
     }

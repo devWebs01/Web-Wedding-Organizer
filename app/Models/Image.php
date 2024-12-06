@@ -17,8 +17,6 @@ class Image extends Model
 
     /**
      * Get the product that owns the Images
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product(): BelongsTo
     {

@@ -13,9 +13,10 @@ class Product extends Model
 
     protected $fillable = [
         'category_id',
-        'vendor',
         'title',
+        'price',
         'image',
+        'description',
     ];
 
     /**
@@ -51,17 +52,7 @@ class Product extends Model
     }
 
     /**
-     * Get all of the variants for the User
-     */
-    public function variants(): HasMany
-    {
-        return $this->hasMany(Variant::class);
-    }
-
-    /**
      * Get all of the images for the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function images(): HasMany
     {
