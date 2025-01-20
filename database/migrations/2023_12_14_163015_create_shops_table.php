@@ -8,15 +8,15 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *  'name','rajaongkir_province_id','rajaongkir_city_id','details',
+     *  'name','province_id','city_id','details',
      */
     public function up(): void
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('province_id')->constrained('rajaongkir_provinces')->onDelete('cascade');
-            $table->foreignId('city_id')->constrained('rajaongkir_cities')->onDelete('cascade');
+            $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->longText('details');
             $table->timestamps();
         });

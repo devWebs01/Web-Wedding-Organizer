@@ -15,7 +15,7 @@ return [
     /*
      * Table name settings for caching provinces, cities, and districts
      */
-    'table_prefix' => 'rajaongkir_',
+    'table_prefix' => '',
 
     /*
      * Set the connection timeout for the requests

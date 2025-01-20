@@ -28,9 +28,9 @@ $cities = computed(function () {
 
 rules([
     'name' => 'required|min:5',
-    'province_id' => 'required|exists:rajaongkir_provinces,id',
-    'city_id' => 'required|exists:rajaongkir_cities,id',
-    'details' => 'required|min:20',
+    'province_id' => 'required|exists:provinces,id',
+    'city_id' => 'required|exists:cities,id',
+    'details' => 'required|min:5',
 ]);
 
 $save = function () {

@@ -10,7 +10,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rajaongkir.table_prefix').'cities', function ($table) {
+        Schema::create('cities', function ($table) {
             $table->id();
             $table->string('type', 255);
             $table->string('name', 255);
@@ -24,6 +24,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::drop(config('rajaongkir.table_prefix').'cities');
+        Schema::drop('cities');
     }
 };

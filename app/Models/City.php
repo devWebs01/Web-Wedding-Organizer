@@ -10,7 +10,7 @@ class City extends Model
 {
     use HasFactory;
 
-    protected $table = 'rajaongkir_cities';
+    protected $table = 'cities';
 
     /**
      * Get all of the addresses for the User
