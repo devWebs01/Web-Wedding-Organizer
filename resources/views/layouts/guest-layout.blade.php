@@ -31,7 +31,7 @@
 
     @include('layouts.styles')
 
-    @vite([])
+    
 </head>
 
 <body>
