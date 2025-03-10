@@ -99,6 +99,7 @@ $create = function () {
         <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan</a></li>
         <li class="breadcrumb-item"><a href="{{ route('products.create') }}">Layanan Baru</a></li>
     </x-slot>
+    @include('layouts.fancybox')
 
     @volt
         <div>
@@ -109,8 +110,10 @@ $create = function () {
                         <div class="row">
                             <div class="col-md mb-3">
                                 @if ($image)
-                                    <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="625px" width="100%" />
+                                <a data-fancybox data-src="{{ $image->temporaryUrl() }}">
+                                <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
+                                alt="image" loading="lazy" height="625px" width="100%" />
+                            </a>
                                 @else
                                     <img src="" class="img rounded object-fit-cover placeholder " alt="image"
                                         loading="lazy" height="625px" width="100%" />
@@ -201,8 +204,10 @@ $create = function () {
                         @foreach ($imageother as $key => $image)
                             <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
                                 <div class="card mt-3">
+                                    <a data-fancybox="gallery" data-src="{{ $image->temporaryUrl() }}">
                                     <img src="{{ $image->temporaryUrl() }}" class="card-img-top"
-                                        style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                    style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                </a>
                                     <a type="button" class="position-absolute top-0 start-100 translate-middle p-2"
                                         wire:click.prevent='removeItem({{ json_encode($key) }})'>
                                         <i class='bx bx-x p-2 rounded-circle ri-20px text-white bg-danger'></i>

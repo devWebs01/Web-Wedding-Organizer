@@ -116,7 +116,7 @@ $edit = function () {
                 href="{{ route('products.edit', ['product' => $product->id]) }}">{{ $product->title }}</a></li>
     </x-slot>
 
-
+    @include('layouts.fancybox')
     @volt
         <div>
             <div class="card">
@@ -126,11 +126,15 @@ $edit = function () {
                         <div class="row">
                             <div class="col-md mb-3">
                                 @if ($image)
-                                    <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="625px" width="100%" />
+                                    <a data-fancybox data-src="{{ $image->temporaryUrl() }}">
+                                        <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
+                                            alt="image" loading="lazy" height="625px" width="100%" />
+                                    </a>
                                 @elseif ($product->image)
-                                    <img src="{{ Storage::url($product->image) }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="625px" width="100%" />
+                                    <a data-fancybox data-src="{{ Storage::url($product->image) }}">
+                                        <img src="{{ Storage::url($product->image) }}" class="img rounded object-fit-cover"
+                                            alt="image" loading="lazy" height="625px" width="100%" />
+                                    </a>
                                 @endif
                             </div>
                             <div class="col-md">
@@ -219,8 +223,10 @@ $edit = function () {
                             @foreach ($imageother as $key => $image)
                                 <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
                                     <div class="card mt-3">
+                                        <a data-fancybox data-src="{{ $image->temporaryUrl() }}">
                                         <img src="{{ $image->temporaryUrl() }}" class="card-img-top"
-                                            style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                        style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                    </a>
                                         <a type="button" class="position-absolute top-0 start-100 translate-middle p-2"
                                             wire:click.prevent='removeItem({{ json_encode($key) }})'>
                                             <i class='bx bx-x p-2 rounded-circle ri-20px text-white bg-danger'></i>
@@ -244,8 +250,10 @@ $edit = function () {
                             @foreach ($product->images as $key => $image)
                                 <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
                                     <div class="card mt-3">
+                                        <a data-fancybox="gallery" data-src="{{ Storage::url($image->image_path) }}">
                                         <img src="{{ Storage::url($image->image_path) }}" class="card-img-top"
-                                            style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                        style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                    </a>
                                     </div>
                                 </div>
                             @endforeach
