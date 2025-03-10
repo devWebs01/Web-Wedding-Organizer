@@ -31,7 +31,7 @@ $submit = function () {
     // Update payment
     $payment = Payment::findOrFail($this->payment->id);
     $payment->update([
-        'proof_of_payment' => $this->proof_of_payment->store('public/proof_of_payment'),
+        'proof_of_payment' => $this->proof_of_payment->store('public/images'),
         'payment_status' => 'WAITING_CONFIRM_PAYMENT', // Ubah status pembayaran menjadi WAITING_CONFIRM_PAYMENT
     ]);
     if ($order->status !== 'ACCEPT_ORDER') {
