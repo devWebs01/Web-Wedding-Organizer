@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->longText('note')->nullable();
             // add field more
-            $table->dateTime(column: 'wedding_date')->nullable();
+            $table->dateTime('wedding_date')->nullable();
             $table->timestamps();
         });
     }

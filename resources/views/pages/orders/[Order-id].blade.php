@@ -219,8 +219,8 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
                                             rencana</span>
 
                                     </label>
-                                    <input type="date" wire:model.live='wedding_date' class="form-control"
-                                        name="wedding_date" min="{{ $this->start_date() }}" />
+                                    <input type="datetime-local" wire:model.live='wedding_date' class="form-control"
+                                        name="wedding_date" min="{{ Carbon::parse($this->start_date()) }}" />
                                     @error('wedding_date')
                                         <small class="fw-bold text-danger">{{ $message }}</small>
                                     @enderror

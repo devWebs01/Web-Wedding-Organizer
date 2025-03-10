@@ -6,6 +6,7 @@
                 <th>Invoice</th>
                 <th>Status</th>
                 <th>Total Pesanan</th>
+                <th>Tanggal Pesan</th>
                 <th>#</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                     </td>
                     <td>{{ formatRupiah($item->total_amount) }}
                     </td>
+                    <td>{{ Carbon\Carbon::parse($item->created_at)->format('d m Y') }}</td>
                     <td>
                         <a wire:navigate href="/orders/{{ $item->id }}" class="btn btn-sm btn-outline-dark">Lihat</a>
                     </td>

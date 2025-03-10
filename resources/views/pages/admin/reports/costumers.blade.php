@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\User;
 use function Livewire\Volt\{computed};
 use function Laravel\Folio\name;
@@ -21,7 +22,7 @@ $users = computed(fn() => User::where('role', 'customer')->latest()->get());
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example" class="table display table-sm">
+                        <table id="example" class="text-nowrap table display table-sm">
                             <thead>
                                 <tr>
                                     <th>No.</th>

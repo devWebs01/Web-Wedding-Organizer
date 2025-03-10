@@ -201,10 +201,9 @@ $statusPayments = computed(function () {
                 <div class="card-header py-4 row">
                     <div class="col-md">
                         <h4 class="fw-bolder">Pesanan</h4>
-                        <p>Waktu Acara :
-                            <strong>{{ \carbon\Carbon::parse($order->wedding_date)->format('d M Y') }}</strong>
-                        </p>
+                        <p>Waktu Acara : <strong>{{ \carbon\Carbon::parse($order->wedding_date)->format('d M Y H:i:s') }}</strong></p>
                         <p>Metode Pembayaran : <strong>{{ $order->payment_method }}</strong></p>
+                        <p>Tanggal Pesan : <strong>{{ $order->created_at->format('d M Y H:i:s') }}</strong></p>
                     </div>
                     <div class="col-md text-lg-end">
                         <h4 class="fw-bolder">Pelanggan</h4>

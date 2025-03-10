@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\Order;
 use function Livewire\Volt\{computed};
 use function Laravel\Folio\name;
@@ -23,7 +24,7 @@ $orders = computed(fn() => Order::query()->get());
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table display table-sm">
+                        <table class="table display text-nowrap table-sm">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -34,6 +35,7 @@ $orders = computed(fn() => Order::query()->get());
                                     <th>Metode Pembayaran</th>
                                     <th>Tambahan</th>
                                     <th>Jumlah </th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +52,7 @@ $orders = computed(fn() => Order::query()->get());
                                         <td>{{ $order->payment_method }}</td>
                                         <td>{{ $order->protect_cost == 1 ? 'Bubble Wrap' : '-' }}</td>
                                         <td>{{ $order->items->count() }} Item</td>
+                                        <th>{{ Carbon::parse($order->created_at)->format('d m Y') }}</th>
                                     </tr>
                                 @endforeach
                             </tbody>
