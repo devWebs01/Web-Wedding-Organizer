@@ -14,7 +14,8 @@ usesFileUploads();
 state([
     'categories' => fn() => Category::get(),
     'productId' => '',
-    'image_other' => [],
+    'imageother' => [],
+    'previmageother',
     'category_id',
     'title',
     'image',
@@ -28,19 +29,37 @@ rules([
     'image' => 'required|image',
     'price' => 'required|numeric',
     'description' => 'required|min:5',
-    'image_other' => 'nullable',
-    'image_other.*' => 'image',
+    'imageother' => 'nullable',
+    'imageother.*' => 'image',
 ]);
 
 $redirectProductsPage = function () {
     $this->redirectRoute('products.index');
 };
 
+$updatingimageother = function ($value) {
+    $this->previmageother = $this->imageother;
+};
+
+$updatedimageother = function ($value) {
+    $this->imageother = array_merge($this->previmageother, $value);
+};
+
+$removeItem = function ($key) {
+    if (isset($this->imageother[$key])) {
+        $file = $this->imageother[$key];
+        $file->delete();
+        unset($this->imageother[$key]);
+    }
+
+    $this->imageother = array_values($this->imageother);
+};
+
 $create = function () {
     $validate = $this->validate();
     $validate['image'] = $this->image->store('public/images');
 
-    $image_other = $this->image_other;
+    $imageother = $this->imageother;
 
     if ($this->productId == null) {
         $product = Product::create($validate);
@@ -50,8 +69,8 @@ $create = function () {
         $product->update($validate);
     }
 
-    foreach ($image_other as $item) {
-        $imagePath = $item->store('public/image_other');
+    foreach ($imageother as $item) {
+        $imagePath = $item->store('public/imageother');
 
         Image::create([
             'product_id' => $product->id,
@@ -67,7 +86,7 @@ $create = function () {
         'timerProgressBar' => true,
     ]);
 
-    $this->redirectRoute('products.index', navigate: true);
+    $this->redirectRoute('products.index');
 };
 
 ?>
@@ -80,6 +99,7 @@ $create = function () {
         <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan</a></li>
         <li class="breadcrumb-item"><a href="{{ route('products.create') }}">Layanan Baru</a></li>
     </x-slot>
+    @include('layouts.fancybox')
 
     @volt
         <div>
@@ -90,8 +110,10 @@ $create = function () {
                         <div class="row">
                             <div class="col-md mb-3">
                                 @if ($image)
-                                    <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
-                                        alt="image" loading="lazy" height="625px" width="100%" />
+                                <a data-fancybox data-src="{{ $image->temporaryUrl() }}">
+                                <img src="{{ $image->temporaryUrl() }}" class="img rounded object-fit-cover"
+                                alt="image" loading="lazy" height="625px" width="100%" />
+                            </a>
                                 @else
                                     <img src="" class="img rounded object-fit-cover placeholder " alt="image"
                                         loading="lazy" height="625px" width="100%" />
@@ -144,12 +166,12 @@ $create = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image_other" class="form-label">Gambar Lainnya</label>
-                                    <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
-                                        wire:model="image_other" id="image_other" aria-describedby="image_otherId"
-                                        placeholder="Enter image_other" accept="image/*" multiple />
-                                    @error('image_other.*')
-                                        <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
+                                    <label for="imageother" class="form-label">Gambar Lainnya</label>
+                                    <input type="file" class="form-control @error('imageother.*') is-invalid @enderror"
+                                        wire:model="imageother" id="imageother" aria-describedby="imageotherId"
+                                        placeholder="Enter imageother" accept="image/*" multiple />
+                                    @error('imageother.*')
+                                        <small id="imageotherId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
@@ -175,6 +197,28 @@ $create = function () {
                             </div>
                     </form>
                 </div>
+
+                @if ($imageother)
+                <div class="mb-5">
+                    <div class="d-flex flex-nowrap gap-3 overflow-auto" style="white-space: nowrap;">
+                        @foreach ($imageother as $key => $image)
+                            <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
+                                <div class="card mt-3">
+                                    <a data-fancybox="gallery" data-src="{{ $image->temporaryUrl() }}">
+                                    <img src="{{ $image->temporaryUrl() }}" class="card-img-top"
+                                    style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                </a>
+                                    <a type="button" class="position-absolute top-0 start-100 translate-middle p-2"
+                                        wire:click.prevent='removeItem({{ json_encode($key) }})'>
+                                        <i class='bx bx-x p-2 rounded-circle ri-20px text-white bg-danger'></i>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                    
+                @endif
 
             </div>
         </div>

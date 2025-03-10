@@ -1,9 +1,7 @@
 <?php
 
-use function Livewire\Volt\{state, rules, uses, computed};
-use Dipantry\Rajaongkir\Constants\RajaongkirCourier;
+use function Livewire\Volt\{state, uses, computed};
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Item;
 use function Laravel\Folio\name;
@@ -86,20 +84,23 @@ $rejectPayment = function (Payment $payment) {
 $statusPayments = computed(function () {
     $order = $this->order;
 
+    if (!$order) {
+        return 'UNPAID_PAYMENT'; // Pastikan order tidak null terlebih dahulu
+    }
+
     if ($order->payment_method == 'Tunai') {
         $status = Payment::where('order_id', $order->id)
             ->where('payment_type', 'Tunai')
             ->first();
-
-        return $status->payment_status == 'CONFIRM_PAYMENT' ? 'PAID' : 'UNPAID_PAYMENT';
     } else {
         $status = Payment::where('order_id', $order->id)
             ->where('payment_type', 'Pelunasan')
             ->first();
-
-        return $status->payment_status == 'CONFIRM_PAYMENT' ? 'PAID' : 'UNPAID_PAYMENT';
     }
+
+    return optional($status)->payment_status === 'CONFIRM_PAYMENT' ? 'PAID' : 'UNPAID_PAYMENT';
 });
+
 
 ?>
 <x-admin-layout>

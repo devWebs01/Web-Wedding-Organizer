@@ -58,6 +58,7 @@ $addToCart = function (Product $product) {
 ?>
 <x-guest-layout>
     <x-slot name="title">Product {{ $product->title }}</x-slot>
+    @include('layouts.fancybox')
 
     @volt
         <div>
@@ -97,8 +98,7 @@ $addToCart = function (Product $product) {
                                 @foreach ($product->images as $imageItem)
                                     <div class="col">
                                         <div class="card rounded-4 mb-3" style="width: 100px; height: 100px">
-                                            <a href="{{ Storage::url($imageItem->image_path) }}" data-fancybox="gallery"
-                                                data-caption="Caption #1">
+                                            <a href="{{ Storage::url($imageItem->image_path) }}" data-fancybox="gallery">
                                                 <img class="card-img-top" src="{{ Storage::url($imageItem->image_path) }}"
                                                     width=100px; height=100px; style="object-fit: cover;"
                                                     alt="other images">

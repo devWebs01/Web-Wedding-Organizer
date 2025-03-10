@@ -60,8 +60,8 @@ class ProductSeeder extends Seeder
                 'price' => 800000,
                 'description' => 'Di antara IDR 800.000 hingga 1.200.000 / Paket, 1 Session Photoshoot Max 2 Hours',
             ],
-             // Dekorasi & Pencahayaan
-             [
+            // Dekorasi & Pencahayaan
+            [
                 'category_id' => 1,
                 'title' => 'Romantic Wedding Lighting Setup',
                 'image' => 'https://i.pinimg.com/1200x/dd/ae/aa/ddaeaa1de27d3b31849ce8e788a2b06f.jpg',
@@ -177,7 +177,7 @@ class ProductSeeder extends Seeder
             // Cek apakah layanan sudah ada berdasarkan vendor dan category_id
             $imageContents = file_get_contents(filename: $productData['image']);
             $imageName = basename(path: $productData['image']);
-            $storagePath = 'images/' . $imageName;
+            $storagePath = 'images/'.$imageName;
             Storage::disk('public')->put($storagePath, $imageContents);
 
             // Simpan layanan utama
@@ -188,7 +188,7 @@ class ProductSeeder extends Seeder
                 'price' => $productData['price'],
                 'description' => $productData['description'],
             ]);
-            $this->command->info(string: 'Tambah Layanan ' . $product->title);
+            $this->command->info(string: 'Tambah Layanan '.$product->title);
         }
     }
 }

@@ -21,7 +21,7 @@ $save = function () {
 
     $this->reset('name', 'email', 'password', 'telp');
 
-    $this->redirectRoute('users.index', navigate: true);
+    $this->redirectRoute('users.index');
 };
 
 ?>

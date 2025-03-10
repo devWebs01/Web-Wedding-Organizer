@@ -5,21 +5,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? '' }} - Ecommerce Web</title>
-    <link rel="shortcut icon" type="image/png" href="/admin/images/logos/favicon.png" />
-
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/admin/images/logos/favicon.png') }}" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
     @livewireStyles
 
     <link rel="stylesheet" href="{{ asset('/admin/css/styles.min.css') }}" />
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
         * {
             font-family: "DM Sans", sans-serif;
-            font-optical-sizing: auto;
+            /* font-optical-sizing: auto; */
+            font-weight: 500;
+            font-style: normal;
         }
+
+        table {
+            background-color: #f9f9f9; /* Latar belakang abu-abu muda */
+            color: #222; /* Warna teks lebih gelap */
+        }
+
+        table th,
+        table td {
+            font-weight: 600;
+            /* Membuat teks lebih tebal */
+        }
+
 
         .btn-danger {
             --bs-btn-bg: #fc3a4e;
@@ -90,7 +103,7 @@
     <script src="{{ asset('/admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/admin/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('/admin/js/app.min.js') }}"></script>
-    
+
     <script src="{{ asset('/admin/libs/simplebar/dist/simplebar.js') }}"></script>
     <script src="{{ asset('/admin/js/dashboard.js') }}"></script>
     <!-- solar icons -->

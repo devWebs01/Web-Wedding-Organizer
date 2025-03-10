@@ -101,8 +101,8 @@ state([
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table class="table display table-sm">
+                        <div class="table-responsive rounded px-3">
+                            <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

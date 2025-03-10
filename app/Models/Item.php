@@ -11,7 +11,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'product_id', 
+        'order_id', 'product_id',
     ];
 
     /**
@@ -29,5 +29,4 @@ class Item extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
 }
