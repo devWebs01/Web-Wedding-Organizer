@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use function Livewire\Volt\{computed, state, usesPagination, uses};
+use function Livewire\Volt\{computed, uses};
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -9,24 +9,8 @@ uses([LivewireAlert::class]);
 
 name('users.index');
 
-state(['search'])->url();
-usesPagination(theme: 'bootstrap');
-
 $users = computed(function () {
-    if ($this->search == null) {
-        return User::query()->where('role', 'admin')->latest()->paginate(10);
-    } else {
-        return User::query()
-            ->where('role', 'admin')
-            ->where(function ($query) {
-                $query
-                    ->where('name', 'LIKE', "%{$this->search}%")
-                    ->orWhere('email', 'LIKE', "%{$this->search}%")
-                    ->orWhere('telp', 'LIKE', "%{$this->search}%");
-            })
-            ->latest()
-            ->paginate(10);
-    }
+    return User::query()->where('role', 'admin')->latest()->get();
 });
 
 $destroy = function (User $user) {
@@ -44,35 +28,29 @@ $destroy = function (User $user) {
             'toast' => true,
         ]);
     }
+
+    $this->redirectRoute('users.index');
 };
 
 ?>
 <x-admin-layout>
-    <div>
         <x-slot name="title">Admin</x-slot>
         <x-slot name="header">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
             <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Admin</a></li>
         </x-slot>
-
+        @include('layouts.datatables')
         @volt
             <div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah
-                                    Admin</a>
-                            </div>
-                            <div class="col">
-                                <input wire:model.live="search" type="search" class="form-control" name=""
-                                    id="" aria-describedby="helpId" placeholder="Masukkan nama pengguna" />
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="card">  
                     <div class="card-body">
-                        <div class="table-responsive border rounded px-3">
+
+                      <div class="card-header">
+                        <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah
+                            Admin</a>
+                      </div>
+
+                        <div class="table-responsive rounded px-3">
                             <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
@@ -106,14 +84,10 @@ $destroy = function (User $user) {
 
                                 </tbody>
                             </table>
-
-                            {{ $this->users->links() }}
                         </div>
-
                     </div>
                 </div>
             </div>
         @endvolt
 
-    </div>
 </x-admin-layout>

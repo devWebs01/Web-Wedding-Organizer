@@ -1,55 +1,31 @@
 <?php
 
 use App\Models\User;
-use function Livewire\Volt\{computed, state, usesPagination};
+use Carbon\Carbon;
+use function Livewire\Volt\{computed};
 use function Laravel\Folio\name;
 
 name('customers');
 
-state(['search'])->url();
-usesPagination(theme: 'bootstrap');
 
 $users = computed(function () {
-    if ($this->search == null) {
-        return User::query()->where('role', 'customer')->latest()->paginate(10);
-    } else {
-        return User::query()
-            ->where('role', 'customer')
-            ->where(function ($query) {
-                $query
-                    ->where('name', 'LIKE', "%{$this->search}%")
-                    ->orWhere('email', 'LIKE', "%{$this->search}%")
-                    ->orWhere('telp', 'LIKE', "%{$this->search}%");
-            })
-            ->latest()
-            ->paginate(10);
-    }
+    return User::query()->where('role', 'customer')->latest()->get();
 });
 
 ?>
 
 <x-admin-layout>
-    <div>
-        <x-slot name="title">Pelanggan</x-slot>
-        <x-slot name="header">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('customers') }}">Pelanggan</a></li>
-        </x-slot>
-
+    <x-slot name="title">Pelanggan</x-slot>
+    <x-slot name="header">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('customers') }}">Pelanggan</a></li>
+    </x-slot>
+    @include('layouts.datatables')
         @volt
             <div>
                 <div class="card">
-                    <div class="card-header">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Cari Pelanggan</label>
-                            <input wire:model.live="search" type="search" class="form-control" name="search"
-                                id="search" aria-describedby="helpId"
-                                placeholder="Masukkan nama pengguna / email / telp" />
-                        </div>
-                    </div>
-
                     <div class="card-body">
-                        <div class="table-responsive border rounded">
+                        <div class="table-responsive rounded">
                             <table class="table text-center text-nowrap">
                                 <thead>
                                     <tr>
@@ -59,7 +35,8 @@ $users = computed(function () {
                                         <th>Telp</th>
                                         <th>Provinsi</th>
                                         <th>Kota</th>
-                                        <th>Alamat Lengkap</th>
+                                        <th>Alamat</th>
+                                        <th>Terdaftar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,19 +53,17 @@ $users = computed(function () {
                                             <td>
                                                 {{ $user->address->details ?? '-' }}
                                             </td>
+                                            <td>{{ Carbon::parse($user->created_at)->format('d m Y') }}</td>
                                         </tr>
                                     @endforeach
 
                                 </tbody>
                             </table>
 
-                            {{ $this->users->links() }}
                         </div>
 
                     </div>
                 </div>
             </div>
         @endvolt
-
-    </div>
 </x-admin-layout>

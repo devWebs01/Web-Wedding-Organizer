@@ -20,7 +20,8 @@ state([
     'price' => fn() => $this->product->price,
     'title' => fn() => $this->product->title,
     'description' => fn() => $this->product->description,
-    'image_other' => [],
+    'imageother' => [],
+    'previmageother',
     'image',
     'product',
 ]);
@@ -33,9 +34,26 @@ rules([
     'image' => 'nullable',
 ]);
 
+$updatingimageother = function ($value) {
+    $this->previmageother = $this->imageother;
+};
+
+$updatedimageother = function ($value) {
+    $this->imageother = array_merge($this->previmageother, $value);
+};
+
+$removeItem = function ($key) {
+    if (isset($this->imageother[$key])) {
+        $file = $this->imageother[$key];
+        $file->delete();
+        unset($this->imageother[$key]);
+    }
+
+    $this->imageother = array_values($this->imageother);
+};
+
 $edit = function () {
     $validate = $this->validate();
-    $image_other = $this->image_other;
     $product = $this->product;
 
     if ($this->image) {
@@ -56,28 +74,25 @@ $edit = function () {
         $this->productId = $product->id;
     }
 
-    // Tangani gambar tambahan (image_other) jika ada
-    if (!empty($image_other)) {
-        $this->validate([
-            'image_other' => 'nullable', // Gambar tambahan bersifat opsional
-            'image_other.*' => 'image|max:2048', // Validasi setiap elemen gambar
-        ]);
+    if (count($this->imageother) > 0) {
+        $imageother = Image::where('product_id', $product->id)->get();
 
-        $findImages = Image::where('product_id', $product->id)->get();
-
-        if ($findImages->isNotEmpty()) {
-            foreach ($findImages as $image) {
+        if ($imageother->isNotEmpty()) {
+            foreach ($imageother as $image) {
                 Storage::delete($image->image_path);
+
                 $image->delete();
             }
         }
 
-        foreach ($image_other as $item) {
-            $imagePath = $item->store('public/image_other');
+        foreach ($this->imageother as $image) {
+            $path = $image->store('public/imageother');
             Image::create([
                 'product_id' => $product->id,
-                'image_path' => $imagePath,
+                'image_path' => $path,
             ]);
+
+            $image->delete();
         }
     }
 
@@ -105,16 +120,6 @@ $edit = function () {
     @volt
         <div>
             <div class="card">
-                <div class="card-header">
-                    <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center fw-bolder"
-                        role="alert">
-                        <span class="display-6 mx-3">
-                            <iconify-icon icon="solar:shield-warning-linear"></iconify-icon>
-                        </span>
-                        <small class="fs-3">(Tidak perlu menginputkan gambar lagi jika tidak ingin
-                            mengubah gambar lainnya)</small>
-                    </div>
-                </div>
                 <div class="card-body">
                     <form wire:submit="edit" enctype="multipart/form-data">
                         @csrf
@@ -175,12 +180,12 @@ $edit = function () {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image_other" class="form-label">Gambar Lainnya</label>
-                                    <input type="file" class="form-control @error('image_other.*') is-invalid @enderror"
-                                        wire:model="image_other" id="image_other" aria-describedby="image_otherId"
-                                        placeholder="Enter image_other" accept="image/*" multiple />
-                                    @error('image_other.*')
-                                        <small id="image_otherId" class="form-text text-danger">{{ $message }}</small>
+                                    <label for="imageother" class="form-label">Gambar Lainnya</label>
+                                    <input type="file" class="form-control @error('imageother.*') is-invalid @enderror"
+                                        wire:model="imageother" id="imageother" aria-describedby="imageotherId"
+                                        placeholder="Enter imageother" accept="image/*" multiple />
+                                    @error('imageother.*')
+                                        <small id="imageotherId" class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
@@ -208,7 +213,45 @@ $edit = function () {
                 </div>
 
                 <hr>
-
+                @if ($imageother)
+                    <div class="mb-5">
+                        <div class="d-flex flex-nowrap gap-3 overflow-auto" style="white-space: nowrap;">
+                            @foreach ($imageother as $key => $image)
+                                <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
+                                    <div class="card mt-3">
+                                        <img src="{{ $image->temporaryUrl() }}" class="card-img-top"
+                                            style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                        <a type="button" class="position-absolute top-0 start-100 translate-middle p-2"
+                                            wire:click.prevent='removeItem({{ json_encode($key) }})'>
+                                            <i class='bx bx-x p-2 rounded-circle ri-20px text-white bg-danger'></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @elseif($product->images->isNotEmpty())
+                    <div class="mb-5">
+                        <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center fw-bolder"
+                            role="alert">
+                            <span class="display-6 mx-3">
+                                <iconify-icon icon="solar:shield-warning-linear"></iconify-icon>
+                            </span>
+                            <small class="fs-3">(Tidak perlu menginputkan gambar lagi jika tidak ingin
+                                mengubah gambar lainnya)</small>
+                        </div>
+                        <div class="d-flex flex-nowrap gap-3 overflow-auto" style="white-space: nowrap;">
+                            @foreach ($product->images as $key => $image)
+                                <div class="position-relative" style="width: 200px; flex: 0 0 auto;">
+                                    <div class="card mt-3">
+                                        <img src="{{ Storage::url($image->image_path) }}" class="card-img-top"
+                                            style="object-fit: cover; width: 200px; height: 200px;" alt="preview">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
             </div>
         </div>

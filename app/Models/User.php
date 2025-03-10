@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function orders(): HasMany
     {
-        return $this->hasMany(order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function address(): HasOne

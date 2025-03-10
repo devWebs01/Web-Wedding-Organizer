@@ -1,27 +1,16 @@
 <?php
 
-use function Livewire\Volt\{computed, usesPagination, state, uses};
+use function Livewire\Volt\{computed, usesPagination, uses};
 use App\Models\Product;
 use function Laravel\Folio\name;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 name('products.index');
-usesPagination(theme: 'bootstrap');
 
 uses([LivewireAlert::class]);
-state(['search'])->url();
 
 $products = computed(function () {
-    if ($this->search == null) {
-        return Product::query()->latest()->paginate(10);
-    } else {
-        return Product::query()
-            ->where('title', 'LIKE', "%{$this->search}%")
-            ->orWhere('price', 'LIKE', "%{$this->search}%")
-            ->orWhere('quantity', 'LIKE', "%{$this->search}%")
-            ->latest()
-            ->paginate(10);
-    }
+    return Product::query()->latest()->get();
 });
 
 $destroy = function (product $product) {
@@ -40,6 +29,8 @@ $destroy = function (product $product) {
             'toast' => true,
         ]);
     }
+
+    $this->redirectRoute('products.index');
 };
 ?>
 
@@ -50,24 +41,17 @@ $destroy = function (product $product) {
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
         <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Layanan Gallery</a></li>
     </x-slot>
+    @include('layouts.datatables')
 
     @volt
         <div>
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col">
-                            <a href="{{ route('products.create') }}" class="btn btn-primary">Tambah
-                                Layanan Gallery</a>
-                        </div>
-                        <div class="col">
-                            <input wire:model.live="search" type="search" class="form-control" name="search"
-                                id="search" aria-describedby="helpId" placeholder="Masukkan nama layanan gallery" />
-                        </div>
-                    </div>
+                    <a href="{{ route('products.create') }}" class="btn btn-primary">Tambah
+                        Layanan Gallery</a>
                 </div>
                 <div class="card-body p-3">
-                    <div class="table-responsive border rounded px-3">
+                    <div class="table-responsive  rounded px-3">
                         <table class="table text-center text-nowrap">
                             <thead>
                                 <tr>
@@ -105,7 +89,6 @@ $destroy = function (product $product) {
                             </tbody>
                         </table>
 
-                        {{ $this->products->links() }}
                     </div>
 
                 </div>

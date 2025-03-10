@@ -31,7 +31,7 @@ $save = function () {
 
     $this->reset('name', 'email', 'password', 'telp');
 
-    $this->redirect('/admin/users', navigate: true);
+    $this->redirect('/admin/users');
 };
 
 ?>

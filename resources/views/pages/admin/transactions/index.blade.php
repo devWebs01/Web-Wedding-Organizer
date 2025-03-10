@@ -1,27 +1,15 @@
 <?php
 
-use function Livewire\Volt\{state, usesPagination, computed};
+use function Livewire\Volt\{computed};
 use App\Models\Order;
 use function Laravel\Folio\name;
+use Carbon\Carbon;
 
 name('transactions.index');
 
-state(['search'])->url();
-usesPagination();
-
-state([]);
-
 $orders = computed(function () {
-    if ($this->search == null) {
-        return Order::query()->latest()->paginate(10);
-    } else {
-        return Order::query()
-            ->where('invoice', 'LIKE', "%{$this->search}%")
-            ->orWhere('status', 'LIKE', "%{$this->search}%")
-            ->orWhere('total_amount', 'LIKE', "%{$this->search}%")
-            ->latest()
-            ->paginate(10);
-    }
+    return Order::query()->latest()->get();
+   
 });
 
 ?>
@@ -33,19 +21,14 @@ $orders = computed(function () {
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
         <li class="breadcrumb-item"><a href="{{ route('transactions.index') }}">Transaksi</a></li>
     </x-slot>
+    @include('layouts.datatables')
 
     @volt
         <div>
 
             <div class="card">
-                <div class="card-header">
-                    <input wire:model.live="search" type="search" class="form-control" name="search" id="search"
-                        aria-describedby="helpId" placeholder="Mencari transaksi..." />
-                </div>
-
-
                 <div class="card-body">
-                    <div class="table-responsive border rounded">
+                    <div class="table-responsive rounded">
                         <table class="table text-center text-nowrap">
                             <thead>
                                 <tr>
@@ -53,6 +36,7 @@ $orders = computed(function () {
                                     <th>Invoice</th>
                                     <th>Status</th>
                                     <th>Total Pesanan</th>
+                                    <th>Tanggal</th>
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -69,6 +53,7 @@ $orders = computed(function () {
                                         <th>
                                             {{ formatRupiah($order->total_amount) }}
                                         </th>
+                                        <th>{{ Carbon::parse($order->created_at)->format('d m Y') }}</th>
                                         <th>
                                             <a href="/admin/transactions/{{ $order->id }}"
                                                 class="btn btn-primary btn-sm">
@@ -78,7 +63,6 @@ $orders = computed(function () {
                                     </tr>
                                 @endforeach
                             </tbody>
-                            {{ $this->orders->links() }}
                         </table>
                     </div>
                 </div>
