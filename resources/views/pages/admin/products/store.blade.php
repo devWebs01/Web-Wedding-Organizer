@@ -70,7 +70,7 @@ $create = function () {
     }
 
     foreach ($imageother as $item) {
-        $imagePath = $item->store('public/imageother');
+        $imagePath = $item->store('public/images');
 
         Image::create([
             'product_id' => $product->id,
