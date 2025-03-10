@@ -161,7 +161,7 @@ $complatedOrder = fn() => $this->order->update(['status' => 'FINISH_ORDER']);
 ?>
 <x-guest-layout>
     <x-slot name="title">Pesanan {{ $order->invoice }}</x-slot>
-
+    @include('layouts.fancybox')
     @volt
         <div>
 
