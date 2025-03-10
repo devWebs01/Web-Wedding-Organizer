@@ -86,7 +86,7 @@ $edit = function () {
         }
 
         foreach ($this->imageother as $image) {
-            $path = $image->store('public/imageother');
+            $path = $image->store('public/images');
             Image::create([
                 'product_id' => $product->id,
                 'image_path' => $path,

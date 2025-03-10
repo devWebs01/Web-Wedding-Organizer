@@ -68,7 +68,7 @@
     @include('layouts.payment')
     {{ $slot }}
 
-    <footer class="sticky-md-bottom">
+    <footer></footer>
         <div class="container">
             <div class="d-lg-flex justify-content-center text-center align-items-center">
                 <span id="font-custom" class="text-white fw-bold pt-5 pb-0">{{ $setting->details }}</span>
